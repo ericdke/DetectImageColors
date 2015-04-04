@@ -15,17 +15,20 @@ class ColorTunes: NSObject {
 
     var scaledSize: NSSize
     var scaledImage: NSImage?
-    var backgroundColor: NSColor?
-    var primaryColor: NSColor?
-    var secondaryColor: NSColor?
-    var detailColor: NSColor?
+    var backgroundColorCandidate: NSColor?
+    var primaryColorCandidate: NSColor?
+    var secondaryColorCandidate: NSColor?
+    var detailColorCandidate: NSColor?
 
     init(image: NSImage, size: NSSize) {
         self.scaledSize = size
         super.init()
         let temp = self.scaledImage(image, scaledSize: size)
         self.scaledImage = temp
-        self.analyzeImage(temp)
+    }
+
+    func startAnalyze(scaledImage: NSImage) {
+        self.analyzeImage(scaledImage)
     }
 
     func scaledImage(image: NSImage, scaledSize: NSSize) -> NSImage {
@@ -59,6 +62,18 @@ class ColorTunes: NSObject {
         return finalImage
     }
 
+//    func getEdgeColorAndImageColorSet(anImage: NSImage) -> (NSColor, NSCountedSet) {
+//
+//    }
+
+    func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
+//        NSLog("%@", "missed \(colorName)")
+        if hasDarkBackground {
+            return NSColor.whiteColor()
+        } else {
+            return NSColor.blackColor()
+        }
+    }
 
     func analyzeImage(anImage: NSImage) {
         var imageColors: NSCountedSet?
@@ -69,33 +84,18 @@ class ColorTunes: NSObject {
         var darkBackground = backgroundColor!.pc_isDarkColor()
         self.findTextColors(imageColors, primaryColor: &primaryColor, secondaryColor: &secondaryColor, detailColor: &detailColor, backgroundColor: backgroundColor!)
         if primaryColor == nil {
-            NSLog("%@", "missed primary")
-            if darkBackground {
-                primaryColor = NSColor.whiteColor()
-            } else {
-                primaryColor = NSColor.blackColor()
-            }
+            primaryColor = rescueNilColor("primary", hasDarkBackground: darkBackground)
         }
         if secondaryColor == nil {
-            NSLog("%@", "missed secondary")
-            if darkBackground {
-                secondaryColor = NSColor.whiteColor()
-            } else {
-                secondaryColor = NSColor.blackColor()
-            }
+            secondaryColor = rescueNilColor("secondary", hasDarkBackground: darkBackground)
         }
         if detailColor == nil {
-            NSLog("%@", "missed detail")
-            if darkBackground {
-                detailColor = NSColor.whiteColor()
-            } else {
-                detailColor = NSColor.blackColor()
-            }
+            detailColor = rescueNilColor("detail", hasDarkBackground: darkBackground)
         }
-        self.backgroundColor = backgroundColor
-        self.primaryColor = primaryColor
-        self.secondaryColor = secondaryColor
-        self.detailColor = detailColor
+        self.backgroundColorCandidate = backgroundColor
+        self.primaryColorCandidate = primaryColor
+        self.secondaryColorCandidate = secondaryColor
+        self.detailColorCandidate = detailColor
     }
 
     func findEdgeColor(image: NSImage, inout colors: NSCountedSet?) -> NSColor? {
@@ -129,9 +129,9 @@ class ColorTunes: NSObject {
             var container = PCCountedColor(color: curColor!, count: colorCount)
             sortedColors.addObject(container)
             curColor = enumerator.nextObject() as? NSColor
-            println(curColor)
+//            println(curColor)
         }
-        println(sortedColors.count)
+//        println(sortedColors.count)
         sortedColors.sortUsingSelector("compare:")
         var proposedEdgeColor: PCCountedColor?
         if sortedColors.count > 0 {
