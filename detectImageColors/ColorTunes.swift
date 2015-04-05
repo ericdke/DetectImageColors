@@ -10,6 +10,8 @@
 import Cocoa
 
 let kColorThresholdMinimumPercentage = 0.01  // original 0.01
+let kColorThresholdMinimumSaturation: CGFloat = 0.15 // original: 0.15
+let kColorThresholdMaximumNoise = 2
 
 class ColorTunes: NSObject {
 
@@ -96,22 +98,25 @@ class ColorTunes: NSObject {
         if detailColor == nil {
             detailColor = rescueNilColor("detail", hasDarkBackground: darkBackground)
         }
-        
-        if primaryColor!.whiteComponent == secondaryColor!.whiteComponent {
+
+        var tprim = primaryColor!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
+        var tsec = secondaryColor!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
+        if tprim! == tsec! {
             if darkBackground {
                 secondaryColor = primaryColor!.darkerColor()
             } else {
                 secondaryColor = primaryColor!.lighterColor()
             }
         }
-        if primaryColor!.whiteComponent == detailColor!.whiteComponent {
+        var tdet = detailColor!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
+        if tprim! == tdet! {
             if darkBackground {
                 detailColor = secondaryColor!.darkerColor()
             } else {
                 detailColor = secondaryColor!.lighterColor()
             }
         }
-        
+
         self.backgroundColorCandidate = backgroundColor
         self.primaryColorCandidate = primaryColor
         self.secondaryColorCandidate = secondaryColor
@@ -184,10 +189,10 @@ class ColorTunes: NSObject {
         var sortedColors = NSMutableArray(capacity: colors!.count)
         var findDarkTextColor = !backgroundColor.pc_isDarkColor()
         while curColor != nil {
-            curColor = curColor!.pc_colorWithMinimumSaturation(0.15) // original: 0.15
+            curColor = curColor!.pc_colorWithMinimumSaturation(kColorThresholdMinimumSaturation)
             if curColor!.pc_isDarkColor() == findDarkTextColor {
                 var colorCount = colors!.countForObject(curColor!)
-                if colorCount <= 2 { // filter noise
+                if colorCount <= kColorThresholdMaximumNoise {
                     curColor = enumerator.nextObject() as? NSColor
                     continue
                 }

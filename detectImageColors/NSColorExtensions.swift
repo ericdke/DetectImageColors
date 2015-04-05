@@ -8,6 +8,23 @@
 
 import Cocoa
 
+// Magic numbers!
+
+let kColorThresholdFloorBrightness: CGFloat = 0.25
+let kColorThresholdCeilingBrightness: CGFloat = 0.75
+let kColorLighterRatio: CGFloat = 1.3
+let kColorDarkerRatio: CGFloat = 0.75
+let kColorYUVRedRatio: CGFloat = 0.2126
+let kColorYUVGreenRatio: CGFloat = 0.7152
+let kColorYUVBlueRatio: CGFloat = 0.0722
+let kColorThresholdDistinctColor: CGFloat = 0.25
+let kColorThresholdGrey: CGFloat = 0.03 // original: 0.03
+let kColorMinThresholdWhite: CGFloat = 0.91
+let kColorMaxThresholdBlack: CGFloat = 0.09
+let kColorLuminanceAddedWeight: CGFloat = 0.05
+let kColorContrastRatio: CGFloat = 1.6  // original: 1.6
+
+
 extension NSColor {
 
     func lighterColor() -> NSColor {
@@ -17,10 +34,10 @@ extension NSColor {
         var b: CGFloat = 0.0
         var a: CGFloat = 0.0
         convertedColor!.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-        if b < 0.25 {
-            b = 0.25
+        if b < kColorThresholdFloorBrightness {
+            b = kColorThresholdFloorBrightness
         }
-        return NSColor(calibratedHue: h, saturation: s, brightness: min(b * 1.3, 1.0), alpha: a)
+        return NSColor(calibratedHue: h, saturation: s, brightness: min(b * kColorLighterRatio, 1.0), alpha: a)
     }
 
     func darkerColor() -> NSColor {
@@ -30,7 +47,10 @@ extension NSColor {
         var b: CGFloat = 0.0
         var a: CGFloat = 0.0
         convertedColor!.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-        return NSColor(calibratedHue: h, saturation: s, brightness: b * 0.75, alpha: a)
+        if b > kColorThresholdCeilingBrightness {
+            b = kColorThresholdCeilingBrightness
+        }
+        return NSColor(calibratedHue: h, saturation: s, brightness: b * kColorDarkerRatio, alpha: a)
     }
 
     func pc_isDarkColor() -> Bool {
@@ -40,7 +60,7 @@ extension NSColor {
         var g: CGFloat = 0.0
         var r: CGFloat = 0.0
         convertedColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
-        var lum: CGFloat = 0.2126 * r + 0.7152 * g + 0.0722 * b
+        var lum: CGFloat = kColorYUVRedRatio * r + kColorYUVGreenRatio * g + kColorYUVBlueRatio * b
         if lum < 0.5 {
             return true
         }
@@ -60,11 +80,11 @@ extension NSColor {
         var r1: CGFloat = 0.0
         convertedColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
         convertedCompareColor!.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
-        var threshold: CGFloat = 0.25 // original: 0.25
+        var threshold: CGFloat = kColorThresholdDistinctColor
         if fabs(r - r1) > threshold || fabs(g - g1) > threshold || fabs(b - b1) > threshold || fabs(a - a1) > threshold {
             // check for grays, prevent multiple gray colors
-            if fabs(r - g) < 0.03 && fabs(r - b) < 0.03 {
-                if fabs(r1 - g1) < 0.03 && fabs(r1 - b1) < 0.03 {
+            if fabs(r - g) < kColorThresholdGrey && fabs(r - b) < kColorThresholdGrey {
+                if fabs(r1 - g1) < kColorThresholdGrey && fabs(r1 - b1) < kColorThresholdGrey {
                     return false
                 }
             }
@@ -96,10 +116,10 @@ extension NSColor {
             var g: CGFloat = 0.0
             var r: CGFloat = 0.0
             tempColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
-            if r > 0.91 && g > 0.91 && b > 0.91 {  // original : 0.91
+            if r > kColorMinThresholdWhite && g > kColorMinThresholdWhite && b > kColorMinThresholdWhite {
                 return true // white
             }
-            if r < 0.09 && g < 0.09 && b < 0.09 {  // original: 0.09
+            if r < kColorMaxThresholdBlack && g < kColorMaxThresholdBlack && b < kColorMaxThresholdBlack {
                 return true // black
             }
         }
@@ -120,15 +140,15 @@ extension NSColor {
             var fr: CGFloat = 0.0
             backgroundColor!.getRed(&br, green: &bg, blue: &bb, alpha: &ba)
             foregroundColor!.getRed(&fr, green: &fg, blue: &fb, alpha: &fa)
-            var bLum: CGFloat = 0.2126 * br + 0.7152 * bg + 0.0722 * bb
-            var fLum: CGFloat = 0.2126 * fr + 0.7152 * fg + 0.0722 * fb
+            var bLum: CGFloat = kColorYUVRedRatio * br + kColorYUVGreenRatio * bg + kColorYUVBlueRatio * bb
+            var fLum: CGFloat = kColorYUVRedRatio * fr + kColorYUVGreenRatio * fg + kColorYUVBlueRatio * fb
             var contrast: CGFloat = 0.0
             if bLum > fLum {
-                contrast = (bLum + 0.05) / (fLum + 0.05)
+                contrast = (bLum + kColorLuminanceAddedWeight) / (fLum + kColorLuminanceAddedWeight)
             } else {
-                contrast = (fLum + 0.05) / (bLum + 0.05)
+                contrast = (fLum + kColorLuminanceAddedWeight) / (bLum + kColorLuminanceAddedWeight)
             }
-            return contrast > 1.8 // original: 1.6
+            return contrast > kColorContrastRatio
         }
         return true
     }
