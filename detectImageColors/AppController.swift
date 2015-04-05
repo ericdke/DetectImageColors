@@ -1,10 +1,7 @@
 //
 //  AppController.swift
 //  detectImageColors
-//
-//  Created by ERIC DEJONCKHEERE on 04/04/2015.
-//  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
-//
+//  Demo app
 
 import Cocoa
 
@@ -20,16 +17,16 @@ class AppController: NSObject {
     @IBOutlet weak var imageView: NSImageView!
 
     @IBAction func open(sender: AnyObject) {
-        if let path = selectImage() {
-            if let img = NSImage(contentsOfFile: path) {
-                if let ct = colorTunes {
-                    ct.analyzeImage(img)
-                } else {
-                    colorTunes = ColorTunes(image: img, size: NSMakeSize(120.0, 120.0))
-                }
-                self.imageView.image = img
-                refresh(img)
+        if let path = selectImage(), let img = NSImage(contentsOfFile: path) {
+            if let ct = colorTunes {
+                // using the existing ColorTunes instance
+                ct.analyzeImage(img)
+            } else {
+                // create instance of ColorTunes (automatically launches `analyzeImage`)
+                colorTunes = ColorTunes(image: img, size: NSMakeSize(120.0, 120.0))
             }
+            self.imageView.image = img
+            refresh(img)
         }
     }
 
@@ -40,22 +37,23 @@ class AppController: NSObject {
         myFiledialog.allowedFileTypes = ["jpg", "jpeg", "png"]
         myFiledialog.title = "Choose image"
         myFiledialog.runModal()
-        var path: String?
         if let chosenfile = myFiledialog.URL {
-            path = chosenfile.path
+            return chosenfile.path
         }
-        return path
+        return nil
     }
 
     func refresh(image: NSImage) {
-        NSLog("%@", colorTunes!.candidates!.primary!)
-        NSLog("%@", colorTunes!.candidates!.secondary!)
-        NSLog("%@", colorTunes!.candidates!.detail!)
-        NSLog("%@", colorTunes!.candidates!.background!)
-        label1.textColor = colorTunes!.candidates!.primary
-        label2.textColor = colorTunes!.candidates!.secondary
-        label3.textColor = colorTunes!.candidates!.detail
-        window.backgroundColor = colorTunes!.candidates!.background
+        if let ct = colorTunes, let cd = ct.candidates {
+            NSLog("%@", cd.primary!)
+            NSLog("%@", cd.secondary!)
+            NSLog("%@", cd.detail!)
+            NSLog("%@", cd.background!)
+            label1.textColor = cd.primary
+            label2.textColor = cd.secondary
+            label3.textColor = cd.detail
+            window.backgroundColor = cd.background
+        }
     }
 
 }

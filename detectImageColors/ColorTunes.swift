@@ -2,10 +2,10 @@
 //  ColorTunes.swift
 //  colortunes
 //
-//  Adapted & Created by ERIC DEJONCKHEERE on 03/04/2015.
+//  ERIC DEJONCKHEERE on 03/04/2015.
 //  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
 //
-// Original code (Objective-C) by PanicSoftware
+//  Original code (Objective-C) by PanicSoftware
 
 import Cocoa
 
