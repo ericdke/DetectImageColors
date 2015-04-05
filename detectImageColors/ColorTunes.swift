@@ -243,18 +243,6 @@ class ColorTunes: NSObject {
         return colors
     }
 
-    private func roundUp(left: Double, decimals: Int) -> Double {
-        if decimals == 0 {
-            return left
-        }
-        var k = 1.0
-        for i in 1...decimals {
-            k = 10.0 * k
-        }
-        let n = Double(Int(left*k)) / Double(k)
-        return n
-    }
-
 }
 
 
