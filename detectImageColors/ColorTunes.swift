@@ -11,7 +11,7 @@ import Cocoa
 
 let kColorThresholdMinimumPercentage = 0.01  // original 0.01
 let kColorThresholdMinimumSaturation: CGFloat = 0.15 // original: 0.15
-let kColorThresholdMaximumNoise = 2
+let kColorThresholdMaximumNoise: Int = 1 // original: 2
 
 struct ColorCandidates {
     var primary: NSColor?
@@ -51,7 +51,7 @@ class ColorTunes: NSObject {
         let isColorLight = backgroundColor.isMostlyLightColor()
         while curColor != nil {
             curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
-            if curColor!.isMostlyDarkColor() == isColorLight { // oops
+            if curColor!.isMostlyLightColor() == isColorLight { // oops
                 var colorCount = colors!.countForObject(curColor!)
                 if colorCount <= kColorThresholdMaximumNoise {
                     curColor = enumerator.nextObject() as? NSColor
@@ -70,11 +70,11 @@ class ColorTunes: NSObject {
                     primaryColor = curColor
                 }
             } else if secondaryColor == nil {
-                if primaryColor!.isNotDistinctFrom(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
+                if primaryColor!.isNearOf(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
                     secondaryColor = curColor
                 }
             } else if detailColor == nil {
-                if secondaryColor!.isNotDistinctFrom(curColor!) || primaryColor!.isNotDistinctFrom(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
+                if secondaryColor!.isNearOf(curColor!) || primaryColor!.isNearOf(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
                     continue
                 }
                 detailColor = curColor
@@ -202,21 +202,57 @@ class ColorTunes: NSObject {
 
     private func createFadedColors(textColors: ColorCandidates, hasDarkBackground: Bool) -> ColorCandidates {
         var colors = textColors
-        if let tprim = textColors.primary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace),
-            let tsec = textColors.secondary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
 
-            if tprim == tsec {
-                if hasDarkBackground {
-                    colors.secondary = textColors.primary!.darkerColor()
-                    colors.detail = colors.secondary!.darkerColor()
-                } else {
-                    colors.secondary = textColors.primary!.lighterColor()
-                    colors.detail = colors.secondary!.lighterColor()
-                }
+        var flag = false
+        if let tprim = textColors.primary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace), let tsec = textColors.secondary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace), let tdet = textColors.detail?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+            if tprim.isNearOf(tsec) || tprim.isNearOf(tdet) || tsec.isNearOf(tdet) {
+                flag = true
             }
-
         }
+
+        if flag {
+            if hasDarkBackground {
+                colors.secondary = textColors.primary!.darkerColor()
+                colors.detail = colors.secondary!.darkerColor()
+            } else {
+                colors.secondary = textColors.primary!.lighterColor()
+                colors.detail = colors.secondary!.lighterColor()
+            }
+        }
+
+        if colors.primary!.isNearOf(colors.background!) {
+            colors.primary = rescueNilColor("primary, 2nd pass", hasDarkBackground: hasDarkBackground)
+        }
+
+        if colors.secondary!.isNearOf(colors.background!) {
+            if hasDarkBackground {
+                colors.secondary = colors.primary!.darkerColor()
+            } else {
+                colors.secondary = colors.primary!.lighterColor()
+            }
+        }
+
+        if colors.detail!.isNearOf(colors.background!) {
+            if hasDarkBackground {
+                colors.detail = colors.background!.lighterColor()
+            } else {
+                colors.detail = colors.background!.darkerColor()
+            }
+        }
+
         return colors
+    }
+
+    private func roundUp(left: Double, decimals: Int) -> Double {
+        if decimals == 0 {
+            return left
+        }
+        var k = 1.0
+        for i in 1...decimals {
+            k = 10.0 * k
+        }
+        let n = Double(Int(left*k)) / Double(k)
+        return n
     }
 
 }

@@ -10,19 +10,19 @@ import Cocoa
 
 // Magic numbers!
 
-let kColorThresholdFloorBrightness: CGFloat = 0.25
+let kColorThresholdFloorBrightness: CGFloat = 0.35 // original: 0.25
 let kColorThresholdCeilingBrightness: CGFloat = 0.75
 let kColorLighterRatio: CGFloat = 1.3
 let kColorDarkerRatio: CGFloat = 0.75
 let kColorYUVRedRatio: CGFloat = 0.2126
 let kColorYUVGreenRatio: CGFloat = 0.7152
 let kColorYUVBlueRatio: CGFloat = 0.0722
-let kColorThresholdDistinctColor: CGFloat = 0.25
+let kColorThresholdDistinctColor: CGFloat = 0.35 // original: 0.25
 let kColorThresholdGrey: CGFloat = 0.03 // original: 0.03
-let kColorMinThresholdWhite: CGFloat = 0.91
-let kColorMaxThresholdBlack: CGFloat = 0.09
+let kColorMinThresholdWhite: CGFloat = 0.91 // original: 0.91
+let kColorMaxThresholdBlack: CGFloat = 0.09 // original: 0.09
 let kColorLuminanceAddedWeight: CGFloat = 0.05
-let kColorContrastRatio: CGFloat = 1.6  // original: 1.6
+let kColorContrastRatio: CGFloat = 1.58  // original: 1.6
 
 
 extension NSColor {
@@ -53,11 +53,11 @@ extension NSColor {
         return NSColor(calibratedHue: h, saturation: s, brightness: b * kColorDarkerRatio, alpha: a)
     }
 
-    func isMostlyLightColor() -> Bool {
-        return !isMostlyDarkColor()
+    func isMostlyDarkColor() -> Bool {
+        return !isMostlyLightColor()
     }
 
-    func isMostlyDarkColor() -> Bool {
+    func isMostlyLightColor() -> Bool {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var a: CGFloat = 0.0
         var b: CGFloat = 0.0
@@ -66,16 +66,12 @@ extension NSColor {
         convertedColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
         var lum: CGFloat = kColorYUVRedRatio * r + kColorYUVGreenRatio * g + kColorYUVBlueRatio * b
         if lum < 0.5 {
-            return true
+            return false
         }
-        return false
+        return true
     }
 
-    func isNotDistinctFrom(color: NSColor) -> Bool {
-        return !isDistinctFrom(color)
-    }
-
-    func isDistinctFrom(color: NSColor) -> Bool {
+    func isNearOf(color: NSColor) -> Bool {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var convertedCompareColor = color.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var a: CGFloat = 0.0
@@ -93,12 +89,12 @@ extension NSColor {
             // check for grays, prevent multiple gray colors
             if fabs(r - g) < kColorThresholdGrey && fabs(r - b) < kColorThresholdGrey {
                 if fabs(r1 - g1) < kColorThresholdGrey && fabs(r1 - b1) < kColorThresholdGrey {
-                    return false
+                    return true
                 }
             }
-            return true
+            return false
         }
-        return false
+        return true
     }
 
     func sameOrWithMinimumSaturation(minSaturation: CGFloat) -> NSColor {
@@ -116,11 +112,11 @@ extension NSColor {
         return self
     }
 
-    func isNotMostlyBlackOrWhite() -> Bool {
-        return !isMostlyBlackOrWhite()
+    func isMostlyBlackOrWhite() -> Bool {
+        return !isNotMostlyBlackOrWhite()
     }
 
-    func isMostlyBlackOrWhite() -> Bool {
+    func isNotMostlyBlackOrWhite() -> Bool {
         var tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if tempColor != nil {
             var a: CGFloat = 0.0
@@ -129,20 +125,20 @@ extension NSColor {
             var r: CGFloat = 0.0
             tempColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
             if r > kColorMinThresholdWhite && g > kColorMinThresholdWhite && b > kColorMinThresholdWhite {
-                return true // white
+                return false // white
             }
             if r < kColorMaxThresholdBlack && g < kColorMaxThresholdBlack && b < kColorMaxThresholdBlack {
-                return true // black
+                return false // black
             }
         }
-        return false
-    }
-
-    func doesNotContrastWith(color: NSColor) -> Bool {
-        return !contrastsWith(color)
+        return true
     }
 
     func contrastsWith(color: NSColor) -> Bool {
+        return !doesNotContrastWith(color)
+    }
+
+    func doesNotContrastWith(color: NSColor) -> Bool {
         var backgroundColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var foregroundColor = color.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if backgroundColor != nil && foregroundColor != nil {
@@ -164,9 +160,9 @@ extension NSColor {
             } else {
                 contrast = (fLum + kColorLuminanceAddedWeight) / (bLum + kColorLuminanceAddedWeight)
             }
-            return contrast > kColorContrastRatio
+            return contrast < kColorContrastRatio
         }
-        return true
+        return false
     }
 
 }
