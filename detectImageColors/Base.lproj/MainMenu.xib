@@ -15,7 +15,7 @@
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <customObject id="UW4-RA-zN2" customClass="AppController" customModule="detectImageColors" customModuleProvider="target">
             <connections>
-                <outlet property="image" destination="DGu-0e-za9" id="1Ma-rG-WlE"/>
+                <outlet property="imageView" destination="DGu-0e-za9" id="V6E-Ea-lh5"/>
                 <outlet property="label1" destination="P99-2E-e6y" id="KbY-f2-SBS"/>
                 <outlet property="label2" destination="Ivl-3a-hGm" id="ueo-Ek-tau"/>
                 <outlet property="label3" destination="ths-9f-rUn" id="cbK-5w-cXZ"/>

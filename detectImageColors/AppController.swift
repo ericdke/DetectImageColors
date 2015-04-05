@@ -11,31 +11,19 @@ import Cocoa
 class AppController: NSObject {
 
     var colorTunes: ColorTunes?
-    var sourcePic = NSImage(named: "reed")
-
-    override init() {
-        colorTunes = ColorTunes(image: sourcePic!, size: NSMakeSize(120.0, 120.0))
-        super.init()
-    }
-
-    override func awakeFromNib() {
-        refresh()
-    }
 
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var label1: NSTextField!
     @IBOutlet weak var label2: NSTextField!
     @IBOutlet weak var label3: NSTextField!
     @IBOutlet weak var label4: NSTextField!
-    @IBOutlet weak var image: NSImageView!
+    @IBOutlet weak var imageView: NSImageView!
 
-    // there's a bug somewhere
     @IBAction func open(sender: AnyObject) {
         if let path = selectImage() {
             if let img = NSImage(contentsOfFile: path) {
-                self.sourcePic = img
-                colorTunes = ColorTunes(image: img, size: NSMakeSize(120.0, 120.0))
-                refresh()
+                self.imageView.image = img
+                refresh(img)
             }
         }
     }
@@ -54,20 +42,18 @@ class AppController: NSObject {
         return path
     }
 
-    func refresh() {
-        self.colorTunes!.analyzeImage(self.sourcePic!)
-        let colors = self.colorTunes!.getColorElements()
+    func refresh(image: NSImage) {
+        colorTunes = ColorTunes(image: image, size: NSMakeSize(120.0, 120.0))
+        let colors = colorTunes!.candidates!
         NSLog("%@", colors.primary!)
         NSLog("%@", colors.secondary!)
         NSLog("%@", colors.detail!)
         NSLog("%@", colors.background!)
-        self.label1.textColor = colors.primary!
-        self.label2.textColor = colors.secondary!
-        self.label3.textColor = colors.detail!
-        self.window.backgroundColor = colors.background!
-        image.image = self.sourcePic
+        label1.textColor = colors.primary
+        label2.textColor = colors.secondary
+        label3.textColor = colors.detail
+        window.backgroundColor = colors.background
+
     }
-
-
 
 }
