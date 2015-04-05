@@ -31,6 +31,10 @@ class ColorTunes: NSObject {
         self.analyzeImage(scaledImage)
     }
 
+    func getColorElements() -> (primary: NSColor?, secondary: NSColor?, detail: NSColor?, background: NSColor?) {
+        return (primaryColorCandidate, secondaryColorCandidate, detailColorCandidate, backgroundColorCandidate)
+    }
+
     func scaledImage(image: NSImage, scaledSize: NSSize) -> NSImage {
         var imageSize = image.size
         var squareImage = NSImage(size: NSMakeSize(imageSize.width, imageSize.width))
@@ -67,7 +71,7 @@ class ColorTunes: NSObject {
 //    }
 
     func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
-//        NSLog("%@", "missed \(colorName)")
+        NSLog("%@", "missed \(colorName)")
         if hasDarkBackground {
             return NSColor.whiteColor()
         } else {
@@ -164,9 +168,14 @@ class ColorTunes: NSObject {
         var sortedColors = NSMutableArray(capacity: colors!.count)
         var findDarkTextColor = !backgroundColor.pc_isDarkColor()
         while curColor != nil {
-            curColor = curColor!.pc_colorWithMinimumSaturation(0.15)
-            if curColor!.pc_isDarkColor() == !findDarkTextColor {
+            curColor = curColor!.pc_colorWithMinimumSaturation(0.15) // original: 0.15
+            if curColor!.pc_isDarkColor() == findDarkTextColor {
                 var colorCount = colors!.countForObject(curColor!)
+                if colorCount <= 2 { // filter noise
+                    curColor = enumerator.nextObject() as? NSColor
+                    continue
+                }
+                println(colorCount)
                 var container = PCCountedColor(color: curColor!, count: colorCount)
                 sortedColors.addObject(container)
             }

@@ -37,7 +37,7 @@ extension NSColor {
         var r1: CGFloat = 0.0
         convertedColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
         convertedCompareColor!.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
-        var threshold: CGFloat = 0.25
+        var threshold: CGFloat = 0.25 // original: 0.25
         if fabs(r - r1) > threshold || fabs(g - g1) > threshold || fabs(b - b1) > threshold || fabs(a - a1) > threshold {
             // check for grays, prevent multiple gray colors
             if fabs(r - g) < 0.03 && fabs(r - b) < 0.03 {
@@ -73,10 +73,10 @@ extension NSColor {
             var g: CGFloat = 0.0
             var r: CGFloat = 0.0
             tempColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
-            if r > 0.91 && g > 0.91 && b > 0.91 {
+            if r > 0.91 && g > 0.91 && b > 0.91 {  // original : 0.91
                 return true // white
             }
-            if r < 0.09 && g < 0.09 && b < 0.09 {
+            if r < 0.09 && g < 0.09 && b < 0.09 {  // original: 0.09
                 return true // black
             }
         }
@@ -105,7 +105,7 @@ extension NSColor {
             } else {
                 contrast = (fLum + 0.05) / (bLum + 0.05)
             }
-            return contrast > 1.6
+            return contrast > 1.8 // original: 1.6
         }
         return true
     }

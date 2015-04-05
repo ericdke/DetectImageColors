@@ -19,6 +19,8 @@
 		C7B573EC1AD067C900C44CDF /* mic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573EB1AD067C900C44CDF /* mic.jpg */; };
 		C7B573EE1AD0909500C44CDF /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B573ED1AD0909500C44CDF /* AppController.swift */; };
 		C7B573F21AD09FF600C44CDF /* nirvana.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573F11AD09FF600C44CDF /* nirvana.jpg */; };
+		C7B573F61AD0AFC500C44CDF /* swift.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573F51AD0AFC500C44CDF /* swift.jpg */; };
+		C7B573F81AD0BACA00C44CDF /* reed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573F71AD0BACA00C44CDF /* reed.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,8 @@
 		C7B573EB1AD067C900C44CDF /* mic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mic.jpg; sourceTree = "<group>"; };
 		C7B573ED1AD0909500C44CDF /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		C7B573F11AD09FF600C44CDF /* nirvana.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nirvana.jpg; sourceTree = "<group>"; };
+		C7B573F51AD0AFC500C44CDF /* swift.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = swift.jpg; sourceTree = "<group>"; };
+		C7B573F71AD0BACA00C44CDF /* reed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = reed.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,8 @@
 		C71FDDE31ACF7642004BD9BA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C7B573F71AD0BACA00C44CDF /* reed.jpg */,
+				C7B573F51AD0AFC500C44CDF /* swift.jpg */,
 				C7B573F11AD09FF600C44CDF /* nirvana.jpg */,
 				C7B573EB1AD067C900C44CDF /* mic.jpg */,
 				C7B573E91AD0678800C44CDF /* sixmilliondollarman.jpg */,
@@ -214,8 +220,10 @@
 				C7B573EC1AD067C900C44CDF /* mic.jpg in Resources */,
 				C71FDDE81ACF7642004BD9BA /* Images.xcassets in Resources */,
 				C7B573F21AD09FF600C44CDF /* nirvana.jpg in Resources */,
+				C7B573F61AD0AFC500C44CDF /* swift.jpg in Resources */,
 				C71FDE091ACF77AE004BD9BA /* ayadn.png in Resources */,
 				C71FDDEB1ACF7642004BD9BA /* MainMenu.xib in Resources */,
+				C7B573F81AD0BACA00C44CDF /* reed.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

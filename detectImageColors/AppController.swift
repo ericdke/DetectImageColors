@@ -11,7 +11,7 @@ import Cocoa
 class AppController: NSObject {
 
     var colorTunes: ColorTunes?
-    var pic = NSImage(named: "nirvana")
+    var pic = NSImage(named: "reed")
 
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var label1: NSTextField!
@@ -42,20 +42,16 @@ class AppController: NSObject {
         }
         return path
     }
-    
+
     func refresh() {
         let c = colorTunes!
         c.startAnalyze(pic!)
-        println(c.primaryColorCandidate)
-        println(c.secondaryColorCandidate)
-        println(c.detailColorCandidate)
-        println(c.backgroundColorCandidate)
-        //        let col1 = c.primaryColorCandidate!.colorUsingColorSpace(NSColorSpace.genericRGBColorSpace())
-        label1.textColor = c.primaryColorCandidate!
-        label2.textColor = c.secondaryColorCandidate!
-        label3.textColor = c.detailColorCandidate!
-        //        label4.textColor = c.backgroundColorCandidate!
-        window.backgroundColor = c.backgroundColorCandidate!
+        let colors = c.getColorElements()
+        println(colors)
+        label1.textColor = colors.primary!
+        label2.textColor = colors.secondary!
+        label3.textColor = colors.detail!
+        window.backgroundColor = colors.background!
         image.image = pic!
     }
 
