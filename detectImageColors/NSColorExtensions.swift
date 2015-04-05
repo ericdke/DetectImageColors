@@ -10,6 +10,29 @@ import Cocoa
 
 extension NSColor {
 
+    func lighterColor() -> NSColor {
+        var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
+        var h: CGFloat = 0.0
+        var s: CGFloat = 0.0
+        var b: CGFloat = 0.0
+        var a: CGFloat = 0.0
+        convertedColor!.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+        if b < 0.25 {
+            b = 0.25
+        }
+        return NSColor(calibratedHue: h, saturation: s, brightness: min(b * 1.3, 1.0), alpha: a)
+    }
+
+    func darkerColor() -> NSColor {
+        var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
+        var h: CGFloat = 0.0
+        var s: CGFloat = 0.0
+        var b: CGFloat = 0.0
+        var a: CGFloat = 0.0
+        convertedColor!.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+        return NSColor(calibratedHue: h, saturation: s, brightness: b * 0.75, alpha: a)
+    }
+
     func pc_isDarkColor() -> Bool {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var a: CGFloat = 0.0

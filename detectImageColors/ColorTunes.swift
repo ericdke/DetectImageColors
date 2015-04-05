@@ -9,7 +9,7 @@
 
 import Cocoa
 
-let kColorThresholdMinimumPercentage = 0.01
+let kColorThresholdMinimumPercentage = 0.01  // original 0.01
 
 class ColorTunes: NSObject {
 
@@ -96,6 +96,22 @@ class ColorTunes: NSObject {
         if detailColor == nil {
             detailColor = rescueNilColor("detail", hasDarkBackground: darkBackground)
         }
+        
+        if primaryColor!.whiteComponent == secondaryColor!.whiteComponent {
+            if darkBackground {
+                secondaryColor = primaryColor!.darkerColor()
+            } else {
+                secondaryColor = primaryColor!.lighterColor()
+            }
+        }
+        if primaryColor!.whiteComponent == detailColor!.whiteComponent {
+            if darkBackground {
+                detailColor = secondaryColor!.darkerColor()
+            } else {
+                detailColor = secondaryColor!.lighterColor()
+            }
+        }
+        
         self.backgroundColorCandidate = backgroundColor
         self.primaryColorCandidate = primaryColor
         self.secondaryColorCandidate = secondaryColor
