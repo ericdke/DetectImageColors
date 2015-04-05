@@ -37,64 +37,17 @@ class ColorTunes: NSObject {
         return (primaryColorCandidate!, secondaryColorCandidate!, detailColorCandidate!, backgroundColorCandidate!)
     }
 
-
-
-//    func getEdgeColorAndImageColorSet(anImage: NSImage) -> (NSColor, NSCountedSet) {
-//
-//    }
-
-    func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
-        NSLog("%@", "missed \(colorName)")
-        if hasDarkBackground {
-            return NSColor.whiteColor()
-        } else {
-            return NSColor.blackColor()
-        }
-    }
-
-//    func rescueNilColors() -> (NSColor, NSColor, NSColor) {
-//
-//    }
-
     func analyzeImage(anImage: NSImage) {
-        var (backgroundColor, imageColors) = findEdgeColor(anImage)
-        var darkBackground = backgroundColor!.isMostlyDarkColor()
-        var textColors = findTextColors(imageColors, backgroundColor: backgroundColor!)
-        if textColors.primary == nil {
-            textColors.primary = rescueNilColor("primary", hasDarkBackground: darkBackground)
-        }
-        if textColors.secondary == nil {
-            textColors.secondary = rescueNilColor("secondary", hasDarkBackground: darkBackground)
-        }
-        if textColors.detail == nil {
-            textColors.detail = rescueNilColor("detail", hasDarkBackground: darkBackground)
-        }
-
-        var tprim = textColors.primary!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
-        var tsec = textColors.secondary!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
-        if tprim! == tsec! {
-            if darkBackground {
-                textColors.secondary = textColors.primary!.darkerColor()
-            } else {
-                textColors.secondary = textColors.primary!.lighterColor()
-            }
-        }
-        var tdet = textColors.detail!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
-        if tprim! == tdet! {
-            if darkBackground {
-                textColors.detail = textColors.secondary!.darkerColor()
-            } else {
-                textColors.detail = textColors.secondary!.lighterColor()
-            }
-        }
-
+        let (backgroundColor, imageColors) = findEdgeColor(anImage)
+        let backgroundIsDark = backgroundColor!.isMostlyDarkColor()
+        let textColorsFirstPass = findTextColors(imageColors, backgroundColor: backgroundColor!)
+        let textColorsSecondPass = rescueNilColors(textColorsFirstPass, hasDarkBackground: backgroundIsDark)
+        let textColors = createFadedColorsOrKeepDetected(textColorsSecondPass, hasDarkBackground: backgroundIsDark)
         self.backgroundColorCandidate = backgroundColor!
-        self.primaryColorCandidate = textColors.primary!
-        self.secondaryColorCandidate = textColors.secondary!
-        self.detailColorCandidate = textColors.detail!
+        self.primaryColorCandidate = textColors.primary
+        self.secondaryColorCandidate = textColors.secondary
+        self.detailColorCandidate = textColors.detail
     }
-
-
 
     private func findTextColors(colors: NSCountedSet?, backgroundColor: NSColor) -> (primary: NSColor?, secondary: NSColor?, detail: NSColor?) {
         var primaryColor: NSColor?
@@ -103,10 +56,10 @@ class ColorTunes: NSObject {
         var enumerator = colors!.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
         var sortedColors = NSMutableArray(capacity: colors!.count)
-        var findDarkTextColor = !backgroundColor.isMostlyDarkColor()
+        var isColorLight = backgroundColor.isMostlyLightColor()
         while curColor != nil {
             curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
-            if curColor!.isMostlyDarkColor() == findDarkTextColor {
+            if curColor!.isMostlyDarkColor() == isColorLight { // oops
                 var colorCount = colors!.countForObject(curColor!)
                 if colorCount <= kColorThresholdMaximumNoise {
                     curColor = enumerator.nextObject() as? NSColor
@@ -230,6 +183,52 @@ class ColorTunes: NSObject {
         finalImage.addRepresentation(bitmapRep)
 
         return finalImage
+    }
+
+    private func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
+        NSLog("%@", "missed \(colorName)")
+        if hasDarkBackground {
+            return NSColor.whiteColor()
+        } else {
+            return NSColor.blackColor()
+        }
+    }
+
+    private func rescueNilColors(textColors: (primary: NSColor?, secondary: NSColor?, detail: NSColor?), hasDarkBackground darkBackground: Bool) -> (primary: NSColor, secondary: NSColor, detail: NSColor) {
+        var colors = textColors
+        if textColors.primary == nil {
+            colors.primary = rescueNilColor("primary", hasDarkBackground: darkBackground)
+        }
+        if textColors.secondary == nil {
+            colors.secondary = rescueNilColor("secondary", hasDarkBackground: darkBackground)
+        }
+        if textColors.detail == nil {
+            colors.detail = rescueNilColor("detail", hasDarkBackground: darkBackground)
+        }
+        return (primary: colors.primary!, secondary: colors.secondary!, detail: colors.detail!)
+    }
+
+    private func createFadedColorsOrKeepDetected(textColors: (primary: NSColor, secondary: NSColor, detail: NSColor), hasDarkBackground backgroundIsDark: Bool) -> (primary: NSColor, secondary: NSColor, detail: NSColor) {
+        var colors = textColors
+        if let tprim = textColors.primary.colorUsingColorSpaceName(NSCalibratedRGBColorSpace), let tsec = textColors.secondary.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+            if tprim == tsec {
+                if backgroundIsDark {
+                    colors.secondary = textColors.primary.darkerColor()
+                } else {
+                    colors.secondary = textColors.primary.lighterColor()
+                }
+            }
+            if let tdet = textColors.detail.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+                if tprim == tdet {
+                    if backgroundIsDark {
+                        colors.detail = textColors.secondary.darkerColor()
+                    } else {
+                        colors.detail = textColors.secondary.lighterColor()
+                    }
+                }
+            }
+        }
+        return (primary: colors.primary, secondary: colors.secondary, detail: colors.detail)
     }
 
 }
