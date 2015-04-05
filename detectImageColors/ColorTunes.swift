@@ -13,43 +13,41 @@ let kColorThresholdMinimumPercentage = 0.01  // original 0.01
 let kColorThresholdMinimumSaturation: CGFloat = 0.15 // original: 0.15
 let kColorThresholdMaximumNoise = 2
 
+struct ColorCandidates {
+    var primary: NSColor?
+    var secondary: NSColor?
+    var detail: NSColor?
+    var background: NSColor?
+}
+
 class ColorTunes: NSObject {
 
     var scaledSize: NSSize
+    var sourceImage: NSImage
     var scaledImage: NSImage?
-    var backgroundColorCandidate: NSColor?
-    var primaryColorCandidate: NSColor?
-    var secondaryColorCandidate: NSColor?
-    var detailColorCandidate: NSColor?
+    var candidates: ColorCandidates?
 
     init(image: NSImage, size: NSSize) {
         self.scaledSize = size
+        self.sourceImage = image
         super.init()
-        let temp = self.scaledImage(image, scaledSize: size)
-        self.scaledImage = temp
+        self.scaledImage = self.scaleImage(image, scaledSize: size)
+//        self.analyzeImage(self.sourceImage)
     }
 
-    func startAnalyze(scaledImage: NSImage) {
-        self.analyzeImage(scaledImage)
-    }
-
-    func getColorElements() -> (primary: NSColor, secondary: NSColor, detail: NSColor, background: NSColor) {
-        return (primaryColorCandidate!, secondaryColorCandidate!, detailColorCandidate!, backgroundColorCandidate!)
+    func getColorElements() -> ColorCandidates {
+        return self.candidates!
     }
 
     func analyzeImage(anImage: NSImage) {
-        let (backgroundColor, imageColors) = findEdgeColor(anImage)
-        let backgroundIsDark = backgroundColor!.isMostlyDarkColor()
-        let textColorsFirstPass = findTextColors(imageColors, backgroundColor: backgroundColor!)
-        let textColorsSecondPass = rescueNilColors(textColorsFirstPass, hasDarkBackground: backgroundIsDark)
-        let textColors = createFadedColorsOrKeepDetected(textColorsSecondPass, hasDarkBackground: backgroundIsDark)
-        self.backgroundColorCandidate = backgroundColor!
-        self.primaryColorCandidate = textColors.primary
-        self.secondaryColorCandidate = textColors.secondary
-        self.detailColorCandidate = textColors.detail
+        let edge = findEdgeColor(anImage)
+        let colorsFirstPass = findColors(edge.set, backgroundColor: edge.color!)
+        let backgroundIsDark = colorsFirstPass.background!.isMostlyDarkColor()
+        let colorsSecondPass = createColors(colorsFirstPass, hasDarkBackground: backgroundIsDark)
+        self.candidates = createFadedColors(colorsSecondPass, hasDarkBackground: backgroundIsDark)
     }
 
-    private func findTextColors(colors: NSCountedSet?, backgroundColor: NSColor) -> (primary: NSColor?, secondary: NSColor?, detail: NSColor?) {
+    private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates {
         var primaryColor: NSColor?
         var secondaryColor: NSColor?
         var detailColor: NSColor?
@@ -89,10 +87,10 @@ class ColorTunes: NSObject {
                 break
             }
         }
-        return (primaryColor, secondaryColor, detailColor)
+        return ColorCandidates(primary: primaryColor, secondary: secondaryColor, detail: detailColor, background: backgroundColor)
     }
 
-    private func findEdgeColor(image: NSImage) -> (NSColor?, NSCountedSet?) {
+    private func findEdgeColor(image: NSImage) -> (color: NSColor?, set: NSCountedSet?) {
         let imageRep = image.representations.last as! NSBitmapImageRep
         let pixelsWide = imageRep.pixelsWide
         let pixelsHigh = imageRep.pixelsHigh
@@ -147,7 +145,7 @@ class ColorTunes: NSObject {
         return (proposedEdgeColor!.color, colors)
     }
 
-    private func scaledImage(image: NSImage, scaledSize: NSSize) -> NSImage {
+    private func scaleImage(image: NSImage, scaledSize: NSSize) -> NSImage {
         let imageSize = image.size
         let squareImage = drawSquareImage(NSImage(size: NSMakeSize(imageSize.width, imageSize.width)), withImage: image, atSize: imageSize)
         let localScaledImage = drawScaledSquare(squareImage, withImage: NSImage(size: scaledSize), atSize: imageSize)
@@ -186,7 +184,7 @@ class ColorTunes: NSObject {
     }
 
     private func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
-        NSLog("%@", "Missed \(colorName) detection")
+        // NSLog("%@", "Missed \(colorName) detection")
         if hasDarkBackground {
             return NSColor.whiteColor()
         } else {
@@ -194,7 +192,7 @@ class ColorTunes: NSObject {
         }
     }
 
-    private func rescueNilColors(textColors: (primary: NSColor?, secondary: NSColor?, detail: NSColor?), hasDarkBackground darkBackground: Bool) -> (primary: NSColor, secondary: NSColor, detail: NSColor) {
+    private func createColors(textColors: ColorCandidates, hasDarkBackground darkBackground: Bool) -> ColorCandidates {
         var colors = textColors
         if textColors.primary == nil {
             colors.primary = rescueNilColor("primary", hasDarkBackground: darkBackground)
@@ -205,23 +203,26 @@ class ColorTunes: NSObject {
         if textColors.detail == nil {
             colors.detail = rescueNilColor("detail", hasDarkBackground: darkBackground)
         }
-        return (primary: colors.primary!, secondary: colors.secondary!, detail: colors.detail!)
+        return colors
     }
 
-    private func createFadedColorsOrKeepDetected(textColors: (primary: NSColor, secondary: NSColor, detail: NSColor), hasDarkBackground backgroundIsDark: Bool) -> (primary: NSColor, secondary: NSColor, detail: NSColor) {
+    private func createFadedColors(textColors: ColorCandidates, hasDarkBackground: Bool) -> ColorCandidates {
         var colors = textColors
-        if let tprim = textColors.primary.colorUsingColorSpaceName(NSCalibratedRGBColorSpace), let tsec = textColors.secondary.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+        if let tprim = textColors.primary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace),
+            let tsec = textColors.secondary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+
             if tprim == tsec {
-                if backgroundIsDark {
-                    colors.secondary = textColors.primary.darkerColor()
-                    colors.detail = colors.secondary.darkerColor()
+                if hasDarkBackground {
+                    colors.secondary = textColors.primary!.darkerColor()
+                    colors.detail = colors.secondary!.darkerColor()
                 } else {
-                    colors.secondary = textColors.primary.lighterColor()
-                    colors.detail = colors.secondary.lighterColor()
+                    colors.secondary = textColors.primary!.lighterColor()
+                    colors.detail = colors.secondary!.lighterColor()
                 }
             }
+
         }
-        return (primary: colors.primary, secondary: colors.secondary, detail: colors.detail)
+        return colors
     }
 
 }

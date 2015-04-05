@@ -11,7 +11,16 @@ import Cocoa
 class AppController: NSObject {
 
     var colorTunes: ColorTunes?
-    var pic = NSImage(named: "reed")
+    var sourcePic = NSImage(named: "reed")
+
+    override init() {
+        colorTunes = ColorTunes(image: sourcePic!, size: NSMakeSize(120.0, 120.0))
+        super.init()
+    }
+
+    override func awakeFromNib() {
+        refresh()
+    }
 
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var label1: NSTextField!
@@ -20,10 +29,12 @@ class AppController: NSObject {
     @IBOutlet weak var label4: NSTextField!
     @IBOutlet weak var image: NSImageView!
 
+    // there's a bug somewhere
     @IBAction func open(sender: AnyObject) {
         if let path = selectImage() {
             if let img = NSImage(contentsOfFile: path) {
-                pic = img
+                self.sourcePic = img
+                colorTunes = ColorTunes(image: img, size: NSMakeSize(120.0, 120.0))
                 refresh()
             }
         }
@@ -44,27 +55,19 @@ class AppController: NSObject {
     }
 
     func refresh() {
-        let c = colorTunes!
-        c.startAnalyze(pic!)
-        let colors = c.getColorElements()
-        NSLog("%@", colors.primary)
-        NSLog("%@", colors.secondary)
-        NSLog("%@", colors.detail)
-        NSLog("%@", colors.background)
-        label1.textColor = colors.primary
-        label2.textColor = colors.secondary
-        label3.textColor = colors.detail
-        window.backgroundColor = colors.background
-        image.image = pic!
+        self.colorTunes!.analyzeImage(self.sourcePic!)
+        let colors = self.colorTunes!.getColorElements()
+        NSLog("%@", colors.primary!)
+        NSLog("%@", colors.secondary!)
+        NSLog("%@", colors.detail!)
+        NSLog("%@", colors.background!)
+        self.label1.textColor = colors.primary!
+        self.label2.textColor = colors.secondary!
+        self.label3.textColor = colors.detail!
+        self.window.backgroundColor = colors.background!
+        image.image = self.sourcePic
     }
 
-    override init() {
-        colorTunes = ColorTunes(image: pic!, size: NSMakeSize(120.0, 120.0))
-        super.init()
-    }
 
-    override func awakeFromNib() {
-        refresh()
-    }
 
 }
