@@ -33,8 +33,8 @@ class ColorTunes: NSObject {
         self.analyzeImage(scaledImage)
     }
 
-    func getColorElements() -> (primary: NSColor?, secondary: NSColor?, detail: NSColor?, background: NSColor?) {
-        return (primaryColorCandidate, secondaryColorCandidate, detailColorCandidate, backgroundColorCandidate)
+    func getColorElements() -> (primary: NSColor, secondary: NSColor, detail: NSColor, background: NSColor) {
+        return (primaryColorCandidate!, secondaryColorCandidate!, detailColorCandidate!, backgroundColorCandidate!)
     }
 
 
@@ -52,58 +52,61 @@ class ColorTunes: NSObject {
         }
     }
 
+//    func rescueNilColors() -> (NSColor, NSColor, NSColor) {
+//
+//    }
+
     func analyzeImage(anImage: NSImage) {
-        var (backgroundColor, imageColors) = self.findEdgeColor(anImage)
-        var darkBackground = backgroundColor!.pc_isDarkColor()
-        var (primaryColor, secondaryColor, detailColor) = findTextColors(imageColors, backgroundColor: backgroundColor!)
-//        self.findTextColors(imageColors, backgroundColor: backgroundColor!)
-        if primaryColor == nil {
-            primaryColor = rescueNilColor("primary", hasDarkBackground: darkBackground)
+        var (backgroundColor, imageColors) = findEdgeColor(anImage)
+        var darkBackground = backgroundColor!.isMostlyDarkColor()
+        var textColors = findTextColors(imageColors, backgroundColor: backgroundColor!)
+        if textColors.primary == nil {
+            textColors.primary = rescueNilColor("primary", hasDarkBackground: darkBackground)
         }
-        if secondaryColor == nil {
-            secondaryColor = rescueNilColor("secondary", hasDarkBackground: darkBackground)
+        if textColors.secondary == nil {
+            textColors.secondary = rescueNilColor("secondary", hasDarkBackground: darkBackground)
         }
-        if detailColor == nil {
-            detailColor = rescueNilColor("detail", hasDarkBackground: darkBackground)
+        if textColors.detail == nil {
+            textColors.detail = rescueNilColor("detail", hasDarkBackground: darkBackground)
         }
 
-        var tprim = primaryColor!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
-        var tsec = secondaryColor!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
+        var tprim = textColors.primary!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
+        var tsec = textColors.secondary!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if tprim! == tsec! {
             if darkBackground {
-                secondaryColor = primaryColor!.darkerColor()
+                textColors.secondary = textColors.primary!.darkerColor()
             } else {
-                secondaryColor = primaryColor!.lighterColor()
+                textColors.secondary = textColors.primary!.lighterColor()
             }
         }
-        var tdet = detailColor!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
+        var tdet = textColors.detail!.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if tprim! == tdet! {
             if darkBackground {
-                detailColor = secondaryColor!.darkerColor()
+                textColors.detail = textColors.secondary!.darkerColor()
             } else {
-                detailColor = secondaryColor!.lighterColor()
+                textColors.detail = textColors.secondary!.lighterColor()
             }
         }
 
-        self.backgroundColorCandidate = backgroundColor
-        self.primaryColorCandidate = primaryColor
-        self.secondaryColorCandidate = secondaryColor
-        self.detailColorCandidate = detailColor
+        self.backgroundColorCandidate = backgroundColor!
+        self.primaryColorCandidate = textColors.primary!
+        self.secondaryColorCandidate = textColors.secondary!
+        self.detailColorCandidate = textColors.detail!
     }
 
 
 
-    func findTextColors(colors: NSCountedSet?, backgroundColor: NSColor) -> (NSColor?, NSColor?, NSColor?) {
+    private func findTextColors(colors: NSCountedSet?, backgroundColor: NSColor) -> (primary: NSColor?, secondary: NSColor?, detail: NSColor?) {
         var primaryColor: NSColor?
         var secondaryColor: NSColor?
         var detailColor: NSColor?
         var enumerator = colors!.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
         var sortedColors = NSMutableArray(capacity: colors!.count)
-        var findDarkTextColor = !backgroundColor.pc_isDarkColor()
+        var findDarkTextColor = !backgroundColor.isMostlyDarkColor()
         while curColor != nil {
-            curColor = curColor!.pc_colorWithMinimumSaturation(kColorThresholdMinimumSaturation)
-            if curColor!.pc_isDarkColor() == findDarkTextColor {
+            curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
+            if curColor!.isMostlyDarkColor() == findDarkTextColor {
                 var colorCount = colors!.countForObject(curColor!)
                 if colorCount <= kColorThresholdMaximumNoise {
                     curColor = enumerator.nextObject() as? NSColor
@@ -120,15 +123,15 @@ class ColorTunes: NSObject {
             var curContainer = cc as! PCCountedColor
             curColor = curContainer.color
             if primaryColor == nil {
-                if curColor!.pc_isContrastingColor(backgroundColor) {
+                if curColor!.contrastsWith(backgroundColor) {
                     primaryColor = curColor
                 }
             } else if secondaryColor == nil {
-                if !primaryColor!.pc_isDistinct(curColor!) || !curColor!.pc_isContrastingColor(backgroundColor) {
+                if primaryColor!.isNotDistinctFrom(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
                     secondaryColor = curColor
                 }
             } else if detailColor == nil {
-                if !secondaryColor!.pc_isDistinct(curColor!) || !primaryColor!.pc_isDistinct(curColor!) || !curColor!.pc_isContrastingColor(backgroundColor) {
+                if secondaryColor!.isNotDistinctFrom(curColor!) || primaryColor!.isNotDistinctFrom(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
                     continue
                 }
                 detailColor = curColor
@@ -138,7 +141,7 @@ class ColorTunes: NSObject {
         return (primaryColor, secondaryColor, detailColor)
     }
 
-    func findEdgeColor(image: NSImage) -> (NSColor?, NSCountedSet?) {
+    private func findEdgeColor(image: NSImage) -> (NSColor?, NSCountedSet?) {
         var imageRep = image.representations.last as! NSBitmapImageRep
         if !imageRep.isKindOfClass(NSBitmapImageRep) {
             return (nil, nil)
@@ -177,13 +180,13 @@ class ColorTunes: NSObject {
         if sortedColors.count > 0 {
             proposedEdgeColor = (sortedColors.objectAtIndex(0) as! PCCountedColor)
             // want to choose color over black/white so we keep looking
-            if proposedEdgeColor!.color.pc_isBlackOrWhite() {
+            if proposedEdgeColor!.color.isMostlyBlackOrWhite() {
                 var i: NSInteger = 0
                 while i < sortedColors.count {
                     var nextProposedColor = sortedColors.objectAtIndex(i) as! PCCountedColor
                     // make sure the second choice color is 30% as common as the first choice
                     if (Double(nextProposedColor.count) / Double(proposedEdgeColor!.count)) > 0.3 {
-                        if !nextProposedColor.color.pc_isBlackOrWhite() {
+                        if nextProposedColor.color.isNotMostlyBlackOrWhite() {
                             proposedEdgeColor = nextProposedColor
                             break
                         }
@@ -198,7 +201,7 @@ class ColorTunes: NSObject {
         return (proposedEdgeColor!.color, colors)
     }
 
-    func scaledImage(image: NSImage, scaledSize: NSSize) -> NSImage {
+    private func scaledImage(image: NSImage, scaledSize: NSSize) -> NSImage {
         var imageSize = image.size
         var squareImage = NSImage(size: NSMakeSize(imageSize.width, imageSize.width))
         var scaledImage = NSImage(size: scaledSize)

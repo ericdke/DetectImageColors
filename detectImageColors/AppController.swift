@@ -48,10 +48,10 @@ class AppController: NSObject {
         c.startAnalyze(pic!)
         let colors = c.getColorElements()
         println(colors.primary, colors.secondary, colors.detail, colors.background)
-        label1.textColor = colors.primary!
-        label2.textColor = colors.secondary!
-        label3.textColor = colors.detail!
-        window.backgroundColor = colors.background!
+        label1.textColor = colors.primary
+        label2.textColor = colors.secondary
+        label3.textColor = colors.detail
+        window.backgroundColor = colors.background
         image.image = pic!
     }
 

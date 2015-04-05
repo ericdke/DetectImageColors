@@ -42,8 +42,8 @@
 		C71FDDF01ACF7642004BD9BA /* detectImageColorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = detectImageColorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C71FDDF51ACF7643004BD9BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C71FDDF61ACF7643004BD9BA /* detectImageColorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detectImageColorsTests.swift; sourceTree = "<group>"; };
-		C71FDE001ACF7676004BD9BA /* ColorTunes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorTunes.swift; sourceTree = "<group>"; };
-		C71FDE021ACF76A0004BD9BA /* NSColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSColorExtensions.swift; sourceTree = "<group>"; };
+		C71FDE001ACF7676004BD9BA /* ColorTunes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ColorTunes.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		C71FDE021ACF76A0004BD9BA /* NSColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NSColorExtensions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE041ACF76C3004BD9BA /* PCCountedColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PCCountedColor.swift; sourceTree = "<group>"; };
 		C71FDE081ACF77AE004BD9BA /* ayadn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ayadn.png; sourceTree = "<group>"; };
 		C7B573E91AD0678800C44CDF /* sixmilliondollarman.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sixmilliondollarman.jpg; sourceTree = "<group>"; };
