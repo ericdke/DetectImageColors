@@ -53,10 +53,10 @@ class ColorTunes: NSObject {
         var primaryColor: NSColor?
         var secondaryColor: NSColor?
         var detailColor: NSColor?
-        var enumerator = colors!.objectEnumerator()
+        let enumerator = colors!.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
         var sortedColors = NSMutableArray(capacity: colors!.count)
-        var isColorLight = backgroundColor.isMostlyLightColor()
+        let isColorLight = backgroundColor.isMostlyLightColor()
         while curColor != nil {
             curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
             if curColor!.isMostlyDarkColor() == isColorLight { // oops
@@ -65,15 +65,13 @@ class ColorTunes: NSObject {
                     curColor = enumerator.nextObject() as? NSColor
                     continue
                 }
-//                println(colorCount)
-                var container = PCCountedColor(color: curColor!, count: colorCount)
-                sortedColors.addObject(container)
+                sortedColors.addObject(PCCountedColor(color: curColor!, count: colorCount))
             }
             curColor = enumerator.nextObject() as? NSColor
         }
         sortedColors.sortUsingSelector("compare:")
         for cc in sortedColors {
-            var curContainer = cc as! PCCountedColor
+            let curContainer = cc as! PCCountedColor
             curColor = curContainer.color
             if primaryColor == nil {
                 if curColor!.contrastsWith(backgroundColor) {
@@ -95,12 +93,9 @@ class ColorTunes: NSObject {
     }
 
     private func findEdgeColor(image: NSImage) -> (NSColor?, NSCountedSet?) {
-        var imageRep = image.representations.last as! NSBitmapImageRep
-        if !imageRep.isKindOfClass(NSBitmapImageRep) {
-            return (nil, nil)
-        }
-        var pixelsWide = imageRep.pixelsWide
-        var pixelsHigh = imageRep.pixelsHigh
+        let imageRep = image.representations.last as! NSBitmapImageRep
+        let pixelsWide = imageRep.pixelsWide
+        let pixelsHigh = imageRep.pixelsHigh
         var colors = NSCountedSet(capacity: pixelsWide * pixelsHigh)
         var leftEdgeColors = NSCountedSet(capacity: pixelsHigh)
         var x: NSInteger = 0
@@ -116,16 +111,14 @@ class ColorTunes: NSObject {
             }
             x++
         }
-        var enumerator = leftEdgeColors.objectEnumerator()
+        let enumerator = leftEdgeColors.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
         var sortedColors = NSMutableArray(capacity: leftEdgeColors.count)
         while curColor != nil {
-            var colorCount = leftEdgeColors.countForObject(curColor!)
-            var randomColorsThreshold = NSInteger(Double(pixelsHigh) * kColorThresholdMinimumPercentage)
-            var container = PCCountedColor(color: curColor!, count: colorCount)
-            sortedColors.addObject(container)
+            let colorCount = leftEdgeColors.countForObject(curColor!)
+            let randomColorsThreshold = NSInteger(Double(pixelsHigh) * kColorThresholdMinimumPercentage)
+            sortedColors.addObject(PCCountedColor(color: curColor!, count: colorCount))
             curColor = enumerator.nextObject() as? NSColor
-            //            println(curColor)
         }
         //        println(sortedColors.count)
         sortedColors.sortUsingSelector("compare:")
@@ -155,38 +148,45 @@ class ColorTunes: NSObject {
     }
 
     private func scaledImage(image: NSImage, scaledSize: NSSize) -> NSImage {
-        var imageSize = image.size
-        var squareImage = NSImage(size: NSMakeSize(imageSize.width, imageSize.width))
-        var scaledImage = NSImage(size: scaledSize)
-        var drawRect: NSRect?
+        let imageSize = image.size
+        let squareImage = drawSquareImage(NSImage(size: NSMakeSize(imageSize.width, imageSize.width)), withImage: image, atSize: imageSize)
+        let localScaledImage = drawScaledSquare(squareImage, withImage: NSImage(size: scaledSize), atSize: imageSize)
+        return finalImageFromSquaredImage(localScaledImage)
+    }
 
-        // make the image square
+    private func makeImageSquareRect(imageSize: NSSize) -> NSRect {
         if imageSize.height > imageSize.width {
-            drawRect = NSMakeRect(0, imageSize.height - imageSize.width, imageSize.width, imageSize.width)
+            return NSMakeRect(0, imageSize.height - imageSize.width, imageSize.width, imageSize.width)
         } else {
-            drawRect = NSMakeRect(0, 0, imageSize.height, imageSize.height)
+            return NSMakeRect(0, 0, imageSize.height, imageSize.height)
         }
+    }
 
+    private func drawSquareImage(squareImage: NSImage, withImage image: NSImage, atSize imageSize: NSSize) -> NSImage {
+        let drawRect = makeImageSquareRect(imageSize)
         squareImage.lockFocus()
-        image.drawInRect(NSMakeRect(0, 0, imageSize.width, imageSize.height), fromRect: drawRect!, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
+        image.drawInRect(NSMakeRect(0, 0, imageSize.width, imageSize.height), fromRect: drawRect, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
         squareImage.unlockFocus()
+        return squareImage
+    }
 
-        // scale the image to the desired size
-        scaledImage.lockFocus()
-        squareImage.drawInRect(NSMakeRect(0, 0, scaledSize.width, scaledSize.height), fromRect: NSZeroRect, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
-        scaledImage.unlockFocus()
+    private func drawScaledSquare(squareImage: NSImage, withImage image: NSImage, atSize imageSize: NSSize) -> NSImage {
+        image.lockFocus()
+        squareImage.drawInRect(NSMakeRect(0, 0, imageSize.width, imageSize.height), fromRect: NSZeroRect, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
+        image.unlockFocus()
+        return image
+    }
 
-        // convert back to readable bitmap data
-        var cgImage = scaledImage.CGImageForProposedRect(nil, context: nil, hints: nil)
-        var bitmapRep = NSBitmapImageRep(CGImage: cgImage!.takeRetainedValue())
+    private func finalImageFromSquaredImage(scaledImage: NSImage) -> NSImage {
+        let cgImage = scaledImage.CGImageForProposedRect(nil, context: nil, hints: nil)
+        let bitmapRep = NSBitmapImageRep(CGImage: cgImage!.takeRetainedValue())
         var finalImage = NSImage(size: scaledImage.size)
         finalImage.addRepresentation(bitmapRep)
-
         return finalImage
     }
 
     private func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
-//        NSLog("%@", "missed \(colorName)")
+        NSLog("%@", "Missed \(colorName) detection")
         if hasDarkBackground {
             return NSColor.whiteColor()
         } else {
