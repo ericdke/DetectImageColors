@@ -47,7 +47,10 @@ class AppController: NSObject {
         let c = colorTunes!
         c.startAnalyze(pic!)
         let colors = c.getColorElements()
-        println(colors.primary, colors.secondary, colors.detail, colors.background)
+        NSLog("%@", colors.primary)
+        NSLog("%@", colors.secondary)
+        NSLog("%@", colors.detail)
+        NSLog("%@", colors.background)
         label1.textColor = colors.primary
         label2.textColor = colors.secondary
         label3.textColor = colors.detail
@@ -58,11 +61,9 @@ class AppController: NSObject {
     override init() {
         colorTunes = ColorTunes(image: pic!, size: NSMakeSize(120.0, 120.0))
         super.init()
-//        println("initialized")
     }
 
     override func awakeFromNib() {
-//        println("awake")
         refresh()
     }
 

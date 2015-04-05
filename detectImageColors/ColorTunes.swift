@@ -65,7 +65,7 @@ class ColorTunes: NSObject {
                     curColor = enumerator.nextObject() as? NSColor
                     continue
                 }
-                println(colorCount)
+//                println(colorCount)
                 var container = PCCountedColor(color: curColor!, count: colorCount)
                 sortedColors.addObject(container)
             }
@@ -186,7 +186,7 @@ class ColorTunes: NSObject {
     }
 
     private func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
-        NSLog("%@", "missed \(colorName)")
+//        NSLog("%@", "missed \(colorName)")
         if hasDarkBackground {
             return NSColor.whiteColor()
         } else {
@@ -214,17 +214,10 @@ class ColorTunes: NSObject {
             if tprim == tsec {
                 if backgroundIsDark {
                     colors.secondary = textColors.primary.darkerColor()
+                    colors.detail = colors.secondary.darkerColor()
                 } else {
                     colors.secondary = textColors.primary.lighterColor()
-                }
-            }
-            if let tdet = textColors.detail.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
-                if tprim == tdet {
-                    if backgroundIsDark {
-                        colors.detail = textColors.secondary.darkerColor()
-                    } else {
-                        colors.detail = textColors.secondary.lighterColor()
-                    }
+                    colors.detail = colors.secondary.lighterColor()
                 }
             }
         }
