@@ -11,7 +11,11 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="detectImageColors" customModuleProvider="target"/>
+        <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="detectImageColors" customModuleProvider="target">
+            <connections>
+                <outlet property="window" destination="ayI-nh-tNI" id="zKT-or-vKb"/>
+            </connections>
+        </customObject>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <customObject id="UW4-RA-zN2" customClass="AppController" customModule="detectImageColors" customModuleProvider="target">
             <connections>
@@ -20,7 +24,7 @@
                 <outlet property="label2" destination="Ivl-3a-hGm" id="ueo-Ek-tau"/>
                 <outlet property="label3" destination="ths-9f-rUn" id="cbK-5w-cXZ"/>
                 <outlet property="label4" destination="nfC-Py-1lD" id="5tc-fz-Ubt"/>
-                <outlet property="window" destination="ayI-nh-tNI" id="1TS-2O-0Dt"/>
+                <outlet property="window" destination="ayI-nh-tNI" id="Gf7-gH-hTo"/>
             </connections>
         </customObject>
         <menu title="Main Menu" systemMenu="main" id="AYu-sK-qS6">

@@ -22,6 +22,11 @@ class AppController: NSObject {
     @IBAction func open(sender: AnyObject) {
         if let path = selectImage() {
             if let img = NSImage(contentsOfFile: path) {
+                if let ct = colorTunes {
+                    ct.analyzeImage(img)
+                } else {
+                    colorTunes = ColorTunes(image: img, size: NSMakeSize(120.0, 120.0))
+                }
                 self.imageView.image = img
                 refresh(img)
             }
@@ -43,17 +48,14 @@ class AppController: NSObject {
     }
 
     func refresh(image: NSImage) {
-        colorTunes = ColorTunes(image: image, size: NSMakeSize(120.0, 120.0))
-        let colors = colorTunes!.candidates!
-        NSLog("%@", colors.primary!)
-        NSLog("%@", colors.secondary!)
-        NSLog("%@", colors.detail!)
-        NSLog("%@", colors.background!)
-        label1.textColor = colors.primary
-        label2.textColor = colors.secondary
-        label3.textColor = colors.detail
-        window.backgroundColor = colors.background
-
+        NSLog("%@", colorTunes!.candidates!.primary!)
+        NSLog("%@", colorTunes!.candidates!.secondary!)
+        NSLog("%@", colorTunes!.candidates!.detail!)
+        NSLog("%@", colorTunes!.candidates!.background!)
+        label1.textColor = colorTunes!.candidates!.primary
+        label2.textColor = colorTunes!.candidates!.secondary
+        label3.textColor = colorTunes!.candidates!.detail
+        window.backgroundColor = colorTunes!.candidates!.background
     }
 
 }

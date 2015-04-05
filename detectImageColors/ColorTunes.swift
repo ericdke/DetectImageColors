@@ -13,14 +13,14 @@ let kColorThresholdMinimumPercentage = 0.01  // original 0.01
 let kColorThresholdMinimumSaturation: CGFloat = 0.15 // original: 0.15
 let kColorThresholdMaximumNoise = 2
 
-class ColorTunes: NSObject {
+struct ColorCandidates {
+    var primary: NSColor?
+    var secondary: NSColor?
+    var detail: NSColor?
+    var background: NSColor?
+}
 
-    struct ColorCandidates {
-        var primary: NSColor?
-        var secondary: NSColor?
-        var detail: NSColor?
-        var background: NSColor?
-    }
+class ColorTunes: NSObject {
 
     var scaledSize: NSSize
     var scaledImage: NSImage?
