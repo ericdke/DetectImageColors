@@ -54,11 +54,9 @@ class ColorTunes: NSObject {
 
     func analyzeImage(anImage: NSImage) {
         var (backgroundColor, imageColors) = self.findEdgeColor(anImage)
-        var primaryColor: NSColor?
-        var secondaryColor: NSColor?
-        var detailColor: NSColor?
         var darkBackground = backgroundColor!.pc_isDarkColor()
-        self.findTextColors(imageColors, primaryColor: &primaryColor, secondaryColor: &secondaryColor, detailColor: &detailColor, backgroundColor: backgroundColor!)
+        var (primaryColor, secondaryColor, detailColor) = findTextColors(imageColors, backgroundColor: backgroundColor!)
+//        self.findTextColors(imageColors, backgroundColor: backgroundColor!)
         if primaryColor == nil {
             primaryColor = rescueNilColor("primary", hasDarkBackground: darkBackground)
         }
@@ -95,7 +93,10 @@ class ColorTunes: NSObject {
 
 
 
-    func findTextColors(colors: NSCountedSet?, inout primaryColor: NSColor?, inout secondaryColor: NSColor?, inout detailColor: NSColor?, backgroundColor: NSColor) {
+    func findTextColors(colors: NSCountedSet?, backgroundColor: NSColor) -> (NSColor?, NSColor?, NSColor?) {
+        var primaryColor: NSColor?
+        var secondaryColor: NSColor?
+        var detailColor: NSColor?
         var enumerator = colors!.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
         var sortedColors = NSMutableArray(capacity: colors!.count)
@@ -134,6 +135,7 @@ class ColorTunes: NSObject {
                 break
             }
         }
+        return (primaryColor, secondaryColor, detailColor)
     }
 
     func findEdgeColor(image: NSImage) -> (NSColor?, NSCountedSet?) {
