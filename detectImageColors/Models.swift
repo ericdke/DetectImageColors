@@ -8,6 +8,13 @@
 
 import Cocoa
 
+struct ColorCandidates {
+    var primary: NSColor?
+    var secondary: NSColor?
+    var detail: NSColor?
+    var background: NSColor?
+}
+
 class PCCountedColor: NSObject {
 
     var color: NSColor

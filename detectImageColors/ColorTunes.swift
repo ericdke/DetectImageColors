@@ -9,17 +9,6 @@
 
 import Cocoa
 
-let kColorThresholdMinimumPercentage = 0.01  // original 0.01
-let kColorThresholdMinimumSaturation: CGFloat = 0.15 // original: 0.15
-let kColorThresholdNoiseTolerance: Int = 1 // original: 2
-
-struct ColorCandidates {
-    var primary: NSColor?
-    var secondary: NSColor?
-    var detail: NSColor?
-    var background: NSColor?
-}
-
 class ColorTunes: NSObject {
 
     var scaledSize: NSSize
@@ -62,20 +51,19 @@ class ColorTunes: NSObject {
         }
         let sortedColors = rootColors.sorted({ $0.count > $1.count })
         for cc in sortedColors {
-            curColor = cc.color
             if rootContainer.primary == nil {
-                if curColor!.contrastsWith(backgroundColor) {
-                    rootContainer.primary = curColor
+                if cc.color.contrastsWith(backgroundColor) {
+                    rootContainer.primary = cc.color
                 }
             } else if rootContainer.secondary == nil {
-                if rootContainer.primary!.isNearOf(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
-                    rootContainer.secondary = curColor
+                if rootContainer.primary!.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                    rootContainer.secondary = cc.color
                 }
             } else if rootContainer.detail == nil {
-                if rootContainer.secondary!.isNearOf(curColor!) || rootContainer.primary!.isNearOf(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
+                if rootContainer.secondary!.isNearOf(cc.color) || rootContainer.primary!.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
                     continue
                 }
-                rootContainer.detail = curColor
+                rootContainer.detail = cc.color
                 break
             }
         }
