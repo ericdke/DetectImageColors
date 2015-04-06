@@ -677,15 +677,15 @@
         </menu>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="ayI-nh-tNI">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <rect key="contentRect" x="-1724" y="-73" width="480" height="270"/>
+            <rect key="contentRect" x="-1724" y="-73" width="635" height="444"/>
             <rect key="screenRect" x="-1920" y="-280" width="1920" height="1057"/>
             <value key="minSize" type="size" width="480" height="270"/>
             <view key="contentView" id="3Zb-ZG-a0j">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                <rect key="frame" x="0.0" y="0.0" width="635" height="444"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="P99-2E-e6y">
-                        <rect key="frame" x="18" y="216" width="135" height="34"/>
+                        <rect key="frame" x="18" y="390" width="135" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="PRIMARY" id="1CD-jg-x2H">
                             <font key="font" size="24" name="HelveticaNeue-Bold"/>
@@ -694,7 +694,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Ivl-3a-hGm">
-                        <rect key="frame" x="18" y="160" width="157" height="34"/>
+                        <rect key="frame" x="18" y="334" width="157" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="SECONDARY" id="Y2O-cv-lHw">
                             <font key="font" size="24" name="HelveticaNeue-Bold"/>
@@ -703,7 +703,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ths-9f-rUn">
-                        <rect key="frame" x="18" y="101" width="135" height="34"/>
+                        <rect key="frame" x="18" y="275" width="135" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="DETAIL" id="777-eI-f53">
                             <font key="font" size="24" name="HelveticaNeue-Bold"/>
@@ -712,7 +712,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="XKZ-2b-YFa">
-                        <rect key="frame" x="14" y="13" width="74" height="32"/>
+                        <rect key="frame" x="14" y="187" width="74" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Open" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wep-7k-ixj">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -723,7 +723,7 @@
                         </connections>
                     </button>
                     <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DGu-0e-za9" customClass="DemoImageView" customModule="detectImageColors" customModuleProvider="target">
-                        <rect key="frame" x="234" y="22" width="226" height="226"/>
+                        <rect key="frame" x="234" y="22" width="381" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" imageScaling="proportionallyUpOrDown" id="MGB-i2-AdI"/>
                     </imageView>

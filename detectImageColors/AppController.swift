@@ -74,14 +74,13 @@ class AppController: NSObject {
         return NSImage(data: newImage.TIFFRepresentation!)!
     }
 
+    // Warning: do not feed with huge images
     func analyze(image: NSImage) {
         if let ct = colorTunes {
-            let resized = resize(image)
-            colors = ct.analyzeImage(resized)
+            colors = ct.analyzeImage(resize(image))
         } else {
             colorTunes = ColorTunes()
-            let resized = resize(image)
-            colors = colorTunes!.analyzeImage(resized)
+            colors = colorTunes!.analyzeImage(resize(image))
         }
     }
 
