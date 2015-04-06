@@ -239,6 +239,11 @@ class ColorTunes: NSObject {
             }
         }
 
+        // make background darker than detected from left edge
+        if hasDarkBackground {
+            colors.background = colors.background!.darkerColor()
+        }
+
         return colors
     }
 
