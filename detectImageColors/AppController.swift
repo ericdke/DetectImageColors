@@ -27,9 +27,18 @@ class AppController: NSObject {
     }
 
     func imageDropped(notification: NSNotification) {
-        let dic = notification.userInfo as! [String:String]
-        if let path = dic["path"], let img = NSImage(contentsOfFile: path) {
-            go(img)
+        if let dic = notification.userInfo as? [String:String], let type = dic["type"] {
+            if type == "path" {
+                if let path = dic["path"], let img = NSImage(contentsOfFile: path) {
+                    go(img)
+                }
+            } else {
+                // synchronous, I know, it's temporary
+                // and it's because I don't know how to grab the existing image anyway...
+                if let path = dic["path"], let url = NSURL(string: path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!), let img = NSImage(contentsOfURL: url) {
+                    go(img)
+                }
+            }
         }
     }
 

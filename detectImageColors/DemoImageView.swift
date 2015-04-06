@@ -33,21 +33,11 @@ class DemoImageView: NSImageView, NSDraggingDestination {
     }
 
     override func draggingEntered(sender: NSDraggingInfo) -> NSDragOperation {
-        if checkExtension(sender).boolValue == true {
-            fileTypeIsOk = true
-            return .Copy
-        } else {
-            fileTypeIsOk = false
-            return .None
-        }
+        return .Copy
     }
 
     override func draggingUpdated(sender: NSDraggingInfo) -> NSDragOperation {
-        if fileTypeIsOk == true {
-            return .Copy
-        } else {
-            return .None
-        }
+        return .Copy
     }
 
     override func performDragOperation(sender: NSDraggingInfo) -> Bool {
@@ -55,23 +45,26 @@ class DemoImageView: NSImageView, NSDraggingDestination {
         var dic = [String:String]()
         if let p1 = sender.draggingPasteboard().propertyListForType("NSFilenamesPboardType") as? NSArray {
             if let pathStr = p1[0] as? String {
-                dic["path"] = pathStr
-                NSNotificationCenter.defaultCenter().postNotificationName("updateImageByDropOK", object: nil, userInfo: dic)
-                go = true
-            }
-        } else {
-            if let p2 = sender.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? NSArray {
-                if let pathStr = p2[0][0] as? String {
+                if checkExtension(pathStr) {
                     dic["path"] = pathStr
-                    NSNotificationCenter.defaultCenter().postNotificationName("updateImageByURLDropOK", object: nil, userInfo: dic)
+                    dic["type"] = "path"
                     go = true
                 }
             }
+        } else if let p2 = sender.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? NSArray {
+            if let pathStr = p2[0][0] as? String {
+                dic["path"] = pathStr
+                dic["type"] = "url"
+                go = true
+            }
+        }
+        if go {
+            NSNotificationCenter.defaultCenter().postNotificationName("updateImageByDropOK", object: nil, userInfo: dic)
         }
         return go
     }
 
-    func doCheckExtension(pathStr: String) -> Bool {
+    func checkExtension(pathStr: String) -> Bool {
         var go = false
         if let url = NSURL(fileURLWithPath: pathStr) {
             let suffix = url.pathExtension!
@@ -80,19 +73,6 @@ class DemoImageView: NSImageView, NSDraggingDestination {
                     go = true
                     break
                 }
-            }
-        }
-        return go
-    }
-
-    func checkExtension(drag: NSDraggingInfo) -> Bool {
-        var go = false
-        if let p1 = drag.draggingPasteboard().propertyListForType("NSFilenamesPboardType") as? NSArray {
-            go = doCheckExtension(p1[0] as! String)
-        }
-        if go == false {
-            if let p2 = drag.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? NSArray {
-                go = doCheckExtension(p2[0][0] as! String)
             }
         }
         return go
