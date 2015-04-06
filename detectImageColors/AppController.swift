@@ -13,7 +13,6 @@ class AppController: NSObject {
     @IBOutlet weak var label1: NSTextField!
     @IBOutlet weak var label2: NSTextField!
     @IBOutlet weak var label3: NSTextField!
-    @IBOutlet weak var label4: NSTextField!
     @IBOutlet weak var imageView: NSImageView!
 
     override func awakeFromNib() {
@@ -52,9 +51,20 @@ class AppController: NSObject {
             colorTunes = ColorTunes(image: image, size: NSMakeSize(120.0, 120.0))
         }
     }
+    
 
     func refresh() {
         if let ct = colorTunes, let cd = ct.candidates {
+
+//            let maskLayer = CALayer()
+//            maskLayer.frame = imageView.bounds
+//            maskLayer.shadowPath = CGPathCreateWithRoundedRect(CGRectInset(imageView.bounds, 1, 1), 1, 1, nil)
+//            maskLayer.shadowOpacity = 1
+//            maskLayer.shadowOffset = CGSizeZero
+//            maskLayer.shadowColor = cd.background!.CGColor
+//            imageView.layer!.mask = maskLayer
+//            imageView.layer!.mask.contentsScale = imageView.layer!.contentsScale
+
             label1.textColor = cd.primary
             label2.textColor = cd.secondary
             label3.textColor = cd.detail

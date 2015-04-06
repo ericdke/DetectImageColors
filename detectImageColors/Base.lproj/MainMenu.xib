@@ -23,7 +23,6 @@
                 <outlet property="label1" destination="P99-2E-e6y" id="KbY-f2-SBS"/>
                 <outlet property="label2" destination="Ivl-3a-hGm" id="ueo-Ek-tau"/>
                 <outlet property="label3" destination="ths-9f-rUn" id="cbK-5w-cXZ"/>
-                <outlet property="label4" destination="nfC-Py-1lD" id="5tc-fz-Ubt"/>
                 <outlet property="window" destination="ayI-nh-tNI" id="Gf7-gH-hTo"/>
             </connections>
         </customObject>
@@ -678,9 +677,9 @@
         </menu>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="ayI-nh-tNI">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="-1724" y="-73" width="480" height="270"/>
             <rect key="screenRect" x="-1920" y="-280" width="1920" height="1057"/>
+            <value key="minSize" type="size" width="480" height="270"/>
             <view key="contentView" id="3Zb-ZG-a0j">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -712,15 +711,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" id="nfC-Py-1lD">
-                        <rect key="frame" x="18" y="59" width="181" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="BACKGROUND" id="Ein-36-wsY">
-                            <font key="font" size="24" name="HelveticaNeue-Bold"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button verticalHuggingPriority="750" id="XKZ-2b-YFa">
                         <rect key="frame" x="14" y="13" width="74" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -732,10 +722,10 @@
                             <action selector="open:" target="UW4-RA-zN2" id="tqd-49-yWV"/>
                         </connections>
                     </button>
-                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DGu-0e-za9">
+                    <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DGu-0e-za9">
                         <rect key="frame" x="234" y="22" width="226" height="226"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="MGB-i2-AdI"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" imageScaling="proportionallyUpOrDown" id="MGB-i2-AdI"/>
                     </imageView>
                 </subviews>
             </view>
