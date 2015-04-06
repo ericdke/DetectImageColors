@@ -14,9 +14,9 @@
 		C71FDE011ACF7676004BD9BA /* ColorTunes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE001ACF7676004BD9BA /* ColorTunes.swift */; };
 		C71FDE031ACF76A0004BD9BA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE021ACF76A0004BD9BA /* Extensions.swift */; };
 		C71FDE051ACF76C3004BD9BA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* Models.swift */; };
-		C74B58631AD2904C00C6EE4F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58621AD2904C00C6EE4F /* Constants.swift */; };
 		C74B58651AD2920B00C6EE4F /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58641AD2920B00C6EE4F /* ImageManager.swift */; };
 		C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */; };
+		C74B586D1AD2F87F00C6EE4F /* DCSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* DCSettings.swift */; };
 		C7B573EE1AD0909500C44CDF /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B573ED1AD0909500C44CDF /* AppController.swift */; };
 		C7B573F81AD0BACA00C44CDF /* reed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573F71AD0BACA00C44CDF /* reed.jpg */; };
 /* End PBXBuildFile section */
@@ -43,9 +43,9 @@
 		C71FDE001ACF7676004BD9BA /* ColorTunes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ColorTunes.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE021ACF76A0004BD9BA /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Extensions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE041ACF76C3004BD9BA /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		C74B58621AD2904C00C6EE4F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C74B58641AD2920B00C6EE4F /* ImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoImageView.swift; sourceTree = "<group>"; };
+		C74B586C1AD2F87F00C6EE4F /* DCSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DCSettings.swift; sourceTree = "<group>"; };
 		C7B573ED1AD0909500C44CDF /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		C7B573F71AD0BACA00C44CDF /* reed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = reed.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,7 +139,7 @@
 			children = (
 				C71FDE001ACF7676004BD9BA /* ColorTunes.swift */,
 				C74B58641AD2920B00C6EE4F /* ImageManager.swift */,
-				C74B58621AD2904C00C6EE4F /* Constants.swift */,
+				C74B586C1AD2F87F00C6EE4F /* DCSettings.swift */,
 				C71FDE041ACF76C3004BD9BA /* Models.swift */,
 				C71FDE021ACF76A0004BD9BA /* Extensions.swift */,
 			);
@@ -252,8 +252,8 @@
 				C71FDE011ACF7676004BD9BA /* ColorTunes.swift in Sources */,
 				C71FDE031ACF76A0004BD9BA /* Extensions.swift in Sources */,
 				C71FDE051ACF76C3004BD9BA /* Models.swift in Sources */,
+				C74B586D1AD2F87F00C6EE4F /* DCSettings.swift in Sources */,
 				C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */,
-				C74B58631AD2904C00C6EE4F /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
