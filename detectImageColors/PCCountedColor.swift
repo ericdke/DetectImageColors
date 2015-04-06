@@ -19,13 +19,4 @@ class PCCountedColor: NSObject {
         super.init()
     }
 
-    func compare(object: PCCountedColor) -> NSComparisonResult {
-        if self.count < object.count {
-            return NSComparisonResult.OrderedDescending
-        } else if self.count == object.count {
-            return NSComparisonResult.OrderedSame
-        }
-        return NSComparisonResult.OrderedAscending
-    }
-
 }

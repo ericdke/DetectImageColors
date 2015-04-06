@@ -46,7 +46,7 @@ class ColorTunes: NSObject {
         rootContainer.background = backgroundColor
         let enumerator = colors!.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
-        var sortedColors = NSMutableArray(capacity: colors!.count)
+        var sortedColors = [PCCountedColor]()
         let isColorLight = backgroundColor.isMostlyLightColor()
         while curColor != nil {
             curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
@@ -56,14 +56,13 @@ class ColorTunes: NSObject {
                     curColor = enumerator.nextObject() as? NSColor
                     continue
                 }
-                sortedColors.addObject(PCCountedColor(color: curColor!, count: colorCount))
+                sortedColors.append(PCCountedColor(color: curColor!, count: colorCount))
             }
             curColor = enumerator.nextObject() as? NSColor
         }
-        sortedColors.sortUsingSelector("compare:")
+        sortedColors.sort({ $0.count > $1.count })
         for cc in sortedColors {
-            let curContainer = cc as! PCCountedColor
-            curColor = curContainer.color
+            curColor = cc.color
             if rootContainer.primary == nil {
                 if curColor!.contrastsWith(backgroundColor) {
                     rootContainer.primary = curColor
@@ -104,23 +103,22 @@ class ColorTunes: NSObject {
         }
         let enumerator = leftEdgeColors.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
-        var sortedColors = NSMutableArray(capacity: leftEdgeColors.count)
+        var sortedColors = [PCCountedColor]()
         while curColor != nil {
             let colorCount = leftEdgeColors.countForObject(curColor!)
             let randomColorsThreshold = NSInteger(Double(pixelsHigh) * kColorThresholdMinimumPercentage)
-            sortedColors.addObject(PCCountedColor(color: curColor!, count: colorCount))
+            sortedColors.append(PCCountedColor(color: curColor!, count: colorCount))
             curColor = enumerator.nextObject() as? NSColor
         }
-        //        println(sortedColors.count)
-        sortedColors.sortUsingSelector("compare:")
+        sortedColors.sort({ $0.count > $1.count })
         var proposedEdgeColor: PCCountedColor?
         if sortedColors.count > 0 {
-            proposedEdgeColor = (sortedColors.objectAtIndex(0) as! PCCountedColor)
+            proposedEdgeColor = sortedColors[0]
             // want to choose color over black/white so we keep looking
             if proposedEdgeColor!.color.isMostlyBlackOrWhite() {
                 var i = 0
                 while i < sortedColors.count {
-                    var nextProposedColor = sortedColors.objectAtIndex(i) as! PCCountedColor
+                    var nextProposedColor = sortedColors[i]
                     // make sure the second choice color is 30% as common as the first choice
                     if (Double(nextProposedColor.count) / Double(proposedEdgeColor!.count)) > 0.3 {
                         if nextProposedColor.color.isNotMostlyBlackOrWhite() {
