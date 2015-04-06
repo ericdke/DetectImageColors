@@ -16,7 +16,7 @@ class DemoImageView: NSImageView, NSDraggingDestination {
         super.drawRect(dirtyRect)
     }
 
-    let fileTypes = ["jpg", "jpeg", "bmp", "png", "gif"]
+    let fileTypes = ["jpg", "jpeg", "bmp", "png", "gif", "JPG", "JPEG", "BMP", "PNG", "GIF"]
     var fileTypeIsOk = false
 
     required init?(coder: NSCoder) {

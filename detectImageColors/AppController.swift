@@ -37,7 +37,7 @@ class AppController: NSObject {
         let myFiledialog: NSOpenPanel = NSOpenPanel()
         myFiledialog.allowsMultipleSelection = false
         myFiledialog.canChooseDirectories = false
-        myFiledialog.allowedFileTypes = ["jpg", "jpeg", "png"]
+        myFiledialog.allowedFileTypes = ["jpg", "jpeg", "bmp", "png", "gif", "JPG", "JPEG", "BMP", "PNG", "GIF"]
         myFiledialog.title = "Choose image"
         myFiledialog.runModal()
         if let chosenfile = myFiledialog.URL {
@@ -59,7 +59,6 @@ class AppController: NSObject {
             colorTunes = ColorTunes(image: image, size: NSMakeSize(120.0, 120.0))
         }
     }
-
 
     func refresh() {
         if let ct = colorTunes, let cd = ct.candidates {
