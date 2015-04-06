@@ -14,14 +14,9 @@
 		C71FDE011ACF7676004BD9BA /* ColorTunes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE001ACF7676004BD9BA /* ColorTunes.swift */; };
 		C71FDE031ACF76A0004BD9BA /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE021ACF76A0004BD9BA /* Extensions.swift */; };
 		C71FDE051ACF76C3004BD9BA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* Models.swift */; };
-		C71FDE091ACF77AE004BD9BA /* ayadn.png in Resources */ = {isa = PBXBuildFile; fileRef = C71FDE081ACF77AE004BD9BA /* ayadn.png */; };
 		C74B58631AD2904C00C6EE4F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58621AD2904C00C6EE4F /* Constants.swift */; };
 		C74B58651AD2920B00C6EE4F /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58641AD2920B00C6EE4F /* ImageManager.swift */; };
-		C7B573EA1AD0678800C44CDF /* sixmilliondollarman.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573E91AD0678800C44CDF /* sixmilliondollarman.jpg */; };
-		C7B573EC1AD067C900C44CDF /* mic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573EB1AD067C900C44CDF /* mic.jpg */; };
 		C7B573EE1AD0909500C44CDF /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B573ED1AD0909500C44CDF /* AppController.swift */; };
-		C7B573F21AD09FF600C44CDF /* nirvana.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573F11AD09FF600C44CDF /* nirvana.jpg */; };
-		C7B573F61AD0AFC500C44CDF /* swift.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573F51AD0AFC500C44CDF /* swift.jpg */; };
 		C7B573F81AD0BACA00C44CDF /* reed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573F71AD0BACA00C44CDF /* reed.jpg */; };
 /* End PBXBuildFile section */
 
@@ -47,14 +42,9 @@
 		C71FDE001ACF7676004BD9BA /* ColorTunes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ColorTunes.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE021ACF76A0004BD9BA /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Extensions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE041ACF76C3004BD9BA /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		C71FDE081ACF77AE004BD9BA /* ayadn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ayadn.png; sourceTree = "<group>"; };
 		C74B58621AD2904C00C6EE4F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C74B58641AD2920B00C6EE4F /* ImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
-		C7B573E91AD0678800C44CDF /* sixmilliondollarman.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sixmilliondollarman.jpg; sourceTree = "<group>"; };
-		C7B573EB1AD067C900C44CDF /* mic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mic.jpg; sourceTree = "<group>"; };
 		C7B573ED1AD0909500C44CDF /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
-		C7B573F11AD09FF600C44CDF /* nirvana.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = nirvana.jpg; sourceTree = "<group>"; };
-		C7B573F51AD0AFC500C44CDF /* swift.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = swift.jpg; sourceTree = "<group>"; };
 		C7B573F71AD0BACA00C44CDF /* reed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = reed.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -115,11 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				C7B573F71AD0BACA00C44CDF /* reed.jpg */,
-				C7B573F51AD0AFC500C44CDF /* swift.jpg */,
-				C7B573F11AD09FF600C44CDF /* nirvana.jpg */,
-				C7B573EB1AD067C900C44CDF /* mic.jpg */,
-				C7B573E91AD0678800C44CDF /* sixmilliondollarman.jpg */,
-				C71FDE081ACF77AE004BD9BA /* ayadn.png */,
 				C71FDDE41ACF7642004BD9BA /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -222,12 +207,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7B573EA1AD0678800C44CDF /* sixmilliondollarman.jpg in Resources */,
-				C7B573EC1AD067C900C44CDF /* mic.jpg in Resources */,
 				C71FDDE81ACF7642004BD9BA /* Images.xcassets in Resources */,
-				C7B573F21AD09FF600C44CDF /* nirvana.jpg in Resources */,
-				C7B573F61AD0AFC500C44CDF /* swift.jpg in Resources */,
-				C71FDE091ACF77AE004BD9BA /* ayadn.png in Resources */,
 				C71FDDEB1ACF7642004BD9BA /* MainMenu.xib in Resources */,
 				C7B573F81AD0BACA00C44CDF /* reed.jpg in Resources */,
 			);
