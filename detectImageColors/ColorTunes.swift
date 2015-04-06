@@ -11,7 +11,7 @@ import Cocoa
 
 let kColorThresholdMinimumPercentage = 0.01  // original 0.01
 let kColorThresholdMinimumSaturation: CGFloat = 0.15 // original: 0.15
-let kColorThresholdMaximumNoise: Int = 1 // original: 2
+let kColorThresholdNoiseTolerance: Int = 1 // original: 2
 
 struct ColorCandidates {
     var primary: NSColor?
@@ -42,9 +42,8 @@ class ColorTunes: NSObject {
     }
 
     private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates {
-        var primaryColor: NSColor?
-        var secondaryColor: NSColor?
-        var detailColor: NSColor?
+        var rootContainer = ColorCandidates()
+        rootContainer.background = backgroundColor
         let enumerator = colors!.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
         var sortedColors = NSMutableArray(capacity: colors!.count)
@@ -53,7 +52,7 @@ class ColorTunes: NSObject {
             curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
             if curColor!.isMostlyLightColor() == isColorLight { // oops
                 var colorCount = colors!.countForObject(curColor!)
-                if colorCount <= kColorThresholdMaximumNoise {
+                if colorCount <= kColorThresholdNoiseTolerance {
                     curColor = enumerator.nextObject() as? NSColor
                     continue
                 }
@@ -65,23 +64,23 @@ class ColorTunes: NSObject {
         for cc in sortedColors {
             let curContainer = cc as! PCCountedColor
             curColor = curContainer.color
-            if primaryColor == nil {
+            if rootContainer.primary == nil {
                 if curColor!.contrastsWith(backgroundColor) {
-                    primaryColor = curColor
+                    rootContainer.primary = curColor
                 }
-            } else if secondaryColor == nil {
-                if primaryColor!.isNearOf(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
-                    secondaryColor = curColor
+            } else if rootContainer.secondary == nil {
+                if rootContainer.primary!.isNearOf(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
+                    rootContainer.secondary = curColor
                 }
-            } else if detailColor == nil {
-                if secondaryColor!.isNearOf(curColor!) || primaryColor!.isNearOf(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
+            } else if rootContainer.detail == nil {
+                if rootContainer.secondary!.isNearOf(curColor!) || rootContainer.primary!.isNearOf(curColor!) || curColor!.doesNotContrastWith(backgroundColor) {
                     continue
                 }
-                detailColor = curColor
+                rootContainer.detail = curColor
                 break
             }
         }
-        return ColorCandidates(primary: primaryColor, secondary: secondaryColor, detail: detailColor, background: backgroundColor)
+        return rootContainer
     }
 
     private func findEdgeColor(image: NSImage) -> (color: NSColor?, set: NSCountedSet?) {
@@ -90,8 +89,8 @@ class ColorTunes: NSObject {
         let pixelsHigh = imageRep.pixelsHigh
         var colors = NSCountedSet(capacity: pixelsWide * pixelsHigh)
         var leftEdgeColors = NSCountedSet(capacity: pixelsHigh)
-        var x: NSInteger = 0
-        var y: NSInteger = 0
+        var x = 0
+        var y = 0
         while x < pixelsWide {
             while y < pixelsHigh {
                 var color = imageRep.colorAtX(x, y: y)
@@ -119,7 +118,7 @@ class ColorTunes: NSObject {
             proposedEdgeColor = (sortedColors.objectAtIndex(0) as! PCCountedColor)
             // want to choose color over black/white so we keep looking
             if proposedEdgeColor!.color.isMostlyBlackOrWhite() {
-                var i: NSInteger = 0
+                var i = 0
                 while i < sortedColors.count {
                     var nextProposedColor = sortedColors.objectAtIndex(i) as! PCCountedColor
                     // make sure the second choice color is 30% as common as the first choice
