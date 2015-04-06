@@ -46,7 +46,7 @@ class ColorTunes: NSObject {
         rootContainer.background = backgroundColor
         let enumerator = colors!.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
-        var sortedColors = [PCCountedColor]()
+        var rootColors = [PCCountedColor]()
         let isColorLight = backgroundColor.isMostlyLightColor()
         while curColor != nil {
             curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
@@ -56,11 +56,11 @@ class ColorTunes: NSObject {
                     curColor = enumerator.nextObject() as? NSColor
                     continue
                 }
-                sortedColors.append(PCCountedColor(color: curColor!, count: colorCount))
+                rootColors.append(PCCountedColor(color: curColor!, count: colorCount))
             }
             curColor = enumerator.nextObject() as? NSColor
         }
-        sortedColors.sort({ $0.count > $1.count })
+        let sortedColors = rootColors.sorted({ $0.count > $1.count })
         for cc in sortedColors {
             curColor = cc.color
             if rootContainer.primary == nil {
@@ -103,14 +103,25 @@ class ColorTunes: NSObject {
         }
         let enumerator = leftEdgeColors.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
-        var sortedColors = [PCCountedColor]()
+        var rootColors = [PCCountedColor]()
+        var lonelyColors = [PCCountedColor]()
         while curColor != nil {
             let colorCount = leftEdgeColors.countForObject(curColor!)
-            let randomColorsThreshold = NSInteger(Double(pixelsHigh) * kColorThresholdMinimumPercentage)
-            sortedColors.append(PCCountedColor(color: curColor!, count: colorCount))
+            let randomColorsThreshold = Int(Double(pixelsHigh) * kColorThresholdMinimumPercentage)
+            if colorCount <= randomColorsThreshold {
+                lonelyColors.append(PCCountedColor(color: curColor!, count: colorCount))
+                curColor = enumerator.nextObject() as? NSColor
+                continue
+            }
+            rootColors.append(PCCountedColor(color: curColor!, count: colorCount))
             curColor = enumerator.nextObject() as? NSColor
         }
-        sortedColors.sort({ $0.count > $1.count })
+        let sortedColors: [PCCountedColor]
+        if rootColors.count > 0 {
+            sortedColors = rootColors.sorted({ $0.count > $1.count })
+        } else {
+            sortedColors = lonelyColors.sorted({ $0.count > $1.count })
+        }
         var proposedEdgeColor: PCCountedColor?
         if sortedColors.count > 0 {
             proposedEdgeColor = sortedColors[0]
