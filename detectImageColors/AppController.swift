@@ -16,17 +16,13 @@ class AppController: NSObject {
     @IBOutlet weak var label4: NSTextField!
     @IBOutlet weak var imageView: NSImageView!
 
+    override func awakeFromNib() {
+        go(NSImage(named: "reed")!)
+    }
+
     @IBAction func open(sender: AnyObject) {
         if let path = selectImage(), let img = NSImage(contentsOfFile: path) {
-            if let ct = colorTunes {
-                // using the existing ColorTunes instance
-                ct.analyzeImage(img)
-            } else {
-                // create instance of ColorTunes (automatically launches `analyzeImage`)
-                colorTunes = ColorTunes(image: img, size: NSMakeSize(120.0, 120.0))
-            }
-            self.imageView.image = img
-            refresh(img)
+            go(img)
         }
     }
 
@@ -43,12 +39,22 @@ class AppController: NSObject {
         return nil
     }
 
-    func refresh(image: NSImage) {
+    func go(image: NSImage) {
+        analyze(image)
+        imageView.image = image
+        refresh()
+    }
+
+    func analyze(image: NSImage) {
+        if let ct = colorTunes {
+            ct.analyzeImage(image)
+        } else {
+            colorTunes = ColorTunes(image: image, size: NSMakeSize(120.0, 120.0))
+        }
+    }
+
+    func refresh() {
         if let ct = colorTunes, let cd = ct.candidates {
-            NSLog("%@", cd.primary!)
-            NSLog("%@", cd.secondary!)
-            NSLog("%@", cd.detail!)
-            NSLog("%@", cd.background!)
             label1.textColor = cd.primary
             label2.textColor = cd.secondary
             label3.textColor = cd.detail
