@@ -5,7 +5,7 @@
 //  ERIC DEJONCKHEERE on 03/04/2015.
 //  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
 //
-//  Original code (Objective-C) by PanicSoftware
+//  Original implementation by PanicSoftware 2011
 
 import Cocoa
 
@@ -14,11 +14,12 @@ class ColorTunes: NSObject {
     var scaledSize: NSSize
     var scaledImage: NSImage?
     var candidates: ColorCandidates?
+    let imageManager = ImageManager()
 
     init(image: NSImage, size: NSSize) {
         self.scaledSize = size
         super.init()
-        self.scaledImage = self.scaleImage(image, scaledSize: size)
+        self.scaledImage = imageManager.scaleImage(image, scaledSize: size)
         self.analyzeImage(image)
     }
 
@@ -135,44 +136,6 @@ class ColorTunes: NSObject {
         return (proposedEdgeColor!.color, colors)
     }
 
-    private func scaleImage(image: NSImage, scaledSize: NSSize) -> NSImage {
-        let imageSize = image.size
-        let squareImage = drawSquareImage(NSImage(size: NSMakeSize(imageSize.width, imageSize.width)), withImage: image, atSize: imageSize)
-        let localScaledImage = drawScaledSquare(squareImage, withImage: NSImage(size: scaledSize), atSize: imageSize)
-        return finalImageFromSquaredImage(localScaledImage)
-    }
-
-    private func makeImageSquareRect(imageSize: NSSize) -> NSRect {
-        if imageSize.height > imageSize.width {
-            return NSMakeRect(0, imageSize.height - imageSize.width, imageSize.width, imageSize.width)
-        } else {
-            return NSMakeRect(0, 0, imageSize.height, imageSize.height)
-        }
-    }
-
-    private func drawSquareImage(squareImage: NSImage, withImage image: NSImage, atSize imageSize: NSSize) -> NSImage {
-        let drawRect = makeImageSquareRect(imageSize)
-        squareImage.lockFocus()
-        image.drawInRect(NSMakeRect(0, 0, imageSize.width, imageSize.height), fromRect: drawRect, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
-        squareImage.unlockFocus()
-        return squareImage
-    }
-
-    private func drawScaledSquare(squareImage: NSImage, withImage image: NSImage, atSize imageSize: NSSize) -> NSImage {
-        image.lockFocus()
-        squareImage.drawInRect(NSMakeRect(0, 0, imageSize.width, imageSize.height), fromRect: NSZeroRect, operation: NSCompositingOperation.CompositeSourceOver, fraction: 1.0)
-        image.unlockFocus()
-        return image
-    }
-
-    private func finalImageFromSquaredImage(scaledImage: NSImage) -> NSImage {
-        let cgImage = scaledImage.CGImageForProposedRect(nil, context: nil, hints: nil)
-        let bitmapRep = NSBitmapImageRep(CGImage: cgImage!.takeRetainedValue())
-        var finalImage = NSImage(size: scaledImage.size)
-        finalImage.addRepresentation(bitmapRep)
-        return finalImage
-    }
-
     private func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
         // NSLog("%@", "Missed \(colorName) detection")
         if hasDarkBackground {
@@ -198,14 +161,12 @@ class ColorTunes: NSObject {
 
     private func createFadedColors(textColors: ColorCandidates, hasDarkBackground: Bool) -> ColorCandidates {
         var colors = textColors
-
         var flag = false
         if let tprim = textColors.primary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace), let tsec = textColors.secondary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace), let tdet = textColors.detail?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
             if tprim.isNearOf(tsec) || tprim.isNearOf(tdet) || tsec.isNearOf(tdet) {
                 flag = true
             }
         }
-
         if flag {
             if hasDarkBackground {
                 colors.secondary = textColors.primary!.darkerColor()
@@ -215,11 +176,9 @@ class ColorTunes: NSObject {
                 colors.detail = colors.secondary!.lighterColor()
             }
         }
-
         if colors.primary!.isNearOf(colors.background!) {
             colors.primary = rescueNilColor("primary, 2nd pass", hasDarkBackground: hasDarkBackground)
         }
-
         if colors.secondary!.isNearOf(colors.background!) {
             if hasDarkBackground {
                 colors.secondary = colors.primary!.darkerColor()
@@ -227,7 +186,6 @@ class ColorTunes: NSObject {
                 colors.secondary = colors.primary!.lighterColor()
             }
         }
-
         if colors.detail!.isNearOf(colors.background!) {
             if hasDarkBackground {
                 colors.detail = colors.background!.lighterColor()
@@ -235,12 +193,10 @@ class ColorTunes: NSObject {
                 colors.detail = colors.background!.darkerColor()
             }
         }
-
         // make background darker than detected from left edge
         if hasDarkBackground {
             colors.background = colors.background!.darkerColor()
         }
-
         return colors
     }
 
