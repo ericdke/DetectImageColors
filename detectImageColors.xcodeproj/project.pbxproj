@@ -16,6 +16,7 @@
 		C71FDE051ACF76C3004BD9BA /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* Models.swift */; };
 		C74B58631AD2904C00C6EE4F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58621AD2904C00C6EE4F /* Constants.swift */; };
 		C74B58651AD2920B00C6EE4F /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58641AD2920B00C6EE4F /* ImageManager.swift */; };
+		C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */; };
 		C7B573EE1AD0909500C44CDF /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B573ED1AD0909500C44CDF /* AppController.swift */; };
 		C7B573F81AD0BACA00C44CDF /* reed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573F71AD0BACA00C44CDF /* reed.jpg */; };
 /* End PBXBuildFile section */
@@ -44,6 +45,7 @@
 		C71FDE041ACF76C3004BD9BA /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		C74B58621AD2904C00C6EE4F /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C74B58641AD2920B00C6EE4F /* ImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoImageView.swift; sourceTree = "<group>"; };
 		C7B573ED1AD0909500C44CDF /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		C7B573F71AD0BACA00C44CDF /* reed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = reed.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -93,6 +95,7 @@
 				C71FDE041ACF76C3004BD9BA /* Models.swift */,
 				C71FDE021ACF76A0004BD9BA /* Extensions.swift */,
 				C7B573ED1AD0909500C44CDF /* AppController.swift */,
+				C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */,
 				C71FDDE51ACF7642004BD9BA /* AppDelegate.swift */,
 				C71FDDE71ACF7642004BD9BA /* Images.xcassets */,
 				C71FDDE91ACF7642004BD9BA /* MainMenu.xib */,
@@ -233,6 +236,7 @@
 				C71FDE011ACF7676004BD9BA /* ColorTunes.swift in Sources */,
 				C71FDE031ACF76A0004BD9BA /* Extensions.swift in Sources */,
 				C71FDE051ACF76C3004BD9BA /* Models.swift in Sources */,
+				C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */,
 				C74B58631AD2904C00C6EE4F /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

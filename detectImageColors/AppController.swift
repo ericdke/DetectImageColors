@@ -17,10 +17,18 @@ class AppController: NSObject {
 
     override func awakeFromNib() {
         go(NSImage(named: "reed")!)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "imageDropped:", name: "updateImageByDropOK", object: nil)
     }
 
     @IBAction func open(sender: AnyObject) {
         if let path = selectImage(), let img = NSImage(contentsOfFile: path) {
+            go(img)
+        }
+    }
+
+    func imageDropped(notification: NSNotification) {
+        let dic = notification.userInfo as! [String:String]
+        if let path = dic["path"], let img = NSImage(contentsOfFile: path) {
             go(img)
         }
     }
@@ -51,20 +59,10 @@ class AppController: NSObject {
             colorTunes = ColorTunes(image: image, size: NSMakeSize(120.0, 120.0))
         }
     }
-    
+
 
     func refresh() {
         if let ct = colorTunes, let cd = ct.candidates {
-
-//            let maskLayer = CALayer()
-//            maskLayer.frame = imageView.bounds
-//            maskLayer.shadowPath = CGPathCreateWithRoundedRect(CGRectInset(imageView.bounds, 1, 1), 1, 1, nil)
-//            maskLayer.shadowOpacity = 1
-//            maskLayer.shadowOffset = CGSizeZero
-//            maskLayer.shadowColor = cd.background!.CGColor
-//            imageView.layer!.mask = maskLayer
-//            imageView.layer!.mask.contentsScale = imageView.layer!.contentsScale
-
             label1.textColor = cd.primary
             label2.textColor = cd.secondary
             label3.textColor = cd.detail
