@@ -161,14 +161,8 @@ class ColorTunes: NSObject {
 
     private func createFadedColors(textColors: ColorCandidates, hasDarkBackground: Bool) -> ColorCandidates {
         var colors = textColors
-        var flag = false
-        if let tprim = textColors.primary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace), let tsec = textColors.secondary?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace), let tdet = textColors.detail?.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
-            if tprim.isNearOf(tsec) || tprim.isNearOf(tdet) || tsec.isNearOf(tdet) {
-                flag = true
-            }
-        }
-        if flag {
-            if hasDarkBackground {
+        if colors.primary!.isNearOf(colors.secondary!) || colors.primary!.isNearOf(colors.detail!) || colors.secondary!.isNearOf(colors.detail!) {
+            if hasDarkBackground && colors.primary!.isMostlyLightColor() {
                 colors.secondary = textColors.primary!.darkerColor()
                 colors.detail = colors.secondary!.darkerColor()
             } else {
