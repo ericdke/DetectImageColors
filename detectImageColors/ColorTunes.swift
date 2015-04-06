@@ -11,29 +11,12 @@ import Cocoa
 
 class ColorTunes: NSObject {
 
-//    var scaledSize: NSSize
-    var scaledImage: NSImage?
-    var candidates: ColorCandidates?
-    let imageManager = ImageManager()
-
-//    init(image: NSImage, size: NSSize) {
-    init(image: NSImage) {
-//        self.scaledSize = size
-        super.init()
-        self.analyzeImage(image)
-    }
-
-    func analyzeImage(anImage: NSImage) {
-
-//        self.scaledImage = imageManager.scaleImage(anImage, scaledSize: self.scaledSize)
-
-//        let edge = findEdgeColor(self.scaledImage!)
+    func analyzeImage(anImage: NSImage) -> ColorCandidates {
         let edge = findEdgeColor(anImage)
-
         let colorsFirstPass = findColors(edge.set, backgroundColor: edge.color!)
         let backgroundIsDark = colorsFirstPass.background!.isMostlyDarkColor()
         let colorsSecondPass = createColors(colorsFirstPass, hasDarkBackground: backgroundIsDark)
-        self.candidates = createFadedColors(colorsSecondPass, hasDarkBackground: backgroundIsDark)
+        return createFadedColors(colorsSecondPass, hasDarkBackground: backgroundIsDark)
     }
 
     private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates {

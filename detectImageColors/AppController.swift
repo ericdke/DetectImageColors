@@ -8,6 +8,7 @@ import Cocoa
 class AppController: NSObject {
 
     var colorTunes: ColorTunes?
+    var colors: ColorCandidates?
 
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var label1: NSTextField!
@@ -61,16 +62,31 @@ class AppController: NSObject {
         refresh()
     }
 
+    // Smaller = faster = less accurate
+    // Quality of analysis drops when below 600
+    func resize(image: NSImage) -> NSImage {
+        var destSize = NSMakeSize(CGFloat(600.0), CGFloat(600.0))
+        var newImage = NSImage(size: destSize)
+        newImage.lockFocus()
+        image.drawInRect(NSMakeRect(0, 0, destSize.width, destSize.height), fromRect: NSMakeRect(0, 0, image.size.width, image.size.height), operation: NSCompositingOperation.CompositeSourceOver, fraction: CGFloat(1))
+        newImage.unlockFocus()
+        newImage.size = destSize
+        return NSImage(data: newImage.TIFFRepresentation!)!
+    }
+
     func analyze(image: NSImage) {
         if let ct = colorTunes {
-            ct.analyzeImage(image)
+            let resized = resize(image)
+            colors = ct.analyzeImage(resized)
         } else {
-            self.colorTunes = ColorTunes(image: image)
+            colorTunes = ColorTunes()
+            let resized = resize(image)
+            colors = colorTunes!.analyzeImage(resized)
         }
     }
 
     func refresh() {
-        if let ct = colorTunes, let cd = ct.candidates {
+        if let ct = colorTunes, let cd = colors {
             label1.textColor = cd.primary
             label2.textColor = cd.secondary
             label3.textColor = cd.detail
