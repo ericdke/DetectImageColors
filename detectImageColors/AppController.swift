@@ -34,7 +34,7 @@ class AppController: NSObject {
                 }
             } else {
                 // synchronous, I know, it's temporary
-                // and it's because I don't know how to grab the existing image anyway...
+                // and it's because I don't know how to grab the existing image
                 if let path = dic["path"], let url = NSURL(string: path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!), let img = NSImage(contentsOfURL: url) {
                     go(img)
                 }
@@ -65,7 +65,7 @@ class AppController: NSObject {
         if let ct = colorTunes {
             ct.analyzeImage(image)
         } else {
-            colorTunes = ColorTunes(image: image, size: NSMakeSize(120.0, 120.0))
+            self.colorTunes = ColorTunes(image: image)
         }
     }
 

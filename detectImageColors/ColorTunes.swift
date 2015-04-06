@@ -11,20 +11,25 @@ import Cocoa
 
 class ColorTunes: NSObject {
 
-    var scaledSize: NSSize
+//    var scaledSize: NSSize
     var scaledImage: NSImage?
     var candidates: ColorCandidates?
     let imageManager = ImageManager()
 
-    init(image: NSImage, size: NSSize) {
-        self.scaledSize = size
+//    init(image: NSImage, size: NSSize) {
+    init(image: NSImage) {
+//        self.scaledSize = size
         super.init()
-        self.scaledImage = imageManager.scaleImage(image, scaledSize: size)
         self.analyzeImage(image)
     }
 
     func analyzeImage(anImage: NSImage) {
+
+//        self.scaledImage = imageManager.scaleImage(anImage, scaledSize: self.scaledSize)
+
+//        let edge = findEdgeColor(self.scaledImage!)
         let edge = findEdgeColor(anImage)
+
         let colorsFirstPass = findColors(edge.set, backgroundColor: edge.color!)
         let backgroundIsDark = colorsFirstPass.background!.isMostlyDarkColor()
         let colorsSecondPass = createColors(colorsFirstPass, hasDarkBackground: backgroundIsDark)
@@ -38,11 +43,13 @@ class ColorTunes: NSObject {
         var curColor = enumerator.nextObject() as? NSColor
         var rootColors = [PCCountedColor]()
         let isColorLight = backgroundColor.isMostlyLightColor()
+        var lonelyColors = [PCCountedColor]()
         while curColor != nil {
             curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
             if curColor!.isMostlyLightColor() == isColorLight { // oops
                 var colorCount = colors!.countForObject(curColor!)
                 if colorCount <= kColorThresholdNoiseTolerance {
+                    lonelyColors.append(PCCountedColor(color: curColor!, count: colorCount))
                     curColor = enumerator.nextObject() as? NSColor
                     continue
                 }
@@ -50,7 +57,12 @@ class ColorTunes: NSObject {
             }
             curColor = enumerator.nextObject() as? NSColor
         }
-        let sortedColors = rootColors.sorted({ $0.count > $1.count })
+        let sortedColors: [PCCountedColor]
+        if rootColors.count > 0 {
+            sortedColors = rootColors.sorted({ $0.count > $1.count })
+        } else {
+            sortedColors = lonelyColors.sorted({ $0.count > $1.count })
+        }
         for cc in sortedColors {
             if rootContainer.primary == nil {
                 if cc.color.contrastsWith(backgroundColor) {
