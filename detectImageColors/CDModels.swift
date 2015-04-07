@@ -1,6 +1,6 @@
 //
-//  PCCountedColor.swift
-//  colortunes
+//  CDCountedColor.swift
+//  colorDetector
 //
 //  Created by ERIC DEJONCKHEERE on 03/04/2015.
 //  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
@@ -15,7 +15,7 @@ struct ColorCandidates {
     var background: NSColor?
 }
 
-class PCCountedColor: NSObject {
+class CDCountedColor: NSObject {
 
     var color: NSColor
     var count: NSInteger

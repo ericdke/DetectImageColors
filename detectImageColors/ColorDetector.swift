@@ -1,6 +1,6 @@
 //
-//  ColorTunes.swift
-//  colortunes
+//  ColorDetector.swift
+//  colorDetector
 //
 //  ERIC DEJONCKHEERE on 03/04/2015.
 //  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
@@ -9,7 +9,7 @@
 
 import Cocoa
 
-class ColorTunes: NSObject {
+class ColorDetector: NSObject {
 
     func analyzeImage(anImage: NSImage) -> ColorCandidates {
         let edge = findEdgeColor(anImage)
@@ -24,23 +24,23 @@ class ColorTunes: NSObject {
         rootContainer.background = backgroundColor
         let enumerator = colors!.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
-        var rootColors = [PCCountedColor]()
+        var rootColors = [CDCountedColor]()
         let isColorLight = backgroundColor.isMostlyLightColor()
-        var lonelyColors = [PCCountedColor]()
+        var lonelyColors = [CDCountedColor]()
         while curColor != nil {
             curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
             if curColor!.isMostlyLightColor() == isColorLight { // oops
                 var colorCount = colors!.countForObject(curColor!)
                 if colorCount <= kColorThresholdNoiseTolerance {
-                    lonelyColors.append(PCCountedColor(color: curColor!, count: colorCount))
+                    lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
                     curColor = enumerator.nextObject() as? NSColor
                     continue
                 }
-                rootColors.append(PCCountedColor(color: curColor!, count: colorCount))
+                rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
             }
             curColor = enumerator.nextObject() as? NSColor
         }
-        let sortedColors: [PCCountedColor]
+        let sortedColors: [CDCountedColor]
         if rootColors.count > 0 {
             sortedColors = rootColors.sorted({ $0.count > $1.count })
         } else {
@@ -77,6 +77,9 @@ class ColorTunes: NSObject {
         while x < pixelsWide {
             while y < pixelsHigh {
                 var color = imageRep.colorAtX(x, y: y)
+
+                //TODO: detect from margin, not real edge
+
                 if x == 0 {
                     leftEdgeColors.addObject(color!)
                 }
@@ -87,26 +90,26 @@ class ColorTunes: NSObject {
         }
         let enumerator = leftEdgeColors.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
-        var rootColors = [PCCountedColor]()
-        var lonelyColors = [PCCountedColor]()
+        var rootColors = [CDCountedColor]()
+        var lonelyColors = [CDCountedColor]()
         while curColor != nil {
             let colorCount = leftEdgeColors.countForObject(curColor!)
             let randomColorsThreshold = Int(Double(pixelsHigh) * kColorThresholdMinimumPercentage)
             if colorCount <= randomColorsThreshold {
-                lonelyColors.append(PCCountedColor(color: curColor!, count: colorCount))
+                lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
                 curColor = enumerator.nextObject() as? NSColor
                 continue
             }
-            rootColors.append(PCCountedColor(color: curColor!, count: colorCount))
+            rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
             curColor = enumerator.nextObject() as? NSColor
         }
-        let sortedColors: [PCCountedColor]
+        let sortedColors: [CDCountedColor]
         if rootColors.count > 0 {
             sortedColors = rootColors.sorted({ $0.count > $1.count })
         } else {
             sortedColors = lonelyColors.sorted({ $0.count > $1.count })
         }
-        var proposedEdgeColor: PCCountedColor?
+        var proposedEdgeColor: CDCountedColor?
         if sortedColors.count > 0 {
             proposedEdgeColor = sortedColors[0]
             // want to choose color over black/white so we keep looking

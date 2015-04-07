@@ -1,6 +1,6 @@
 //
 //  NSColorExtensions.swift
-//  colortunes
+//  colorDetector
 //
 //  Created by ERIC DEJONCKHEERE on 03/04/2015.
 //  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
@@ -10,30 +10,30 @@ import Cocoa
 
 extension NSColor {
 
-    func lighterColor() -> NSColor {
+    func lighterColor(threshold: CGFloat = kColorThresholdFloorBrightness, ratio: CGFloat = kColorLighterRatio) -> NSColor {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var h: CGFloat = 0.0
         var s: CGFloat = 0.0
         var b: CGFloat = 0.0
         var a: CGFloat = 0.0
         convertedColor!.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-        if b < kColorThresholdFloorBrightness {
-            b = kColorThresholdFloorBrightness
+        if b < threshold {
+            b = threshold
         }
-        return NSColor(calibratedHue: h, saturation: s, brightness: min(b * kColorLighterRatio, 1.0), alpha: a)
+        return NSColor(calibratedHue: h, saturation: s, brightness: min(b * ratio, 1.0), alpha: a)
     }
 
-    func darkerColor() -> NSColor {
+    func darkerColor(threshold: CGFloat = kColorThresholdCeilingBrightness, ratio: CGFloat = kColorDarkerRatio) -> NSColor {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var h: CGFloat = 0.0
         var s: CGFloat = 0.0
         var b: CGFloat = 0.0
         var a: CGFloat = 0.0
         convertedColor!.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-        if b > kColorThresholdCeilingBrightness {
-            b = kColorThresholdCeilingBrightness
+        if b > threshold {
+            b = threshold
         }
-        return NSColor(calibratedHue: h, saturation: s, brightness: b * kColorDarkerRatio, alpha: a)
+        return NSColor(calibratedHue: h, saturation: s, brightness: b * ratio, alpha: a)
     }
 
     func isMostlyDarkColor() -> Bool {

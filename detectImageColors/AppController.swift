@@ -7,7 +7,7 @@ import Cocoa
 
 class AppController: NSObject {
 
-    var colorTunes: ColorTunes?
+    var colorDetector: ColorDetector?
     var colors: ColorCandidates?
 
     @IBOutlet weak var window: NSWindow!
@@ -76,16 +76,16 @@ class AppController: NSObject {
 
     // Warning: do not feed with huge images
     func analyze(image: NSImage) {
-        if let ct = colorTunes {
+        if let ct = colorDetector {
             colors = ct.analyzeImage(resize(image))
         } else {
-            colorTunes = ColorTunes()
-            colors = colorTunes!.analyzeImage(resize(image))
+            colorDetector = ColorDetector()
+            colors = colorDetector!.analyzeImage(resize(image))
         }
     }
 
     func refresh() {
-        if let ct = colorTunes, let cd = colors {
+        if let ct = colorDetector, let cd = colors {
             label1.textColor = cd.primary
             label2.textColor = cd.secondary
             label3.textColor = cd.detail
