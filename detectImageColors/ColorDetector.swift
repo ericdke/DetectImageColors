@@ -185,10 +185,24 @@ class ColorDetector: NSObject {
                 colors.detail = colors.background!.darkerColor()
             }
         }
-        // make background darker than detected from left edge
+
+        // Final phase
+
+        if let bw = colors.background?.isMostlyBlackOrWhite() {
+            if bw {
+                colors.backgroundIsBlackOrWhite = true
+            } else {
+                colors.backgroundIsBlackOrWhite = false
+            }
+        }
+
         if hasDarkBackground {
             colors.background = colors.background!.darkerColor()
+            colors.backgroundIsDark = true
+        } else {
+            colors.backgroundIsDark = false
         }
+
         return colors
     }
 

@@ -13,6 +13,8 @@ struct ColorCandidates {
     var secondary: NSColor?
     var detail: NSColor?
     var background: NSColor?
+    var backgroundIsDark: Bool?
+    var backgroundIsBlackOrWhite: Bool?
 }
 
 class CDCountedColor: NSObject {

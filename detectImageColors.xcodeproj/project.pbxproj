@@ -153,6 +153,7 @@
 				C71FDDDC1ACF7642004BD9BA /* Sources */,
 				C71FDDDD1ACF7642004BD9BA /* Frameworks */,
 				C71FDDDE1ACF7642004BD9BA /* Resources */,
+				C7B276171AD47AF400AAE3EB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -192,6 +193,7 @@
 				TargetAttributes = {
 					C71FDDDF1ACF7642004BD9BA = {
 						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = 6LED2SAPL5;
 					};
 					C71FDDEF1ACF7642004BD9BA = {
 						CreatedOnToolsVersion = 6.3;
@@ -237,6 +239,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C7B276171AD47AF400AAE3EB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#Update build number with number of git commits if in release mode\nif [ ${CONFIGURATION} == \"Debug\" ]; then\nbuildNumber=$(git rev-list HEAD | wc -l | tr -d ' ')\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\nfi;";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C71FDDDC1ACF7642004BD9BA /* Sources */ = {
@@ -367,6 +385,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = detectImageColors/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -378,6 +397,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = detectImageColors/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
