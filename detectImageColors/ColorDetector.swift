@@ -9,9 +9,9 @@
 
 import Cocoa
 
-class ColorDetector: NSObject {
+public class ColorDetector: NSObject {
 
-    func analyzeImage(anImage: NSImage) -> ColorCandidates {
+    public func analyzeImage(anImage: NSImage) -> ColorCandidates {
         let edge = findEdgeColor(anImage)
         let colorsFirstPass = findColors(edge.set, backgroundColor: edge.color!)
         let backgroundIsDark = colorsFirstPass.background!.isMostlyDarkColor() // Bool
@@ -217,8 +217,7 @@ class ColorDetector: NSObject {
         }
 
         if hasDarkBackground {
-            // Reinforce the contrast (just a personal preference for the final results)
-            colors.background = colors.background!.darkerColor()
+//            colors.background = colors.background!.darkerColor()
             colors.backgroundIsDark = true
         } else {
             colors.backgroundIsDark = false

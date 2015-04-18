@@ -8,9 +8,9 @@
 
 import Cocoa
 
-extension NSColor {
+public extension NSColor {
 
-    func lighterColor(threshold: CGFloat = CDSettings.ThresholdFloorBrightness, ratio: CGFloat = CDSettings.LighterRatio) -> NSColor {
+    public func lighterColor(threshold: CGFloat = CDSettings.ThresholdFloorBrightness, ratio: CGFloat = CDSettings.LighterRatio) -> NSColor {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var h: CGFloat = 0.0
         var s: CGFloat = 0.0
@@ -23,7 +23,7 @@ extension NSColor {
         return NSColor(calibratedHue: h, saturation: s, brightness: min(b * ratio, 1.0), alpha: a)
     }
 
-    func darkerColor(threshold: CGFloat = CDSettings.ThresholdCeilingBrightness, ratio: CGFloat = CDSettings.DarkerRatio) -> NSColor {
+    public func darkerColor(threshold: CGFloat = CDSettings.ThresholdCeilingBrightness, ratio: CGFloat = CDSettings.DarkerRatio) -> NSColor {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var h: CGFloat = 0.0
         var s: CGFloat = 0.0
@@ -36,7 +36,7 @@ extension NSColor {
         return NSColor(calibratedHue: h, saturation: s, brightness: b * ratio, alpha: a)
     }
 
-    func isMostlyDarkColor() -> Bool {
+    public func isMostlyDarkColor() -> Bool {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var a: CGFloat = 0.0
         var b: CGFloat = 0.0
@@ -50,7 +50,7 @@ extension NSColor {
         return false
     }
 
-    func isNearOf(color: NSColor) -> Bool {
+    public func isNearOf(color: NSColor) -> Bool {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var convertedCompareColor = color.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var a: CGFloat = 0.0
@@ -76,7 +76,7 @@ extension NSColor {
         return true
     }
 
-    func withMinimumSaturation(minimumSaturation: CGFloat) -> NSColor {
+    public func withMinimumSaturation(minimumSaturation: CGFloat) -> NSColor {
         var tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if tempColor != nil {
             var hue: CGFloat = 0.0
@@ -91,7 +91,7 @@ extension NSColor {
         return self
     }
 
-    func isMostlyBlackOrWhite() -> Bool {
+    public func isMostlyBlackOrWhite() -> Bool {
         var tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if tempColor != nil {
             var a: CGFloat = 0.0
@@ -109,11 +109,11 @@ extension NSColor {
         return false
     }
 
-    func contrastsWith(color: NSColor) -> Bool {
+    public func contrastsWith(color: NSColor) -> Bool {
         return !doesNotContrastWith(color)
     }
 
-    func doesNotContrastWith(color: NSColor) -> Bool {
+    public func doesNotContrastWith(color: NSColor) -> Bool {
         var backgroundColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var foregroundColor = color.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if backgroundColor != nil && foregroundColor != nil {
