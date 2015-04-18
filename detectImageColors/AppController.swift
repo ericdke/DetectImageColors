@@ -35,7 +35,7 @@ class AppController: NSObject {
                 }
             } else {
                 // synchronous, I know, it's temporary
-                // and it's because I don't know how to grab the existing image
+                // and it's because I don't know how to grab the existing image from the browsers cache
                 if let path = dic["path"], let url = NSURL(string: path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!), let img = NSImage(contentsOfURL: url) {
                     go(img)
                 }
@@ -62,8 +62,9 @@ class AppController: NSObject {
         refresh()
     }
 
-    // Smaller = faster = less accurate
-    // Quality of analysis drops when below 600
+    // Image should fill a square completely.
+    // Smaller = faster = less accurate.
+    // Quality of analysis drops when < 600.
     func resize(image: NSImage) -> NSImage {
         var destSize = NSMakeSize(CGFloat(600.0), CGFloat(600.0))
         var newImage = NSImage(size: destSize)
