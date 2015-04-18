@@ -10,7 +10,7 @@ import Cocoa
 
 extension NSColor {
 
-    func lighterColor(threshold: CGFloat = kColorThresholdFloorBrightness, ratio: CGFloat = kColorLighterRatio) -> NSColor {
+    func lighterColor(threshold: CGFloat = CDSettings.ThresholdFloorBrightness, ratio: CGFloat = CDSettings.LighterRatio) -> NSColor {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var h: CGFloat = 0.0
         var s: CGFloat = 0.0
@@ -23,7 +23,7 @@ extension NSColor {
         return NSColor(calibratedHue: h, saturation: s, brightness: min(b * ratio, 1.0), alpha: a)
     }
 
-    func darkerColor(threshold: CGFloat = kColorThresholdCeilingBrightness, ratio: CGFloat = kColorDarkerRatio) -> NSColor {
+    func darkerColor(threshold: CGFloat = CDSettings.ThresholdCeilingBrightness, ratio: CGFloat = CDSettings.DarkerRatio) -> NSColor {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var h: CGFloat = 0.0
         var s: CGFloat = 0.0
@@ -43,7 +43,7 @@ extension NSColor {
         var g: CGFloat = 0.0
         var r: CGFloat = 0.0
         convertedColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
-        var lum: CGFloat = kColorYUVRedRatio * r + kColorYUVGreenRatio * g + kColorYUVBlueRatio * b
+        var lum: CGFloat = CDSettings.YUVRedRatio * r + CDSettings.YUVGreenRatio * g + CDSettings.YUVBlueRatio * b
         if lum < 0.5 {
             return true
         }
@@ -63,11 +63,11 @@ extension NSColor {
         var r1: CGFloat = 0.0
         convertedColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
         convertedCompareColor!.getRed(&r1, green: &g1, blue: &b1, alpha: &a1)
-        var threshold: CGFloat = kColorThresholdDistinctColor
+        var threshold: CGFloat = CDSettings.ThresholdDistinctColor
         if fabs(r - r1) > threshold || fabs(g - g1) > threshold || fabs(b - b1) > threshold || fabs(a - a1) > threshold {
             // check for grays, prevent multiple gray colors
-            if fabs(r - g) < kColorThresholdGrey && fabs(r - b) < kColorThresholdGrey {
-                if fabs(r1 - g1) < kColorThresholdGrey && fabs(r1 - b1) < kColorThresholdGrey {
+            if fabs(r - g) < CDSettings.ThresholdGrey && fabs(r - b) < CDSettings.ThresholdGrey {
+                if fabs(r1 - g1) < CDSettings.ThresholdGrey && fabs(r1 - b1) < CDSettings.ThresholdGrey {
                     return true
                 }
             }
@@ -99,10 +99,10 @@ extension NSColor {
             var g: CGFloat = 0.0
             var r: CGFloat = 0.0
             tempColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
-            if r > kColorMinThresholdWhite && g > kColorMinThresholdWhite && b > kColorMinThresholdWhite {
+            if r > CDSettings.MinThresholdWhite && g > CDSettings.MinThresholdWhite && b > CDSettings.MinThresholdWhite {
                 return true // white
             }
-            if r < kColorMaxThresholdBlack && g < kColorMaxThresholdBlack && b < kColorMaxThresholdBlack {
+            if r < CDSettings.MaxThresholdBlack && g < CDSettings.MaxThresholdBlack && b < CDSettings.MaxThresholdBlack {
                 return true // black
             }
         }
@@ -127,15 +127,15 @@ extension NSColor {
             var fr: CGFloat = 0.0
             backgroundColor!.getRed(&br, green: &bg, blue: &bb, alpha: &ba)
             foregroundColor!.getRed(&fr, green: &fg, blue: &fb, alpha: &fa)
-            var bLum: CGFloat = kColorYUVRedRatio * br + kColorYUVGreenRatio * bg + kColorYUVBlueRatio * bb
-            var fLum: CGFloat = kColorYUVRedRatio * fr + kColorYUVGreenRatio * fg + kColorYUVBlueRatio * fb
+            var bLum: CGFloat = CDSettings.YUVRedRatio * br + CDSettings.YUVGreenRatio * bg + CDSettings.YUVBlueRatio * bb
+            var fLum: CGFloat = CDSettings.YUVRedRatio * fr + CDSettings.YUVGreenRatio * fg + CDSettings.YUVBlueRatio * fb
             var contrast: CGFloat = 0.0
             if bLum > fLum {
-                contrast = (bLum + kColorLuminanceAddedWeight) / (fLum + kColorLuminanceAddedWeight)
+                contrast = (bLum + CDSettings.LuminanceAddedWeight) / (fLum + CDSettings.LuminanceAddedWeight)
             } else {
-                contrast = (fLum + kColorLuminanceAddedWeight) / (bLum + kColorLuminanceAddedWeight)
+                contrast = (fLum + CDSettings.LuminanceAddedWeight) / (bLum + CDSettings.LuminanceAddedWeight)
             }
-            return contrast < kColorContrastRatio
+            return contrast < CDSettings.ContrastRatio
         }
         return false
     }

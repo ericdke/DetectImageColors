@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7519.1" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7519.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7531"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -21,8 +21,8 @@
             <connections>
                 <outlet property="imageView" destination="DGu-0e-za9" id="V6E-Ea-lh5"/>
                 <outlet property="label1" destination="P99-2E-e6y" id="KbY-f2-SBS"/>
-                <outlet property="label2" destination="Ivl-3a-hGm" id="ueo-Ek-tau"/>
-                <outlet property="label3" destination="ths-9f-rUn" id="cbK-5w-cXZ"/>
+                <outlet property="label2" destination="YtW-mr-YnW" id="TY2-cU-phm"/>
+                <outlet property="label3" destination="t9f-CT-b56" id="zRE-GP-kEn"/>
                 <outlet property="window" destination="ayI-nh-tNI" id="Gf7-gH-hTo"/>
             </connections>
         </customObject>
@@ -684,52 +684,49 @@
                 <rect key="frame" x="0.0" y="0.0" width="635" height="444"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="P99-2E-e6y">
-                        <rect key="frame" x="18" y="390" width="135" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="PRIMARY" id="1CD-jg-x2H">
-                            <font key="font" size="24" name="HelveticaNeue-Bold"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Ivl-3a-hGm">
-                        <rect key="frame" x="18" y="334" width="157" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="SECONDARY" id="Y2O-cv-lHw">
-                            <font key="font" size="24" name="HelveticaNeue-Bold"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ths-9f-rUn">
-                        <rect key="frame" x="18" y="275" width="135" height="34"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="DETAIL" id="777-eI-f53">
-                            <font key="font" size="24" name="HelveticaNeue-Bold"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <button verticalHuggingPriority="750" id="XKZ-2b-YFa">
-                        <rect key="frame" x="14" y="187" width="74" height="32"/>
+                    <button hidden="YES" verticalHuggingPriority="750" id="XKZ-2b-YFa">
+                        <rect key="frame" x="20" y="8" width="74" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Open" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wep-7k-ixj">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
-                        <connections>
-                            <action selector="open:" target="UW4-RA-zN2" id="tqd-49-yWV"/>
-                        </connections>
                     </button>
                     <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DGu-0e-za9" customClass="DemoImageView" customModule="detectImageColors" customModuleProvider="target">
                         <rect key="frame" x="234" y="22" width="381" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" imageScaling="proportionallyUpOrDown" id="MGB-i2-AdI"/>
                     </imageView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="P99-2E-e6y">
+                        <rect key="frame" x="18" y="300" width="157" height="91"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="PRIMARY COLOR" id="1CD-jg-x2H">
+                            <font key="font" size="32" name="HelveticaNeue-Bold"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="YtW-mr-YnW">
+                        <rect key="frame" x="18" y="178" width="210" height="89"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="SECONDARY COLOR" id="PF8-wI-j7Y">
+                            <font key="font" size="32" name="HelveticaNeue-Bold"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="t9f-CT-b56">
+                        <rect key="frame" x="18" y="54" width="157" height="91"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="DETAIL COLOR" id="s7l-9S-poX">
+                            <font key="font" size="32" name="HelveticaNeue-Bold"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="94" y="375"/>
+            <point key="canvasLocation" x="93.5" y="375"/>
         </window>
     </objects>
 </document>

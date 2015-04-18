@@ -28,10 +28,10 @@ class ColorDetector: NSObject {
         let isColorDark = backgroundColor.isMostlyDarkColor()
         var lonelyColors = [CDCountedColor]()
         while curColor != nil {
-            curColor = curColor!.withMinimumSaturation(kColorThresholdMinimumSaturation)
+            curColor = curColor!.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
             if curColor!.isMostlyDarkColor() && isColorDark { // not good
                 var colorCount = colors!.countForObject(curColor!)
-                if colorCount <= kColorThresholdNoiseTolerance {
+                if colorCount <= CDSettings.ThresholdNoiseTolerance {
                     lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
                     curColor = enumerator.nextObject() as? NSColor
                     continue
@@ -72,19 +72,19 @@ class ColorDetector: NSObject {
         let pixelsHigh = imageRep.pixelsHigh
         var colors = NSCountedSet(capacity: pixelsWide * pixelsHigh)
         var leftEdgeColors = NSCountedSet(capacity: pixelsHigh)
-        var x = kColorDetectorDistanceFromLeftEdge
+        var x = CDSettings.DetectorDistanceFromLeftEdge
         var y = 0
         while x < pixelsWide {
             while y < pixelsHigh {
                 var color = imageRep.colorAtX(x, y: y)
-                if x == kColorDetectorDistanceFromLeftEdge {
+                if x == CDSettings.DetectorDistanceFromLeftEdge {
                     leftEdgeColors.addObject(color!)
                 }
                 colors.addObject(color!)
                 y++
             }
             y = 0
-            x += kColorDetectorResolution
+            x += CDSettings.DetectorResolution
         }
         let enumerator = leftEdgeColors.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
@@ -92,7 +92,7 @@ class ColorDetector: NSObject {
         var lonelyColors = [CDCountedColor]()
         while curColor != nil {
             let colorCount = leftEdgeColors.countForObject(curColor!)
-            let randomColorsThreshold = Int(Double(pixelsHigh) * kColorThresholdMinimumPercentage)
+            let randomColorsThreshold = Int(Double(pixelsHigh) * CDSettings.ThresholdMinimumPercentage)
             if colorCount <= randomColorsThreshold {
                 lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
                 curColor = enumerator.nextObject() as? NSColor

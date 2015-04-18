@@ -21,11 +21,11 @@ class AppController: NSObject {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "imageDropped:", name: "updateImageByDropOK", object: nil)
     }
 
-    @IBAction func open(sender: AnyObject) {
-        if let path = selectImage(), let img = NSImage(contentsOfFile: path) {
-            go(img)
-        }
-    }
+//    @IBAction func open(sender: AnyObject) {
+//        if let path = selectImage(), let img = NSImage(contentsOfFile: path) {
+//            go(img)
+//        }
+//    }
 
     func imageDropped(notification: NSNotification) {
         if let dic = notification.userInfo as? [String:String], let type = dic["type"] {
