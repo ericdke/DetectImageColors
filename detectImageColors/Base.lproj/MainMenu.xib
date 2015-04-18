@@ -684,14 +684,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="635" height="444"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button hidden="YES" verticalHuggingPriority="750" id="XKZ-2b-YFa">
-                        <rect key="frame" x="20" y="8" width="74" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="push" title="Open" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wep-7k-ixj">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                    </button>
                     <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DGu-0e-za9" customClass="DemoImageView" customModule="detectImageColors" customModuleProvider="target">
                         <rect key="frame" x="234" y="22" width="381" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -17,15 +17,9 @@ class AppController: NSObject {
     @IBOutlet weak var imageView: NSImageView!
 
     override func awakeFromNib() {
-        go(NSImage(named: "reed")!)
+        go(NSImage(named: "elton")!)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "imageDropped:", name: "updateImageByDropOK", object: nil)
     }
-
-//    @IBAction func open(sender: AnyObject) {
-//        if let path = selectImage(), let img = NSImage(contentsOfFile: path) {
-//            go(img)
-//        }
-//    }
 
     func imageDropped(notification: NSNotification) {
         if let dic = notification.userInfo as? [String:String], let type = dic["type"] {
@@ -34,26 +28,21 @@ class AppController: NSObject {
                     go(img)
                 }
             } else {
-                // synchronous, I know, it's temporary
-                // and it's because I don't know how to grab the existing image from the browsers cache
-                if let path = dic["path"], let url = NSURL(string: path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!), let img = NSImage(contentsOfURL: url) {
-                    go(img)
+                if let path = dic["path"], let url = NSURL(string: path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!) {
+                    let request = NSURLRequest(URL: url)
+                    NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue(),
+                        completionHandler: {(response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
+                        if error == nil {
+                            if let dat = data, let img = NSImage(data: dat) {
+                                self.go(img)
+                            }
+                        } else {
+                            println("Error: \(error!.localizedDescription)")
+                        }
+                    })
                 }
             }
         }
-    }
-
-    func selectImage() -> String? {
-        let myFiledialog: NSOpenPanel = NSOpenPanel()
-        myFiledialog.allowsMultipleSelection = false
-        myFiledialog.canChooseDirectories = false
-        myFiledialog.allowedFileTypes = ["jpg", "jpeg", "bmp", "png", "gif", "JPG", "JPEG", "BMP", "PNG", "GIF"]
-        myFiledialog.title = "Choose image"
-        myFiledialog.runModal()
-        if let chosenfile = myFiledialog.URL {
-            return chosenfile.path
-        }
-        return nil
     }
 
     func go(image: NSImage) {
@@ -62,9 +51,7 @@ class AppController: NSObject {
         refresh()
     }
 
-    // Image should fill a square completely.
-    // Smaller = faster = less accurate.
-    // Quality of analysis drops when < 600.
+    // Image has to fill a square completely.
     func resize(image: NSImage) -> NSImage {
         var destSize = NSMakeSize(CGFloat(600.0), CGFloat(600.0))
         var newImage = NSImage(size: destSize)
@@ -77,8 +64,8 @@ class AppController: NSObject {
 
     // Warning: do not feed with huge images
     func analyze(image: NSImage) {
-        if let ct = colorDetector {
-            colors = ct.analyzeImage(resize(image))
+        if let cd = colorDetector {
+            colors = cd.analyzeImage(resize(image))
         } else {
             colorDetector = ColorDetector()
             colors = colorDetector!.analyzeImage(resize(image))
@@ -86,11 +73,11 @@ class AppController: NSObject {
     }
 
     func refresh() {
-        if let ct = colorDetector, let cd = colors {
-            label1.textColor = cd.primary
-            label2.textColor = cd.secondary
-            label3.textColor = cd.detail
-            window.backgroundColor = cd.background
+        if let cd = colorDetector, let cl = colors {
+            label1.textColor = cl.primary
+            label2.textColor = cl.secondary
+            label3.textColor = cl.detail
+            window.backgroundColor = cl.background
         }
     }
 
