@@ -25,11 +25,11 @@ class ColorDetector: NSObject {
         let enumerator = colors!.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
         var rootColors = [CDCountedColor]()
-        let isColorLight = backgroundColor.isMostlyLightColor()
+        let isColorDark = backgroundColor.isMostlyDarkColor()
         var lonelyColors = [CDCountedColor]()
         while curColor != nil {
-            curColor = curColor!.sameOrWithMinimumSaturation(kColorThresholdMinimumSaturation)
-            if curColor!.isMostlyLightColor() == isColorLight { // oops
+            curColor = curColor!.withMinimumSaturation(kColorThresholdMinimumSaturation)
+            if curColor!.isMostlyDarkColor() && isColorDark { // not good
                 var colorCount = colors!.countForObject(curColor!)
                 if colorCount <= kColorThresholdNoiseTolerance {
                     lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
@@ -72,21 +72,19 @@ class ColorDetector: NSObject {
         let pixelsHigh = imageRep.pixelsHigh
         var colors = NSCountedSet(capacity: pixelsWide * pixelsHigh)
         var leftEdgeColors = NSCountedSet(capacity: pixelsHigh)
-        var x = 0
+        var x = kColorDetectorDistanceFromLeftEdge
         var y = 0
         while x < pixelsWide {
             while y < pixelsHigh {
                 var color = imageRep.colorAtX(x, y: y)
-
-                //TODO: detect from margin, not real edge
-
-                if x == 0 {
+                if x == kColorDetectorDistanceFromLeftEdge {
                     leftEdgeColors.addObject(color!)
                 }
                 colors.addObject(color!)
                 y++
             }
-            x++
+            y = 0
+            x += kColorDetectorResolution
         }
         let enumerator = leftEdgeColors.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
@@ -119,7 +117,7 @@ class ColorDetector: NSObject {
                     var nextProposedColor = sortedColors[i]
                     // make sure the second choice color is 30% as common as the first choice
                     if (Double(nextProposedColor.count) / Double(proposedEdgeColor!.count)) > 0.3 {
-                        if nextProposedColor.color.isNotMostlyBlackOrWhite() {
+                        if nextProposedColor.color.isMostlyBlackOrWhite() == false {
                             proposedEdgeColor = nextProposedColor
                             break
                         }
@@ -160,7 +158,7 @@ class ColorDetector: NSObject {
     private func createFadedColors(textColors: ColorCandidates, hasDarkBackground: Bool) -> ColorCandidates {
         var colors = textColors
         if colors.primary!.isNearOf(colors.secondary!) || colors.primary!.isNearOf(colors.detail!) || colors.secondary!.isNearOf(colors.detail!) {
-            if hasDarkBackground && colors.primary!.isMostlyLightColor() {
+            if hasDarkBackground && !colors.primary!.isMostlyDarkColor() {
                 colors.secondary = textColors.primary!.darkerColor()
                 colors.detail = colors.secondary!.darkerColor()
             } else {

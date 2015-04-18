@@ -23,4 +23,6 @@ var kColorThresholdGrey: CGFloat = 0.03 // original: 0.03
 var kColorMinThresholdWhite: CGFloat = 0.91 // original: 0.91
 var kColorMaxThresholdBlack: CGFloat = 0.09 // original: 0.09
 var kColorLuminanceAddedWeight: CGFloat = 0.05
-var kColorContrastRatio: CGFloat = 1.8  // original: 1.6
+var kColorContrastRatio: CGFloat = 1.6  // original: 1.6
+var kColorDetectorDistanceFromLeftEdge: Int = 5
+var kColorDetectorResolution: Int = 10 // Detects an Y line of pixels every kColorDetectorResolution pixels on X. Smaller = better & slower. 10 is a good average for 600x600 pics.

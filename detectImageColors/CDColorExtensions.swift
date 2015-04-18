@@ -37,10 +37,6 @@ extension NSColor {
     }
 
     func isMostlyDarkColor() -> Bool {
-        return !isMostlyLightColor()
-    }
-
-    func isMostlyLightColor() -> Bool {
         var convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         var a: CGFloat = 0.0
         var b: CGFloat = 0.0
@@ -49,9 +45,9 @@ extension NSColor {
         convertedColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
         var lum: CGFloat = kColorYUVRedRatio * r + kColorYUVGreenRatio * g + kColorYUVBlueRatio * b
         if lum < 0.5 {
-            return false
+            return true
         }
-        return true
+        return false
     }
 
     func isNearOf(color: NSColor) -> Bool {
@@ -80,7 +76,7 @@ extension NSColor {
         return true
     }
 
-    func sameOrWithMinimumSaturation(minSaturation: CGFloat) -> NSColor {
+    func withMinimumSaturation(minimumSaturation: CGFloat) -> NSColor {
         var tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if tempColor != nil {
             var hue: CGFloat = 0.0
@@ -88,18 +84,14 @@ extension NSColor {
             var brightness: CGFloat = 0.0
             var alpha: CGFloat = 0.0
             tempColor!.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
-            if saturation < minSaturation {
-                return NSColor(calibratedHue: hue, saturation: minSaturation, brightness: brightness, alpha: alpha)
+            if saturation < minimumSaturation {
+                return NSColor(calibratedHue: hue, saturation: minimumSaturation, brightness: brightness, alpha: alpha)
             }
         }
         return self
     }
 
     func isMostlyBlackOrWhite() -> Bool {
-        return !isNotMostlyBlackOrWhite()
-    }
-
-    func isNotMostlyBlackOrWhite() -> Bool {
         var tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if tempColor != nil {
             var a: CGFloat = 0.0
@@ -108,13 +100,13 @@ extension NSColor {
             var r: CGFloat = 0.0
             tempColor!.getRed(&r, green: &g, blue: &b, alpha: &a)
             if r > kColorMinThresholdWhite && g > kColorMinThresholdWhite && b > kColorMinThresholdWhite {
-                return false // white
+                return true // white
             }
             if r < kColorMaxThresholdBlack && g < kColorMaxThresholdBlack && b < kColorMaxThresholdBlack {
-                return false // black
+                return true // black
             }
         }
-        return true
+        return false
     }
 
     func contrastsWith(color: NSColor) -> Bool {
