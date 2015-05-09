@@ -10,9 +10,12 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+    
+    // Demo App
+    
+    // ------------------------------------
 
     @IBOutlet weak var window: NSWindow!
-
 
     func applicationWillFinishLaunching(notification: NSNotification) {
         self.window.setFrameUsingName("DetectImageColorsDemo")

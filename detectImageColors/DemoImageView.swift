@@ -10,56 +10,35 @@ import Cocoa
 
 class DemoImageView: NSImageView, NSDraggingDestination {
     
-    // INIT
-
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
-    }
+    // Demo App
     
-    // DRAG AND DROP ON IMAGE VIEW
-
+    // ------------------------------------
+    
+    // INIT
+    
     let fileTypes = ["jpg", "jpeg", "bmp", "png", "gif"]
     let draggedTypes = [NSFilenamesPboardType,NSURLPboardType,NSPasteboardTypeTIFF]
     var fileTypeIsOk = false
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         registerForDraggedTypes(self.draggedTypes)
     }
     
-    func imageDropped(dic: [String:String]) {
-        if let type = dic["type"] {
-            if type == "path" {
-                if let path = dic["path"], let img = NSImage(contentsOfFile: path) {
-                    self.updateImage(img)
-                }
-            } else {
-                if let path = dic["path"], let escapedPath = path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding), let url = NSURL(string: escapedPath) {
-                    NSURLConnection.sendAsynchronousRequest(NSURLRequest(URL: url), queue: NSOperationQueue.mainQueue(),
-                        completionHandler: {(response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
-                            if error == nil {
-                                if let dat = data, let img = NSImage(data: dat) {
-                                    self.updateImage(img)
-                                }
-                            } else {
-                                println("Error: \(error!.localizedDescription)")
-                            }
-                    })
-                }
-            }
-        }
-    }
-    
-    private func updateImage(image: NSImage) {
-        NSNotificationCenter.defaultCenter().postNotificationName("updateImageByDropOK", object: nil, userInfo: ["image": image])
-    }
-
     override func viewDidMoveToWindow() {
         let trackingArea = NSTrackingArea(rect: self.bounds, options: (NSTrackingAreaOptions.ActiveInActiveApp | NSTrackingAreaOptions.MouseEnteredAndExited | NSTrackingAreaOptions.MouseMoved), owner: self, userInfo: nil)
         self.addTrackingArea(trackingArea)
         self.becomeFirstResponder()
         self.toolTip = "Drop an image here."
     }
+
+    override func drawRect(dirtyRect: NSRect) {
+        super.drawRect(dirtyRect)
+    }
+    
+    // ------------------------------------
+    
+    // DRAG AND DROP ON IMAGE VIEW
 
     override func draggingEntered(sender: NSDraggingInfo) -> NSDragOperation {
         return .Copy
@@ -86,6 +65,35 @@ class DemoImageView: NSImageView, NSDraggingDestination {
             self.imageDropped(dic)
         }
         return go
+    }
+    
+    // HELPERS
+    
+    func imageDropped(dic: [String:String]) {
+        if let type = dic["type"] {
+            if type == "path" {
+                if let path = dic["path"], let img = NSImage(contentsOfFile: path) {
+                    self.updateImage(img)
+                }
+            } else {
+                if let path = dic["path"], let escapedPath = path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding), let url = NSURL(string: escapedPath) {
+                    NSURLConnection.sendAsynchronousRequest(NSURLRequest(URL: url), queue: NSOperationQueue.mainQueue(),
+                        completionHandler: {(response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
+                            if error == nil {
+                                if let dat = data, let img = NSImage(data: dat) {
+                                    self.updateImage(img)
+                                }
+                            } else {
+                                println("Error: \(error!.localizedDescription)")
+                            }
+                    })
+                }
+            }
+        }
+    }
+    
+    private func updateImage(image: NSImage) {
+        NSNotificationCenter.defaultCenter().postNotificationName("updateImageByDropOK", object: nil, userInfo: ["image": image])
     }
 
     private func checkExtension(pathStr: String) -> Bool {

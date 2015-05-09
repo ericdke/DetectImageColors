@@ -6,33 +6,56 @@
 import Cocoa
 
 class AppController: NSObject {
+    
+    // ------------------------------------
+    
+    // Color Detector objects
 
-    // These two models come from CDModels.swift
     var colorDetector: ColorDetector?
     var colorCandidates: ColorCandidates?
 
+    // Create color candidates from image
+    
+    private func analyzeImage(image: NSImage) {
+        var candidates: ColorCandidates?
+        // If our ColorDetector instance exists
+        if let cd = self.colorDetector {
+            // Avoid big images
+            if let resized = cd.resize(image) {
+                
+                
+                // Get the Optional ColorCandidates object from the resized image
+                candidates = cd.getColorCandidatesFromImage(resized)
+                
+                
+            }
+        } else {
+            
+            
+            // Create ColorDetector instance
+            self.colorDetector = ColorDetector()
+            
+            
+            if let cd = self.colorDetector, let resized = cd.resize(image) {
+                candidates = cd.getColorCandidatesFromImage(resized)
+            }
+        }
+        if let validCandidates = candidates {
+            self.colorCandidates = validCandidates
+        }
+    }
+    
+    // ------------------------------------
+    
     // Demo app IBOutlets
+    
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var label1: NSTextField!
     @IBOutlet weak var label2: NSTextField!
     @IBOutlet weak var label3: NSTextField!
     @IBOutlet weak var imageView: NSImageView!
-
-    // Creates color candidates from image
-    private func analyzeImage(image: NSImage) {
-        // Warning: do not feed with huge images
-        var candidates: ColorCandidates?
-        if let cd = self.colorDetector {
-            // Always resize your source image
-            candidates = cd.getColorCandidatesFromImage(cd.resize(image))
-        } else {
-            self.colorDetector = ColorDetector()
-            if let cd = self.colorDetector {
-                candidates = cd.getColorCandidatesFromImage(cd.resize(image))
-            }
-        }
-        self.colorCandidates = candidates
-    }
+    
+    // Demo App methods
 
     private func refreshWindowElements() {
         if let cols = self.colorCandidates {

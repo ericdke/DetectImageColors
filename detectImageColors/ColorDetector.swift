@@ -11,152 +11,175 @@ import Cocoa
 
 public class ColorDetector: NSObject {
 
-    public func getColorCandidatesFromImage(anImage: NSImage) -> ColorCandidates {
+    public func getColorCandidatesFromImage(anImage: NSImage) -> ColorCandidates? {
         let edge = findEdgeColor(anImage)
-        let colorsFirstPass = findColors(edge.set, backgroundColor: edge.color!)
-        let backgroundIsDark = colorsFirstPass.background!.isMostlyDarkColor() // Bool
-        let colorsSecondPass = createColors(colorsFirstPass, hasDarkBackground: backgroundIsDark)
-        return createFadedColors(colorsSecondPass, hasDarkBackground: backgroundIsDark)
+        if let edgeColor = edge.color {
+            if let colorsFirstPass = findColors(edge.set, backgroundColor: edgeColor) {
+                if let firstBackgroundColorCandidate = colorsFirstPass.background {
+                    let backgroundIsDark = firstBackgroundColorCandidate.isMostlyDarkColor() // Bool
+                    let colorsSecondPass = createColors(colorsFirstPass, hasDarkBackground: backgroundIsDark)
+                    if CDSettings.EnsureContrastedColorCandidates {
+                        return createFadedColors(colorsSecondPass, hasDarkBackground: backgroundIsDark)
+                    }
+                    return colorsSecondPass
+                }
+            }
+        }
+        return nil
     }
     
     // Image has to fill a square completely.
-    public func resize(image: NSImage) -> NSImage {
+    public func resize(image: NSImage) -> NSImage? {
         var destSize = NSMakeSize(CGFloat(600.0), CGFloat(600.0))
         var newImage = NSImage(size: destSize)
         newImage.lockFocus()
         image.drawInRect(NSMakeRect(0, 0, destSize.width, destSize.height), fromRect: NSMakeRect(0, 0, image.size.width, image.size.height), operation: NSCompositingOperation.CompositeSourceOver, fraction: CGFloat(1))
         newImage.unlockFocus()
         newImage.size = destSize
-        return NSImage(data: newImage.TIFFRepresentation!)!
+        if let tiff = newImage.TIFFRepresentation, let resized = NSImage(data: tiff) {
+            return resized
+        }
+        return nil
     }
     
     //
     
     private func findEdgeColor(image: NSImage) -> (color: NSColor?, set: NSCountedSet?) {
-        let imageRep = image.representations.last as! NSBitmapImageRep
-        let pixelsWide = imageRep.pixelsWide
-        let pixelsHigh = imageRep.pixelsHigh
-        var colors = NSCountedSet(capacity: pixelsWide * pixelsHigh)
-        var leftEdgeColors = NSCountedSet(capacity: pixelsHigh)
-        
-        // Use x = 0 to start scanning from the actual left edge
-        // Default .DetectorDistanceFromLeftEdge is non-zero to deal with badly cropped images (only relevant for high-res scanning, without side effect otherwise)
-        var x = CDSettings.DetectorDistanceFromLeftEdge
-        var y = 0
-        while x < pixelsWide {
-            while y < pixelsHigh {
-                var color = imageRep.colorAtX(x, y: y)
-                if x == CDSettings.DetectorDistanceFromLeftEdge {
-                    leftEdgeColors.addObject(color!)
-                }
-                colors.addObject(color!)
-                y++
-            }
-            y = 0
-            // We sample a vertical line every x pixels
-            // Set to 1 for high-res scanning
-            x += CDSettings.DetectorResolution
-        }
-        
-        let enumerator = leftEdgeColors.objectEnumerator()
-        var curColor = enumerator.nextObject() as? NSColor
-        var rootColors = [CDCountedColor]()
-        var lonelyColors = [CDCountedColor]()
-        while curColor != nil {
-            let colorCount = leftEdgeColors.countForObject(curColor!)
-            let randomColorsThreshold = Int(Double(pixelsHigh) * CDSettings.ThresholdMinimumPercentage)
-            if colorCount <= randomColorsThreshold {
-                lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
-                curColor = enumerator.nextObject() as? NSColor
-                continue
-            }
-            rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
-            curColor = enumerator.nextObject() as? NSColor
-        }
-        
-        // We use the marginal colors if we didn't get enough main colors for some reason
-        let sortedColors: [CDCountedColor]
-        if rootColors.count > 0 {
-            sortedColors = rootColors.sorted({ $0.count > $1.count })
-        } else {
-            sortedColors = lonelyColors.sorted({ $0.count > $1.count })
-        }
-        
-        var proposedEdgeColor: CDCountedColor?
-        if sortedColors.count > 0 {
-            proposedEdgeColor = sortedColors[0]
-            // want to choose color over black/white so we keep looking
-            if proposedEdgeColor!.color.isMostlyBlackOrWhite() {
-                var i = 0
-                while i < sortedColors.count {
-                    var nextProposedColor = sortedColors[i]
-                    // make sure the second choice color is 30% as common as the first choice
-                    if (Double(nextProposedColor.count) / Double(proposedEdgeColor!.count)) > 0.3 {
-                        if nextProposedColor.color.isMostlyBlackOrWhite() == false {
-                            proposedEdgeColor = nextProposedColor
-                            break
+        if let imageRep = image.representations.last as? NSBitmapImageRep {
+            let pixelsWide = imageRep.pixelsWide
+            let pixelsHigh = imageRep.pixelsHigh
+            var colors = NSCountedSet(capacity: pixelsWide * pixelsHigh)
+            var leftEdgeColors = NSCountedSet(capacity: pixelsHigh)
+            
+            // Use x = 0 to start scanning from the actual left edge
+            // Default .DetectorDistanceFromLeftEdge is non-zero to deal with badly cropped images (only relevant for high-res scanning, without side effect otherwise)
+            var x = CDSettings.DetectorDistanceFromLeftEdge
+            var y = 0
+            while x < pixelsWide {
+                while y < pixelsHigh {
+                    if let color = imageRep.colorAtX(x, y: y) {
+                        if x == CDSettings.DetectorDistanceFromLeftEdge {
+                            leftEdgeColors.addObject(color)
                         }
-                    } else {
-                        // reached color threshold less than 40% of the original proposed edge color so bail
-                        break
+                        colors.addObject(color)
                     }
-                    i++
+                    y++
                 }
+                y = 0
+                // We sample a vertical line every x pixels
+                // Set to 1 for high-res scanning
+                x += CDSettings.DetectorResolution
             }
-        }
-        return (proposedEdgeColor!.color, colors)
-    }
-
-    private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates {
-        var rootContainer = ColorCandidates()
-        rootContainer.background = backgroundColor
-        let enumerator = colors!.objectEnumerator()
-        var curColor = enumerator.nextObject() as? NSColor
-        var rootColors = [CDCountedColor]()
-        let isColorDark = backgroundColor.isMostlyDarkColor()
-        var lonelyColors = [CDCountedColor]()
-        while curColor != nil {
-            curColor = curColor!.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
-            // We don't want to be too close to the bg color
-            if curColor!.isMostlyDarkColor() && isColorDark {
-                var colorCount = colors!.countForObject(curColor!)
-                // We set apart the rarest colors
-                if colorCount <= CDSettings.ThresholdNoiseTolerance {
+            
+            let enumerator = leftEdgeColors.objectEnumerator()
+            var curColor = enumerator.nextObject() as? NSColor
+            var rootColors = [CDCountedColor]()
+            var lonelyColors = [CDCountedColor]()
+            while curColor != nil {
+                let colorCount = leftEdgeColors.countForObject(curColor!)
+                let randomColorsThreshold = Int(Double(pixelsHigh) * CDSettings.ThresholdMinimumPercentage)
+                if colorCount <= randomColorsThreshold {
                     lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
                     curColor = enumerator.nextObject() as? NSColor
                     continue
                 }
                 rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
+                curColor = enumerator.nextObject() as? NSColor
             }
-            curColor = enumerator.nextObject() as? NSColor
-        }
-        
-        let sortedColors: [CDCountedColor]
-        if rootColors.count > 0 {
-            sortedColors = rootColors.sorted({ $0.count > $1.count })
-        } else {
-            sortedColors = lonelyColors.sorted({ $0.count > $1.count })
-        }
-        
-        // Better have less relevant colors than no colors
-        for cc in sortedColors {
-            if rootContainer.primary == nil {
-                if cc.color.contrastsWith(backgroundColor) {
-                    rootContainer.primary = cc.color
+            
+            // We use the marginal colors if we didn't get enough main colors for some reason
+            let sortedColors: [CDCountedColor]
+            if rootColors.count > 0 {
+                sortedColors = rootColors.sorted({ $0.count > $1.count })
+            } else {
+                sortedColors = lonelyColors.sorted({ $0.count > $1.count })
+            }
+            
+            var proposedEdgeColor: CDCountedColor?
+            if sortedColors.count > 0 {
+                proposedEdgeColor = sortedColors[0]
+                // want to choose color over black/white so we keep looking
+                if let activeColor = proposedEdgeColor?.color {
+                    if activeColor.isMostlyBlackOrWhite() {
+                        var i = 0
+                        while i < sortedColors.count {
+                            var nextProposedColor = sortedColors[i]
+                            // make sure the second choice color is 30% as common as the first choice
+                            if (Double(nextProposedColor.count) / Double(proposedEdgeColor!.count)) > 0.3 {
+                                if nextProposedColor.color.isMostlyBlackOrWhite() == false {
+                                    proposedEdgeColor = nextProposedColor
+                                    break
+                                }
+                            } else {
+                                // reached color threshold less than 40% of the original proposed edge color so bail
+                                break
+                            }
+                            i++
+                        }
+                    }
                 }
-            } else if rootContainer.secondary == nil {
-                if rootContainer.primary!.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
-                    rootContainer.secondary = cc.color
-                }
-            } else if rootContainer.detail == nil {
-                if rootContainer.secondary!.isNearOf(cc.color) || rootContainer.primary!.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
-                    continue
-                }
-                rootContainer.detail = cc.color
-                break
+                return (proposedEdgeColor!.color, colors)
             }
         }
-        return rootContainer
+        return (nil, nil)
+    }
+
+    private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates? {
+        if let sourceColors = colors {
+            let enumerator = sourceColors.objectEnumerator()
+            var rootContainer = ColorCandidates()
+            rootContainer.background = backgroundColor
+            var rootColors = [CDCountedColor]()
+            let isColorDark = backgroundColor.isMostlyDarkColor()
+            var lonelyColors = [CDCountedColor]()
+            var curColor = enumerator.nextObject() as? NSColor
+            while curColor != nil {
+                curColor = curColor!.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
+                // We don't want to be too close to the bg color
+                if curColor!.isMostlyDarkColor() && isColorDark {
+                    var colorCount = sourceColors.countForObject(curColor!)
+                    // We set apart the rarest colors
+                    if colorCount <= CDSettings.ThresholdNoiseTolerance {
+                        lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
+                        curColor = enumerator.nextObject() as? NSColor
+                        continue
+                    }
+                    rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
+                }
+                curColor = enumerator.nextObject() as? NSColor
+            }
+            
+            let sortedColors: [CDCountedColor]
+            if rootColors.count > 0 {
+                sortedColors = rootColors.sorted({ $0.count > $1.count })
+            } else {
+                sortedColors = lonelyColors.sorted({ $0.count > $1.count })
+            }
+            
+            // Better have less relevant colors than no colors
+            for cc in sortedColors {
+                if rootContainer.primary == nil {
+                    if cc.color.contrastsWith(backgroundColor) {
+                        rootContainer.primary = cc.color
+                    }
+                } else if rootContainer.secondary == nil {
+                    if let prim = rootContainer.primary where prim.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                        rootContainer.secondary = cc.color
+                    }
+                } else if rootContainer.detail == nil {
+                    if let sec = rootContainer.secondary where sec.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                        continue
+                    }
+                    if let prim = rootContainer.primary where prim.isNearOf(cc.color) {
+                        continue
+                    }
+                    rootContainer.detail = cc.color
+                    break
+                }
+            }
+            return rootContainer
+        }
+        return nil
     }
 
     private func createColors(textColors: ColorCandidates, hasDarkBackground darkBackground: Bool) -> ColorCandidates {
@@ -190,30 +213,32 @@ public class ColorDetector: NSObject {
         
         // We try to avoid results that could be mathematically correct but not visually interesting
         
-        if colors.primary!.isNearOf(colors.secondary!) || colors.primary!.isNearOf(colors.detail!) || colors.secondary!.isNearOf(colors.detail!) {
-            if hasDarkBackground && !colors.primary!.isMostlyDarkColor() {
-                colors.secondary = textColors.primary!.darkerColor()
-                colors.detail = colors.secondary!.darkerColor()
-            } else {
-                colors.secondary = textColors.primary!.lighterColor()
-                colors.detail = colors.secondary!.lighterColor()
+        if let prim = colors.primary, let sec = colors.secondary, let det = colors.detail, let back = colors.background {
+            if prim.isNearOf(sec) || prim.isNearOf(det) || sec.isNearOf(det) {
+                if hasDarkBackground && !prim.isMostlyDarkColor() {
+                    colors.secondary = prim.darkerColor()
+                    colors.detail = sec.darkerColor()
+                } else {
+                    colors.secondary = prim.lighterColor()
+                    colors.detail = sec.lighterColor()
+                }
             }
-        }
-        if colors.primary!.isNearOf(colors.background!) {
-            colors.primary = rescueNilColor("primary, 2nd pass", hasDarkBackground: hasDarkBackground)
-        }
-        if colors.secondary!.isNearOf(colors.background!) {
-            if hasDarkBackground {
-                colors.secondary = colors.primary!.darkerColor()
-            } else {
-                colors.secondary = colors.primary!.lighterColor()
+            if prim.isNearOf(back) {
+                colors.primary = rescueNilColor("primary, 2nd pass", hasDarkBackground: hasDarkBackground)
             }
-        }
-        if colors.detail!.isNearOf(colors.background!) {
-            if hasDarkBackground {
-                colors.detail = colors.background!.lighterColor()
-            } else {
-                colors.detail = colors.background!.darkerColor()
+            if sec.isNearOf(back) {
+                if hasDarkBackground {
+                    colors.secondary = prim.darkerColor()
+                } else {
+                    colors.secondary = prim.lighterColor()
+                }
+            }
+            if det.isNearOf(back) {
+                if hasDarkBackground {
+                    colors.detail = back.lighterColor()
+                } else {
+                    colors.detail = back.darkerColor()
+                }
             }
         }
 
@@ -228,7 +253,6 @@ public class ColorDetector: NSObject {
         }
 
         if hasDarkBackground {
-//            colors.background = colors.background!.darkerColor()
             colors.backgroundIsDark = true
         } else {
             colors.backgroundIsDark = false
