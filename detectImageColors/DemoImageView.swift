@@ -9,20 +9,49 @@
 import Cocoa
 
 class DemoImageView: NSImageView, NSDraggingDestination {
+    
+    // INIT
 
     override func drawRect(dirtyRect: NSRect) {
-        let context = NSGraphicsContext.currentContext()!
-        context.imageInterpolation = NSImageInterpolation.High
         super.drawRect(dirtyRect)
     }
+    
+    // DRAG AND DROP ON IMAGE VIEW
 
     let fileTypes = ["jpg", "jpeg", "bmp", "png", "gif"]
+    let draggedTypes = [NSFilenamesPboardType,NSURLPboardType,NSPasteboardTypeTIFF]
     var fileTypeIsOk = false
 
     required init?(coder: NSCoder) {
-        let types = [NSFilenamesPboardType,NSURLPboardType,NSPasteboardTypeTIFF]
         super.init(coder: coder)
-        registerForDraggedTypes(types)
+        registerForDraggedTypes(self.draggedTypes)
+    }
+    
+    func imageDropped(dic: [String:String]) {
+        if let type = dic["type"] {
+            if type == "path" {
+                if let path = dic["path"], let img = NSImage(contentsOfFile: path) {
+                    self.updateImage(img)
+                }
+            } else {
+                if let path = dic["path"], let escapedPath = path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding), let url = NSURL(string: escapedPath) {
+                    NSURLConnection.sendAsynchronousRequest(NSURLRequest(URL: url), queue: NSOperationQueue.mainQueue(),
+                        completionHandler: {(response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
+                            if error == nil {
+                                if let dat = data, let img = NSImage(data: dat) {
+                                    self.updateImage(img)
+                                }
+                            } else {
+                                println("Error: \(error!.localizedDescription)")
+                            }
+                    })
+                }
+            }
+        }
+    }
+    
+    private func updateImage(image: NSImage) {
+        NSNotificationCenter.defaultCenter().postNotificationName("updateImageByDropOK", object: nil, userInfo: ["image": image])
     }
 
     override func viewDidMoveToWindow() {
@@ -43,39 +72,31 @@ class DemoImageView: NSImageView, NSDraggingDestination {
     override func performDragOperation(sender: NSDraggingInfo) -> Bool {
         var go = false
         var dic = [String:String]()
-        if let p1 = sender.draggingPasteboard().propertyListForType("NSFilenamesPboardType") as? NSArray {
-            if let pathStr = p1[0] as? String {
-                if checkExtension(pathStr) {
-                    dic["path"] = pathStr
-                    dic["type"] = "path"
-                    go = true
-                }
-            }
-        } else if let p2 = sender.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? NSArray {
-            if let pathStr = p2[0][0] as? String {
+        if let p1 = sender.draggingPasteboard().propertyListForType("NSFilenamesPboardType") as? NSArray,
+            let pathStr = p1[0] as? String where self.checkExtension(pathStr) {
                 dic["path"] = pathStr
-                dic["type"] = "url"
+                dic["type"] = "path"
                 go = true
-            }
+        } else if let p2 = sender.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? NSArray, let pathStr = p2[0][0] as? String {
+            dic["path"] = pathStr
+            dic["type"] = "url"
+            go = true
         }
         if go {
-            NSNotificationCenter.defaultCenter().postNotificationName("updateImageByDropOK", object: nil, userInfo: dic)
+            self.imageDropped(dic)
         }
         return go
     }
 
-    func checkExtension(pathStr: String) -> Bool {
-        var go = false
-        if let url = NSURL(fileURLWithPath: pathStr) {
-            let suffix = url.pathExtension!
-            for ext in fileTypes {
+    private func checkExtension(pathStr: String) -> Bool {
+        if let url = NSURL(fileURLWithPath: pathStr), let suffix = url.pathExtension {
+            for ext in self.fileTypes {
                 if ext.lowercaseString == suffix {
-                    go = true
-                    break
+                    return true
                 }
             }
         }
-        return go
+        return false
     }
 
 }

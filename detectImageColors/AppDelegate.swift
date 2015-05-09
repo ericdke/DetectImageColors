@@ -15,14 +15,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 
     func applicationWillFinishLaunching(notification: NSNotification) {
-        window.setFrameUsingName("DetectImageColorsDemo")
+        self.window.setFrameUsingName("DetectImageColorsDemo")
     }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
-        window.saveFrameUsingName("DetectImageColorsDemo")
+        self.window.saveFrameUsingName("DetectImageColorsDemo")
     }
 
 

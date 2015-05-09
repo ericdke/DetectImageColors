@@ -11,12 +11,23 @@ import Cocoa
 
 public class ColorDetector: NSObject {
 
-    public func analyzeImage(anImage: NSImage) -> ColorCandidates {
+    public func getColorCandidatesFromImage(anImage: NSImage) -> ColorCandidates {
         let edge = findEdgeColor(anImage)
         let colorsFirstPass = findColors(edge.set, backgroundColor: edge.color!)
         let backgroundIsDark = colorsFirstPass.background!.isMostlyDarkColor() // Bool
         let colorsSecondPass = createColors(colorsFirstPass, hasDarkBackground: backgroundIsDark)
         return createFadedColors(colorsSecondPass, hasDarkBackground: backgroundIsDark)
+    }
+    
+    // Image has to fill a square completely.
+    public func resize(image: NSImage) -> NSImage {
+        var destSize = NSMakeSize(CGFloat(600.0), CGFloat(600.0))
+        var newImage = NSImage(size: destSize)
+        newImage.lockFocus()
+        image.drawInRect(NSMakeRect(0, 0, destSize.width, destSize.height), fromRect: NSMakeRect(0, 0, image.size.width, image.size.height), operation: NSCompositingOperation.CompositeSourceOver, fraction: CGFloat(1))
+        newImage.unlockFocus()
+        newImage.size = destSize
+        return NSImage(data: newImage.TIFFRepresentation!)!
     }
     
     //
