@@ -18,7 +18,10 @@
 		C74B586D1AD2F87F00C6EE4F /* CDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */; };
 		C7AFACCB1AE2BC0F00B73499 /* elton.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7AFACCA1AE2BC0F00B73499 /* elton.jpg */; };
 		C7B573EE1AD0909500C44CDF /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B573ED1AD0909500C44CDF /* AppController.swift */; };
-		C7B573F81AD0BACA00C44CDF /* reed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7B573F71AD0BACA00C44CDF /* reed.jpg */; };
+		C7D49DD61AFEAD8D00CD8901 /* ColorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE001ACF7676004BD9BA /* ColorDetector.swift */; };
+		C7D49DD71AFEAD9000CD8901 /* CDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */; };
+		C7D49DD81AFEAD9200CD8901 /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* CDModels.swift */; };
+		C7D49DD91AFEAD9500CD8901 /* CDColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,7 +50,6 @@
 		C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSettings.swift; sourceTree = "<group>"; };
 		C7AFACCA1AE2BC0F00B73499 /* elton.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = elton.jpg; sourceTree = "<group>"; };
 		C7B573ED1AD0909500C44CDF /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
-		C7B573F71AD0BACA00C44CDF /* reed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = reed.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +102,6 @@
 			isa = PBXGroup;
 			children = (
 				C7AFACCA1AE2BC0F00B73499 /* elton.jpg */,
-				C7B573F71AD0BACA00C44CDF /* reed.jpg */,
 				C71FDDE41ACF7642004BD9BA /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -231,7 +232,6 @@
 				C71FDDE81ACF7642004BD9BA /* Images.xcassets in Resources */,
 				C71FDDEB1ACF7642004BD9BA /* MainMenu.xib in Resources */,
 				C7AFACCB1AE2BC0F00B73499 /* elton.jpg in Resources */,
-				C7B573F81AD0BACA00C44CDF /* reed.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,7 +279,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7D49DD81AFEAD9200CD8901 /* CDModels.swift in Sources */,
 				C71FDDF71ACF7643004BD9BA /* detectImageColorsTests.swift in Sources */,
+				C7D49DD91AFEAD9500CD8901 /* CDColorExtensions.swift in Sources */,
+				C7D49DD71AFEAD9000CD8901 /* CDSettings.swift in Sources */,
+				C7D49DD61AFEAD8D00CD8901 /* ColorDetector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -5,12 +5,13 @@
 //  ERIC DEJONCKHEERE on 03/04/2015.
 //  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
 //
-//  Original implementation by PanicSoftware 2011
+//  Inspired by PanicSoftware's 2011 implementation
 
 import Cocoa
 
 public class ColorDetector: NSObject {
 
+    // Main method
     public func getColorCandidatesFromImage(anImage: NSImage) -> ColorCandidates? {
         let edge = findEdgeColor(anImage)
         if let edgeColor = edge.color {
@@ -28,7 +29,7 @@ public class ColorDetector: NSObject {
         return nil
     }
     
-    // Image has to fill a square completely.
+    // Image has to fill a square completely
     public func resize(image: NSImage) -> NSImage? {
         var destSize = NSMakeSize(CGFloat(600.0), CGFloat(600.0))
         var newImage = NSImage(size: destSize)
@@ -42,7 +43,7 @@ public class ColorDetector: NSObject {
         return nil
     }
     
-    //
+    // ------------------------------------
     
     private func findEdgeColor(image: NSImage) -> (color: NSColor?, set: NSCountedSet?) {
         if let imageRep = image.representations.last as? NSBitmapImageRep {
