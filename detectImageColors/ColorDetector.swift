@@ -49,80 +49,91 @@ public class ColorDetector: NSObject {
         if let imageRep = image.representations.last as? NSBitmapImageRep {
             let pixelsWide = imageRep.pixelsWide
             let pixelsHigh = imageRep.pixelsHigh
-            var colors = NSCountedSet(capacity: pixelsWide * pixelsHigh)
-            var leftEdgeColors = NSCountedSet(capacity: pixelsHigh)
-            
-            // Use x = 0 to start scanning from the actual left edge
-            // Default .DetectorDistanceFromLeftEdge is non-zero to deal with badly cropped images (only relevant for high-res scanning, without side effect otherwise)
-            var x = CDSettings.DetectorDistanceFromLeftEdge
-            var y = 0
-            while x < pixelsWide {
-                while y < pixelsHigh {
-                    if let color = imageRep.colorAtX(x, y: y) {
-                        if x == CDSettings.DetectorDistanceFromLeftEdge {
-                            leftEdgeColors.addObject(color)
-                        }
-                        colors.addObject(color)
-                    }
-                    y++
-                }
-                y = 0
-                // We sample a vertical line every x pixels
-                // Set to 1 for high-res scanning
-                x += CDSettings.DetectorResolution
-            }
-            
-            let enumerator = leftEdgeColors.objectEnumerator()
-            var curColor = enumerator.nextObject() as? NSColor
-            var rootColors = [CDCountedColor]()
-            var lonelyColors = [CDCountedColor]()
-            while curColor != nil {
-                let colorCount = leftEdgeColors.countForObject(curColor!)
-                let randomColorsThreshold = Int(Double(pixelsHigh) * CDSettings.ThresholdMinimumPercentage)
-                if colorCount <= randomColorsThreshold {
-                    lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
-                    curColor = enumerator.nextObject() as? NSColor
-                    continue
-                }
-                rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
-                curColor = enumerator.nextObject() as? NSColor
-            }
-            
-            // We use the marginal colors if we didn't get enough main colors for some reason
-            let sortedColors: [CDCountedColor]
-            if rootColors.count > 0 {
-                sortedColors = rootColors.sorted({ $0.count > $1.count })
-            } else {
-                sortedColors = lonelyColors.sorted({ $0.count > $1.count })
-            }
-            
-            var proposedEdgeColor: CDCountedColor?
+            let (colors, leftEdgeColors) = sampleImage(width: pixelsWide, height: pixelsHigh, imageRep: imageRep)
+            let (rootColors, lonelyColors) = separateColors(leftEdgeColors, height: pixelsHigh)
+            let sortedColors = getMarginalColorsIfNecessary(rootColors, lonelyColors: lonelyColors)
             if sortedColors.count > 0 {
-                proposedEdgeColor = sortedColors[0]
-                // want to choose color over black/white so we keep looking
-                if let activeColor = proposedEdgeColor?.color {
-                    if activeColor.isMostlyBlackOrWhite() {
-                        var i = 0
-                        while i < sortedColors.count {
-                            var nextProposedColor = sortedColors[i]
-                            // make sure the second choice color is 30% as common as the first choice
-                            if (Double(nextProposedColor.count) / Double(proposedEdgeColor!.count)) > 0.3 {
-                                if nextProposedColor.color.isMostlyBlackOrWhite() == false {
-                                    proposedEdgeColor = nextProposedColor
-                                    break
-                                }
-                            } else {
-                                // reached color threshold less than 40% of the original proposed edge color so bail
-                                break
-                            }
-                            i++
-                        }
-                    }
-                }
-                return (proposedEdgeColor!.color, colors)
+                let proposedEdgeColor = tryAvoidBlackOrWhite(sortedColors)
+                return (proposedEdgeColor.color, colors)
             }
         }
         return (nil, nil)
+    }
+    
+    private func tryAvoidBlackOrWhite(sortedColors: [CDCountedColor]) -> CDCountedColor {
+        // want to choose color over black/white so we keep looking
+        var proposedEdgeColor = sortedColors[0]
+        let activeColor = proposedEdgeColor.color
+        if activeColor.isMostlyBlackOrWhite() {
+            var i = 0
+            while i < sortedColors.count {
+                var nextProposedColor = sortedColors[i]
+                // make sure the second choice color is 30% as common as the first choice
+                if (Double(nextProposedColor.count) / Double(proposedEdgeColor.count)) > 0.3 {
+                    if nextProposedColor.color.isMostlyBlackOrWhite() == false {
+                        proposedEdgeColor = nextProposedColor
+                        break
+                    }
+                } else {
+                    // reached color threshold less than 40% of the original proposed edge color so bail
+                    break
+                }
+                i++
+            }
+        }
+        return proposedEdgeColor
+    }
+    
+    private func separateColors(edgeColors: NSCountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
+        let enumerator = edgeColors.objectEnumerator()
+        var curColor = enumerator.nextObject() as? NSColor
+        var rootColors = [CDCountedColor]()
+        var lonelyColors = [CDCountedColor]()
+        while curColor != nil {
+            let colorCount = edgeColors.countForObject(curColor!)
+            let randomColorsThreshold = Int(Double(height) * CDSettings.ThresholdMinimumPercentage)
+            if colorCount <= randomColorsThreshold {
+                lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
+                curColor = enumerator.nextObject() as? NSColor
+                continue
+            }
+            rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
+            curColor = enumerator.nextObject() as? NSColor
+        }
+        return (rootColors, lonelyColors)
+    }
+    
+    private func sampleImage(#width: Int, height: Int, imageRep: NSBitmapImageRep) -> (NSCountedSet, NSCountedSet) {
+        var colors = NSCountedSet(capacity: width * height)
+        var leftEdgeColors = NSCountedSet(capacity: height)
+        // Use x = 0 to start scanning from the actual left edge
+        // Default .DetectorDistanceFromLeftEdge is non-zero to deal with badly cropped images (only relevant for high-res scanning, without side effect otherwise)
+        var x = CDSettings.DetectorDistanceFromLeftEdge
+        var y = 0
+        while x < width {
+            while y < height {
+                if let color = imageRep.colorAtX(x, y: y) {
+                    if x == CDSettings.DetectorDistanceFromLeftEdge {
+                        leftEdgeColors.addObject(color)
+                    }
+                    colors.addObject(color)
+                }
+                y++
+            }
+            y = 0
+            // We sample a vertical line every x pixels
+            // Set to 1 for high-res scanning
+            x += CDSettings.DetectorResolution
+        }
+        return (colors, leftEdgeColors)
+    }
+    
+    private func getMarginalColorsIfNecessary(rootColors: [CDCountedColor], lonelyColors: [CDCountedColor]) -> [CDCountedColor] {
+        if rootColors.count > 0 {
+            return rootColors.sorted({ $0.count > $1.count })
+        } else {
+            return lonelyColors.sorted({ $0.count > $1.count })
+        }
     }
 
     private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates? {
@@ -150,12 +161,7 @@ public class ColorDetector: NSObject {
                 curColor = enumerator.nextObject() as? NSColor
             }
             
-            let sortedColors: [CDCountedColor]
-            if rootColors.count > 0 {
-                sortedColors = rootColors.sorted({ $0.count > $1.count })
-            } else {
-                sortedColors = lonelyColors.sorted({ $0.count > $1.count })
-            }
+            let sortedColors = getMarginalColorsIfNecessary(rootColors, lonelyColors: lonelyColors)
             
             // Better have less relevant colors than no colors
             for cc in sortedColors {
