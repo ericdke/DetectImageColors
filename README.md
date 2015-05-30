@@ -15,7 +15,7 @@ Grab the files which name begins with "CD" and copy them to your Xcode Swift pro
 2. Create color candidates from image
 
 ```  
-let elton = NSImage(named: "elton")  
+let image = NSImage(named: "elton")  
 let colorDetector = ColorDetector()
 let resized = colorDetector.resize(image)
 let colorCandidates = colorDetector.getColorCandidatesFromImage(resized)
