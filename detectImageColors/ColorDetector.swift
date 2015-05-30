@@ -31,7 +31,13 @@ public class ColorDetector: NSObject {
     
     // Image has to fill a square completely
     public func resize(image: NSImage) -> NSImage? {
-        var destSize = NSMakeSize(CGFloat(600.0), CGFloat(600.0))
+        let (myWidth, myHeight): (CGFloat, CGFloat)
+        if image.size.width < 600 {
+            (myWidth, myHeight) = (image.size.width, image.size.width)
+        } else {
+            (myWidth, myHeight) = (CGFloat(600), CGFloat(600))
+        }
+        var destSize = NSMakeSize(myWidth, myHeight)
         var newImage = NSImage(size: destSize)
         newImage.lockFocus()
         image.drawInRect(NSMakeRect(0, 0, destSize.width, destSize.height), fromRect: NSMakeRect(0, 0, image.size.width, image.size.height), operation: NSCompositingOperation.CompositeSourceOver, fraction: CGFloat(1))
@@ -135,6 +141,8 @@ public class ColorDetector: NSObject {
             return lonelyColors.sorted({ $0.count > $1.count })
         }
     }
+    
+    // ------------------------------------
 
     private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates? {
         if let sourceColors = colors {
@@ -188,6 +196,7 @@ public class ColorDetector: NSObject {
         }
         return nil
     }
+    
 
     private func createColors(textColors: ColorCandidates, hasDarkBackground darkBackground: Bool) -> ColorCandidates {
         var colors = textColors

@@ -16,12 +16,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // ------------------------------------
 
     @IBOutlet weak var window: NSWindow!
-
+    @IBOutlet weak var distinctColorsSlider: NSTextField!
+    @IBOutlet weak var thresholdNoise: NSTextField!
+    
+    
+    
     func applicationWillFinishLaunching(notification: NSNotification) {
         self.window.setFrameUsingName("DetectImageColorsDemo")
     }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
+        self.distinctColorsSlider.doubleValue = 0.43
+        self.thresholdNoise.integerValue = 1
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

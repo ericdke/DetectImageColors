@@ -27,7 +27,7 @@ public class CDSettings {
     // 0.75
     public static var ThresholdCeilingBrightness: CGFloat = 0.75
     // 0.25
-    public static var ThresholdDistinctColor: CGFloat = 0.42
+    public static var ThresholdDistinctColor: CGFloat = 0.43
     // 0.03
     public static var ThresholdGrey: CGFloat = 0.03
     // 0.91
