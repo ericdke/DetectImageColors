@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
@@ -24,6 +25,7 @@
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <customObject id="UW4-RA-zN2" customClass="AppController" customModule="detectImageColors" customModuleProvider="target">
             <connections>
+                <outlet property="backgroundView" destination="b9r-ac-ZnS" id="dHX-Qe-tf9"/>
                 <outlet property="contrastRatioTitle" destination="8cw-SR-Zkf" id="l01-jM-gO3"/>
                 <outlet property="contrastRatioValue" destination="eW6-hY-MZh" id="eTe-be-KW0"/>
                 <outlet property="distinctColors" destination="8M1-94-Mha" id="nsQ-D5-8OU"/>
@@ -702,6 +704,10 @@
                 <rect key="frame" x="0.0" y="1" width="635" height="587"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
+                    <customView id="b9r-ac-ZnS" customClass="DemoBackgroundView" customModule="detectImageColors" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="141" width="635" height="446"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </customView>
                     <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DGu-0e-za9" customClass="DemoImageView" customModule="detectImageColors" customModuleProvider="target">
                         <rect key="frame" x="234" y="165" width="381" height="400"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -812,6 +818,17 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button id="P6h-Ac-dgM">
+                        <rect key="frame" x="214" y="109" width="206" height="20"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="EnsureContrastedColorCandidates" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="RM8-0h-CNP">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="ensureContrastedColorCandidates:" target="UW4-RA-zN2" id="Iho-sc-sa9"/>
+                        </connections>
+                    </button>
                     <slider verticalHuggingPriority="750" id="sbX-ui-LMy">
                         <rect key="frame" x="213" y="31" width="197" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -864,17 +881,6 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button id="P6h-Ac-dgM">
-                        <rect key="frame" x="214" y="109" width="206" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="EnsureContrastedColorCandidates" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="RM8-0h-CNP">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="smallSystem"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="ensureContrastedColorCandidates:" target="UW4-RA-zN2" id="Iho-sc-sa9"/>
-                        </connections>
-                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-83.5" y="262.5"/>

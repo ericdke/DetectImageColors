@@ -49,32 +49,12 @@ class AppController: NSObject {
     
     // MARK: DEMO APP
     
-    // outlets
-    
-    @IBOutlet weak var window: NSWindow!
-    @IBOutlet weak var label1: NSTextField!
-    @IBOutlet weak var label2: NSTextField!
-    @IBOutlet weak var label3: NSTextField!
-    @IBOutlet weak var imageView: NSImageView!
-    @IBOutlet weak var distinctColors: NSSlider!
-    @IBOutlet weak var distinctColorsValue: NSTextField!
-    @IBOutlet weak var noiseTolerance: NSSlider!
-    @IBOutlet weak var noiseToleranceValue: NSTextField!
-    @IBOutlet weak var distinctColorsTitle: NSTextField!
-    @IBOutlet weak var noiseToleranceTitle: NSTextField!
-    @IBOutlet weak var thresholdMinimumSaturationTitle: NSTextField!
-    @IBOutlet weak var thresholdMinimumSaturationValue: NSTextField!
-    @IBOutlet weak var thresholdFloorBrightnessTitle: NSTextField!
-    @IBOutlet weak var thresholdFloorBrightnessValue: NSTextField!
-    @IBOutlet weak var contrastRatioValue: NSTextField!
-    @IBOutlet weak var contrastRatioTitle: NSTextField!
-    
-    
     // objects
     
     var resizedImage: NSImage?
     
     // sliders
+    
     @IBAction func thresholdMinimumSaturationSlider(sender: NSSlider) {
         let val = Double(sender.integerValue) / 100
         thresholdMinimumSaturationValue.doubleValue = val
@@ -118,8 +98,6 @@ class AppController: NSObject {
         updateAnalyze()
     }
     
-    
-    
     // methods
 
     override func awakeFromNib() {
@@ -147,18 +125,7 @@ class AppController: NSObject {
             label1.textColor = cols.primary
             label2.textColor = cols.secondary
             label3.textColor = cols.detail
-            window.backgroundColor = cols.background
-            
-            distinctColorsValue.textColor = cols.detail
-            distinctColorsTitle.textColor = cols.primary
-            noiseToleranceValue.textColor = cols.detail
-            noiseToleranceTitle.textColor = cols.primary
-            thresholdMinimumSaturationTitle.textColor = cols.primary
-            thresholdMinimumSaturationValue.textColor = cols.detail
-            thresholdFloorBrightnessTitle.textColor = cols.primary
-            thresholdFloorBrightnessValue.textColor = cols.detail
-            contrastRatioTitle.textColor = cols.primary
-            contrastRatioValue.textColor = cols.detail
+            backgroundView?.color = cols.background
         }
     }
     
@@ -167,5 +134,26 @@ class AppController: NSObject {
         imageView.image = image
         refreshWindowElements()
     }
+    
+    // outlets
+    
+    @IBOutlet weak var window: NSWindow!
+    @IBOutlet weak var label1: NSTextField!
+    @IBOutlet weak var label2: NSTextField!
+    @IBOutlet weak var label3: NSTextField!
+    @IBOutlet weak var imageView: NSImageView!
+    @IBOutlet weak var distinctColors: NSSlider!
+    @IBOutlet weak var distinctColorsValue: NSTextField!
+    @IBOutlet weak var noiseTolerance: NSSlider!
+    @IBOutlet weak var noiseToleranceValue: NSTextField!
+    @IBOutlet weak var distinctColorsTitle: NSTextField!
+    @IBOutlet weak var noiseToleranceTitle: NSTextField!
+    @IBOutlet weak var thresholdMinimumSaturationTitle: NSTextField!
+    @IBOutlet weak var thresholdMinimumSaturationValue: NSTextField!
+    @IBOutlet weak var thresholdFloorBrightnessTitle: NSTextField!
+    @IBOutlet weak var thresholdFloorBrightnessValue: NSTextField!
+    @IBOutlet weak var contrastRatioValue: NSTextField!
+    @IBOutlet weak var contrastRatioTitle: NSTextField!
+    @IBOutlet weak var backgroundView: DemoBackgroundView!
 
 }

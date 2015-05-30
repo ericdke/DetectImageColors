@@ -1,10 +1,6 @@
 //
 //  ImageViewController.swift
 //  detectImageColors
-//
-//  Created by ERIC DEJONCKHEERE on 06/04/2015.
-//  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
-//
 
 import Cocoa
 

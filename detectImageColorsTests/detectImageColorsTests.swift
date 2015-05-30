@@ -24,10 +24,9 @@ class detectImageColorsTests: XCTestCase {
         super.tearDown()
     }
     
-    func testResizeImage() {
+    func testDontResizeImage() {
         let resized = detector.resize(elton)
-        XCTAssert(resized!.size.width == 600, "Resized width OK")
-        XCTAssert(resized!.size.height == 600, "Resized height OK")
+        XCTAssert(resized!.size.width == elton.size.width, "Did not resize if < 600")
     }
     
     func testCreateColorCandidates() {
