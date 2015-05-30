@@ -62,12 +62,25 @@ class AppController: NSObject {
     @IBOutlet weak var noiseToleranceValue: NSTextField!
     @IBOutlet weak var distinctColorsTitle: NSTextField!
     @IBOutlet weak var noiseToleranceTitle: NSTextField!
+    @IBOutlet weak var thresholdMinimumSaturationTitle: NSTextField!
+    @IBOutlet weak var thresholdMinimumSaturationValue: NSTextField!
+    @IBOutlet weak var thresholdFloorBrightnessTitle: NSTextField!
+    @IBOutlet weak var thresholdFloorBrightnessValue: NSTextField!
+    @IBOutlet weak var contrastRatioValue: NSTextField!
+    @IBOutlet weak var contrastRatioTitle: NSTextField!
+    
     
     // objects
     
     var resizedImage: NSImage?
     
     // sliders
+    @IBAction func thresholdMinimumSaturationSlider(sender: NSSlider) {
+        let val = Double(sender.integerValue) / 100
+        thresholdMinimumSaturationValue.doubleValue = val
+        CDSettings.ThresholdMinimumSaturation = CGFloat(val)
+        updateAnalyze()
+    }
     
     @IBAction func distinctColorsSlider(sender: NSSlider) {
         let val = Double(sender.integerValue) / 100
@@ -81,6 +94,30 @@ class AppController: NSObject {
         CDSettings.ThresholdNoiseTolerance = sender.integerValue
         updateAnalyze()
     }
+    
+    @IBAction func ensureContrastedColorCandidates(sender: NSButton) {
+        if sender.state == NSOnState {
+            CDSettings.EnsureContrastedColorCandidates = true
+        } else {
+            CDSettings.EnsureContrastedColorCandidates = false
+        }
+        updateAnalyze()
+    }
+    
+    @IBAction func thresholdFloorBrightnessSlider(sender: AnyObject) {
+        let val = Double(sender.integerValue) / 100
+        thresholdFloorBrightnessValue.doubleValue = val
+        CDSettings.ThresholdFloorBrightness = CGFloat(val)
+        updateAnalyze()
+    }
+    
+    @IBAction func contrastRatioSlider(sender: NSSlider) {
+        let val = Double(sender.integerValue) / 10
+        contrastRatioValue.doubleValue = val
+        CDSettings.ContrastRatio = CGFloat(val)
+        updateAnalyze()
+    }
+    
     
     
     // methods
@@ -116,6 +153,12 @@ class AppController: NSObject {
             distinctColorsTitle.textColor = cols.primary
             noiseToleranceValue.textColor = cols.detail
             noiseToleranceTitle.textColor = cols.primary
+            thresholdMinimumSaturationTitle.textColor = cols.primary
+            thresholdMinimumSaturationValue.textColor = cols.detail
+            thresholdFloorBrightnessTitle.textColor = cols.primary
+            thresholdFloorBrightnessValue.textColor = cols.detail
+            contrastRatioTitle.textColor = cols.primary
+            contrastRatioValue.textColor = cols.detail
         }
     }
     
