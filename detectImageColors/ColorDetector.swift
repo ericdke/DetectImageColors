@@ -1,11 +1,6 @@
-//
-//  ColorDetector.swift
-//  colorDetector
-//
-//  ERIC DEJONCKHEERE on 03/04/2015.
-//  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
-//
-//  Inspired by PanicSoftware's 2011 implementation
+//  First version: ERIC DEJONCKHEERE on 03/04/2015
+//  Licence: MIT
+//  Inspired by PanicSoftware's 2011 blog article
 
 import Cocoa
 

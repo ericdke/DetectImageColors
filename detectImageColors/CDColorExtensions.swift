@@ -1,11 +1,3 @@
-//
-//  NSColorExtensions.swift
-//  colorDetector
-//
-//  Created by ERIC DEJONCKHEERE on 03/04/2015.
-//  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
-//
-
 import Cocoa
 
 public extension NSColor {

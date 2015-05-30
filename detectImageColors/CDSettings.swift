@@ -1,11 +1,3 @@
-//
-//  DCSettings.swift
-//  detectImageColors
-//
-//  Created by ERIC DEJONCKHEERE on 06/04/2015.
-//  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
-//
-
 import Cocoa
 
 // MAGIC NUMBERS, YEAH!
@@ -13,7 +5,7 @@ import Cocoa
 // Standard values are noted above each variable.
 
 // "Standard" means "correct value on average", but sometimes average is not what we want...
-// ...so the defaults values here are better than standards *according to me*. Please experiment.
+// ...so the defaults values here are better than standards *according to me* for the demo image. Please experiment.
 
 public class CDSettings {
     // 0.01
