@@ -21,6 +21,13 @@ let resized = colorDetector.resize(image)
 let colorCandidates = colorDetector.getColorCandidatesFromImage(resized)
 ```  
 
+## Playground
+
+A Playground is also included for demo purposes.
+
+![Playground](https://www.evernote.com/shard/s89/sh/9188b56f-d2f5-44d3-a14f-55bd7c97e7cf/6c92794b3b4a606b/res/dfd99f98-c497-4eb1-8d84-d366484d0986/skitch.png)
+
+
 ## Todo
 
 - Make a framework
