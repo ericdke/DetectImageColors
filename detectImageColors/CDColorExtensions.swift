@@ -68,6 +68,7 @@ public extension NSColor {
         return true
     }
 
+    // TODO: test this one, looks like it always returns self
     public func withMinimumSaturation(minimumSaturation: CGFloat) -> NSColor {
         var tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
         if tempColor != nil {

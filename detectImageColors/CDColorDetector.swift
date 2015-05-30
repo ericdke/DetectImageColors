@@ -26,6 +26,7 @@ public class ColorDetector: NSObject {
     
     // Image has to fill a square completely
     public func resize(image: NSImage) -> NSImage? {
+        // TODO: very slow, have to refactor
         let (myWidth, myHeight): (CGFloat, CGFloat)
         if image.size.width < 600 {
             (myWidth, myHeight) = (image.size.width, image.size.width)
@@ -46,10 +47,12 @@ public class ColorDetector: NSObject {
     
     // ------------------------------------
     
+    // find what we think is the main color + other candidates
     private func findEdgeColor(image: NSImage) -> (color: NSColor?, set: NSCountedSet?) {
         if let imageRep = image.representations.last as? NSBitmapImageRep {
             let pixelsWide = imageRep.pixelsWide
             let pixelsHigh = imageRep.pixelsHigh
+            // sample the image, beginning with the left edge
             let (colors, leftEdgeColors) = sampleImage(width: pixelsWide, height: pixelsHigh, imageRep: imageRep)
             let (rootColors, lonelyColors) = separateColors(leftEdgeColors, height: pixelsHigh)
             let sortedColors = getMarginalColorsIfNecessary(rootColors, lonelyColors: lonelyColors)
@@ -76,7 +79,7 @@ public class ColorDetector: NSObject {
                         break
                     }
                 } else {
-                    // reached color threshold less than 40% of the original proposed edge color so bail
+                    // reached color threshold less than 40% of the original proposed edge color
                     break
                 }
                 i++
@@ -85,6 +88,7 @@ public class ColorDetector: NSObject {
         return proposedEdgeColor
     }
     
+    // let's try to sort the credible candidates from the noise
     private func separateColors(edgeColors: NSCountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
         let enumerator = edgeColors.objectEnumerator()
         var curColor = enumerator.nextObject() as? NSColor
@@ -121,9 +125,10 @@ public class ColorDetector: NSObject {
                 }
                 y++
             }
+            // Reset y every x loop
             y = 0
             // We sample a vertical line every x pixels
-            // Set to 1 for high-res scanning
+            // Set DetectorResolution to 1 for high-res scanning
             x += CDSettings.DetectorResolution
         }
         return (colors, leftEdgeColors)
@@ -131,8 +136,10 @@ public class ColorDetector: NSObject {
     
     private func getMarginalColorsIfNecessary(rootColors: [CDCountedColor], lonelyColors: [CDCountedColor]) -> [CDCountedColor] {
         if rootColors.count > 0 {
+            // if we have at least one credible candidate
             return rootColors.sorted({ $0.count > $1.count })
         } else {
+            // here come the less credible ones
             return lonelyColors.sorted({ $0.count > $1.count })
         }
     }
@@ -149,7 +156,9 @@ public class ColorDetector: NSObject {
             var lonelyColors = [CDCountedColor]()
             var curColor = enumerator.nextObject() as? NSColor
             while curColor != nil {
-                curColor = curColor!.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
+                // TODO: test with withMinimumSaturation
+                // curColor = curColor!.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
+                
                 // We don't want to be too close to the bg color
                 if curColor!.isMostlyDarkColor() && isColorDark {
                     var colorCount = sourceColors.countForObject(curColor!)
@@ -167,6 +176,7 @@ public class ColorDetector: NSObject {
             let sortedColors = getMarginalColorsIfNecessary(rootColors, lonelyColors: lonelyColors)
             
             // Better have less relevant colors than no colors
+            // TODO: this part needs to be broken down and refactored
             for cc in sortedColors {
                 if rootContainer.primary == nil {
                     if cc.color.contrastsWith(backgroundColor) {

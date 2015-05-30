@@ -43,9 +43,9 @@ class detectImageColorsTests: XCTestCase {
     
     func testChangeSomeSetting() {
         let minP = CDSettings.ThresholdMinimumPercentage
-        CDSettings.ThresholdMinimumPercentage = 0.42
+        CDSettings.ThresholdMinimumPercentage = 0.75
         XCTAssert(minP != CDSettings.ThresholdMinimumPercentage, "Setting changed")
-        XCTAssert(CDSettings.ThresholdMinimumPercentage == 0.42, "Setting changed")
+        XCTAssert(CDSettings.ThresholdMinimumPercentage == 0.75, "Setting changed")
     }
     
     func testLighterColor() {
@@ -100,13 +100,6 @@ class detectImageColorsTests: XCTestCase {
         let colC = NSColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
         doesNotContrastWith = colA.doesNotContrastWith(colC)
         XCTAssert(!doesNotContrastWith, "Middle color does contrast with a dark color")
-    }
-    
-    func testPerformanceExample() {
-        self.measureBlock() {
-            let resized = self.detector.resize(self.elton)!
-            let candidates = self.detector.getColorCandidatesFromImage(resized)
-        }
     }
     
 }
