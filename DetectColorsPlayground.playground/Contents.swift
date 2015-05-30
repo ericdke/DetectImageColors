@@ -12,7 +12,7 @@ let colorCandidates = colorDetector.getColorCandidatesFromImage(resized!)
 
 // ---
 
-class DemoBackgroundView: NSView {
+class DemoView: NSView {
     var color: NSColor? {
         didSet {
             self.display()
@@ -30,10 +30,10 @@ class DemoBackgroundView: NSView {
 let mainView = NSView(frame: NSMakeRect(0, 0, 600, 600))
 let imageView = NSImageView(frame: NSMakeRect(150, 250, 300, 300))
 imageView.image = image
-let primaryColorView = DemoBackgroundView(frame: NSMakeRect(100, 50, 100, 150))
-let secondaryColorView = DemoBackgroundView(frame: NSMakeRect(250, 50, 100, 150))
-let detailColorView = DemoBackgroundView(frame: NSMakeRect(400, 50, 100, 150))
-let backgroundColorView = DemoBackgroundView(frame: NSMakeRect(0, 0, 600, 600))
+let primaryColorView = DemoView(frame: NSMakeRect(100, 50, 100, 150))
+let secondaryColorView = DemoView(frame: NSMakeRect(250, 50, 100, 150))
+let detailColorView = DemoView(frame: NSMakeRect(400, 50, 100, 150))
+let backgroundColorView = DemoView(frame: NSMakeRect(0, 0, 600, 600))
 primaryColorView.color = colorCandidates?.primary
 secondaryColorView.color = colorCandidates?.secondary
 detailColorView.color = colorCandidates?.detail
