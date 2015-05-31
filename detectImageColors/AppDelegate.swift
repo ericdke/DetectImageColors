@@ -22,11 +22,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.setFrameUsingName("DetectImageColorsDemo")
         window.title = "DetectImageColors"
         window.backgroundColor = NSColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
-        distinctColorsSlider.doubleValue = Double(CDSettings.ThresholdDistinctColor)
+        distinctColorsSlider.stringValue = String(format: "%.2f", CDSettings.ThresholdDistinctColor)
         thresholdNoise.integerValue = CDSettings.ThresholdNoiseTolerance
-        thresholdMinimumSaturation.doubleValue = Double(CDSettings.ThresholdMinimumSaturation)
-        thresholdFloorBrightness.doubleValue = Double(CDSettings.ThresholdFloorBrightness)
-        contrastRatio.doubleValue = Double(CDSettings.ContrastRatio)
+        thresholdMinimumSaturation.stringValue = String(format: "%.2f", CDSettings.ThresholdMinimumSaturation)
+        thresholdFloorBrightness.stringValue = String(format: "%.2f", CDSettings.ThresholdFloorBrightness)
+        contrastRatio.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
     }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {

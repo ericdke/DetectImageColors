@@ -7,21 +7,21 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>2F77A9CB-18C7-47F3-8CDB-C2E95C6FB5F5</string>
 	<key>IDESourceControlProjectName</key>
-	<string>detectImageColors</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>C929C943C6943829360F5D9943A87AF184454AF0</key>
-		<string>bitbucket.org:ayaio/detectcolors.git</string>
+		<string>github.com:ericdke/DetectImageColors.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>detectImageColors.xcodeproj</string>
+	<string>detectImageColors.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>C929C943C6943829360F5D9943A87AF184454AF0</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>bitbucket.org:ayaio/detectcolors.git</string>
+	<string>github.com:ericdke/DetectImageColors.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
     </dependencies>
     <objects>
@@ -741,7 +740,7 @@
                         </textFieldCell>
                     </textField>
                     <slider verticalHuggingPriority="750" id="8M1-94-Mha">
-                        <rect key="frame" x="20" y="80" width="281" height="20"/>
+                        <rect key="frame" x="20" y="80" width="311" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="43.43434343434344" tickMarkPosition="above" numberOfTickMarks="100" allowsTickMarkValuesOnly="YES" sliderType="linear" id="HTP-GB-UoE"/>
                         <connections>
@@ -749,7 +748,7 @@
                         </connections>
                     </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="MzJ-ek-y2A">
-                        <rect key="frame" x="74" y="60" width="130" height="17"/>
+                        <rect key="frame" x="92" y="60" width="130" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdDistinctColor" id="bVs-h5-csr">
                             <font key="font" metaFont="smallSystem"/>
@@ -758,7 +757,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="du3-aq-dsE">
-                        <rect key="frame" x="208" y="60" width="38" height="17"/>
+                        <rect key="frame" x="220" y="60" width="38" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="xwQ-1r-k9j">
                             <font key="font" metaFont="smallSystem"/>
@@ -767,16 +766,16 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="JWD-Eb-m8T">
-                        <rect key="frame" x="18" y="12" width="145" height="17"/>
+                        <rect key="frame" x="18" y="12" width="87" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdNoiseTolerance" id="YLy-ll-Kzg">
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="NoiseTolerance" id="YLy-ll-Kzg">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <slider verticalHuggingPriority="750" id="D3R-Cf-0G5">
-                        <rect key="frame" x="20" y="31" width="180" height="20"/>
+                        <rect key="frame" x="20" y="31" width="103" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="1" maxValue="5" doubleValue="1" tickMarkPosition="above" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="xdb-LG-tGu"/>
                         <connections>
@@ -784,7 +783,7 @@
                         </connections>
                     </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ytR-Hf-ubo">
-                        <rect key="frame" x="164" y="12" width="38" height="17"/>
+                        <rect key="frame" x="104" y="12" width="21" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="L30-uG-Usy">
                             <font key="font" metaFont="smallSystem"/>
@@ -793,31 +792,13 @@
                         </textFieldCell>
                     </textField>
                     <slider verticalHuggingPriority="750" id="dzb-jf-HLT">
-                        <rect key="frame" x="424" y="32" width="191" height="20"/>
+                        <rect key="frame" x="360" y="31" width="255" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="15.306122448979592" tickMarkPosition="above" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="pXE-mS-HYp"/>
                         <connections>
                             <action selector="thresholdMinimumSaturationSlider:" target="UW4-RA-zN2" id="1Ke-HM-pxB"/>
                         </connections>
                     </slider>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Z7Q-89-q4J">
-                        <rect key="frame" x="422" y="12" width="159" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdMinimumSaturation" id="Eli-bZ-97t">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4gR-3I-cZE">
-                        <rect key="frame" x="579" y="12" width="38" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="sww-VF-sCZ">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <button id="P6h-Ac-dgM">
                         <rect key="frame" x="214" y="109" width="206" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -830,7 +811,7 @@
                         </connections>
                     </button>
                     <slider verticalHuggingPriority="750" id="sbX-ui-LMy">
-                        <rect key="frame" x="213" y="31" width="197" height="20"/>
+                        <rect key="frame" x="160" y="31" width="171" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="24.489795918367349" tickMarkPosition="above" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="azM-rB-r2N"/>
                         <connections>
@@ -838,7 +819,7 @@
                         </connections>
                     </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="kw5-jR-EGm">
-                        <rect key="frame" x="211" y="11" width="159" height="17"/>
+                        <rect key="frame" x="158" y="12" width="140" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdFloorBrightness" id="AlH-ze-WVL">
                             <font key="font" metaFont="smallSystem"/>
@@ -847,7 +828,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="f2H-vK-2Zs">
-                        <rect key="frame" x="374" y="11" width="38" height="17"/>
+                        <rect key="frame" x="297" y="12" width="36" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="W9x-tj-UYX">
                             <font key="font" metaFont="smallSystem"/>
@@ -856,7 +837,7 @@
                         </textFieldCell>
                     </textField>
                     <slider verticalHuggingPriority="750" id="vcQ-am-n8c">
-                        <rect key="frame" x="322" y="80" width="293" height="20"/>
+                        <rect key="frame" x="360" y="80" width="255" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="15.306122448979592" tickMarkPosition="above" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="RbM-jh-EaQ"/>
                         <connections>
@@ -864,7 +845,7 @@
                         </connections>
                     </slider>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="8cw-SR-Zkf">
-                        <rect key="frame" x="406" y="60" width="83" height="17"/>
+                        <rect key="frame" x="428" y="60" width="83" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ContrastRatio" id="kL0-Vk-hyD">
                             <font key="font" metaFont="smallSystem"/>
@@ -873,9 +854,27 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="eW6-hY-MZh">
-                        <rect key="frame" x="493" y="60" width="38" height="17"/>
+                        <rect key="frame" x="509" y="60" width="38" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="3bq-VZ-NfG">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Z7Q-89-q4J">
+                        <rect key="frame" x="389" y="12" width="159" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdMinimumSaturation" id="Eli-bZ-97t">
+                            <font key="font" metaFont="smallSystem"/>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4gR-3I-cZE">
+                        <rect key="frame" x="548" y="12" width="38" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="sww-VF-sCZ">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>

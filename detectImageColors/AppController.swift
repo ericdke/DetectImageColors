@@ -68,28 +68,28 @@ class AppController: NSObject {
     
     @IBAction func thresholdMinimumSaturationSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
-        thresholdMinimumSaturationValue.doubleValue = val
+        thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", val)
         CDSettings.ThresholdMinimumSaturation = CGFloat(val)
         updateColorCandidates()
     }
     
     @IBAction func distinctColorsSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
-        distinctColorsValue.doubleValue = val
+        distinctColorsValue.stringValue = String(format: "%.2f", val)
         CDSettings.ThresholdDistinctColor = CGFloat(val)
         updateColorCandidates()
     }
     
     @IBAction func thresholdFloorBrightnessSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
-        thresholdFloorBrightnessValue.doubleValue = val
+        thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", val)
         CDSettings.ThresholdFloorBrightness = CGFloat(val)
         updateColorCandidates()
     }
     
     @IBAction func contrastRatioSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender, divider: 10)
-        contrastRatioValue.doubleValue = val
+        contrastRatioValue.stringValue = String(format: "%.1f", val)
         CDSettings.ContrastRatio = CGFloat(val)
         updateColorCandidates()
     }
