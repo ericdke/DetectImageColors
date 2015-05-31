@@ -11,11 +11,11 @@ class AppController: NSObject {
     
     // MARK: HOW TO USE
     
-    // 1. Create color-detector objects
+    // 1. Create objects to handle the detector and the results
 
     var colorDetector: ColorDetector?
-    var colorCandidates: ColorCandidates? {
-        // this is for the demo app
+    var colorCandidates: ColorCandidates?
+    {   // this is for the demo app
         didSet {
             refreshWindowElements()
         }
@@ -25,27 +25,27 @@ class AppController: NSObject {
 
     // 3. Create color candidates from image
     
-    private func analyzeImage(image: NSImage) {
-        var candidates: ColorCandidates?
-        // If our ColorDetector instance exists
-        if let cd = self.colorDetector {
-            // Avoid big images
-            if let resized = cd.resize(image) {
-                // Keep it around for the demo app
+    private func getColorsFromImage(image: NSImage) {
+        var probableCandidates: ColorCandidates?
+        // if our ColorDetector instance exists
+        if let detector = self.colorDetector {
+            // avoid big images
+            if let resized = detector.resize(image) {
+                // keep it around for the demo app
                 self.resizedImage = resized
-                // Get the Optional ColorCandidates object from the resized image
-                candidates = cd.getColorCandidatesFromImage(resized)
+                // get the Optional ColorCandidates object from the resized image
+                probableCandidates = detector.getColorCandidatesFromImage(resized)
             }
         } else {
-            // Create ColorDetector instance
+            // create ColorDetector instance
             self.colorDetector = ColorDetector()
-            if let cd = self.colorDetector, let resized = cd.resize(image) {
+            if let detector = self.colorDetector, let resized = detector.resize(image) {
                 self.resizedImage = resized
-                candidates = cd.getColorCandidatesFromImage(resized)
+                probableCandidates = detector.getColorCandidatesFromImage(resized)
             }
         }
-        // Result
-        if let validCandidates = candidates {
+        // result
+        if let validCandidates = probableCandidates {
             self.colorCandidates = validCandidates
         }
     }
@@ -125,7 +125,7 @@ class AppController: NSObject {
     }
     
     private func analyseImageAndSetImageView(image: NSImage) {
-        analyzeImage(image)
+        getColorsFromImage(image)
         imageView.image = image
     }
     
