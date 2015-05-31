@@ -14,7 +14,12 @@ class AppController: NSObject {
     // 1. Create color-detector objects
 
     var colorDetector: ColorDetector?
-    var colorCandidates: ColorCandidates?
+    var colorCandidates: ColorCandidates? {
+        // this is for the demo app
+        didSet {
+            refreshWindowElements()
+        }
+    }
     
     // 2. Optional: tweak CDSettings class variables
 
@@ -55,47 +60,51 @@ class AppController: NSObject {
     
     // sliders
     
-    @IBAction func thresholdMinimumSaturationSlider(sender: NSSlider) {
-        let val = Double(sender.integerValue) / 100
-        thresholdMinimumSaturationValue.doubleValue = val
-        CDSettings.ThresholdMinimumSaturation = CGFloat(val)
-        updateAnalyze()
-    }
-    
-    @IBAction func distinctColorsSlider(sender: NSSlider) {
-        let val = Double(sender.integerValue) / 100
-        distinctColorsValue.doubleValue = val
-        CDSettings.ThresholdDistinctColor = CGFloat(val)
-        updateAnalyze()
-    }
-    
     @IBAction func noiseToleranceSlider(sender: NSSlider) {
         noiseToleranceValue.integerValue = sender.integerValue
         CDSettings.ThresholdNoiseTolerance = sender.integerValue
-        updateAnalyze()
+        updateColorCandidates()
     }
     
-    @IBAction func ensureContrastedColorCandidates(sender: NSButton) {
-        if sender.state == NSOnState {
-            CDSettings.EnsureContrastedColorCandidates = true
-        } else {
-            CDSettings.EnsureContrastedColorCandidates = false
-        }
-        updateAnalyze()
+    @IBAction func thresholdMinimumSaturationSlider(sender: NSSlider) {
+        let val = makeDoubleValFromSlider(sender)
+        thresholdMinimumSaturationValue.doubleValue = val
+        CDSettings.ThresholdMinimumSaturation = CGFloat(val)
+        updateColorCandidates()
     }
     
-    @IBAction func thresholdFloorBrightnessSlider(sender: AnyObject) {
-        let val = Double(sender.integerValue) / 100
+    @IBAction func distinctColorsSlider(sender: NSSlider) {
+        let val = makeDoubleValFromSlider(sender)
+        distinctColorsValue.doubleValue = val
+        CDSettings.ThresholdDistinctColor = CGFloat(val)
+        updateColorCandidates()
+    }
+    
+    @IBAction func thresholdFloorBrightnessSlider(sender: NSSlider) {
+        let val = makeDoubleValFromSlider(sender)
         thresholdFloorBrightnessValue.doubleValue = val
         CDSettings.ThresholdFloorBrightness = CGFloat(val)
-        updateAnalyze()
+        updateColorCandidates()
     }
     
     @IBAction func contrastRatioSlider(sender: NSSlider) {
-        let val = Double(sender.integerValue) / 10
+        let val = makeDoubleValFromSlider(sender, divider: 10)
         contrastRatioValue.doubleValue = val
         CDSettings.ContrastRatio = CGFloat(val)
-        updateAnalyze()
+        updateColorCandidates()
+    }
+    
+    @IBAction func ensureContrastedColorCandidates(sender: NSButton) {
+        CDSettings.EnsureContrastedColorCandidates = Bool(sender.state)
+        updateColorCandidates()
+    }
+    
+    private func updateColorCandidates() {
+        self.colorCandidates = self.colorDetector!.getColorCandidatesFromImage(self.resizedImage!)
+    }
+    
+    private func makeDoubleValFromSlider(sender: NSSlider, divider: Int = 100) -> Double {
+        return Double(sender.integerValue) / Double(divider)
     }
     
     // methods
@@ -103,7 +112,7 @@ class AppController: NSObject {
     override func awakeFromNib() {
         // Default image when demo app starts
         if let elton = NSImage(named: "elton") {
-            analyseImageAndRefreshWindowElements(elton)
+            analyseImageAndSetImageView(elton)
         }
         // Observe for dropped images
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateImage:", name: "updateImageByDropOK", object: nil)
@@ -111,13 +120,13 @@ class AppController: NSObject {
     
     func updateImage(notification: NSNotification) {
         if let dic = notification.userInfo as? [String: NSImage], let img = dic["image"] {
-            analyseImageAndRefreshWindowElements(img)
+            analyseImageAndSetImageView(img)
         }
     }
     
-    private func updateAnalyze() {
-        self.colorCandidates = self.colorDetector!.getColorCandidatesFromImage(self.resizedImage!)
-        refreshWindowElements()
+    private func analyseImageAndSetImageView(image: NSImage) {
+        analyzeImage(image)
+        imageView.image = image
     }
     
     private func refreshWindowElements() {
@@ -125,16 +134,10 @@ class AppController: NSObject {
             label1.textColor = cols.primary
             label2.textColor = cols.secondary
             label3.textColor = cols.detail
-            backgroundView?.color = cols.background
+            backgroundView?.colorCandidates = cols
         }
     }
-    
-    private func analyseImageAndRefreshWindowElements(image: NSImage) {
-        analyzeImage(image)
-        imageView.image = image
-        refreshWindowElements()
-    }
-    
+
     // outlets
     
     @IBOutlet weak var window: NSWindow!

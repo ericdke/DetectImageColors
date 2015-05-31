@@ -67,17 +67,21 @@ class DemoImageView: NSImageView, NSDraggingDestination {
     
     func imageDropped(dic: [String:String]) {
         if let type = dic["type"] {
+            // it's a file
             if type == "path" {
                 if let path = dic["path"], let img = NSImage(contentsOfFile: path) {
                     self.updateImage(img)
                 }
             } else {
+                // it's an url
                 if let path = dic["path"], let escapedPath = path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding), let url = NSURL(string: escapedPath) {
                     NSURLConnection.sendAsynchronousRequest(NSURLRequest(URL: url), queue: NSOperationQueue.mainQueue(),
                         completionHandler: {(response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
                             if error == nil {
                                 if let dat = data, let img = NSImage(data: dat) {
-                                    self.updateImage(img)
+                                    dispatch_async(dispatch_get_main_queue()) {
+                                        self.updateImage(img)
+                                    }
                                 }
                             } else {
                                 println("Error: \(error!.localizedDescription)")

@@ -6,14 +6,14 @@ import Cocoa
 
 class DemoBackgroundView: NSView {
     
-    var color: NSColor? {
+    var colorCandidates: ColorCandidates? {
         didSet {
             self.display()
         }
     }
 
     override func drawRect(dirtyRect: NSRect) {
-        if let color = self.color {
+        if let color = self.colorCandidates?.background {
             color.setFill()
             NSRectFill(dirtyRect)
         }

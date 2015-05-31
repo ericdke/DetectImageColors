@@ -29,18 +29,6 @@ class detectImageColorsTests: XCTestCase {
         XCTAssert(resized!.size.width == elton.size.width, "Did not resize if < 600")
     }
     
-    func testCreateColorCandidates() {
-        let resized = detector.resize(elton)!
-        let candidates = detector.getColorCandidatesFromImage(resized)
-        XCTAssert(candidates != nil, "Candidates not nil")
-        XCTAssert(candidates!.primary != nil, "Candidates primary color not nil")
-        XCTAssert(candidates!.secondary != nil, "Candidates secondary color not nil")
-        XCTAssert(candidates!.detail != nil, "Candidates detail color not nil")
-        XCTAssert(candidates!.background != nil, "Candidates background color not nil")
-        XCTAssert(candidates!.backgroundIsBlackOrWhite != nil, "Candidates backgroundIsBlackOrWhite color not nil")
-        XCTAssert(candidates!.backgroundIsDark != nil, "Candidates backgroundIsDark color not nil")
-    }
-    
     func testWithMinimumSaturationMore() {
         let original = NSColor(red: 1, green: 0.9, blue: 0.9, alpha: 1)
         let originalSaturation = original.saturationComponent
@@ -55,13 +43,6 @@ class detectImageColorsTests: XCTestCase {
         let withMinimumSaturation = original.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
         let resultSaturation = withMinimumSaturation.saturationComponent
         XCTAssert(resultSaturation == originalSaturation, "Color is saturated enough")
-    }
-    
-    func testChangeSomeSetting() {
-        let minP = CDSettings.ThresholdMinimumPercentage
-        CDSettings.ThresholdMinimumPercentage = 0.75
-        XCTAssert(minP != CDSettings.ThresholdMinimumPercentage, "Setting changed")
-        XCTAssert(CDSettings.ThresholdMinimumPercentage == 0.75, "Setting changed")
     }
     
     func testLighterColor() {
@@ -116,6 +97,25 @@ class detectImageColorsTests: XCTestCase {
         let colC = NSColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
         doesNotContrastWith = colA.doesNotContrastWith(colC)
         XCTAssert(!doesNotContrastWith, "Middle color does contrast with a dark color")
+    }
+    
+    func testChangeSomeSetting() {
+        let minP = CDSettings.ThresholdMinimumPercentage
+        CDSettings.ThresholdMinimumPercentage = 0.75
+        XCTAssert(minP != CDSettings.ThresholdMinimumPercentage, "Setting changed")
+        XCTAssert(CDSettings.ThresholdMinimumPercentage == 0.75, "Setting changed")
+    }
+    
+    func testCreateColorCandidates() {
+        let resized = detector.resize(elton)!
+        let candidates = detector.getColorCandidatesFromImage(resized)
+        XCTAssert(candidates != nil, "Candidates not nil")
+        XCTAssert(candidates!.primary != nil, "Candidates primary color not nil")
+        XCTAssert(candidates!.secondary != nil, "Candidates secondary color not nil")
+        XCTAssert(candidates!.detail != nil, "Candidates detail color not nil")
+        XCTAssert(candidates!.background != nil, "Candidates background color not nil")
+        XCTAssert(candidates!.backgroundIsBlackOrWhite != nil, "Candidates backgroundIsBlackOrWhite color not nil")
+        XCTAssert(candidates!.backgroundIsDark != nil, "Candidates backgroundIsDark color not nil")
     }
     
 }
