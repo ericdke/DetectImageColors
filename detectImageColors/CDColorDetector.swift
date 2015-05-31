@@ -156,9 +156,7 @@ public class ColorDetector: NSObject {
             var lonelyColors = [CDCountedColor]()
             var curColor = enumerator.nextObject() as? NSColor
             while curColor != nil {
-                // TODO: test with withMinimumSaturation
-                // curColor = curColor!.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
-                
+                 curColor = curColor!.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
                 // We don't want to be too close to the bg color
                 if curColor!.isMostlyDarkColor() && isColorDark {
                     var colorCount = sourceColors.countForObject(curColor!)

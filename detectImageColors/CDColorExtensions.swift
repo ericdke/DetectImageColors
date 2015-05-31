@@ -68,19 +68,23 @@ public extension NSColor {
         return true
     }
 
-    // TODO: test this one, looks like it always returns self
     public func withMinimumSaturation(minimumSaturation: CGFloat) -> NSColor {
-        var tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)
-        if tempColor != nil {
+        // color could be hue/rgb/other so we convert to rgb
+        if var tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+            // prepare the values
             var hue: CGFloat = 0.0
             var saturation: CGFloat = 0.0
             var brightness: CGFloat = 0.0
             var alpha: CGFloat = 0.0
-            tempColor!.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+            // populate the values
+            tempColor.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
+            // if color is not enough saturated
             if saturation < minimumSaturation {
+                // return same color with more saturation
                 return NSColor(calibratedHue: hue, saturation: minimumSaturation, brightness: brightness, alpha: alpha)
             }
         }
+        // if detection fails, return same color
         return self
     }
 

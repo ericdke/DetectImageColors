@@ -41,6 +41,22 @@ class detectImageColorsTests: XCTestCase {
         XCTAssert(candidates!.backgroundIsDark != nil, "Candidates backgroundIsDark color not nil")
     }
     
+    func testWithMinimumSaturationMore() {
+        let original = NSColor(red: 1, green: 0.9, blue: 0.9, alpha: 1)
+        let originalSaturation = original.saturationComponent
+        let withMinimumSaturation = original.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
+        let resultSaturation = withMinimumSaturation.saturationComponent
+        XCTAssert(resultSaturation > originalSaturation, "Color is more saturated")
+    }
+    
+    func testWithMinimumSaturationSame() {
+        let original = NSColor.greenColor()
+        let originalSaturation = original.saturationComponent
+        let withMinimumSaturation = original.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
+        let resultSaturation = withMinimumSaturation.saturationComponent
+        XCTAssert(resultSaturation == originalSaturation, "Color is saturated enough")
+    }
+    
     func testChangeSomeSetting() {
         let minP = CDSettings.ThresholdMinimumPercentage
         CDSettings.ThresholdMinimumPercentage = 0.75
