@@ -89,6 +89,11 @@
                                     <action selector="exportColorsToJSON:" target="UW4-RA-zN2" id="Lyk-Yq-nHv"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Export to PNG" keyEquivalent="i" id="Wzy-bU-Fjj">
+                                <connections>
+                                    <action selector="exportColorsToPNG:" target="UW4-RA-zN2" id="9pZ-S9-BNE"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

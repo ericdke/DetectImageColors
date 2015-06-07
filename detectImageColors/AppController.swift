@@ -54,8 +54,15 @@ class AppController: NSObject {
     @IBAction func exportColorsToJSON(sender: NSMenuItem) {
         if let cols = colorCandidates {
             ExportColors.saveJSONFile(cols)
-        } else {
-            NSLog("%@", "Error: could not save JSON file")
+        }
+    }
+
+    @IBAction func exportColorsToPNG(sender: NSMenuItem) {
+        if let cols = colorCandidates, img = imageView.image {
+            let v = ExportColors.makeColorView(cols, image: img)
+            if let png = ExportColors.makePNGFromView(v) {
+                ExportColors.savePNGFile(png)
+            }
         }
     }
 

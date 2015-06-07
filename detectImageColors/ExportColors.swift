@@ -10,10 +10,63 @@ import Cocoa
 
 class ExportColors {
 
+    class DemoView: NSView {
+        var color: NSColor?
+        override func drawRect(dirtyRect: NSRect) {
+            if let color = self.color {
+                color.setFill()
+                NSRectFill(dirtyRect)
+            }
+            super.drawRect(dirtyRect)
+        }
+    }
+
     class func saveJSONFile(colorCandidates: ColorCandidates) {
         if let dic = toDictionary(colorCandidates), json = toJSON(dic) {
             saveJSONFile(json)
         }
+    }
+
+    class func savePNGFile(png: NSData) {
+        let myFiledialog: NSSavePanel = NSSavePanel()
+        myFiledialog.title = "Select the destination for the PNG file"
+        myFiledialog.canCreateDirectories = true
+        let epoch = Int(NSDate.timeIntervalSinceReferenceDate())
+        myFiledialog.nameFieldStringValue = "colors-\(epoch).png"
+        if myFiledialog.runModal() == NSOnState {
+            if let chosenfile = myFiledialog.URL, path = chosenfile.path {
+                png.writeToFile(path, atomically: false)
+            }
+        }
+    }
+
+    class func makeColorView(colorCandidates: ColorCandidates, image: NSImage) -> NSView {
+        let mainView = NSView(frame: NSMakeRect(0, 0, 600, 600))
+        let imageView = NSImageView(frame: NSMakeRect(150, 250, 300, 300))
+        imageView.image = image
+        let primaryColorView = DemoView(frame: NSMakeRect(100, 50, 100, 150))
+        let secondaryColorView = DemoView(frame: NSMakeRect(250, 50, 100, 150))
+        let detailColorView = DemoView(frame: NSMakeRect(400, 50, 100, 150))
+        let backgroundColorView = DemoView(frame: NSMakeRect(0, 0, 600, 600))
+        primaryColorView.color = colorCandidates.primary
+        secondaryColorView.color = colorCandidates.secondary
+        detailColorView.color = colorCandidates.detail
+        backgroundColorView.color = colorCandidates.background
+        mainView.addSubview(backgroundColorView)
+        mainView.addSubview(imageView)
+        mainView.addSubview(primaryColorView)
+        mainView.addSubview(secondaryColorView)
+        mainView.addSubview(detailColorView)
+        return mainView
+    }
+
+    class func makePNGFromView(view: NSView) -> NSData? {
+        var rep = view.bitmapImageRepForCachingDisplayInRect(view.bounds)!
+        view.cacheDisplayInRect(view.bounds, toBitmapImageRep: rep)
+        if let data = rep.representationUsingType(NSBitmapImageFileType.NSPNGFileType, properties: [:]) {
+            return data
+        }
+        return nil
     }
 
     private class func toDictionary(colorCandidates: ColorCandidates) -> [String:[String:CGFloat]]? {
@@ -54,26 +107,18 @@ class ExportColors {
 
     private class func saveJSONFile(json: NSData) {
         let myFiledialog: NSSavePanel = NSSavePanel()
-        myFiledialog.title = "Select the destination"
+        myFiledialog.title = "Select the destination for the JSON file"
         myFiledialog.canCreateDirectories = true
         let epoch = Int(NSDate.timeIntervalSinceReferenceDate())
         myFiledialog.nameFieldStringValue = "colors-\(epoch).json"
         if myFiledialog.runModal() == NSOnState {
             if let chosenfile = myFiledialog.URL, path = chosenfile.path {
-                if NSFileManager.defaultManager().fileExistsAtPath(path) {
-                    trashFile(path)
-                }
-                writeJSONFile(json, filePath: path)
+                json.writeToFile(path, atomically: false)
             }
         }
     }
 
-    private class func writeJSONFile(json: NSData, filePath: String) -> Bool {
-        json.writeToFile(filePath, atomically: false)
-        return NSFileManager.defaultManager().fileExistsAtPath(filePath)
-    }
-
-    private class  func trashFile(path: String) {
+    private class func trashFile(path: String) {
         var err: NSError?
         NSFileManager.defaultManager().removeItemAtPath(path, error: &err)
         if let crash = err {
@@ -82,3 +127,5 @@ class ExportColors {
     }
 
 }
+
+
