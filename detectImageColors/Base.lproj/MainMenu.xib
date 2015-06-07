@@ -13,11 +13,6 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="detectImageColors" customModuleProvider="target">
             <connections>
-                <outlet property="contrastRatio" destination="eW6-hY-MZh" id="V9S-QA-35C"/>
-                <outlet property="distinctColorsSlider" destination="du3-aq-dsE" id="Jjc-WQ-zdA"/>
-                <outlet property="thresholdFloorBrightness" destination="f2H-vK-2Zs" id="oYn-vi-yQ9"/>
-                <outlet property="thresholdMinimumSaturation" destination="4gR-3I-cZE" id="kEh-Gw-4cH"/>
-                <outlet property="thresholdNoise" destination="ytR-Hf-ubo" id="OOq-t1-BAd"/>
                 <outlet property="window" destination="ayI-nh-tNI" id="zKT-or-vKb"/>
             </connections>
         </customObject>
@@ -25,23 +20,11 @@
         <customObject id="UW4-RA-zN2" customClass="AppController" customModule="detectImageColors" customModuleProvider="target">
             <connections>
                 <outlet property="backgroundView" destination="b9r-ac-ZnS" id="dHX-Qe-tf9"/>
-                <outlet property="contrastRatioTitle" destination="8cw-SR-Zkf" id="l01-jM-gO3"/>
-                <outlet property="contrastRatioValue" destination="eW6-hY-MZh" id="eTe-be-KW0"/>
-                <outlet property="distinctColors" destination="8M1-94-Mha" id="nsQ-D5-8OU"/>
-                <outlet property="distinctColorsTitle" destination="MzJ-ek-y2A" id="pSz-Fi-irB"/>
-                <outlet property="distinctColorsValue" destination="du3-aq-dsE" id="o83-92-03p"/>
                 <outlet property="imageView" destination="DGu-0e-za9" id="V6E-Ea-lh5"/>
                 <outlet property="label1" destination="P99-2E-e6y" id="KbY-f2-SBS"/>
                 <outlet property="label2" destination="YtW-mr-YnW" id="TY2-cU-phm"/>
                 <outlet property="label3" destination="t9f-CT-b56" id="zRE-GP-kEn"/>
-                <outlet property="noiseTolerance" destination="D3R-Cf-0G5" id="sb0-EG-L4s"/>
-                <outlet property="noiseToleranceTitle" destination="JWD-Eb-m8T" id="4Yq-1D-HHA"/>
-                <outlet property="noiseToleranceValue" destination="ytR-Hf-ubo" id="VIM-H9-quX"/>
                 <outlet property="spinner" destination="7nc-KC-gMT" id="Oje-mV-DHR"/>
-                <outlet property="thresholdFloorBrightnessTitle" destination="kw5-jR-EGm" id="wPz-1U-369"/>
-                <outlet property="thresholdFloorBrightnessValue" destination="f2H-vK-2Zs" id="sqh-f2-w1a"/>
-                <outlet property="thresholdMinimumSaturationTitle" destination="Z7Q-89-q4J" id="a2J-Fa-WJo"/>
-                <outlet property="thresholdMinimumSaturationValue" destination="4gR-3I-cZE" id="uu5-Ks-9uk"/>
                 <outlet property="window" destination="ayI-nh-tNI" id="Gf7-gH-hTo"/>
             </connections>
         </customObject>
@@ -740,151 +723,171 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <slider verticalHuggingPriority="750" id="8M1-94-Mha">
-                        <rect key="frame" x="20" y="80" width="311" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="43.43434343434344" tickMarkPosition="above" numberOfTickMarks="100" allowsTickMarkValuesOnly="YES" sliderType="linear" id="HTP-GB-UoE"/>
+                    <customView id="aqM-ky-6xa" customClass="DemoControlsView" customModule="detectImageColors" customModuleProvider="target">
+                        <rect key="frame" x="0.0" y="-8" width="635" height="155"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="du3-aq-dsE">
+                                <rect key="frame" x="220" y="68" width="38" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="xwQ-1r-k9j">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" id="vcQ-am-n8c">
+                                <rect key="frame" x="360" y="88" width="255" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="15.306122448979592" tickMarkPosition="above" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="RbM-jh-EaQ"/>
+                                <connections>
+                                    <action selector="contrastRatioSlider:" target="aqM-ky-6xa" id="zXl-VP-15f"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="eW6-hY-MZh">
+                                <rect key="frame" x="509" y="68" width="38" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="3bq-VZ-NfG">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Z7Q-89-q4J">
+                                <rect key="frame" x="389" y="20" width="159" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdMinimumSaturation" id="Eli-bZ-97t">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" id="8M1-94-Mha">
+                                <rect key="frame" x="20" y="88" width="311" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="43.43434343434344" tickMarkPosition="above" numberOfTickMarks="100" allowsTickMarkValuesOnly="YES" sliderType="linear" id="HTP-GB-UoE"/>
+                                <connections>
+                                    <action selector="distinctColorsSlider:" target="aqM-ky-6xa" id="bHn-UB-xuA"/>
+                                </connections>
+                            </slider>
+                            <button id="P6h-Ac-dgM">
+                                <rect key="frame" x="214" y="117" width="206" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="check" title="EnsureContrastedColorCandidates" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="RM8-0h-CNP">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="smallSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="ensureContrastedColorCandidates:" target="aqM-ky-6xa" id="9sy-BV-fDg"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="JWD-Eb-m8T">
+                                <rect key="frame" x="18" y="20" width="87" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="NoiseTolerance" id="YLy-ll-Kzg">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" id="dzb-jf-HLT">
+                                <rect key="frame" x="360" y="39" width="255" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="15.306122448979592" tickMarkPosition="above" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="pXE-mS-HYp"/>
+                                <connections>
+                                    <action selector="thresholdMinimumSaturationSlider:" target="aqM-ky-6xa" id="ELv-Ht-Q5t"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="8cw-SR-Zkf">
+                                <rect key="frame" x="428" y="68" width="83" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ContrastRatio" id="kL0-Vk-hyD">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4gR-3I-cZE">
+                                <rect key="frame" x="548" y="20" width="38" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="sww-VF-sCZ">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="7nc-KC-gMT">
+                                <rect key="frame" x="20" y="119" width="16" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </progressIndicator>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ytR-Hf-ubo">
+                                <rect key="frame" x="104" y="20" width="21" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="L30-uG-Usy">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" id="sbX-ui-LMy">
+                                <rect key="frame" x="160" y="39" width="171" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="24.489795918367349" tickMarkPosition="above" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="azM-rB-r2N"/>
+                                <connections>
+                                    <action selector="thresholdFloorBrightnessSlider:" target="aqM-ky-6xa" id="G6n-kD-jf8"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="kw5-jR-EGm">
+                                <rect key="frame" x="158" y="20" width="140" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdFloorBrightness" id="AlH-ze-WVL">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="f2H-vK-2Zs">
+                                <rect key="frame" x="297" y="20" width="36" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="W9x-tj-UYX">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <slider verticalHuggingPriority="750" id="D3R-Cf-0G5">
+                                <rect key="frame" x="20" y="39" width="103" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="1" maxValue="5" doubleValue="1" tickMarkPosition="above" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="xdb-LG-tGu"/>
+                                <connections>
+                                    <action selector="noiseToleranceSlider:" target="aqM-ky-6xa" id="0nP-Im-iL0"/>
+                                </connections>
+                            </slider>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="MzJ-ek-y2A">
+                                <rect key="frame" x="92" y="68" width="130" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdDistinctColor" id="bVs-h5-csr">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
                         <connections>
-                            <action selector="distinctColorsSlider:" target="UW4-RA-zN2" id="u5r-qM-jzQ"/>
+                            <outlet property="contrastRatioTitle" destination="8cw-SR-Zkf" id="G6a-dB-0om"/>
+                            <outlet property="contrastRatioValue" destination="eW6-hY-MZh" id="qtD-hF-VXN"/>
+                            <outlet property="distinctColors" destination="8M1-94-Mha" id="vKs-DL-B0h"/>
+                            <outlet property="distinctColorsTitle" destination="MzJ-ek-y2A" id="bfI-bV-Wp1"/>
+                            <outlet property="distinctColorsValue" destination="du3-aq-dsE" id="rMV-eA-WYv"/>
+                            <outlet property="noiseTolerance" destination="D3R-Cf-0G5" id="mxA-eI-mKj"/>
+                            <outlet property="noiseToleranceTitle" destination="JWD-Eb-m8T" id="Ko7-Vn-Rsg"/>
+                            <outlet property="noiseToleranceValue" destination="ytR-Hf-ubo" id="Ta2-R0-dKW"/>
+                            <outlet property="thresholdFloorBrightnessTitle" destination="kw5-jR-EGm" id="7BR-iQ-hcj"/>
+                            <outlet property="thresholdFloorBrightnessValue" destination="f2H-vK-2Zs" id="zWh-Kh-Ojr"/>
+                            <outlet property="thresholdMinimumSaturationTitle" destination="Z7Q-89-q4J" id="mVt-As-fn3"/>
+                            <outlet property="thresholdMinimumSaturationValue" destination="4gR-3I-cZE" id="5me-K0-kO7"/>
                         </connections>
-                    </slider>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="MzJ-ek-y2A">
-                        <rect key="frame" x="92" y="60" width="130" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdDistinctColor" id="bVs-h5-csr">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="du3-aq-dsE">
-                        <rect key="frame" x="220" y="60" width="38" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="xwQ-1r-k9j">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="JWD-Eb-m8T">
-                        <rect key="frame" x="18" y="12" width="87" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="NoiseTolerance" id="YLy-ll-Kzg">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <slider verticalHuggingPriority="750" id="D3R-Cf-0G5">
-                        <rect key="frame" x="20" y="31" width="103" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="1" maxValue="5" doubleValue="1" tickMarkPosition="above" numberOfTickMarks="5" allowsTickMarkValuesOnly="YES" sliderType="linear" id="xdb-LG-tGu"/>
-                        <connections>
-                            <action selector="noiseToleranceSlider:" target="UW4-RA-zN2" id="nMY-o5-mRX"/>
-                        </connections>
-                    </slider>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="ytR-Hf-ubo">
-                        <rect key="frame" x="104" y="12" width="21" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="L30-uG-Usy">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <slider verticalHuggingPriority="750" id="dzb-jf-HLT">
-                        <rect key="frame" x="360" y="31" width="255" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="15.306122448979592" tickMarkPosition="above" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="pXE-mS-HYp"/>
-                        <connections>
-                            <action selector="thresholdMinimumSaturationSlider:" target="UW4-RA-zN2" id="1Ke-HM-pxB"/>
-                        </connections>
-                    </slider>
-                    <button id="P6h-Ac-dgM">
-                        <rect key="frame" x="214" y="109" width="206" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="EnsureContrastedColorCandidates" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="RM8-0h-CNP">
-                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                            <font key="font" metaFont="smallSystem"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="ensureContrastedColorCandidates:" target="UW4-RA-zN2" id="Iho-sc-sa9"/>
-                        </connections>
-                    </button>
-                    <slider verticalHuggingPriority="750" id="sbX-ui-LMy">
-                        <rect key="frame" x="160" y="31" width="171" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="24.489795918367349" tickMarkPosition="above" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="azM-rB-r2N"/>
-                        <connections>
-                            <action selector="thresholdFloorBrightnessSlider:" target="UW4-RA-zN2" id="DFi-Go-raM"/>
-                        </connections>
-                    </slider>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="kw5-jR-EGm">
-                        <rect key="frame" x="158" y="12" width="140" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdFloorBrightness" id="AlH-ze-WVL">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="f2H-vK-2Zs">
-                        <rect key="frame" x="297" y="12" width="36" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="W9x-tj-UYX">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <slider verticalHuggingPriority="750" id="vcQ-am-n8c">
-                        <rect key="frame" x="360" y="80" width="255" height="20"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="50" doubleValue="15.306122448979592" tickMarkPosition="above" numberOfTickMarks="50" allowsTickMarkValuesOnly="YES" sliderType="linear" id="RbM-jh-EaQ"/>
-                        <connections>
-                            <action selector="contrastRatioSlider:" target="UW4-RA-zN2" id="Qr8-QT-uOE"/>
-                        </connections>
-                    </slider>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="8cw-SR-Zkf">
-                        <rect key="frame" x="428" y="60" width="83" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ContrastRatio" id="kL0-Vk-hyD">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="eW6-hY-MZh">
-                        <rect key="frame" x="509" y="60" width="38" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="3bq-VZ-NfG">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Z7Q-89-q4J">
-                        <rect key="frame" x="389" y="12" width="159" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="ThresholdMinimumSaturation" id="Eli-bZ-97t">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="4gR-3I-cZE">
-                        <rect key="frame" x="548" y="12" width="38" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="right" id="sww-VF-sCZ">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="7nc-KC-gMT">
-                        <rect key="frame" x="20" y="111" width="16" height="16"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    </progressIndicator>
+                    </customView>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-83.5" y="262.5"/>
