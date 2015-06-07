@@ -11,6 +11,7 @@ class AppController: NSObject {
 
     var colorCandidates: ColorCandidates? {
         didSet {
+            spinner.stopAnimation(nil)
             refreshWindowElements()
         }
     }
@@ -57,6 +58,7 @@ class AppController: NSObject {
     }
 
     private func updateColorCandidates() {
+        spinner.startAnimation(nil)
         colorCandidates = colorsFromImage.getColors()
     }
 
@@ -111,5 +113,6 @@ class AppController: NSObject {
     @IBOutlet weak var contrastRatioValue: NSTextField!
     @IBOutlet weak var contrastRatioTitle: NSTextField!
     @IBOutlet weak var backgroundView: DemoBackgroundView!
+    @IBOutlet weak var spinner: NSProgressIndicator!
 
 }

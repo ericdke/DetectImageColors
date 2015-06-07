@@ -37,6 +37,7 @@
                 <outlet property="noiseTolerance" destination="D3R-Cf-0G5" id="sb0-EG-L4s"/>
                 <outlet property="noiseToleranceTitle" destination="JWD-Eb-m8T" id="4Yq-1D-HHA"/>
                 <outlet property="noiseToleranceValue" destination="ytR-Hf-ubo" id="VIM-H9-quX"/>
+                <outlet property="spinner" destination="7nc-KC-gMT" id="Oje-mV-DHR"/>
                 <outlet property="thresholdFloorBrightnessTitle" destination="kw5-jR-EGm" id="wPz-1U-369"/>
                 <outlet property="thresholdFloorBrightnessValue" destination="f2H-vK-2Zs" id="sqh-f2-w1a"/>
                 <outlet property="thresholdMinimumSaturationTitle" destination="Z7Q-89-q4J" id="a2J-Fa-WJo"/>
@@ -880,6 +881,10 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="7nc-KC-gMT">
+                        <rect key="frame" x="20" y="111" width="16" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    </progressIndicator>
                 </subviews>
             </view>
             <point key="canvasLocation" x="-83.5" y="262.5"/>
