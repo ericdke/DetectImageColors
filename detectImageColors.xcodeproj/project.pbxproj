@@ -14,6 +14,7 @@
 		C71FDE011ACF7676004BD9BA /* CDColorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */; };
 		C71FDE031ACF76A0004BD9BA /* CDColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */; };
 		C71FDE051ACF76C3004BD9BA /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* CDModels.swift */; };
+		C72CCCF81B2486FF007FAE74 /* ColorsFromImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CCCF71B2486FF007FAE74 /* ColorsFromImage.swift */; };
 		C74AC4411B1A1C2F00B505BC /* DemoBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */; };
 		C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */; };
 		C74B586D1AD2F87F00C6EE4F /* CDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */; };
@@ -48,6 +49,7 @@
 		C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CDColorDetector.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CDColorExtensions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE041ACF76C3004BD9BA /* CDModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDModels.swift; sourceTree = "<group>"; };
+		C72CCCF71B2486FF007FAE74 /* ColorsFromImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorsFromImage.swift; sourceTree = "<group>"; };
 		C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoBackgroundView.swift; sourceTree = "<group>"; };
 		C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoImageView.swift; sourceTree = "<group>"; };
 		C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSettings.swift; sourceTree = "<group>"; };
@@ -134,9 +136,10 @@
 				C71FDDE71ACF7642004BD9BA /* Images.xcassets */,
 				C71FDDE91ACF7642004BD9BA /* MainMenu.xib */,
 				C7B573ED1AD0909500C44CDF /* AppController.swift */,
-				C71FDDE51ACF7642004BD9BA /* AppDelegate.swift */,
+				C72CCCF71B2486FF007FAE74 /* ColorsFromImage.swift */,
 				C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */,
 				C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */,
+				C71FDDE51ACF7642004BD9BA /* AppDelegate.swift */,
 			);
 			name = "Demo App";
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 			files = (
 				C71FDDE61ACF7642004BD9BA /* AppDelegate.swift in Sources */,
 				C7B573EE1AD0909500C44CDF /* AppController.swift in Sources */,
+				C72CCCF81B2486FF007FAE74 /* ColorsFromImage.swift in Sources */,
 				C71FDE011ACF7676004BD9BA /* CDColorDetector.swift in Sources */,
 				C74AC4411B1A1C2F00B505BC /* DemoBackgroundView.swift in Sources */,
 				C71FDE031ACF76A0004BD9BA /* CDColorExtensions.swift in Sources */,
@@ -399,7 +403,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = detectImageColors/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -412,7 +415,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = detectImageColors/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
