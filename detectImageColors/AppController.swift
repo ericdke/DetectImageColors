@@ -51,6 +51,14 @@ class AppController: NSObject {
         }
     }
 
+    @IBAction func exportColorsToJSON(sender: NSMenuItem) {
+        if let cols = colorCandidates {
+            ExportColors.saveJSONFile(cols)
+        } else {
+            NSLog("%@", "Error: could not save JSON file")
+        }
+    }
+
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var label1: NSTextField!
     @IBOutlet weak var label2: NSTextField!
