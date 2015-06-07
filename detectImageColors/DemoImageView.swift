@@ -4,37 +4,26 @@
 
 import Cocoa
 
+enum DragType {
+    case Path, URL
+}
+
 class DemoImageView: NSImageView, NSDraggingDestination {
 
-    // Demo App
-
-    // ------------------------------------
-
-    // INIT
-
     let fileTypes = ["jpg", "jpeg", "bmp", "png", "gif"]
-    let draggedTypes = [NSFilenamesPboardType,NSURLPboardType,NSPasteboardTypeTIFF]
-    var fileTypeIsOk = false
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        registerForDraggedTypes(draggedTypes)
+        registerForDraggedTypes([NSFilenamesPboardType,NSURLPboardType,NSPasteboardTypeTIFF])
     }
 
     override func viewDidMoveToWindow() {
-        let trackingArea = NSTrackingArea(rect: self.bounds, options: (NSTrackingAreaOptions.ActiveInActiveApp | NSTrackingAreaOptions.MouseEnteredAndExited | NSTrackingAreaOptions.MouseMoved), owner: self, userInfo: nil)
+        let trackingOptions: NSTrackingAreaOptions = (.ActiveInActiveApp | .MouseEnteredAndExited | .MouseMoved)
+        let trackingArea = NSTrackingArea(rect: self.bounds, options: trackingOptions, owner: self, userInfo: nil)
         addTrackingArea(trackingArea)
         becomeFirstResponder()
         toolTip = "Drop an image here."
     }
-
-    override func drawRect(dirtyRect: NSRect) {
-        super.drawRect(dirtyRect)
-    }
-
-    // ------------------------------------
-
-    // DRAG AND DROP ON IMAGE VIEW
 
     override func draggingEntered(sender: NSDraggingInfo) -> NSDragOperation {
         return .Copy
@@ -45,51 +34,42 @@ class DemoImageView: NSImageView, NSDraggingDestination {
     }
 
     override func performDragOperation(sender: NSDraggingInfo) -> Bool {
-        var go = false
-        var dic = [String:String]()
-        if let p1 = sender.draggingPasteboard().propertyListForType("NSFilenamesPboardType") as? NSArray,
+        if let p1 = sender.draggingPasteboard().propertyListForType("NSFilenamesPboardType") as? [AnyObject],
             let pathStr = p1[0] as? String where checkExtension(pathStr) {
-                dic["path"] = pathStr
-                dic["type"] = "path"
-                go = true
-        } else if let p2 = sender.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? NSArray, let pathStr = p2[0][0] as? String {
-            dic["path"] = pathStr
-            dic["type"] = "url"
-            go = true
+                imageDropped((.Path, pathStr))
+                return true
+        } else if let p2 = sender.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? [AnyObject], let pathStr = p2[0][0] as? String {
+            imageDropped((.URL, pathStr))
+            return true
         }
-        if go {
-            imageDropped(dic)
-        }
-        return go
+        return false
     }
 
-    // HELPERS
-
-    func imageDropped(dic: [String:String]) {
-        if let type = dic["type"] {
-            // it's a file
-            if type == "path" {
-                if let path = dic["path"], let img = NSImage(contentsOfFile: path) {
-                    updateImage(img)
-                }
-            } else {
-                // it's an url
-                if let path = dic["path"], let escapedPath = path.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding), let url = NSURL(string: escapedPath) {
-                    NSURLConnection.sendAsynchronousRequest(NSURLRequest(URL: url), queue: NSOperationQueue.mainQueue(),
-                        completionHandler: {(response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
-                            if error == nil {
-                                if let dat = data, let img = NSImage(data: dat) {
-                                    dispatch_async(dispatch_get_main_queue()) {
-                                        self.updateImage(img)
-                                    }
-                                }
-                            } else {
-                                println("Error: \(error!.localizedDescription)")
-                            }
-                    })
-                }
+    private func imageDropped(paste: (type: DragType, value: String)) {
+        if paste.type == .Path {
+            if let img = NSImage(contentsOfFile: paste.value) {
+                updateImage(img)
+            }
+        } else {
+            if let escapedPath = paste.value.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding), let url = NSURL(string: escapedPath) {
+                downloadImage(url)
             }
         }
+    }
+
+    private func downloadImage(url: NSURL) {
+        NSURLConnection.sendAsynchronousRequest(NSURLRequest(URL: url), queue: NSOperationQueue.mainQueue(),
+            completionHandler: {(response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
+                if error == nil {
+                    if let dat = data, let img = NSImage(data: dat) {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            self.updateImage(img)
+                        }
+                    }
+                } else {
+                    NSLog("%@", error!.localizedDescription)
+                }
+        })
     }
 
     private func updateImage(image: NSImage) {
@@ -99,7 +79,7 @@ class DemoImageView: NSImageView, NSDraggingDestination {
     private func checkExtension(pathStr: String) -> Bool {
         if let url = NSURL(fileURLWithPath: pathStr), let suffix = url.pathExtension {
             for ext in fileTypes {
-                if ext.lowercaseString == suffix {
+                if ext == suffix.lowercaseString {
                     return true
                 }
             }

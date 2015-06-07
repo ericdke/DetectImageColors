@@ -44,34 +44,36 @@ class DemoControlsView: NSView {
 
     @IBAction func thresholdMinimumSaturationSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
-        thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", val)
-        CDSettings.ThresholdMinimumSaturation = CGFloat(val)
+        thresholdMinimumSaturationValue.stringValue = val.string
+        CDSettings.ThresholdMinimumSaturation = val.cgFloat
         updateColors()
     }
 
     @IBAction func distinctColorsSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
-        distinctColorsValue.stringValue = String(format: "%.2f", val)
-        CDSettings.ThresholdDistinctColor = CGFloat(val)
+        distinctColorsValue.stringValue = val.string
+        CDSettings.ThresholdDistinctColor = val.cgFloat
         updateColors()
     }
 
     @IBAction func thresholdFloorBrightnessSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
-        thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", val)
-        CDSettings.ThresholdFloorBrightness = CGFloat(val)
+        thresholdFloorBrightnessValue.stringValue = val.string
+        CDSettings.ThresholdFloorBrightness = val.cgFloat
         updateColors()
     }
 
     @IBAction func contrastRatioSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender, divider: 10)
-        contrastRatioValue.stringValue = String(format: "%.1f", val)
-        CDSettings.ContrastRatio = CGFloat(val)
+        contrastRatioValue.stringValue = val.string
+        CDSettings.ContrastRatio = val.cgFloat
         updateColors()
     }
 
-    private func makeDoubleValFromSlider(sender: NSSlider, divider: Int = 100) -> Double {
-        return Double(sender.integerValue) / Double(divider)
+    private func makeDoubleValFromSlider(sender: NSSlider, divider: Int = 100) -> (string: String, cgFloat: CGFloat, double: Double) {
+        let val = Double(sender.integerValue) / Double(divider)
+        let str = String(format: "%.2f", val)
+        return (str, CGFloat(val), val)
     }
 
     private func updateColors() {
