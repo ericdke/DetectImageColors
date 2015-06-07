@@ -872,18 +872,33 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" id="lZ5-Qe-Cyb">
+                                <rect key="frame" x="516" y="119" width="100" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Reset to defaults" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JMP-9d-S8C">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="resetToDefaults:" target="aqM-ky-6xa" id="0GE-mt-eDC"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <connections>
+                            <outlet property="contrastRatio" destination="vcQ-am-n8c" id="NbA-rQ-gFG"/>
                             <outlet property="contrastRatioTitle" destination="8cw-SR-Zkf" id="G6a-dB-0om"/>
                             <outlet property="contrastRatioValue" destination="eW6-hY-MZh" id="qtD-hF-VXN"/>
                             <outlet property="distinctColors" destination="8M1-94-Mha" id="vKs-DL-B0h"/>
                             <outlet property="distinctColorsTitle" destination="MzJ-ek-y2A" id="bfI-bV-Wp1"/>
                             <outlet property="distinctColorsValue" destination="du3-aq-dsE" id="rMV-eA-WYv"/>
+                            <outlet property="ensureContrastedColorCandidates" destination="P6h-Ac-dgM" id="TkX-ak-Xyn"/>
                             <outlet property="noiseTolerance" destination="D3R-Cf-0G5" id="mxA-eI-mKj"/>
                             <outlet property="noiseToleranceTitle" destination="JWD-Eb-m8T" id="Ko7-Vn-Rsg"/>
                             <outlet property="noiseToleranceValue" destination="ytR-Hf-ubo" id="Ta2-R0-dKW"/>
+                            <outlet property="thresholdFloorBrightness" destination="sbX-ui-LMy" id="z8k-G3-KYc"/>
                             <outlet property="thresholdFloorBrightnessTitle" destination="kw5-jR-EGm" id="7BR-iQ-hcj"/>
                             <outlet property="thresholdFloorBrightnessValue" destination="f2H-vK-2Zs" id="zWh-Kh-Ojr"/>
+                            <outlet property="thresholdMinimumSaturation" destination="dzb-jf-HLT" id="Fas-hE-EEP"/>
                             <outlet property="thresholdMinimumSaturationTitle" destination="Z7Q-89-q4J" id="mVt-As-fn3"/>
                             <outlet property="thresholdMinimumSaturationValue" destination="4gR-3I-cZE" id="5me-K0-kO7"/>
                         </connections>

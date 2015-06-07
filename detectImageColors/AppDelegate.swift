@@ -13,6 +13,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.setFrameUsingName("DetectImageColorsDemo")
         window.title = "DetectImageColors"
         window.backgroundColor = NSColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        let defaultSettings = ["ThresholdDistinctColor": CDSettings.ThresholdDistinctColor, "ThresholdNoiseTolerance": CDSettings.ThresholdNoiseTolerance, "ThresholdMinimumSaturation": CDSettings.ThresholdMinimumSaturation, "ThresholdFloorBrightness": CDSettings.ThresholdFloorBrightness, "ContrastRatio": CDSettings.ContrastRatio]
+        NSUserDefaults.standardUserDefaults().setObject(defaultSettings, forKey: "defaultSettings")
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {

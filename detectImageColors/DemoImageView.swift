@@ -18,10 +18,6 @@ class DemoImageView: NSImageView, NSDraggingDestination {
     }
 
     override func viewDidMoveToWindow() {
-        let trackingOptions: NSTrackingAreaOptions = (.ActiveInActiveApp | .MouseEnteredAndExited | .MouseMoved)
-        let trackingArea = NSTrackingArea(rect: self.bounds, options: trackingOptions, owner: self, userInfo: nil)
-        addTrackingArea(trackingArea)
-        becomeFirstResponder()
         toolTip = "Drop an image here."
     }
 
