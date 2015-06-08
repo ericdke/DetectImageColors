@@ -60,6 +60,23 @@ class ExportColors {
         return mainView
     }
 
+    class func makeColorView(colorCandidates: ColorCandidates) -> NSView {
+        let mainView = NSView(frame: NSMakeRect(0, 0, 800, 200))
+        let primaryColorView = DemoView(frame: NSMakeRect(0, 0, 200, 200))
+        let secondaryColorView = DemoView(frame: NSMakeRect(200, 0, 200, 200))
+        let detailColorView = DemoView(frame: NSMakeRect(400, 0, 200, 200))
+        let backgroundColorView = DemoView(frame: NSMakeRect(600, 0, 200, 200))
+        primaryColorView.color = colorCandidates.primary
+        secondaryColorView.color = colorCandidates.secondary
+        detailColorView.color = colorCandidates.detail
+        backgroundColorView.color = colorCandidates.background
+        mainView.addSubview(backgroundColorView)
+        mainView.addSubview(primaryColorView)
+        mainView.addSubview(secondaryColorView)
+        mainView.addSubview(detailColorView)
+        return mainView
+    }
+
     class func makePNGFromView(view: NSView) -> NSData? {
         var rep = view.bitmapImageRepForCachingDisplayInRect(view.bounds)!
         view.cacheDisplayInRect(view.bounds, toBitmapImageRep: rep)

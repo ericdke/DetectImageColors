@@ -10,25 +10,26 @@ import Cocoa
 import XCTest
 
 class detectImageColorsTests: XCTestCase {
-    
+
     let detector = ColorDetector()
+    let reed = NSImage(named: "reed")!
     let elton = NSImage(named: "elton")!
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testDontResizeImage() {
         let resized = detector.resize(elton)
         XCTAssert(resized!.size.width == elton.size.width, "Did not resize if < 600")
     }
-    
+
     func testWithMinimumSaturationMore() {
         let original = NSColor(red: 1, green: 0.9, blue: 0.9, alpha: 1)
         let originalSaturation = original.saturationComponent
@@ -36,7 +37,7 @@ class detectImageColorsTests: XCTestCase {
         let resultSaturation = withMinimumSaturation.saturationComponent
         XCTAssert(resultSaturation > originalSaturation, "Color is more saturated")
     }
-    
+
     func testWithMinimumSaturationSame() {
         let original = NSColor.greenColor()
         let originalSaturation = original.saturationComponent
@@ -44,7 +45,7 @@ class detectImageColorsTests: XCTestCase {
         let resultSaturation = withMinimumSaturation.saturationComponent
         XCTAssert(resultSaturation == originalSaturation, "Color is saturated enough")
     }
-    
+
     func testLighterColor() {
         let original = NSColor.blackColor()
         let calibratedOriginal = original.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)!
@@ -53,7 +54,7 @@ class detectImageColorsTests: XCTestCase {
         let lighterRed = lighter.redComponent
         XCTAssert(lighterRed > originalRed, "Color is lightened")
     }
-    
+
     func testDarkerColor() {
         let original = NSColor.whiteColor()
         let calibratedOriginal = original.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)!
@@ -62,7 +63,7 @@ class detectImageColorsTests: XCTestCase {
         let darkerRed = darker.redComponent
         XCTAssert(originalRed > darkerRed, "Color is darkened")
     }
-    
+
     func testIsMostlyDarkColor() {
         let original = NSColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
         var isMostlyDarkColor = original.isMostlyDarkColor()
@@ -71,7 +72,7 @@ class detectImageColorsTests: XCTestCase {
         isMostlyDarkColor = light.isMostlyDarkColor()
         XCTAssert(!isMostlyDarkColor, "Light color is not dark")
     }
-    
+
     func testIsNearOf() {
         let colA = NSColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
         let colB = NSColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
@@ -79,7 +80,7 @@ class detectImageColorsTests: XCTestCase {
         XCTAssert(isNearOf, "Dark color is near another dark color")
         // TODO: problems with some colors
     }
-    
+
     func testIsMostlyBlackOrWhite() {
         let middle = NSColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
         var isMostlyBlackOrWhite = middle.isMostlyBlackOrWhite()
@@ -88,7 +89,7 @@ class detectImageColorsTests: XCTestCase {
         isMostlyBlackOrWhite = white.isMostlyBlackOrWhite()
         XCTAssert(isMostlyBlackOrWhite, "White color is mostly black or white")
     }
-    
+
     func testDoesNotContrastWith() {
         let colA = NSColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
         let colB = NSColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
@@ -98,16 +99,16 @@ class detectImageColorsTests: XCTestCase {
         doesNotContrastWith = colA.doesNotContrastWith(colC)
         XCTAssert(!doesNotContrastWith, "Middle color does contrast with a dark color")
     }
-    
+
     func testChangeSomeSetting() {
         let minP = CDSettings.ThresholdMinimumPercentage
         CDSettings.ThresholdMinimumPercentage = 0.75
         XCTAssert(minP != CDSettings.ThresholdMinimumPercentage, "Setting changed")
         XCTAssert(CDSettings.ThresholdMinimumPercentage == 0.75, "Setting changed")
     }
-    
+
     func testCreateColorCandidates() {
-        let resized = detector.resize(elton)!
+        let resized = detector.resize(reed)!
         let candidates = detector.getColorCandidatesFromImage(resized)
         XCTAssert(candidates != nil, "Candidates not nil")
         XCTAssert(candidates!.primary != nil, "Candidates primary color not nil")
@@ -117,5 +118,11 @@ class detectImageColorsTests: XCTestCase {
         XCTAssert(candidates!.backgroundIsBlackOrWhite != nil, "Candidates backgroundIsBlackOrWhite color not nil")
         XCTAssert(candidates!.backgroundIsDark != nil, "Candidates backgroundIsDark color not nil")
     }
-    
+
+//    func testPerformanceResize() {
+//        self.measureBlock() {
+//
+//        }
+//    }
+
 }

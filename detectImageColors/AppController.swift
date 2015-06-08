@@ -58,8 +58,14 @@ class AppController: NSObject {
     }
 
     @IBAction func exportColorsToPNG(sender: NSMenuItem) {
-        if let cols = colorCandidates, img = imageView.image {
-            let v = ExportColors.makeColorView(cols, image: img)
+//        if let cols = colorCandidates, img = imageView.image {
+//            let v = ExportColors.makeColorView(cols, image: img)
+//            if let png = ExportColors.makePNGFromView(v) {
+//                ExportColors.savePNGFile(png)
+//            }
+//        }
+        if let cols = colorCandidates {
+            let v = ExportColors.makeColorView(cols)
             if let png = ExportColors.makePNGFromView(v) {
                 ExportColors.savePNGFile(png)
             }
