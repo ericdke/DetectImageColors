@@ -137,4 +137,35 @@ public extension NSColor {
         return false
     }
 
+    public func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String)? {
+        if let (alpha, red, green, blue) = self.componentsRGB() {
+            let xalpha = String(Int(alpha), radix: 16, uppercase: true)
+            let xred = String(Int(red), radix: 16, uppercase: true)
+            let xgreen = String(Int(green), radix: 16, uppercase: true)
+            let xblue = String(Int(blue), radix: 16, uppercase: true)
+            let css = "#\(xred)\(xgreen)\(xblue)"
+            return (alpha: xalpha, red: xred, green: xgreen, blue: xblue, css: css)
+        }
+        return nil
+    }
+
+    public func componentsNSC() -> (alpha: CGFloat, red: CGFloat, green: CGFloat, blue: CGFloat)? {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        if let color = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+            color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+            return (alpha: alpha, red: red, green: green, blue: blue)
+        }
+        return nil
+    }
+
+    public func componentsRGB() -> (alpha: Int, red: Int, green: Int, blue: Int)? {
+        if let (alpha, red, green, blue) = self.componentsNSC() {
+            return (alpha: Int(round(alpha * 255.0)), red: Int(round(red * 255.0)), green: Int(round(green * 255.0)), blue: Int(round(blue * 255.0)))
+        }
+        return nil
+    }
+
 }
