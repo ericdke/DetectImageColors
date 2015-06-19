@@ -14,6 +14,8 @@ class ColorsFromImage {
     var resizedImage: NSImage?
     var colorCandidates: ColorCandidates?
 
+    init() {}
+
     init(image: NSImage) {
         colorCandidates = colorDetector.getColorCandidatesFromImage(image)
     }

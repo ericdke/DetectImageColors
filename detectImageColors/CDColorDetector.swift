@@ -6,6 +6,15 @@ import Cocoa
 
 public class ColorDetector: NSObject {
 
+    // TODO: Not super accurate, magic numbers have too much weight.
+    // Possible solutions:
+    // - if image has large shapes of a dominant color (typically big white background), mask the shapes before analyzing / ignore those regions somehow
+    // - switch from RGB calculations to HUE or LUM upon image characteristics (not many colors, etc)
+    // - if results are similar colors, instead of current behaviour, implement better use of lonely colors
+    // - if results are still disappointing (how to judge?), refine: try different weights?
+    // - try alternative image scanning methods (example: ignoring edge weight, taking whole image)
+    // - try alternative averaging calculations
+
     // Main method
     public func getColorCandidatesFromImage(anImage: NSImage) -> ColorCandidates? {
         let edge = findEdgeColor(anImage)
@@ -23,7 +32,7 @@ public class ColorDetector: NSObject {
         }
         return nil
     }
-    
+
     // Image has to fill a square completely
     public func resize(image: NSImage) -> NSImage? {
         // TODO: very slow, have to refactor
@@ -44,9 +53,9 @@ public class ColorDetector: NSObject {
         }
         return nil
     }
-    
+
     // ------------------------------------
-    
+
     // find what we think is the main color + other candidates
     private func findEdgeColor(image: NSImage) -> (color: NSColor?, set: NSCountedSet?) {
         if let imageRep = image.representations.last as? NSBitmapImageRep {
@@ -63,7 +72,7 @@ public class ColorDetector: NSObject {
         }
         return (nil, nil)
     }
-    
+
     private func tryAvoidBlackOrWhite(sortedColors: [CDCountedColor]) -> CDCountedColor {
         // want to choose color over black/white so we keep looking
         var proposedEdgeColor = sortedColors[0]
@@ -87,7 +96,7 @@ public class ColorDetector: NSObject {
         }
         return proposedEdgeColor
     }
-    
+
     // let's try to sort the credible candidates from the noise
     private func separateColors(edgeColors: NSCountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
         let enumerator = edgeColors.objectEnumerator()
@@ -107,7 +116,7 @@ public class ColorDetector: NSObject {
         }
         return (rootColors, lonelyColors)
     }
-    
+
     private func sampleImage(#width: Int, height: Int, imageRep: NSBitmapImageRep) -> (NSCountedSet, NSCountedSet) {
         var colors = NSCountedSet(capacity: width * height)
         var leftEdgeColors = NSCountedSet(capacity: height)
@@ -133,7 +142,7 @@ public class ColorDetector: NSObject {
         }
         return (colors, leftEdgeColors)
     }
-    
+
     private func getMarginalColorsIfNecessary(rootColors: [CDCountedColor], lonelyColors: [CDCountedColor]) -> [CDCountedColor] {
         if rootColors.count > 0 {
             // if we have at least one credible candidate
@@ -143,7 +152,7 @@ public class ColorDetector: NSObject {
             return lonelyColors.sorted({ $0.count > $1.count })
         }
     }
-    
+
     // ------------------------------------
 
     private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates? {
@@ -170,9 +179,9 @@ public class ColorDetector: NSObject {
                 }
                 curColor = enumerator.nextObject() as? NSColor
             }
-            
+
             let sortedColors = getMarginalColorsIfNecessary(rootColors, lonelyColors: lonelyColors)
-            
+
             // Better have less relevant colors than no colors
             // TODO: this part needs to be broken down and refactored
             for cc in sortedColors {
@@ -199,13 +208,13 @@ public class ColorDetector: NSObject {
         }
         return nil
     }
-    
+
 
     private func createColors(textColors: ColorCandidates, hasDarkBackground darkBackground: Bool) -> ColorCandidates {
         var colors = textColors
-        
+
         // Finally, if we still have nil values for the text colors, let's try having at least black or white instead
-        
+
         if textColors.primary == nil {
             colors.primary = rescueNilColor("primary", hasDarkBackground: darkBackground)
         }
@@ -217,7 +226,7 @@ public class ColorDetector: NSObject {
         }
         return colors
     }
-    
+
     private func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
         // NSLog("%@", "Missed \(colorName) detection")
         if hasDarkBackground {
@@ -229,9 +238,9 @@ public class ColorDetector: NSObject {
 
     private func createFadedColors(textColors: ColorCandidates, hasDarkBackground: Bool) -> ColorCandidates {
         var colors = textColors
-        
+
         // We try to avoid results that could be mathematically correct but not visually interesting
-        
+
         if let prim = colors.primary, let sec = colors.secondary, let det = colors.detail, let back = colors.background {
             if prim.isNearOf(sec) || prim.isNearOf(det) || sec.isNearOf(det) {
                 if hasDarkBackground && !prim.isMostlyDarkColor() {

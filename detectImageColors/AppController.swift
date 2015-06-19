@@ -7,7 +7,7 @@ import Cocoa
 
 class AppController: NSObject {
 
-    let colorsFromImage = ColorsFromImage(image: NSImage(named: "elton")!)
+    var colorsFromImage = ColorsFromImage()
 
     var colorCandidates: ColorCandidates? {
         didSet {

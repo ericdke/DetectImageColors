@@ -31,17 +31,16 @@ A Playground is also included for demo purposes.
 
 ![Playground](https://www.evernote.com/shard/s89/sh/9188b56f-d2f5-44d3-a14f-55bd7c97e7cf/6c92794b3b4a606b/res/dfd99f98-c497-4eb1-8d84-d366484d0986/skitch.png)
 
-
 ## Todo
+
+Suggestions and contributions are welcomed!
 
 - Make a framework
 
 - Make it iOS compatible
 
-- Improve detector accuracy
-
-- Improve post-detection adjustments
-
-- Refactor pixel color detection
+- Improve detector accuracy (see `CDColorDetector.swift`)
 
 - Improve resize image speed
+
+- Make a better demo app

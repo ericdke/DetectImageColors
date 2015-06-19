@@ -88,20 +88,31 @@ class ExportColors {
 
     private class func toDictionary(colorCandidates: ColorCandidates) -> [String:[String:CGFloat]]? {
         var dic = [String:[String:CGFloat]]()
-        if let primary = colorCandidates.primary, let primaryRGB = primary.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
-            dic["main"] = ["red": primaryRGB.redComponent, "green": primaryRGB.greenComponent, "blue": primaryRGB.blueComponent]
-            if let alternative = colorCandidates.secondary, let alternativeRGB = alternative.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
-                dic["alternative"] = ["red": alternativeRGB.redComponent, "green": alternativeRGB.greenComponent, "blue": alternativeRGB.blueComponent]
-                if let detail = colorCandidates.detail, let detailRGB = detail.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
-                    dic["detail"] = ["red": detailRGB.redComponent, "green": detailRGB.greenComponent, "blue": detailRGB.blueComponent]
-                    if let background = colorCandidates.background, let backgroundRGB = background.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
-                        dic["background"] = ["red": backgroundRGB.redComponent, "green": backgroundRGB.greenComponent, "blue": backgroundRGB.blueComponent]
+        if let primary = getRGBSpaceName(colorCandidates.primary) {
+            dic["main"] = getDictionaryColorComponents(primary)
+            if let alternative = getRGBSpaceName(colorCandidates.secondary) {
+                dic["alternative"] = getDictionaryColorComponents(alternative)
+                if let detail = getRGBSpaceName(colorCandidates.detail) {
+                    dic["detail"] = getDictionaryColorComponents(detail)
+                    if let background = getRGBSpaceName(colorCandidates.background) {
+                        dic["background"] = getDictionaryColorComponents(background)
                         return dic
                     }
                 }
             }
         }
         return nil
+    }
+
+    private class func getRGBSpaceName(color: NSColor?) -> NSColor? {
+        if let thisColor = color, let rgbColor = thisColor.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+            return rgbColor
+        }
+        return nil
+    }
+
+    private class func getDictionaryColorComponents(color: NSColor) -> [String:CGFloat] {
+        return ["red": color.redComponent, "green": color.greenComponent, "blue": color.blueComponent]
     }
 
     private class func toJSON(colorCandidates: ColorCandidates) -> NSData? {
