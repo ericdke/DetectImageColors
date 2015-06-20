@@ -38,8 +38,8 @@ class AppController: NSObject {
     }
 
     private func analyseImageAndSetImageView(image: NSImage) {
-        colorCandidates = colorsFromImage.getColorsFromImage(image)
         imageView.image = image
+        colorCandidates = colorsFromImage.getColorsFromImage(image)
     }
 
     private func refreshWindowElements() {
@@ -60,9 +60,29 @@ class AppController: NSObject {
             detailColorView.backgroundColorLabel.stringValue = bgCSS
             detailColorLabel.textColor = cols.detail
             detailColorLabel.stringValue = cols.detail!.componentsCSS()!.css
-            backgroundView?.colorCandidates = cols
+            backgroundView.colorCandidates = cols
+            showOverlay()
         }
     }
+
+    @IBAction func showOverlayClicked(sender: NSButton) {
+        showOverlay()
+    }
+
+    func showOverlay() {
+        if showOverlayButton.state == NSOnState {
+            imageView.primaryDemoColorView.color = colorCandidates!.primary!.colorWithAlphaComponent(0.9)
+            imageView.secondaryDemoColorView.color = colorCandidates!.secondary!.colorWithAlphaComponent(0.9)
+            imageView.detailDemoColorView.color = colorCandidates!.detail!.colorWithAlphaComponent(0.9)
+            imageView.backgroundDemoColorView.color = colorCandidates!.background!.colorWithAlphaComponent(0.9)
+        } else {
+            imageView.primaryDemoColorView.color = nil
+            imageView.secondaryDemoColorView.color = nil
+            imageView.detailDemoColorView.color = nil
+            imageView.backgroundDemoColorView.color = nil
+        }
+    }
+
 
     @IBAction func exportColorsToJSON(sender: NSMenuItem) {
         if let cols = colorCandidates {
@@ -97,7 +117,7 @@ class AppController: NSObject {
     }
 
     @IBOutlet weak var window: NSWindow!
-    @IBOutlet weak var imageView: NSImageView!
+    @IBOutlet weak var imageView: DemoImageView!
     @IBOutlet weak var backgroundView: DemoBackgroundView!
     @IBOutlet weak var spinner: NSProgressIndicator!
     @IBOutlet weak var primaryColorView: DemoColorView!
@@ -106,6 +126,7 @@ class AppController: NSObject {
     @IBOutlet weak var primaryColorLabel: NSTextField!
     @IBOutlet weak var secondaryColorLabel: NSTextField!
     @IBOutlet weak var detailColorLabel: NSTextField!
+    @IBOutlet weak var showOverlayButton: NSButton!
 
 }
 

@@ -5,7 +5,7 @@
 import Cocoa
 
 class DemoBackgroundView: NSView {
-    
+
     var colorCandidates: ColorCandidates? {
         didSet {
             self.display()
@@ -19,5 +19,5 @@ class DemoBackgroundView: NSView {
         }
         super.drawRect(dirtyRect)
     }
-    
+
 }

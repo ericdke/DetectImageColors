@@ -107,8 +107,8 @@ class ExportColors {
         return view
     }
 
-    private class func toDictionary(colorCandidates: ColorCandidates) -> [String:[String:CGFloat]]? {
-        var dic = [String:[String:CGFloat]]()
+    private class func toDictionary(colorCandidates: ColorCandidates) -> [String:[String:AnyObject]]? {
+        var dic = [String:[String:AnyObject]]()
         if let primary = getRGBSpaceName(colorCandidates.primary) {
             dic["main"] = getDictionaryColorComponents(primary)
             if let alternative = getRGBSpaceName(colorCandidates.secondary) {
@@ -132,8 +132,8 @@ class ExportColors {
         return nil
     }
 
-    private class func getDictionaryColorComponents(color: NSColor) -> [String:CGFloat] {
-        return ["red": color.redComponent, "green": color.greenComponent, "blue": color.blueComponent]
+    private class func getDictionaryColorComponents(color: NSColor) -> [String:AnyObject] {
+        return ["red": color.redComponent, "green": color.greenComponent, "blue": color.blueComponent, "css": color.componentsCSS()!.css]
     }
 
     private class func toJSON(colorCandidates: ColorCandidates) -> NSData? {
@@ -143,7 +143,7 @@ class ExportColors {
         return nil
     }
 
-    private class func toJSON(dictionary: [String:[String:CGFloat]]) -> NSData? {
+    private class func toJSON(dictionary: [String:[String:AnyObject]]) -> NSData? {
         var err: NSError?
         if let json = NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted, error: &err) {
             if err == nil {

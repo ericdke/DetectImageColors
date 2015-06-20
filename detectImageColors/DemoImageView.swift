@@ -10,6 +10,31 @@ enum DragType {
 
 class DemoImageView: NSImageView, NSDraggingDestination {
 
+    let primaryDemoColorView = DemoColorView()
+    let secondaryDemoColorView = DemoColorView()
+    let detailDemoColorView = DemoColorView()
+    let backgroundDemoColorView = DemoColorView()
+
+    override func drawRect(dirtyRect: NSRect) {
+        addColorView()
+        super.drawRect(dirtyRect)
+    }
+
+    func addColorView() {
+        primaryDemoColorView.frame = NSMakeRect(50, (self.bounds.height / 2) - 25, 50, 50)
+        primaryDemoColorView.isMovable = true
+        secondaryDemoColorView.frame = NSMakeRect(125, (self.bounds.height / 2) - 25, 50, 50)
+        secondaryDemoColorView.isMovable = true
+        detailDemoColorView.frame = NSMakeRect(200, (self.bounds.height / 2) - 25, 50, 50)
+        detailDemoColorView.isMovable = true
+        backgroundDemoColorView.frame = NSMakeRect(275, (self.bounds.height / 2) - 25, 50, 50)
+        backgroundDemoColorView.isMovable = true
+        self.addSubview(primaryDemoColorView)
+        self.addSubview(secondaryDemoColorView)
+        self.addSubview(detailDemoColorView)
+        self.addSubview(backgroundDemoColorView)
+    }
+
     let fileTypes = ["jpg", "jpeg", "bmp", "png", "gif"]
 
     required init?(coder: NSCoder) {

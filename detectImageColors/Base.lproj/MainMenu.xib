@@ -24,9 +24,10 @@
                 <outlet property="detailColorView" destination="0Rc-PF-Ju6" id="Bdx-jX-dxz"/>
                 <outlet property="imageView" destination="DGu-0e-za9" id="V6E-Ea-lh5"/>
                 <outlet property="primaryColorLabel" destination="l8q-DF-FV0" id="EkJ-F0-kaf"/>
-                <outlet property="primaryColorView" destination="mFd-iX-Po7" id="yBy-kF-tI0"/>
+                <outlet property="primaryColorView" destination="mFd-iX-Po7" id="Zu7-ok-4mJ"/>
                 <outlet property="secondaryColorLabel" destination="jf1-O4-IQQ" id="L5j-Pt-vok"/>
                 <outlet property="secondaryColorView" destination="03B-81-fBP" id="zru-xJ-qKr"/>
+                <outlet property="showOverlayButton" destination="u55-Zd-cKy" id="tBb-O4-X4v"/>
                 <outlet property="spinner" destination="7nc-KC-gMT" id="Oje-mV-DHR"/>
                 <outlet property="window" destination="ayI-nh-tNI" id="Gf7-gH-hTo"/>
             </connections>
@@ -158,41 +159,32 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" imageScaling="proportionallyUpOrDown" id="MGB-i2-AdI"/>
                             </imageView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="l8q-DF-FV0">
-                                <rect key="frame" x="18" y="303" width="184" height="40"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="dnt-tG-dcO">
+                                <rect key="frame" x="18" y="19" width="184" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="fNQ-cq-Hlm">
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="akc-Zp-m9l">
                                     <font key="font" size="24" name="HelveticaNeue"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <customView id="0Rc-PF-Ju6" customClass="DemoColorView" customModule="detectImageColors" customModuleProvider="target">
-                                <rect key="frame" x="20" y="55" width="180" height="80"/>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="jf1-O4-IQQ">
+                                <rect key="frame" x="18" y="164" width="184" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <subviews>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="9IZ-Od-EXO">
-                                        <rect key="frame" x="-2" y="49" width="176" height="26"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="Ubf-jl-HWR">
-                                            <font key="font" size="12" name="HelveticaNeue"/>
-                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                </subviews>
-                                <connections>
-                                    <outlet property="backgroundColorLabel" destination="9IZ-Od-EXO" id="Hrc-gm-ywe"/>
-                                </connections>
-                            </customView>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="bwN-L2-QP1">
+                                    <font key="font" size="24" name="HelveticaNeue"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <customView id="03B-81-fBP" customClass="DemoColorView" customModule="detectImageColors" customModuleProvider="target">
                                 <rect key="frame" x="20" y="200" width="180" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="3nH-yE-hE2">
-                                        <rect key="frame" x="-2" y="49" width="176" height="26"/>
+                                        <rect key="frame" x="-3" y="60" width="176" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="eWG-ni-ngl">
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Label" id="eWG-ni-ngl">
                                             <font key="font" size="12" name="HelveticaNeue"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -203,14 +195,41 @@
                                     <outlet property="backgroundColorLabel" destination="3nH-yE-hE2" id="dqa-kr-kvQ"/>
                                 </connections>
                             </customView>
+                            <customView id="0Rc-PF-Ju6" customClass="DemoColorView" customModule="detectImageColors" customModuleProvider="target">
+                                <rect key="frame" x="20" y="55" width="180" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="9IZ-Od-EXO">
+                                        <rect key="frame" x="-3" y="60" width="176" height="26"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Label" id="Ubf-jl-HWR">
+                                            <font key="font" size="12" name="HelveticaNeue"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                                <connections>
+                                    <outlet property="backgroundColorLabel" destination="9IZ-Od-EXO" id="Hrc-gm-ywe"/>
+                                </connections>
+                            </customView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="l8q-DF-FV0">
+                                <rect key="frame" x="18" y="310" width="184" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="fNQ-cq-Hlm">
+                                    <font key="font" size="24" name="HelveticaNeue"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <customView id="mFd-iX-Po7" customClass="DemoColorView" customModule="detectImageColors" customModuleProvider="target">
                                 <rect key="frame" x="20" y="346" width="180" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="2xg-fQ-ufQ">
-                                        <rect key="frame" x="-2" y="49" width="176" height="26"/>
+                                        <rect key="frame" x="-3" y="60" width="176" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="bFl-8J-dnl">
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Label" id="bFl-8J-dnl">
                                             <font key="font" size="12" name="HelveticaNeue"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -221,24 +240,17 @@
                                     <outlet property="backgroundColorLabel" destination="2xg-fQ-ufQ" id="n2Q-2T-jye"/>
                                 </connections>
                             </customView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="jf1-O4-IQQ">
-                                <rect key="frame" x="18" y="157" width="184" height="40"/>
+                            <button id="u55-Zd-cKy">
+                                <rect key="frame" x="367" y="6" width="112" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="bwN-L2-QP1">
-                                    <font key="font" size="24" name="HelveticaNeue"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="dnt-tG-dcO">
-                                <rect key="frame" x="18" y="12" width="184" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="akc-Zp-m9l">
-                                    <font key="font" size="24" name="HelveticaNeue"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                                <buttonCell key="cell" type="check" title="Show overlay colors" bezelStyle="regularSquare" imagePosition="left" controlSize="mini" inset="2" id="AlH-20-xIJ">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showOverlayClicked:" target="UW4-RA-zN2" id="f9j-iL-Gk9"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </customView>
                     <customView id="aqM-ky-6xa" customClass="DemoControlsView" customModule="detectImageColors" customModuleProvider="target">
