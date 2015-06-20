@@ -29,7 +29,7 @@ You can drop a new image on the image view and tweak the sliders to find values 
 
 A Playground is also included for demo purposes.
 
-![Playground](https://www.evernote.com/shard/s89/sh/9188b56f-d2f5-44d3-a14f-55bd7c97e7cf/6c92794b3b4a606b/res/dfd99f98-c497-4eb1-8d84-d366484d0986/skitch.png)
+![Playground](https://www.evernote.com/shard/s89/sh/f223b9ae-e80e-42e1-a5ea-84440b04d3d1/9c0807d8f4b67d31/res/c0740876-dc0d-4000-b10f-b277e71f4d40/skitch.png)
 
 ## Todo
 

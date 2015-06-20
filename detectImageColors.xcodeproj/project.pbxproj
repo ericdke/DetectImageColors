@@ -14,6 +14,7 @@
 		C71FDE011ACF7676004BD9BA /* CDColorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */; };
 		C71FDE031ACF76A0004BD9BA /* CDColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */; };
 		C71FDE051ACF76C3004BD9BA /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* CDModels.swift */; };
+		C721BC111B35C82E001C3896 /* DemoColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C721BC101B35C82E001C3896 /* DemoColorView.swift */; };
 		C72CCCF81B2486FF007FAE74 /* DemoColorsFromImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CCCF71B2486FF007FAE74 /* DemoColorsFromImage.swift */; };
 		C72CCCFA1B249193007FAE74 /* DemoControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CCCF91B249193007FAE74 /* DemoControlsView.swift */; };
 		C72CCD021B24C247007FAE74 /* DemoExportColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CCD011B24C247007FAE74 /* DemoExportColors.swift */; };
@@ -52,6 +53,7 @@
 		C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CDColorDetector.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CDColorExtensions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE041ACF76C3004BD9BA /* CDModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDModels.swift; sourceTree = "<group>"; };
+		C721BC101B35C82E001C3896 /* DemoColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoColorView.swift; sourceTree = "<group>"; };
 		C72CCCF71B2486FF007FAE74 /* DemoColorsFromImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoColorsFromImage.swift; sourceTree = "<group>"; };
 		C72CCCF91B249193007FAE74 /* DemoControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoControlsView.swift; sourceTree = "<group>"; };
 		C72CCD011B24C247007FAE74 /* DemoExportColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoExportColors.swift; sourceTree = "<group>"; };
@@ -142,8 +144,9 @@
 			children = (
 				C71FDDE71ACF7642004BD9BA /* Images.xcassets */,
 				C71FDDE91ACF7642004BD9BA /* MainMenu.xib */,
-				C72CCCF71B2486FF007FAE74 /* DemoColorsFromImage.swift */,
 				C7B573ED1AD0909500C44CDF /* DemoAppController.swift */,
+				C72CCCF71B2486FF007FAE74 /* DemoColorsFromImage.swift */,
+				C721BC101B35C82E001C3896 /* DemoColorView.swift */,
 				C72CCCF91B249193007FAE74 /* DemoControlsView.swift */,
 				C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */,
 				C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */,
@@ -292,6 +295,7 @@
 				C71FDE031ACF76A0004BD9BA /* CDColorExtensions.swift in Sources */,
 				C71FDE051ACF76C3004BD9BA /* CDModels.swift in Sources */,
 				C72CCD021B24C247007FAE74 /* DemoExportColors.swift in Sources */,
+				C721BC111B35C82E001C3896 /* DemoColorView.swift in Sources */,
 				C74B586D1AD2F87F00C6EE4F /* CDSettings.swift in Sources */,
 				C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */,
 			);
