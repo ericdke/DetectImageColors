@@ -2,7 +2,7 @@
 
 Extracts 4 main colors from an image: primary, secondary, detail and background.
 
-## Usage
+## Code Usage
 
 1. Grab the files which name begins with "CD" and copy them to your Xcode Swift project.
 
@@ -19,7 +19,7 @@ let colorCandidates = colorDetector.getColorCandidatesFromImage(resized)
 
 ## Demo Application
 
-![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/cbb542eb-28f6-4481-8ddb-be9974cab033/9524ebaa3b3e4889/res/aa8f243b-dc4f-4121-8606-e795730f72fd/skitch.png)
+![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/2502e27a-74d7-4fb7-9441-a0c35d8599ab/74dd7317030045ca/res/00eee34f-dfda-4641-ad28-6eb007652bdc/skitch.png)
 
 Download or clone the project, open in Xcode, build.
 
