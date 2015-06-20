@@ -117,6 +117,7 @@ class ExportColors {
                     dic["detail"] = getDictionaryColorComponents(detail)
                     if let background = getRGBSpaceName(colorCandidates.background) {
                         dic["background"] = getDictionaryColorComponents(background)
+                        dic["settings"] = getDictionarySettings()
                         return dic
                     }
                 }
@@ -134,6 +135,10 @@ class ExportColors {
 
     private class func getDictionaryColorComponents(color: NSColor) -> [String:AnyObject] {
         return ["red": color.redComponent, "green": color.greenComponent, "blue": color.blueComponent, "css": color.componentsCSS()!.css]
+    }
+
+    private class func getDictionarySettings() -> [String:AnyObject] {
+        return ["EnsureContrastedColorCandidates": CDSettings.EnsureContrastedColorCandidates, "ThresholdDistinctColor": CDSettings.ThresholdDistinctColor, "ContrastRatio": CDSettings.ContrastRatio, "ThresholdNoiseTolerance": CDSettings.ThresholdNoiseTolerance, "ThresholdFloorBrightness": CDSettings.ThresholdFloorBrightness, "ThresholdMinimumSaturation": CDSettings.ThresholdMinimumSaturation]
     }
 
     private class func toJSON(colorCandidates: ColorCandidates) -> NSData? {

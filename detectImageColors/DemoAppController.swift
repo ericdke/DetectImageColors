@@ -98,9 +98,11 @@ class AppController: NSObject {
 //            }
 //        }
         if let cols = colorCandidates {
+            showOverlayButton.hidden = true
             if let png = ExportColors.makePNGFromView(backgroundView) {
                 ExportColors.savePNGFile(png)
             }
+            showOverlayButton.hidden = false
         }
     }
 

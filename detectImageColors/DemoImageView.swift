@@ -35,7 +35,7 @@ class DemoImageView: NSImageView, NSDraggingDestination {
         self.addSubview(backgroundDemoColorView)
     }
 
-    let fileTypes = ["jpg", "jpeg", "bmp", "png", "gif"]
+    let fileTypes = ["jpg", "jpeg", "bmp", "png", "gif", "JPG", "JPEG", "BMP", "PNG", "GIF"]
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
