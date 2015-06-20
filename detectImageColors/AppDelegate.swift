@@ -2,6 +2,8 @@
 //  AppDelegate.swift
 //  detectImageColors
 
+// DEMO APP
+
 import Cocoa
 
 @NSApplicationMain

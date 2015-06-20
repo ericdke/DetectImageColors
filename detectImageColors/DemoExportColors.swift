@@ -21,6 +21,10 @@ class ExportColors {
         }
     }
 
+    typealias ExportViews = (background: DemoView, primary: DemoView, secondary: DemoView, detail: DemoView)
+
+    // ---
+
     class func saveJSONFile(colorCandidates: ColorCandidates) {
         if let dic = toDictionary(colorCandidates), json = toJSON(dic) {
             saveJSONFile(json)
@@ -31,50 +35,12 @@ class ExportColors {
         let myFiledialog: NSSavePanel = NSSavePanel()
         myFiledialog.title = "Select the destination for the PNG file"
         myFiledialog.canCreateDirectories = true
-        let epoch = Int(NSDate.timeIntervalSinceReferenceDate())
-        myFiledialog.nameFieldStringValue = "colors-\(epoch).png"
+        myFiledialog.nameFieldStringValue = "colors-\(Int(NSDate.timeIntervalSinceReferenceDate())).png"
         if myFiledialog.runModal() == NSOnState {
             if let chosenfile = myFiledialog.URL, path = chosenfile.path {
                 png.writeToFile(path, atomically: false)
             }
         }
-    }
-
-    class func makeColorView(colorCandidates: ColorCandidates, image: NSImage) -> NSView {
-        let mainView = NSView(frame: NSMakeRect(0, 0, 600, 600))
-        let imageView = NSImageView(frame: NSMakeRect(150, 250, 300, 300))
-        imageView.image = image
-        let primaryColorView = DemoView(frame: NSMakeRect(100, 50, 100, 150))
-        let secondaryColorView = DemoView(frame: NSMakeRect(250, 50, 100, 150))
-        let detailColorView = DemoView(frame: NSMakeRect(400, 50, 100, 150))
-        let backgroundColorView = DemoView(frame: NSMakeRect(0, 0, 600, 600))
-        primaryColorView.color = colorCandidates.primary
-        secondaryColorView.color = colorCandidates.secondary
-        detailColorView.color = colorCandidates.detail
-        backgroundColorView.color = colorCandidates.background
-        mainView.addSubview(backgroundColorView)
-        mainView.addSubview(imageView)
-        mainView.addSubview(primaryColorView)
-        mainView.addSubview(secondaryColorView)
-        mainView.addSubview(detailColorView)
-        return mainView
-    }
-
-    class func makeColorView(colorCandidates: ColorCandidates) -> NSView {
-        let mainView = NSView(frame: NSMakeRect(0, 0, 800, 200))
-        let primaryColorView = DemoView(frame: NSMakeRect(0, 0, 200, 200))
-        let secondaryColorView = DemoView(frame: NSMakeRect(200, 0, 200, 200))
-        let detailColorView = DemoView(frame: NSMakeRect(400, 0, 200, 200))
-        let backgroundColorView = DemoView(frame: NSMakeRect(600, 0, 200, 200))
-        primaryColorView.color = colorCandidates.primary
-        secondaryColorView.color = colorCandidates.secondary
-        detailColorView.color = colorCandidates.detail
-        backgroundColorView.color = colorCandidates.background
-        mainView.addSubview(backgroundColorView)
-        mainView.addSubview(primaryColorView)
-        mainView.addSubview(secondaryColorView)
-        mainView.addSubview(detailColorView)
-        return mainView
     }
 
     class func makePNGFromView(view: NSView) -> NSData? {
@@ -84,6 +50,61 @@ class ExportColors {
             return data
         }
         return nil
+    }
+
+    class func makeColorView(colorCandidates: ColorCandidates, image: NSImage) -> NSView {
+        let mainView = NSView(frame: NSMakeRect(0, 0, 600, 600))
+        let imageView = NSImageView(frame: NSMakeRect(150, 250, 300, 300))
+        imageView.image = image
+        let (background, primary, secondary, detail) = makeDemoViews(willIncludeImage: true)
+        let finalView = makeFinalView(colors: colorCandidates, withViews: (background, primary, secondary, detail), toView: mainView)
+        finalView.addSubview(imageView)
+        return finalView
+    }
+
+    class func makeColorView(colorCandidates: ColorCandidates) -> NSView {
+        let mainView = NSView(frame: NSMakeRect(0, 0, 800, 200))
+        let (background, primary, secondary, detail) = makeDemoViews()
+        return makeFinalView(colors: colorCandidates, withViews: (background, primary, secondary, detail), toView: mainView)
+    }
+
+    // ---
+
+    private class func makeDemoViews(willIncludeImage: Bool = false) -> ExportViews {
+        if willIncludeImage {
+            let pv = DemoView(frame: NSMakeRect(100, 50, 100, 150))
+            let sv = DemoView(frame: NSMakeRect(250, 50, 100, 150))
+            let dv = DemoView(frame: NSMakeRect(400, 50, 100, 150))
+            let bv = DemoView(frame: NSMakeRect(0, 0, 600, 600))
+            return (background: bv, primary: pv, secondary: sv, detail: dv)
+        } else {
+            let pv = DemoView(frame: NSMakeRect(0, 0, 200, 200))
+            let sv = DemoView(frame: NSMakeRect(200, 0, 200, 200))
+            let dv = DemoView(frame: NSMakeRect(400, 0, 200, 200))
+            let bv = DemoView(frame: NSMakeRect(600, 0, 200, 200))
+            return (background: bv, primary: pv, secondary: sv, detail: dv)
+        }
+    }
+
+    private class func makeFinalView(colors colorCandidates: ColorCandidates, withViews sourceViews: ExportViews, toView view: NSView) -> NSView {
+        let coloredViews = assignColorsToViews(colorCandidates, views: sourceViews)
+        return addColoredViewsToView(views: coloredViews, view: view)
+    }
+
+    private class func assignColorsToViews(colorCandidates: ColorCandidates, views: ExportViews) -> ExportViews {
+        views.primary.color = colorCandidates.primary
+        views.secondary.color = colorCandidates.secondary
+        views.detail.color = colorCandidates.detail
+        views.background.color = colorCandidates.background
+        return views
+    }
+
+    private class func addColoredViewsToView(#views: ExportViews, view: NSView) -> NSView {
+        view.addSubview(views.background)
+        view.addSubview(views.primary)
+        view.addSubview(views.secondary)
+        view.addSubview(views.detail)
+        return view
     }
 
     private class func toDictionary(colorCandidates: ColorCandidates) -> [String:[String:CGFloat]]? {

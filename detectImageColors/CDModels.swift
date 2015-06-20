@@ -9,12 +9,11 @@ public struct ColorCandidates {
     public var backgroundIsBlackOrWhite: Bool?
 }
 
-class CDCountedColor: NSObject {
+struct CDCountedColor {
     var color: NSColor
     var count: NSInteger
     init(color: NSColor, count: NSInteger) {
         self.color = color
         self.count = count
-        super.init()
     }
 }

@@ -2,6 +2,22 @@ import Cocoa
 
 public extension NSColor {
 
+    public func isNearOf(color: NSColor) -> Bool {
+        if let (a, r, g, b) = self.componentsNSC(), (a1, r1, g1, b1) = color.componentsNSC() {
+            let threshold: CGFloat = CDSettings.ThresholdDistinctColor
+            if fabs(r - r1) > threshold || fabs(g - g1) > threshold || fabs(b - b1) > threshold || fabs(a - a1) > threshold {
+                // check for grays, prevent multiple gray colors
+                if fabs(r - g) < CDSettings.ThresholdGrey && fabs(r - b) < CDSettings.ThresholdGrey {
+                    if fabs(r1 - g1) < CDSettings.ThresholdGrey && fabs(r1 - b1) < CDSettings.ThresholdGrey {
+                        return true
+                    }
+                }
+                return false
+            }
+        }
+        return true
+    }
+
     public func lighterColor(threshold: CGFloat = CDSettings.ThresholdFloorBrightness, ratio: CGFloat = CDSettings.LighterRatio) -> NSColor {
         if var (a, h, s, b) = self.componentsHUE() {
             if b < threshold {
@@ -27,21 +43,6 @@ public extension NSColor {
             let lum: CGFloat = CDSettings.YUVRedRatio * r + CDSettings.YUVGreenRatio * g + CDSettings.YUVBlueRatio * b
             if lum < 0.5 {
                 return true
-            }
-        }
-        return false
-    }
-
-    public func isNearOf(color: NSColor) -> Bool {
-        if let (a, r, g, b) = self.componentsNSC(), (a1, r1, g1, b1) = color.componentsNSC() {
-            let threshold: CGFloat = CDSettings.ThresholdDistinctColor
-            if fabs(r - r1) > threshold || fabs(g - g1) > threshold || fabs(b - b1) > threshold || fabs(a - a1) > threshold {
-                // check for grays, prevent multiple gray colors
-                if fabs(r - g) < CDSettings.ThresholdGrey && fabs(r - b) < CDSettings.ThresholdGrey {
-                    if fabs(r1 - g1) < CDSettings.ThresholdGrey && fabs(r1 - b1) < CDSettings.ThresholdGrey {
-                        return true
-                    }
-                }
             }
         }
         return false
