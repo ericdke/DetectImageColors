@@ -22,6 +22,8 @@
 		C74AC4411B1A1C2F00B505BC /* DemoBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */; };
 		C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */; };
 		C74B586D1AD2F87F00C6EE4F /* CDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */; };
+		C77FBFEA1B3811C900CDF44A /* colors_dic.json in Resources */ = {isa = PBXBuildFile; fileRef = C77FBFE91B3811C900CDF44A /* colors_dic.json */; };
+		C77FBFEE1B38156C00CDF44A /* DemoAppDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77FBFED1B38156C00CDF44A /* DemoAppDownloader.swift */; };
 		C7AFACCB1AE2BC0F00B73499 /* elton.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7AFACCA1AE2BC0F00B73499 /* elton.jpg */; };
 		C7B573EE1AD0909500C44CDF /* DemoAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B573ED1AD0909500C44CDF /* DemoAppController.swift */; };
 		C7D49DD61AFEAD8D00CD8901 /* CDColorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */; };
@@ -61,6 +63,8 @@
 		C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoBackgroundView.swift; sourceTree = "<group>"; };
 		C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoImageView.swift; sourceTree = "<group>"; };
 		C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSettings.swift; sourceTree = "<group>"; };
+		C77FBFE91B3811C900CDF44A /* colors_dic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors_dic.json; sourceTree = "<group>"; };
+		C77FBFED1B38156C00CDF44A /* DemoAppDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppDownloader.swift; sourceTree = "<group>"; };
 		C7AFACCA1AE2BC0F00B73499 /* elton.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = elton.jpg; sourceTree = "<group>"; };
 		C7B573ED1AD0909500C44CDF /* DemoAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -115,6 +119,7 @@
 		C71FDDE31ACF7642004BD9BA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C77FBFE91B3811C900CDF44A /* colors_dic.json */,
 				C7AFACCA1AE2BC0F00B73499 /* elton.jpg */,
 				C72CCD0C1B24DDA9007FAE74 /* reed.jpg */,
 				C71FDDE41ACF7642004BD9BA /* Info.plist */,
@@ -145,6 +150,7 @@
 				C71FDDE71ACF7642004BD9BA /* Images.xcassets */,
 				C71FDDE91ACF7642004BD9BA /* MainMenu.xib */,
 				C7B573ED1AD0909500C44CDF /* DemoAppController.swift */,
+				C77FBFED1B38156C00CDF44A /* DemoAppDownloader.swift */,
 				C72CCCF71B2486FF007FAE74 /* DemoColorsFromImage.swift */,
 				C721BC101B35C82E001C3896 /* DemoColorView.swift */,
 				C72CCCF91B249193007FAE74 /* DemoControlsView.swift */,
@@ -249,6 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C77FBFEA1B3811C900CDF44A /* colors_dic.json in Resources */,
 				C71FDDE81ACF7642004BD9BA /* Images.xcassets in Resources */,
 				C71FDDEB1ACF7642004BD9BA /* MainMenu.xib in Resources */,
 				C7AFACCB1AE2BC0F00B73499 /* elton.jpg in Resources */,
@@ -293,6 +300,7 @@
 				C71FDE011ACF7676004BD9BA /* CDColorDetector.swift in Sources */,
 				C74AC4411B1A1C2F00B505BC /* DemoBackgroundView.swift in Sources */,
 				C71FDE031ACF76A0004BD9BA /* CDColorExtensions.swift in Sources */,
+				C77FBFEE1B38156C00CDF44A /* DemoAppDownloader.swift in Sources */,
 				C71FDE051ACF76C3004BD9BA /* CDModels.swift in Sources */,
 				C72CCD021B24C247007FAE74 /* DemoExportColors.swift in Sources */,
 				C721BC111B35C82E001C3896 /* DemoColorView.swift in Sources */,
@@ -424,6 +432,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 			};
 			name = Debug;
 		};
@@ -436,6 +445,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 			};
 			name = Release;
 		};

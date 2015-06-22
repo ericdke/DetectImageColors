@@ -4,7 +4,7 @@
 
 import Cocoa
 
-public class ColorDetector: NSObject {
+final public class ColorDetector: NSObject {
 
     // TODO: Not super accurate, magic numbers have too much weight.
     // Possible solutions:

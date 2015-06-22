@@ -37,10 +37,10 @@ public class ColorDetector: NSObject {
     public func resize(image: NSImage) -> NSImage? {
         // TODO: very slow, have to refactor
         let (myWidth, myHeight): (CGFloat, CGFloat)
-        if image.size.width < 600 {
+        if image.size.width < CDSettings.ProcessedImageSize {
             (myWidth, myHeight) = (image.size.width, image.size.width)
         } else {
-            (myWidth, myHeight) = (CGFloat(600), CGFloat(600))
+            (myWidth, myHeight) = (CGFloat(CDSettings.ProcessedImageSize), CGFloat(CDSettings.ProcessedImageSize))
         }
         var destSize = NSMakeSize(myWidth, myHeight)
         var newImage = NSImage(size: destSize)
@@ -132,13 +132,13 @@ public class ColorDetector: NSObject {
                     }
                     colors.addObject(color)
                 }
-                y++
+                y += CDSettings.DetectorResolutionY
             }
             // Reset y every x loop
             y = 0
             // We sample a vertical line every x pixels
             // Set DetectorResolution to 1 for high-res scanning
-            x += CDSettings.DetectorResolution
+            x += CDSettings.DetectorResolutionX
         }
         return (colors, leftEdgeColors)
     }

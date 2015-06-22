@@ -21,11 +21,14 @@
             <connections>
                 <outlet property="backgroundView" destination="b9r-ac-ZnS" id="dHX-Qe-tf9"/>
                 <outlet property="detailColorLabel" destination="dnt-tG-dcO" id="J4X-mv-00K"/>
+                <outlet property="detailColorNameLabel" destination="R36-NJ-i14" id="Jsc-eu-jpA"/>
                 <outlet property="detailColorView" destination="0Rc-PF-Ju6" id="Bdx-jX-dxz"/>
                 <outlet property="imageView" destination="DGu-0e-za9" id="V6E-Ea-lh5"/>
                 <outlet property="primaryColorLabel" destination="l8q-DF-FV0" id="EkJ-F0-kaf"/>
+                <outlet property="primaryColorNameLabel" destination="Pca-dZ-TX6" id="GBo-5G-wdG"/>
                 <outlet property="primaryColorView" destination="mFd-iX-Po7" id="Zu7-ok-4mJ"/>
                 <outlet property="secondaryColorLabel" destination="jf1-O4-IQQ" id="L5j-Pt-vok"/>
+                <outlet property="secondaryColorNameLabel" destination="QH0-iA-58e" id="qP3-y0-6yn"/>
                 <outlet property="secondaryColorView" destination="03B-81-fBP" id="zru-xJ-qKr"/>
                 <outlet property="showOverlayButton" destination="u55-Zd-cKy" id="tBb-O4-X4v"/>
                 <outlet property="spinner" destination="7nc-KC-gMT" id="Oje-mV-DHR"/>
@@ -160,7 +163,7 @@
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" imageScaling="proportionallyUpOrDown" id="MGB-i2-AdI"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="dnt-tG-dcO">
-                                <rect key="frame" x="18" y="19" width="184" height="40"/>
+                                <rect key="frame" x="93" y="19" width="109" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="akc-Zp-m9l">
                                     <font key="font" size="24" name="HelveticaNeue"/>
@@ -169,7 +172,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="jf1-O4-IQQ">
-                                <rect key="frame" x="18" y="164" width="184" height="40"/>
+                                <rect key="frame" x="93" y="164" width="109" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="bwN-L2-QP1">
                                     <font key="font" size="24" name="HelveticaNeue"/>
@@ -182,7 +185,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="3nH-yE-hE2">
-                                        <rect key="frame" x="-3" y="60" width="176" height="26"/>
+                                        <rect key="frame" x="-3" y="60" width="185" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Label" id="eWG-ni-ngl">
                                             <font key="font" size="12" name="HelveticaNeue"/>
@@ -200,7 +203,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="9IZ-Od-EXO">
-                                        <rect key="frame" x="-3" y="60" width="176" height="26"/>
+                                        <rect key="frame" x="-3" y="60" width="185" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Label" id="Ubf-jl-HWR">
                                             <font key="font" size="12" name="HelveticaNeue"/>
@@ -214,7 +217,7 @@
                                 </connections>
                             </customView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="l8q-DF-FV0">
-                                <rect key="frame" x="18" y="310" width="184" height="40"/>
+                                <rect key="frame" x="93" y="310" width="109" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="fNQ-cq-Hlm">
                                     <font key="font" size="24" name="HelveticaNeue"/>
@@ -227,7 +230,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="2xg-fQ-ufQ">
-                                        <rect key="frame" x="-3" y="60" width="176" height="26"/>
+                                        <rect key="frame" x="-3" y="60" width="185" height="26"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="left" title="Label" id="bFl-8J-dnl">
                                             <font key="font" size="12" name="HelveticaNeue"/>
@@ -251,6 +254,33 @@
                                     <action selector="showOverlayClicked:" target="UW4-RA-zN2" id="f9j-iL-Gk9"/>
                                 </connections>
                             </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="Pca-dZ-TX6">
+                                <rect key="frame" x="18" y="315" width="79" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" id="Owd-UO-xbx">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="QH0-iA-58e">
+                                <rect key="frame" x="18" y="169" width="79" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" id="BbA-TP-3Wt">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="R36-NJ-i14">
+                                <rect key="frame" x="18" y="24" width="79" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" id="jEr-WF-FpC">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                     </customView>
                     <customView id="aqM-ky-6xa" customClass="DemoControlsView" customModule="detectImageColors" customModuleProvider="target">

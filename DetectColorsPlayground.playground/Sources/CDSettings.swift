@@ -19,7 +19,7 @@ public class CDSettings {
     // 0.75
     public static var ThresholdCeilingBrightness: CGFloat = 0.75
     // 0.25
-    public static var ThresholdDistinctColor: CGFloat = 0.43
+    public static var ThresholdDistinctColor: CGFloat = 0.25
     // 0.03
     public static var ThresholdGrey: CGFloat = 0.03
     // 0.91
@@ -32,7 +32,7 @@ public class CDSettings {
     // 0.75
     public static var DarkerRatio: CGFloat = 0.6
     // 1.6
-    public static var ContrastRatio: CGFloat = 2.1
+    public static var ContrastRatio: CGFloat = 1.6
     // 0.05
     public static var LuminanceAddedWeight: CGFloat = 0.05
 
@@ -41,10 +41,13 @@ public class CDSettings {
     public static var YUVGreenRatio: CGFloat = 0.7152
     public static var YUVBlueRatio: CGFloat = 0.0722
 
+    // Smaller = faster = less accurate
+    public static var ProcessedImageSize: CGFloat = 400
     // Set it to 0 for "classic" behavior
     public static var DetectorDistanceFromLeftEdge: Int = 5
-    // Detects a Y line of pixels every DetectorResolution pixels on X. Smaller = better & slower.
-    public static var DetectorResolution: Int = 10
+    // Detects a line of Y pixels every X pixels. Smaller = better = slower.
+    public static var DetectorResolutionX: Int = 5
+    public static var DetectorResolutionY: Int = 5
 
     // Set to false to have more precise but less contrasted results
     public static var EnsureContrastedColorCandidates = true

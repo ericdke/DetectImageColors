@@ -8,6 +8,9 @@ import Cocoa
 class AppController: NSObject {
 
     var colorsFromImage = ColorsFromImage()
+    var namedColors = [String:String]()
+    let downloader = Downloader()
+    var appDelegate: AppDelegate?
 
     var colorCandidates: ColorCandidates? {
         didSet {
@@ -26,6 +29,18 @@ class AppController: NSObject {
     }
 
     override func awakeFromNib() {
+        if let dg = NSApplication.sharedApplication().delegate as? AppDelegate {
+            self.appDelegate = dg
+            if let path = dg.getJSONFilePath() {
+                if NSFileManager().fileExistsAtPath(path) {
+                    getNamedColorsFromFile(path)
+                } else {
+                    if let path = NSBundle.mainBundle().pathForResource("colors_dic", ofType: "json") {
+                        getNamedColorsFromFile(path)
+                    }
+                }
+            }
+        }
         analyseImageAndSetImageView(NSImage(named: "elton")!)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateImage:", name: "updateImageByDropOK", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateColorCandidates:", name: "updateColorCandidatesOK", object: nil)
@@ -44,25 +59,91 @@ class AppController: NSObject {
 
     private func refreshWindowElements() {
         if let cols = colorCandidates {
+
             let bgCSS = cols.background!.componentsCSS()!.css
+            let primCSS = cols.primary!.componentsCSS()!.css
+            let secCSS = cols.secondary!.componentsCSS()!.css
+            let detCSS = cols.detail!.componentsCSS()!.css
+
             primaryColorView.color = cols.primary
             primaryColorView.backgroundColorLabel.textColor = cols.background
-            primaryColorView.backgroundColorLabel.stringValue = bgCSS
             primaryColorLabel.textColor = cols.primary
-            primaryColorLabel.stringValue = cols.primary!.componentsCSS()!.css
+            primaryColorLabel.stringValue = primCSS
             secondaryColorView.color = cols.secondary
             secondaryColorView.backgroundColorLabel.textColor = cols.background
-            secondaryColorView.backgroundColorLabel.stringValue = bgCSS
             secondaryColorLabel.textColor = cols.secondary
-            secondaryColorLabel.stringValue = cols.secondary!.componentsCSS()!.css
+            secondaryColorLabel.stringValue = secCSS
             detailColorView.color = cols.detail
             detailColorView.backgroundColorLabel.textColor = cols.background
-            detailColorView.backgroundColorLabel.stringValue = bgCSS
             detailColorLabel.textColor = cols.detail
-            detailColorLabel.stringValue = cols.detail!.componentsCSS()!.css
+            detailColorLabel.stringValue = detCSS
             backgroundView.colorCandidates = cols
+
+            primaryColorNameLabel.textColor = cols.primary
+            secondaryColorNameLabel.textColor = cols.secondary
+            detailColorNameLabel.textColor = cols.detail
+
             showOverlay()
+
+            if let match = namedColors[bgCSS] {
+                let bgStr = bgCSS + " " + match
+                primaryColorView.backgroundColorLabel.stringValue = bgStr
+                secondaryColorView.backgroundColorLabel.stringValue = bgStr
+                detailColorView.backgroundColorLabel.stringValue = bgStr
+            } else {
+                getColorNameFromAPI(bgCSS, completionHandler: { (name) -> Void in
+                    let bgStr = bgCSS + " " + name
+                    self.primaryColorView.backgroundColorLabel.stringValue = bgStr
+                    self.secondaryColorView.backgroundColorLabel.stringValue = bgStr
+                    self.detailColorView.backgroundColorLabel.stringValue = bgStr
+                    self.namedColors[bgCSS] = name
+                })
+            }
+            if let match = namedColors[primCSS] {
+                primaryColorNameLabel.stringValue = match
+            } else {
+                getColorNameFromAPI(primCSS, completionHandler: { (name) -> Void in
+                    self.primaryColorNameLabel.stringValue = name
+                    self.namedColors[primCSS] = name
+                })
+            }
+            if let match = namedColors[secCSS] {
+                secondaryColorNameLabel.stringValue = match
+            } else {
+                getColorNameFromAPI(secCSS, completionHandler: { (name) -> Void in
+                    self.secondaryColorNameLabel.stringValue = name
+                    self.namedColors[secCSS] = name
+                })
+            }
+            if let match = namedColors[detCSS] {
+                detailColorNameLabel.stringValue = match
+            } else {
+                getColorNameFromAPI(detCSS, completionHandler: { (name) -> Void in
+                    self.detailColorNameLabel.stringValue = name
+                    self.namedColors[detCSS] = name
+                })
+            }
+
+            //TODO: it makes a copy in the AppDelegate everytime. Not good. Fix it.
+            if let dg = self.appDelegate {
+                dg.namedColors = namedColors
+            }
+
         }
+    }
+
+    func getColorNameFromAPI(css: String, completionHandler: (name: String) -> Void) {
+        let c = css.componentsSeparatedByString("#")[1]
+        let url = downloader.colorsAPIbaseURL + c
+        downloader.download(url, completion: { (data) -> Void in
+            if let json = self.downloader.JSONDataToDictionary(data) {
+                if let dic = json["name"] as? [String:AnyObject] {
+                    if let name = dic["value"] as? String {
+                        completionHandler(name: name)
+                    }
+                }
+            }
+        })
     }
 
     @IBAction func showOverlayClicked(sender: NSButton) {
@@ -118,6 +199,12 @@ class AppController: NSObject {
         }
     }
 
+    private func getNamedColorsFromFile(path: String) {
+        let data = NSData(contentsOfFile: path)
+        let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers, error: nil) as! [String:String]
+        namedColors = json
+    }
+
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var imageView: DemoImageView!
     @IBOutlet weak var backgroundView: DemoBackgroundView!
@@ -129,6 +216,9 @@ class AppController: NSObject {
     @IBOutlet weak var secondaryColorLabel: NSTextField!
     @IBOutlet weak var detailColorLabel: NSTextField!
     @IBOutlet weak var showOverlayButton: NSButton!
+    @IBOutlet weak var primaryColorNameLabel: NSTextField!
+    @IBOutlet weak var secondaryColorNameLabel: NSTextField!
+    @IBOutlet weak var detailColorNameLabel: NSTextField!
 
 }
 
