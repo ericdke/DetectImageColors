@@ -243,10 +243,10 @@
                                     <outlet property="backgroundColorLabel" destination="2xg-fQ-ufQ" id="n2Q-2T-jye"/>
                                 </connections>
                             </customView>
-                            <button id="u55-Zd-cKy">
+                            <button focusRingType="none" id="u55-Zd-cKy">
                                 <rect key="frame" x="367" y="6" width="112" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="check" title="Show overlay colors" bezelStyle="regularSquare" imagePosition="left" controlSize="mini" inset="2" id="AlH-20-xIJ">
+                                <buttonCell key="cell" type="check" title="Show overlay colors" bezelStyle="regularSquare" imagePosition="left" controlSize="mini" focusRingType="none" inset="2" id="AlH-20-xIJ">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="miniSystem"/>
                                 </buttonCell>
