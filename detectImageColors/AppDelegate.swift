@@ -10,20 +10,12 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     @IBOutlet weak var window: NSWindow!
-
-    var namedColors = [String:String]()
-
-    func getJSONFilePath() -> String? {
-        if let dirs:[String] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true) as? [String] {
-            return dirs[0].stringByAppendingPathComponent("colors_dic.json")
-        }
-        return nil
-    }
+    @IBOutlet weak var appController: AppController!
 
     func applicationWillFinishLaunching(notification: NSNotification) {
         window.setFrameUsingName("DetectImageColorsDemo")
         window.title = "DetectImageColors"
-        window.backgroundColor = NSColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        window.backgroundColor = NSColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         NSUserDefaults.standardUserDefaults().setObject(getDefaultSettings(), forKey: "defaultSettings")
     }
 
@@ -33,9 +25,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func saveNamedColors() {
-        if let path = getJSONFilePath() {
+        if let path = appController.getJSONFilePath() {
             var err: NSError?
-            let enc = NSJSONSerialization.dataWithJSONObject(namedColors, options: NSJSONWritingOptions.PrettyPrinted, error: &err)
+            let enc = NSJSONSerialization.dataWithJSONObject(appController.namedColors, options: NSJSONWritingOptions.PrettyPrinted, error: &err)
             if err != nil {
                 NSLog("%@", "Error while encoding colors to JSON")
             } else {

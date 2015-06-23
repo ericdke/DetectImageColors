@@ -40,4 +40,17 @@ class Downloader: NSObject {
         return nil
     }
 
+    func getColorNameFromAPI(color: NSColor, completionHandler: (name: String) -> Void) {
+        let url = colorsAPIbaseURL + color.componentsCSS()!.clean
+        download(url, completion: { (data) -> Void in
+            if let json = self.JSONDataToDictionary(data) {
+                if let dic = json["name"] as? [String:AnyObject] {
+                    if let name = dic["value"] as? String {
+                        completionHandler(name: name)
+                    }
+                }
+            }
+        })
+    }
+
 }

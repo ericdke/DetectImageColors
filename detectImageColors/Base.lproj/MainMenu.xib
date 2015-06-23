@@ -13,6 +13,7 @@
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="detectImageColors" customModuleProvider="target">
             <connections>
+                <outlet property="appController" destination="UW4-RA-zN2" id="bwb-Fg-vvP"/>
                 <outlet property="window" destination="ayI-nh-tNI" id="zKT-or-vKb"/>
             </connections>
         </customObject>

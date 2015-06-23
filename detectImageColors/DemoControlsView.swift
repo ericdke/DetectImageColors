@@ -8,6 +8,12 @@
 
 import Cocoa
 
+extension CGFloat {
+    func formatSliderDouble(multiplier: Double = 100.0) -> Double {
+        return Double(self) * multiplier
+    }
+}
+
 class DemoControlsView: NSView {
 
     @IBOutlet weak var distinctColors: NSSlider!
@@ -32,15 +38,15 @@ class DemoControlsView: NSView {
     }
 
     func setSlidersDefaults() {
-        distinctColors.doubleValue = Double(CDSettings.ThresholdDistinctColor) * 100.0
+        distinctColors.doubleValue = CDSettings.ThresholdDistinctColor.formatSliderDouble()
         distinctColorsValue.stringValue = String(format: "%.2f", CDSettings.ThresholdDistinctColor)
         noiseTolerance.integerValue = CDSettings.ThresholdNoiseTolerance
         noiseToleranceValue.integerValue = CDSettings.ThresholdNoiseTolerance
-        thresholdMinimumSaturation.doubleValue = Double(CDSettings.ThresholdMinimumSaturation) * 100.0
+        thresholdMinimumSaturation.doubleValue = CDSettings.ThresholdMinimumSaturation.formatSliderDouble()
         thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", CDSettings.ThresholdMinimumSaturation)
-        thresholdFloorBrightness.doubleValue = Double(CDSettings.ThresholdFloorBrightness) * 100.0
+        thresholdFloorBrightness.doubleValue = CDSettings.ThresholdFloorBrightness.formatSliderDouble()
         thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", CDSettings.ThresholdFloorBrightness)
-        contrastRatio.doubleValue = Double(CDSettings.ThresholdFloorBrightness) * 100.0
+        contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(multiplier: 10.0)
         contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
         ensureContrastedColorCandidates.state = NSOnState
     }
@@ -91,15 +97,15 @@ class DemoControlsView: NSView {
     }
 
     @IBAction func contrastRatioSlider(sender: NSSlider) {
-        let val = makeDoubleValFromSlider(sender, divider: 10)
+        let val = makeDoubleValFromSlider(sender, divider: 10, format: "%.1f")
         contrastRatioValue.stringValue = val.string
         CDSettings.ContrastRatio = val.cgFloat
         updateColors()
     }
 
-    private func makeDoubleValFromSlider(sender: NSSlider, divider: Int = 100) -> (string: String, cgFloat: CGFloat, double: Double) {
+    private func makeDoubleValFromSlider(sender: NSSlider, divider: Int = 100, format: String = "%.2f") -> (string: String, cgFloat: CGFloat, double: Double) {
         let val = Double(sender.integerValue) / Double(divider)
-        let str = String(format: "%.2f", val)
+        let str = String(format: format, val)
         return (str, CGFloat(val), val)
     }
 
