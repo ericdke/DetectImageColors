@@ -88,7 +88,7 @@ class AppController: NSObject {
             if let match = namedColors[bgCSS] {
                 updateBGColorLabels(bgCSS + " " + match)
             } else {
-                getColorNameFromAPI(bgCSS, completionHandler: { (name) -> Void in
+                getColorNameFromAPI(cols.background!, completionHandler: { (name) -> Void in
                     self.updateBGColorLabels(bgCSS + " " + name)
                     self.namedColors[bgCSS] = name
                 })
@@ -96,7 +96,7 @@ class AppController: NSObject {
             if let match = namedColors[primCSS] {
                 primaryColorNameLabel.stringValue = match
             } else {
-                getColorNameFromAPI(primCSS, completionHandler: { (name) -> Void in
+                getColorNameFromAPI(cols.primary!, completionHandler: { (name) -> Void in
                     self.primaryColorNameLabel.stringValue = name
                     self.namedColors[primCSS] = name
                 })
@@ -104,7 +104,7 @@ class AppController: NSObject {
             if let match = namedColors[secCSS] {
                 secondaryColorNameLabel.stringValue = match
             } else {
-                getColorNameFromAPI(secCSS, completionHandler: { (name) -> Void in
+                getColorNameFromAPI(cols.secondary!, completionHandler: { (name) -> Void in
                     self.secondaryColorNameLabel.stringValue = name
                     self.namedColors[secCSS] = name
                 })
@@ -112,7 +112,7 @@ class AppController: NSObject {
             if let match = namedColors[detCSS] {
                 detailColorNameLabel.stringValue = match
             } else {
-                getColorNameFromAPI(detCSS, completionHandler: { (name) -> Void in
+                getColorNameFromAPI(cols.detail!, completionHandler: { (name) -> Void in
                     self.detailColorNameLabel.stringValue = name
                     self.namedColors[detCSS] = name
                 })
@@ -132,9 +132,8 @@ class AppController: NSObject {
         detailColorView.backgroundColorLabel.stringValue = str
     }
 
-    private func getColorNameFromAPI(css: String, completionHandler: (name: String) -> Void) {
-        let c = css.componentsSeparatedByString("#")[1]
-        let url = downloader.colorsAPIbaseURL + c
+    private func getColorNameFromAPI(color: NSColor, completionHandler: (name: String) -> Void) {
+        let url = downloader.colorsAPIbaseURL + color.componentsCSS()!.clean
         downloader.download(url, completion: { (data) -> Void in
             if let json = self.downloader.JSONDataToDictionary(data) {
                 if let dic = json["name"] as? [String:AnyObject] {

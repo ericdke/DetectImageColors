@@ -99,7 +99,7 @@ public extension NSColor {
         return false
     }
 
-    public func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String)? {
+    public func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String, clean: String)? {
         if let (alpha, red, green, blue) = self.componentsRGB() {
             let xalpha = String(alpha, radix: 16, uppercase: true)
             var xred = String(red, radix: 16, uppercase: true)
@@ -108,8 +108,9 @@ public extension NSColor {
             if count(xred) < 2 { xred = "0\(xred)" }
             if count(xgreen) < 2 { xgreen = "0\(xgreen)" }
             if count(xblue) < 2 { xblue = "0\(xblue)" }
-            let css = "#\(xred)\(xgreen)\(xblue)"
-            return (alpha: xalpha, red: xred, green: xgreen, blue: xblue, css: css)
+            let clean = "\(xred)\(xgreen)\(xblue)"
+            let css = "#\(clean)"
+            return (alpha: xalpha, red: xred, green: xgreen, blue: xblue, css: css, clean: clean)
         }
         return nil
     }

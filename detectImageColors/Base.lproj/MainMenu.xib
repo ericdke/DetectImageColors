@@ -143,27 +143,27 @@
                 </menuItem>
             </items>
         </menu>
-        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="ayI-nh-tNI">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <rect key="contentRect" x="-1724" y="-73" width="635" height="587"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" animationBehavior="default" id="ayI-nh-tNI">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <rect key="contentRect" x="-1724" y="-73" width="635" height="631"/>
             <rect key="screenRect" x="-1920" y="-280" width="1920" height="1057"/>
-            <value key="minSize" type="size" width="635" height="587"/>
-            <value key="maxSize" type="size" width="635" height="587"/>
+            <value key="minSize" type="size" width="635" height="631"/>
+            <value key="maxSize" type="size" width="635" height="631"/>
             <view key="contentView" id="3Zb-ZG-a0j">
-                <rect key="frame" x="0.0" y="1" width="635" height="587"/>
+                <rect key="frame" x="0.0" y="-1" width="635" height="631"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView id="b9r-ac-ZnS" customClass="DemoBackgroundView" customModule="detectImageColors" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="141" width="635" height="446"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <rect key="frame" x="0.0" y="154" width="635" height="477"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DGu-0e-za9" customClass="DemoImageView" customModule="detectImageColors" customModuleProvider="target">
-                                <rect key="frame" x="234" y="26" width="381" height="400"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topRight" imageScaling="proportionallyUpOrDown" id="MGB-i2-AdI"/>
+                                <rect key="frame" x="234" y="57" width="381" height="400"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="top" imageScaling="proportionallyDown" id="MGB-i2-AdI"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="dnt-tG-dcO">
-                                <rect key="frame" x="93" y="19" width="109" height="40"/>
+                                <rect key="frame" x="93" y="50" width="109" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="akc-Zp-m9l">
                                     <font key="font" size="24" name="HelveticaNeue"/>
@@ -172,7 +172,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="jf1-O4-IQQ">
-                                <rect key="frame" x="93" y="164" width="109" height="40"/>
+                                <rect key="frame" x="93" y="195" width="109" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="bwN-L2-QP1">
                                     <font key="font" size="24" name="HelveticaNeue"/>
@@ -181,7 +181,7 @@
                                 </textFieldCell>
                             </textField>
                             <customView id="03B-81-fBP" customClass="DemoColorView" customModule="detectImageColors" customModuleProvider="target">
-                                <rect key="frame" x="20" y="200" width="180" height="80"/>
+                                <rect key="frame" x="20" y="231" width="180" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="3nH-yE-hE2">
@@ -199,7 +199,7 @@
                                 </connections>
                             </customView>
                             <customView id="0Rc-PF-Ju6" customClass="DemoColorView" customModule="detectImageColors" customModuleProvider="target">
-                                <rect key="frame" x="20" y="55" width="180" height="80"/>
+                                <rect key="frame" x="20" y="86" width="180" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="9IZ-Od-EXO">
@@ -217,7 +217,7 @@
                                 </connections>
                             </customView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="l8q-DF-FV0">
-                                <rect key="frame" x="93" y="310" width="109" height="40"/>
+                                <rect key="frame" x="93" y="341" width="109" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="fNQ-cq-Hlm">
                                     <font key="font" size="24" name="HelveticaNeue"/>
@@ -226,7 +226,7 @@
                                 </textFieldCell>
                             </textField>
                             <customView id="mFd-iX-Po7" customClass="DemoColorView" customModule="detectImageColors" customModuleProvider="target">
-                                <rect key="frame" x="20" y="346" width="180" height="80"/>
+                                <rect key="frame" x="20" y="377" width="180" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="2xg-fQ-ufQ">
@@ -243,8 +243,35 @@
                                     <outlet property="backgroundColorLabel" destination="2xg-fQ-ufQ" id="n2Q-2T-jye"/>
                                 </connections>
                             </customView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="Pca-dZ-TX6">
+                                <rect key="frame" x="18" y="346" width="79" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" id="Owd-UO-xbx">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="QH0-iA-58e">
+                                <rect key="frame" x="18" y="200" width="79" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" id="BbA-TP-3Wt">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" id="R36-NJ-i14">
+                                <rect key="frame" x="18" y="55" width="79" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" id="jEr-WF-FpC">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <button focusRingType="none" id="u55-Zd-cKy">
-                                <rect key="frame" x="367" y="6" width="112" height="22"/>
+                                <rect key="frame" x="53" y="17" width="112" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Show overlay colors" bezelStyle="regularSquare" imagePosition="left" controlSize="mini" focusRingType="none" inset="2" id="AlH-20-xIJ">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -254,38 +281,11 @@
                                     <action selector="showOverlayClicked:" target="UW4-RA-zN2" id="f9j-iL-Gk9"/>
                                 </connections>
                             </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="Pca-dZ-TX6">
-                                <rect key="frame" x="18" y="315" width="79" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" id="Owd-UO-xbx">
-                                    <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="QH0-iA-58e">
-                                <rect key="frame" x="18" y="169" width="79" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" id="BbA-TP-3Wt">
-                                    <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" setsMaxLayoutWidthAtFirstLayout="YES" id="R36-NJ-i14">
-                                <rect key="frame" x="18" y="24" width="79" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" selectable="YES" allowsUndo="NO" sendsActionOnEndEditing="YES" title="Label" id="jEr-WF-FpC">
-                                    <font key="font" metaFont="smallSystem"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                         </subviews>
                     </customView>
                     <customView id="aqM-ky-6xa" customClass="DemoControlsView" customModule="detectImageColors" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="-8" width="635" height="155"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <rect key="frame" x="0.0" y="0.0" width="635" height="155"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="du3-aq-dsE">
                                 <rect key="frame" x="220" y="68" width="38" height="17"/>
@@ -465,7 +465,7 @@
                     </customView>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="-83.5" y="262.5"/>
+            <point key="canvasLocation" x="-83.5" y="284.5"/>
         </window>
     </objects>
 </document>

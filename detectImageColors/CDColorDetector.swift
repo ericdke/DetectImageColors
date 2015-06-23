@@ -73,50 +73,6 @@ final public class ColorDetector: NSObject {
         return (nil, nil)
     }
 
-    private func tryAvoidBlackOrWhite(sortedColors: [CDCountedColor]) -> CDCountedColor {
-        // want to choose color over black/white so we keep looking
-        var proposedEdgeColor = sortedColors[0]
-        let activeColor = proposedEdgeColor.color
-        if activeColor.isMostlyBlackOrWhite() {
-            var i = 0
-            while i < sortedColors.count {
-                var nextProposedColor = sortedColors[i]
-                // make sure the second choice color is 30% as common as the first choice
-                if (Double(nextProposedColor.count) / Double(proposedEdgeColor.count)) > 0.3 {
-                    if nextProposedColor.color.isMostlyBlackOrWhite() == false {
-                        proposedEdgeColor = nextProposedColor
-                        break
-                    }
-                } else {
-                    // reached color threshold less than 40% of the original proposed edge color
-                    break
-                }
-                i++
-            }
-        }
-        return proposedEdgeColor
-    }
-
-    // let's try to sort the credible candidates from the noise
-    private func separateColors(edgeColors: NSCountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
-        let enumerator = edgeColors.objectEnumerator()
-        var curColor = enumerator.nextObject() as? NSColor
-        var rootColors = [CDCountedColor]()
-        var lonelyColors = [CDCountedColor]()
-        while curColor != nil {
-            let colorCount = edgeColors.countForObject(curColor!)
-            let randomColorsThreshold = Int(Double(height) * CDSettings.ThresholdMinimumPercentage)
-            if colorCount <= randomColorsThreshold {
-                lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
-                curColor = enumerator.nextObject() as? NSColor
-                continue
-            }
-            rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
-            curColor = enumerator.nextObject() as? NSColor
-        }
-        return (rootColors, lonelyColors)
-    }
-
     private func sampleImage(#width: Int, height: Int, imageRep: NSBitmapImageRep) -> (NSCountedSet, NSCountedSet) {
         var colors = NSCountedSet(capacity: width * height)
         var leftEdgeColors = NSCountedSet(capacity: height)
@@ -143,6 +99,26 @@ final public class ColorDetector: NSObject {
         return (colors, leftEdgeColors)
     }
 
+    // let's try to sort the credible candidates from the noise
+    private func separateColors(edgeColors: NSCountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
+        let enumerator = edgeColors.objectEnumerator()
+        var curColor = enumerator.nextObject() as? NSColor
+        var rootColors = [CDCountedColor]()
+        var lonelyColors = [CDCountedColor]()
+        while curColor != nil {
+            let colorCount = edgeColors.countForObject(curColor!)
+            let randomColorsThreshold = Int(Double(height) * CDSettings.ThresholdMinimumPercentage)
+            if colorCount <= randomColorsThreshold {
+                lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
+                curColor = enumerator.nextObject() as? NSColor
+                continue
+            }
+            rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
+            curColor = enumerator.nextObject() as? NSColor
+        }
+        return (rootColors, lonelyColors)
+    }
+
     private func getMarginalColorsIfNecessary(rootColors: [CDCountedColor], lonelyColors: [CDCountedColor]) -> [CDCountedColor] {
         if rootColors.count > 0 {
             // if we have at least one credible candidate
@@ -151,6 +127,30 @@ final public class ColorDetector: NSObject {
             // here come the less credible ones
             return lonelyColors.sorted({ $0.count > $1.count })
         }
+    }
+
+    private func tryAvoidBlackOrWhite(sortedColors: [CDCountedColor]) -> CDCountedColor {
+        // want to choose color over black/white so we keep looking
+        var proposedEdgeColor = sortedColors[0]
+        let activeColor = proposedEdgeColor.color
+        if activeColor.isMostlyBlackOrWhite() {
+            var i = 0
+            while i < sortedColors.count {
+                var nextProposedColor = sortedColors[i]
+                // make sure the second choice color is 30% as common as the first choice
+                if (Double(nextProposedColor.count) / Double(proposedEdgeColor.count)) > 0.3 {
+                    if nextProposedColor.color.isMostlyBlackOrWhite() == false {
+                        proposedEdgeColor = nextProposedColor
+                        break
+                    }
+                } else {
+                    // reached color threshold less than 40% of the original proposed edge color
+                    break
+                }
+                i++
+            }
+        }
+        return proposedEdgeColor
     }
 
     // ------------------------------------
