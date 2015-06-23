@@ -19,7 +19,7 @@ class AppController: NSObject {
         }
     }
 
-    func updateColorCandidates() {
+    private func updateColorCandidates() {
         spinner.startAnimation(nil)
         colorCandidates = colorsFromImage.getColors()
     }
@@ -86,16 +86,10 @@ class AppController: NSObject {
             showOverlay()
 
             if let match = namedColors[bgCSS] {
-                let bgStr = bgCSS + " " + match
-                primaryColorView.backgroundColorLabel.stringValue = bgStr
-                secondaryColorView.backgroundColorLabel.stringValue = bgStr
-                detailColorView.backgroundColorLabel.stringValue = bgStr
+                updateBGColorLabels(bgCSS + " " + match)
             } else {
                 getColorNameFromAPI(bgCSS, completionHandler: { (name) -> Void in
-                    let bgStr = bgCSS + " " + name
-                    self.primaryColorView.backgroundColorLabel.stringValue = bgStr
-                    self.secondaryColorView.backgroundColorLabel.stringValue = bgStr
-                    self.detailColorView.backgroundColorLabel.stringValue = bgStr
+                    self.updateBGColorLabels(bgCSS + " " + name)
                     self.namedColors[bgCSS] = name
                 })
             }
@@ -132,7 +126,13 @@ class AppController: NSObject {
         }
     }
 
-    func getColorNameFromAPI(css: String, completionHandler: (name: String) -> Void) {
+    private func updateBGColorLabels(str: String) {
+        primaryColorView.backgroundColorLabel.stringValue = str
+        secondaryColorView.backgroundColorLabel.stringValue = str
+        detailColorView.backgroundColorLabel.stringValue = str
+    }
+
+    private func getColorNameFromAPI(css: String, completionHandler: (name: String) -> Void) {
         let c = css.componentsSeparatedByString("#")[1]
         let url = downloader.colorsAPIbaseURL + c
         downloader.download(url, completion: { (data) -> Void in
@@ -150,7 +150,7 @@ class AppController: NSObject {
         showOverlay()
     }
 
-    func showOverlay() {
+    private func showOverlay() {
         if showOverlayButton.state == NSOnState {
             imageView.primaryDemoColorView.color = colorCandidates!.primary!.colorWithAlphaComponent(0.9)
             imageView.secondaryDemoColorView.color = colorCandidates!.secondary!.colorWithAlphaComponent(0.9)
@@ -188,13 +188,13 @@ class AppController: NSObject {
     }
 
     @IBAction func openImageFile(sender: NSMenuItem) {
-        let myFiledialog: NSOpenPanel = NSOpenPanel()
-        myFiledialog.allowsMultipleSelection = false
-        myFiledialog.canChooseDirectories = false
-        myFiledialog.allowedFileTypes = ["jpg", "jpeg", "bmp", "png", "gif", "JPG", "JPEG", "BMP", "PNG", "GIF"]
-        myFiledialog.title = "Choose an image"
-        myFiledialog.runModal()
-        if let chosenfile = myFiledialog.URL, path = chosenfile.path, img = NSImage(contentsOfFile: path) {
+        let dialog = NSOpenPanel()
+        dialog.allowsMultipleSelection = false
+        dialog.canChooseDirectories = false
+        dialog.allowedFileTypes = ["jpg", "jpeg", "bmp", "png", "gif", "JPG", "JPEG", "BMP", "PNG", "GIF"]
+        dialog.title = "Choose an image"
+        dialog.runModal()
+        if let chosenfile = dialog.URL, path = chosenfile.path, img = NSImage(contentsOfFile: path) {
             analyseImageAndSetImageView(img)
         }
     }
