@@ -19,7 +19,9 @@ class AppController: NSObject {
 
     private func updateColorCandidates() {
         spinner.startAnimation(nil)
-        colorCandidates = colorsFromImage.getColors()
+        colorsFromImage.getColors { (candidates) -> Void in
+            self.colorCandidates = candidates
+        }
     }
 
     func updateColorCandidates(notification: NSNotification) {

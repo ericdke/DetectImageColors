@@ -35,4 +35,13 @@ class ColorsFromImage {
         return colorCandidates
     }
 
+    func getColors(completion: (candidates: ColorCandidates?) -> Void) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+            let colors = self.getColors()
+            dispatch_async(dispatch_get_main_queue()) {
+                completion(candidates: colors)
+            }
+        }
+    }
+
 }

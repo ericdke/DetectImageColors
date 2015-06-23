@@ -19,6 +19,7 @@ class Downloader: NSObject {
             let task = session.dataTaskWithRequest(request) { (data, response, downloadError) -> Void in
                 if let error = downloadError {
                     NSLog("%@", error.localizedDescription)
+                    NSLog("%@", response)
                 } else {
                     completion(data: data)
                 }
