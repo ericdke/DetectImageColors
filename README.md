@@ -8,7 +8,7 @@ Extracts 4 main colors from an image: primary, secondary, detail and background.
 
 2. Optional: tweak `CDSettings` variables
 
-3. Create color candidates from image
+3. Create color candidates from image:
 
 ```  
 let image = NSImage(named: "elton")  
@@ -19,7 +19,7 @@ let colorCandidates = colorDetector.getColorCandidatesFromImage(resized)
 
 ## Demo Application
 
-![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/310ab14c-58d2-4c1a-8a16-fc73c52f3097/86aa96f00df28978/res/c200b22c-a09f-434a-819a-bfeaef78998d/skitch.png)
+![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/d97bc63e-6c45-48a5-bf70-6768b0fb6b8a/c70b3f8756cd858f/res/c07dd777-5e82-41f7-842d-25f27388e64e/skitch.png)
 
 Download or clone the project, open in Xcode, build.
 
@@ -31,16 +31,28 @@ A Playground is also included for demo purposes.
 
 ![Playground](https://www.evernote.com/shard/s89/sh/f223b9ae-e80e-42e1-a5ea-84440b04d3d1/9c0807d8f4b67d31/res/c0740876-dc0d-4000-b10f-b277e71f4d40/skitch.png)
 
+## Swift version
+
+There's two branches in this project:
+
+- `master` is the master development branch
+
+- `swift2` is the new version
+
+For now, any *feature* change in one of the two branches is translated to the other.
+
+Later this year when Swift 2 and Xcode 7 won't be in beta anymore, the `master` branch will be renamed to `legacy` and will be abandoned, and `swift2` will become the new `master` branch.
+
 ## Todo
 
-Suggestions and contributions are welcomed!
+Suggestions and contributions are welcomed! 
+
+- Improve detector accuracy (see comments in `CDColorDetector.swift`)
+
+- Improve resize image method
+
+- Make a better demo app
 
 - Make a framework
 
 - Make it iOS compatible
-
-- Improve detector accuracy (see `CDColorDetector.swift`)
-
-- Improve resize image speed
-
-- Make a better demo app
