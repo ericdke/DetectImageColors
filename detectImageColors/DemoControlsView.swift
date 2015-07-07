@@ -46,7 +46,7 @@ class DemoControlsView: NSView {
         thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", CDSettings.ThresholdMinimumSaturation)
         thresholdFloorBrightness.doubleValue = CDSettings.ThresholdFloorBrightness.formatSliderDouble()
         thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", CDSettings.ThresholdFloorBrightness)
-        contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(multiplier: 10.0)
+        contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(10.0)
         contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
         ensureContrastedColorCandidates.state = NSOnState
     }

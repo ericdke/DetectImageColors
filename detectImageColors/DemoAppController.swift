@@ -181,7 +181,7 @@ class AppController: NSObject {
 //                ExportColors.savePNGFile(png)
 //            }
 //        }
-        if let cols = colorCandidates {
+        if let _ = colorCandidates {
             showOverlayButton.hidden = true
             if let png = ExportColors.makePNGFromView(backgroundView) {
                 ExportColors.savePNGFile(png)
@@ -203,13 +203,18 @@ class AppController: NSObject {
     }
 
     private func getNamedColorsFromFile(path: String) {
-        let data = NSData(contentsOfFile: path)
-        let json = NSJSONSerialization.JSONObjectWithData(data!, options: .allZeros, error: nil) as! [String:String]
-        namedColors = json
+        do {
+            let data = NSData(contentsOfFile: path)
+            let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String:String]
+            namedColors = json
+        } catch let error {
+            print(error)
+        }
+        
     }
 
     func getJSONFilePath() -> String? {
-        if let dirs:[String] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true) as? [String] {
+        if let dirs:[String] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true)  {
             return dirs[0].stringByAppendingPathComponent("colors_dic.json")
         }
         return nil

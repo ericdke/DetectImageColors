@@ -125,7 +125,7 @@ class detectImageColorsTests: XCTestCase {
         let pixelsWide = imageRep.pixelsWide
         CDSettings.DetectorResolution = 1
         self.measureBlock() {
-            let (cols, edge) = self.detector.sampleImage(width: pixelsWide, height: pixelsWide, imageRep: imageRep)
+            let _ = self.detector.sampleImage(width: pixelsWide, height: pixelsWide, imageRep: imageRep)
         }
     }
 
@@ -134,7 +134,7 @@ class detectImageColorsTests: XCTestCase {
         let imageRep = resized.representations.last as! NSBitmapImageRep
         let pixelsWide = imageRep.pixelsWide
         self.measureBlock() {
-            let cols = self.detector.sampleImageWithBytes(width: pixelsWide, height: pixelsWide, imageRep: imageRep)
+            let _ = self.detector.sampleImageWithBytes(width: pixelsWide, height: pixelsWide, imageRep: imageRep)
         }
     }
 

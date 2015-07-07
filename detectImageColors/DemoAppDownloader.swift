@@ -23,24 +23,25 @@ class Downloader: NSObject {
             let task = session.dataTaskWithRequest(request) { (data, response, downloadError) -> Void in
                 if let error = downloadError {
                     NSLog("%@", error.localizedDescription)
-                    NSLog("%@", response)
+                    NSLog("%@", response!)
                 } else {
-                    completion(data: data)
+                    completion(data: data!)
                 }
             }
-            task.resume()
+            task!.resume()
         } else {
             NSLog("%@", "Invalid URL")
         }
     }
 
     func JSONDataToDictionary(data: NSData?) -> [String: AnyObject]? {
-        var jsonError: NSError?
-        if let data = data, dict = NSJSONSerialization.JSONObjectWithData(data, options: nil, error: &jsonError) as? [String: AnyObject] {
-            return dict
-        }
-        if let error = jsonError {
-            NSLog("%@", error.localizedDescription)
+        if let data = data {
+            do {
+                let dict = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject]
+                return dict
+            } catch let error {
+                print(error)
+            }
         }
         return nil
     }

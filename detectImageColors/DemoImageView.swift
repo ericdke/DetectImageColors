@@ -8,7 +8,7 @@ enum DragType {
     case Path, URL
 }
 
-class DemoImageView: NSImageView, NSDraggingDestination {
+class DemoImageView: NSImageView {
 
     let primaryDemoColorView = DemoColorView()
     let secondaryDemoColorView = DemoColorView()
@@ -98,7 +98,8 @@ class DemoImageView: NSImageView, NSDraggingDestination {
     }
 
     private func checkExtension(pathStr: String) -> Bool {
-        if let url = NSURL(fileURLWithPath: pathStr), let suffix = url.pathExtension {
+        let url = NSURL(fileURLWithPath: pathStr)
+        if let suffix = url.pathExtension {
             for ext in fileTypes {
                 if ext == suffix.lowercaseString {
                     return true

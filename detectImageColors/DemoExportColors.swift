@@ -44,7 +44,7 @@ class ExportColors {
     }
 
     class func makePNGFromView(view: NSView) -> NSData? {
-        var rep = view.bitmapImageRepForCachingDisplayInRect(view.bounds)!
+        let rep = view.bitmapImageRepForCachingDisplayInRect(view.bounds)!
         view.cacheDisplayInRect(view.bounds, toBitmapImageRep: rep)
         if let data = rep.representationUsingType(NSBitmapImageFileType.NSPNGFileType, properties: [:]) {
             return data
@@ -56,7 +56,7 @@ class ExportColors {
         let mainView = NSView(frame: NSMakeRect(0, 0, 600, 600))
         let imageView = NSImageView(frame: NSMakeRect(150, 250, 300, 300))
         imageView.image = image
-        let (background, primary, secondary, detail) = makeDemoViews(willIncludeImage: true)
+        let (background, primary, secondary, detail) = makeDemoViews(true)
         let finalView = makeFinalView(colors: colorCandidates, withViews: (background, primary, secondary, detail), toView: mainView)
         finalView.addSubview(imageView)
         return finalView
@@ -99,7 +99,7 @@ class ExportColors {
         return views
     }
 
-    private class func addColoredViewsToView(#views: ExportViews, view: NSView) -> NSView {
+    private class func addColoredViewsToView(views views: ExportViews, view: NSView) -> NSView {
         view.addSubview(views.background)
         view.addSubview(views.primary)
         view.addSubview(views.secondary)
@@ -149,14 +149,13 @@ class ExportColors {
     }
 
     private class func toJSON(dictionary: [String:[String:AnyObject]]) -> NSData? {
-        var err: NSError?
-        if let json = NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted, error: &err) {
-            if err == nil {
-                return json
-            }
-            NSLog("%@", err!.localizedDescription)
+        do {
+            let json = try NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted)
+            return json
+        } catch let error as NSError {
+            print(error)
+            return nil
         }
-        return nil
     }
 
     private class func saveJSONFile(json: NSData) {
@@ -173,10 +172,10 @@ class ExportColors {
     }
 
     private class func trashFile(path: String) {
-        var err: NSError?
-        NSFileManager.defaultManager().removeItemAtPath(path, error: &err)
-        if let crash = err {
-            NSLog("%@", crash.debugDescription)
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(path)
+        } catch let error as NSError {
+            print(error)
         }
     }
 

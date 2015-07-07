@@ -42,8 +42,8 @@ public class ColorDetector: NSObject {
         } else {
             (myWidth, myHeight) = (CGFloat(CDSettings.ProcessedImageSize), CGFloat(CDSettings.ProcessedImageSize))
         }
-        var destSize = NSMakeSize(myWidth, myHeight)
-        var newImage = NSImage(size: destSize)
+        let destSize = NSMakeSize(myWidth, myHeight)
+        let newImage = NSImage(size: destSize)
         newImage.lockFocus()
         image.drawInRect(NSMakeRect(0, 0, destSize.width, destSize.height), fromRect: NSMakeRect(0, 0, image.size.width, image.size.height), operation: NSCompositingOperation.CompositeSourceOver, fraction: CGFloat(1))
         newImage.unlockFocus()
@@ -80,7 +80,7 @@ public class ColorDetector: NSObject {
         if activeColor.isMostlyBlackOrWhite() {
             var i = 0
             while i < sortedColors.count {
-                var nextProposedColor = sortedColors[i]
+                let nextProposedColor = sortedColors[i]
                 // make sure the second choice color is 30% as common as the first choice
                 if (Double(nextProposedColor.count) / Double(proposedEdgeColor.count)) > 0.3 {
                     if nextProposedColor.color.isMostlyBlackOrWhite() == false {
@@ -117,9 +117,9 @@ public class ColorDetector: NSObject {
         return (rootColors, lonelyColors)
     }
 
-    private func sampleImage(#width: Int, height: Int, imageRep: NSBitmapImageRep) -> (NSCountedSet, NSCountedSet) {
-        var colors = NSCountedSet(capacity: width * height)
-        var leftEdgeColors = NSCountedSet(capacity: height)
+    private func sampleImage(width width: Int, height: Int, imageRep: NSBitmapImageRep) -> (NSCountedSet, NSCountedSet) {
+        let colors = NSCountedSet(capacity: width * height)
+        let leftEdgeColors = NSCountedSet(capacity: height)
         // Use x = 0 to start scanning from the actual left edge
         // Default .DetectorDistanceFromLeftEdge is non-zero to deal with badly cropped images (only relevant for high-res scanning, without side effect otherwise)
         var x = CDSettings.DetectorDistanceFromLeftEdge
@@ -146,10 +146,10 @@ public class ColorDetector: NSObject {
     private func getMarginalColorsIfNecessary(rootColors: [CDCountedColor], lonelyColors: [CDCountedColor]) -> [CDCountedColor] {
         if rootColors.count > 0 {
             // if we have at least one credible candidate
-            return rootColors.sorted({ $0.count > $1.count })
+            return rootColors.sort({ $0.count > $1.count })
         } else {
             // here come the less credible ones
-            return lonelyColors.sorted({ $0.count > $1.count })
+            return lonelyColors.sort({ $0.count > $1.count })
         }
     }
 
@@ -168,7 +168,7 @@ public class ColorDetector: NSObject {
                 curColor = curColor!.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
                 // We don't want to be too close to the bg color
                 if curColor!.isMostlyDarkColor() && isColorDark {
-                    var colorCount = sourceColors.countForObject(curColor!)
+                    let colorCount = sourceColors.countForObject(curColor!)
                     // We set apart the rarest colors
                     if colorCount <= CDSettings.ThresholdNoiseTolerance {
                         lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))

@@ -1,7 +1,7 @@
 import Cocoa
 
 public extension NSColor {
-
+    
     public func isNearOf(color: NSColor) -> Bool {
         if let (a, r, g, b) = self.componentsNSC(), (a1, r1, g1, b1) = color.componentsNSC() {
             let threshold: CGFloat = CDSettings.ThresholdDistinctColor
@@ -17,29 +17,31 @@ public extension NSColor {
         }
         return true
     }
-
+    
     public func lighterColor(threshold: CGFloat = CDSettings.ThresholdFloorBrightness, ratio: CGFloat = CDSettings.LighterRatio) -> NSColor {
-        if var (a, h, s, b) = self.componentsHUE() {
+        if let chue = self.componentsHUE() {
+            var b = chue.brightness
             if b < threshold {
                 b = threshold
             }
-            return NSColor(calibratedHue: h, saturation: s, brightness: min(b * ratio, 1.0), alpha: a)
+            return NSColor(calibratedHue: chue.hue, saturation: chue.saturation, brightness: min(b * ratio, 1.0), alpha: chue.alpha)
         }
         return self
     }
-
+    
     public func darkerColor(threshold: CGFloat = CDSettings.ThresholdCeilingBrightness, ratio: CGFloat = CDSettings.DarkerRatio) -> NSColor {
-        if var (a, h, s, b) = self.componentsHUE() {
+        if let chue = self.componentsHUE() {
+            var b = chue.brightness
             if b > threshold {
                 b = threshold
             }
-            return NSColor(calibratedHue: h, saturation: s, brightness: b * ratio, alpha: a)
+            return NSColor(calibratedHue: chue.hue, saturation: chue.saturation, brightness: b * ratio, alpha: chue.alpha)
         }
         return self
     }
-
+    
     public func isMostlyDarkColor() -> Bool {
-        if let (a, r, g, b) = self.componentsNSC() {
+        if let (_, r, g, b) = self.componentsNSC() {
             let lum: CGFloat = CDSettings.YUVRedRatio * r + CDSettings.YUVGreenRatio * g + CDSettings.YUVBlueRatio * b
             if lum < 0.5 {
                 return true
@@ -47,7 +49,7 @@ public extension NSColor {
         }
         return false
     }
-
+    
     public func withMinimumSaturation(minimumSaturation: CGFloat) -> NSColor {
         // color could be hue/rgb/other so we convert to rgb
         if let tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
@@ -67,9 +69,9 @@ public extension NSColor {
         // if detection fails, return same color
         return self
     }
-
+    
     public func isMostlyBlackOrWhite() -> Bool {
-        if let (a, r, g, b) = self.componentsNSC() {
+        if let (_, r, g, b) = self.componentsNSC() {
             if r > CDSettings.MinThresholdWhite && g > CDSettings.MinThresholdWhite && b > CDSettings.MinThresholdWhite {
                 return true // white
             }
@@ -79,13 +81,13 @@ public extension NSColor {
         }
         return false
     }
-
+    
     public func contrastsWith(color: NSColor) -> Bool {
         return !doesNotContrastWith(color)
     }
-
+    
     public func doesNotContrastWith(color: NSColor) -> Bool {
-        if let (ba, br, bg, bb) = self.componentsNSC(), (fa, fr, fg, fb) = color.componentsNSC() {
+        if let (_, br, bg, bb) = self.componentsNSC(), (_, fr, fg, fb) = color.componentsNSC() {
             let bLum: CGFloat = CDSettings.YUVRedRatio * br + CDSettings.YUVGreenRatio * bg + CDSettings.YUVBlueRatio * bb
             let fLum: CGFloat = CDSettings.YUVRedRatio * fr + CDSettings.YUVGreenRatio * fg + CDSettings.YUVBlueRatio * fb
             let contrast: CGFloat
@@ -98,22 +100,23 @@ public extension NSColor {
         }
         return false
     }
-
-    public func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String)? {
+    
+    public func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String, clean: String)? {
         if let (alpha, red, green, blue) = self.componentsRGB() {
             let xalpha = String(alpha, radix: 16, uppercase: true)
             var xred = String(red, radix: 16, uppercase: true)
             var xgreen = String(green, radix: 16, uppercase: true)
             var xblue = String(blue, radix: 16, uppercase: true)
-            if count(xred) < 2 { xred = "0\(xred)" }
-            if count(xgreen) < 2 { xgreen = "0\(xgreen)" }
-            if count(xblue) < 2 { xblue = "0\(xblue)" }
-            let css = "#\(xred)\(xgreen)\(xblue)"
-            return (alpha: xalpha, red: xred, green: xgreen, blue: xblue, css: css)
+            if xred.characters.count < 2 { xred = "0\(xred)" }
+            if xgreen.characters.count < 2 { xgreen = "0\(xgreen)" }
+            if xblue.characters.count < 2 { xblue = "0\(xblue)" }
+            let clean = "\(xred)\(xgreen)\(xblue)"
+            let css = "#\(clean)"
+            return (alpha: xalpha, red: xred, green: xgreen, blue: xblue, css: css, clean: clean)
         }
         return nil
     }
-
+    
     public func componentsNSC() -> (alpha: CGFloat, red: CGFloat, green: CGFloat, blue: CGFloat)? {
         var red: CGFloat = 0
         var green: CGFloat = 0
@@ -125,14 +128,14 @@ public extension NSColor {
         }
         return nil
     }
-
+    
     public func componentsRGB() -> (alpha: Int, red: Int, green: Int, blue: Int)? {
         if let (alpha, red, green, blue) = self.componentsNSC() {
             return (alpha: Int(round(alpha * 255.0)), red: Int(round(red * 255.0)), green: Int(round(green * 255.0)), blue: Int(round(blue * 255.0)))
         }
         return nil
     }
-
+    
     public func componentsHUE() -> (alpha: CGFloat, hue: CGFloat, saturation: CGFloat, brightness: CGFloat)? {
         if let convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
             var h: CGFloat = 0.0
@@ -144,5 +147,5 @@ public extension NSColor {
         }
         return nil
     }
-
+    
 }
