@@ -107,9 +107,9 @@ public extension NSColor {
             var xred = String(red, radix: 16, uppercase: true)
             var xgreen = String(green, radix: 16, uppercase: true)
             var xblue = String(blue, radix: 16, uppercase: true)
-            if xred.characters.count < 2 { xred = "0\(xred)" }
-            if xgreen.characters.count < 2 { xgreen = "0\(xgreen)" }
-            if xblue.characters.count < 2 { xblue = "0\(xblue)" }
+            if xred.length < 2 { xred = "0\(xred)" }
+            if xgreen.length < 2 { xgreen = "0\(xgreen)" }
+            if xblue.length < 2 { xblue = "0\(xblue)" }
             let clean = "\(xred)\(xgreen)\(xblue)"
             let css = "#\(clean)"
             return (alpha: xalpha, red: xred, green: xgreen, blue: xblue, css: css, clean: clean)

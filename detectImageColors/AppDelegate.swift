@@ -1,8 +1,6 @@
-//
-//  AppDelegate.swift
-//  detectImageColors
+//  DEMO APP
 
-// DEMO APP
+//  SWIFT 2
 
 import Cocoa
 

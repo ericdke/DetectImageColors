@@ -2,6 +2,8 @@
 //  Licence: MIT
 //  Inspired by PanicSoftware's 2011 blog article
 
+//  SWIFT 2
+
 import Cocoa
 
 final public class ColorDetector: NSObject {

@@ -17,3 +17,11 @@ struct CDCountedColor {
         self.count = count
     }
 }
+
+extension String {
+    var length: Int {
+        get {
+            return self.characters.count
+        }
+    }
+}

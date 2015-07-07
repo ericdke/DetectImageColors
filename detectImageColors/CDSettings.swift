@@ -1,3 +1,5 @@
+//  SWIFT 2
+
 import Cocoa
 
 // MAGIC NUMBERS, YEAH!

@@ -1,10 +1,6 @@
-//
-//  ColorsFromImage.swift
-//  detectImageColors
-//
-//  Created by ERIC DEJONCKHEERE on 07/06/2015.
-//  Copyright (c) 2015 Eric Dejonckheere. All rights reserved.
-//
+//  DEMO APP
+
+//  SWIFT 2
 
 import Cocoa
 
