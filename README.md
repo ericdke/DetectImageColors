@@ -19,7 +19,7 @@ let colorCandidates = colorDetector.getColorCandidatesFromImage(resized)
 
 ## Demo Application
 
-![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/d97bc63e-6c45-48a5-bf70-6768b0fb6b8a/c70b3f8756cd858f/res/c07dd777-5e82-41f7-842d-25f27388e64e/skitch.png)
+![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/7f539a6e-05d9-4d86-8c0e-14a6eeff11e8/04c165ed2039a358/res/eef73a0d-0a10-4de5-a79d-e00344842b34/skitch.png)
 
 Download or clone the project, open in Xcode, build.
 
