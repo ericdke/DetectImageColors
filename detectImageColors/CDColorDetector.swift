@@ -34,13 +34,13 @@ final public class ColorDetector: NSObject {
     }
 
     // Image has to fill a square completely
-    public func resize(image: NSImage) -> NSImage? {
+    public func resize(image: NSImage, max: CGFloat = CGFloat(600)) -> NSImage? {
         // TODO: very slow, have to refactor
         let (myWidth, myHeight): (CGFloat, CGFloat)
-        if image.size.width < 600 {
+        if image.size.width < max {
             (myWidth, myHeight) = (image.size.width, image.size.width)
         } else {
-            (myWidth, myHeight) = (CGFloat(600), CGFloat(600))
+            (myWidth, myHeight) = (max, max)
         }
         var destSize = NSMakeSize(myWidth, myHeight)
         var newImage = NSImage(size: destSize)
@@ -73,7 +73,8 @@ final public class ColorDetector: NSObject {
         return (nil, nil)
     }
 
-    private func sampleImage(#width: Int, height: Int, imageRep: NSBitmapImageRep) -> (NSCountedSet, NSCountedSet) {
+    // ideally, set this to private
+    func sampleImage(#width: Int, height: Int, imageRep: NSBitmapImageRep) -> (NSCountedSet, NSCountedSet) {
         var colors = NSCountedSet(capacity: width * height)
         var leftEdgeColors = NSCountedSet(capacity: height)
         // Use x = 0 to start scanning from the actual left edge
@@ -98,6 +99,80 @@ final public class ColorDetector: NSObject {
         }
         return (colors, leftEdgeColors)
     }
+
+    // --- TESTS ---
+
+    func findLeftEdgeColor(height: Int, imageRep: NSBitmapImageRep) {
+        var leftEdgeColors = NSCountedSet(capacity: height)
+        var y = 0
+        let x = CDSettings.DetectorDistanceFromLeftEdge
+        while y < height {
+            if let color = imageRep.colorAtX(x, y: y) {
+                leftEdgeColors.addObject(color)
+            }
+            y++
+        }
+
+    }
+
+    // a bit faster than NSCountedSet+colorAtX
+    func sampleImageWithBytes(#width: Int, height: Int, imageRep: NSBitmapImageRep) -> Dictionary<UInt32, Int> {
+        let bitmapBytes = imageRep.bitmapData
+        var colors = Dictionary<UInt32, Int>()
+
+        var index = 0
+        for _ in 0..<(width * height) {
+            let r = UInt32(bitmapBytes[index++])
+            let g = UInt32(bitmapBytes[index++])
+            let b = UInt32(bitmapBytes[index++])
+            let a = UInt32(bitmapBytes[index++])
+
+            if a != 255 { continue }
+
+            let finalColor = (r << 24) + (g << 16) + (b << 8) + a
+
+            if colors[finalColor] != nil {
+                colors[finalColor]!++
+            } else {
+                colors[finalColor] = 1
+            }
+        }
+
+        return colors
+    }
+
+    func mainColorsFromImageBytes(size: Int, imageRep: NSBitmapImageRep, limitedNumberOfColors: Bool = true, maxNumberOfColors: Int = 4) -> [(UInt32, Int)] {
+        let allColors = sampleImageWithBytes(width: size, height: size, imageRep: imageRep)
+        var bigColors = [(UInt32, Int)]()
+        var index = 0
+        for (k,v) in (Array(allColors).sorted {$0.1 > $1.1}) {
+            bigColors.append((k, v))
+            index++
+            if limitedNumberOfColors && index == maxNumberOfColors { break }
+        }
+        return bigColors
+    }
+
+    func colorsFromColorBytes(colorBytes: [(UInt32, Int)]) -> [NSColor] {
+        var colors = [NSColor]()
+        for cb in colorBytes {
+            let color = colorFromColorBytes(cb)
+            colors.append(color)
+        }
+        return colors
+    }
+
+    func colorFromColorBytes(colorBytes: (UInt32, Int)) -> NSColor {
+        var bytes = [UInt8]()
+        for i in 0..<sizeof(UInt32) {
+            bytes.append(UInt8(colorBytes.0 >> UInt32(i * 8) & UInt32(0xff)))
+        }
+        let mapped = bytes.map({ CGFloat($0) / CGFloat(255) })
+        return NSColor(calibratedRed: mapped[0], green: mapped[1], blue: mapped[2], alpha: 1)
+    }
+
+    // --- END TESTS ---
+
 
     // let's try to sort the credible candidates from the noise
     private func separateColors(edgeColors: NSCountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {

@@ -10,7 +10,11 @@ import Cocoa
 
 class Downloader: NSObject {
 
-    let colorsAPIbaseURL = "http://www.thecolorapi.com/id?hex="
+    let colorsAPIHexURL = "http://www.thecolorapi.com/id?hex="
+
+    func makeSchemeURL(hex: String) -> String {
+        return "http://www.thecolorapi.com/scheme?hex=\(hex)&mode=triad&count=3"
+    }
 
     func download(url: String, completion: (data: NSData) -> Void) {
         let session = NSURLSession.sharedSession()
@@ -42,7 +46,7 @@ class Downloader: NSObject {
     }
 
     func getColorNameFromAPI(color: NSColor, completionHandler: (name: String) -> Void) {
-        let url = colorsAPIbaseURL + color.componentsCSS()!.clean
+        let url = colorsAPIHexURL + color.componentsCSS()!.clean
         download(url, completion: { (data) -> Void in
             if let json = self.JSONDataToDictionary(data) {
                 if let dic = json["name"] as? [String:AnyObject] {

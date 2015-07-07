@@ -41,6 +41,27 @@ class AppController: NSObject {
         analyseImageAndSetImageView(NSImage(named: "elton")!)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateImage:", name: "updateImageByDropOK", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateColorCandidates:", name: "updateColorCandidatesOK", object: nil)
+
+        // ---
+
+//        let resized = colorsFromImage.colorDetector.resize(NSImage(named: "elton")!)!
+//        let imageRep = resized.representations.last as! NSBitmapImageRep
+//        let testColorsBytes = colorsFromImage.colorDetector.mainColorsFromImageBytes(600, imageRep: imageRep, limitedNumberOfColors: false)
+
+//        println(testColorsBytes.count) // 186349
+//
+//        var bigColors = [(UInt32, Int)]()
+//        let max = 500
+//        if testColorsBytes.count > max {
+//            for cb in testColorsBytes[0...max] {
+//                bigColors.append(cb)
+//            }
+//        }
+//
+//        let testColors = colorsFromImage.colorDetector.colorsFromColorBytes(bigColors)
+//
+//        println(testColors)
+        // ---
     }
 
     func updateImage(notification: NSNotification) {
