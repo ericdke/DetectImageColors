@@ -5,7 +5,7 @@
 import Cocoa
 
 class Downloader: NSObject {
-
+    
     let colorsAPIHexURL = "http://www.thecolorapi.com/id?hex="
 
     func makeSchemeURL(hex: String) -> String {
@@ -19,11 +19,15 @@ class Downloader: NSObject {
             let task = session.dataTaskWithRequest(request) { (data, response, downloadError) -> Void in
                 if let error = downloadError {
                     NSLog("%@", error.localizedDescription)
-                    NSLog("%@", response!)
+                    if let rp = response {
+                        NSLog("%@", rp)
+                    }
                 } else {
+                    NSLog("%@", "NSURLSession completed")
                     completion(data: data!)
                 }
             }
+            NSLog("%@", "NSURLSession started")
             task!.resume()
         } else {
             NSLog("%@", "Invalid URL")

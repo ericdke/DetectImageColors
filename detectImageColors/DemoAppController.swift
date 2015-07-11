@@ -76,6 +76,8 @@ class AppController: NSObject {
 
     private func refreshWindowElements() {
         if let cols = colorCandidates {
+            
+            spinner.startAnimation(nil)
 
             let bgCSS = cols.background!.componentsCSS()!.css
             let primCSS = cols.primary!.componentsCSS()!.css
@@ -114,6 +116,7 @@ class AppController: NSObject {
                     self.namedColors[bgCSS] = name
                 })
             }
+            
             if let match = namedColors[primCSS] {
                 primaryColorNameLabel.stringValue = match
             } else {
@@ -122,6 +125,7 @@ class AppController: NSObject {
                     self.namedColors[primCSS] = name
                 })
             }
+            
             if let match = namedColors[secCSS] {
                 secondaryColorNameLabel.stringValue = match
             } else {
@@ -130,6 +134,7 @@ class AppController: NSObject {
                     self.namedColors[secCSS] = name
                 })
             }
+            
             if let match = namedColors[detCSS] {
                 detailColorNameLabel.stringValue = match
             } else {
@@ -138,6 +143,9 @@ class AppController: NSObject {
                     self.namedColors[detCSS] = name
                 })
             }
+            
+            spinner.stopAnimation(nil)
+            window.display()
 
         }
     }

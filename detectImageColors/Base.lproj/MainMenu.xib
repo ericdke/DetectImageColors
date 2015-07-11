@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8121.17" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8121.17"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -151,7 +151,7 @@
             <value key="minSize" type="size" width="635" height="631"/>
             <value key="maxSize" type="size" width="635" height="631"/>
             <view key="contentView" id="3Zb-ZG-a0j">
-                <rect key="frame" x="0.0" y="-1" width="635" height="631"/>
+                <rect key="frame" x="0.0" y="0.0" width="635" height="631"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView id="b9r-ac-ZnS" customClass="DemoBackgroundView" customModule="detectImageColors" customModuleProvider="target">
