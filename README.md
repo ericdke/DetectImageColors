@@ -56,3 +56,19 @@ Suggestions and contributions are welcomed!
 - Make a framework
 
 - Make it iOS compatible
+
+## History
+
+This started has a translation from Objective-C to Swift of [Color Art](https://github.com/panicinc/ColorArt) by Panic Software, from their 2011 blog article.
+
+Then after lots of changes and optimizations (and a few regressions) I added new features like color names and customizable parameters.
+
+I've also made a simple demo app to test the color detection.
+
+## Disclaimer
+
+This is a programming exercise. I'm not trying to replace Color Art or to mimic Apple's iTunes, but to build upon the idea and progressively create something different.
+
+## Licence
+
+MIT but you have to refer to Panic's repository somewhere visible.
