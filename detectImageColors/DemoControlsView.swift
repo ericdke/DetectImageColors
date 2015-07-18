@@ -68,35 +68,35 @@ class DemoControlsView: NSView {
     @IBAction func noiseToleranceSlider(sender: NSSlider) {
         noiseToleranceValue.integerValue = sender.integerValue
         CDSettings.ThresholdNoiseTolerance = sender.integerValue
-        updateColors()
+        updateColors(sender)
     }
 
     @IBAction func thresholdMinimumSaturationSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
         thresholdMinimumSaturationValue.stringValue = val.string
         CDSettings.ThresholdMinimumSaturation = val.cgFloat
-        updateColors()
+        updateColors(sender)
     }
 
     @IBAction func distinctColorsSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
         distinctColorsValue.stringValue = val.string
         CDSettings.ThresholdDistinctColor = val.cgFloat
-        updateColors()
+        updateColors(sender)
     }
 
     @IBAction func thresholdFloorBrightnessSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
         thresholdFloorBrightnessValue.stringValue = val.string
         CDSettings.ThresholdFloorBrightness = val.cgFloat
-        updateColors()
+        updateColors(sender)
     }
 
     @IBAction func contrastRatioSlider(sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender, divider: 10, format: "%.1f")
         contrastRatioValue.stringValue = val.string
         CDSettings.ContrastRatio = val.cgFloat
-        updateColors()
+        updateColors(sender)
     }
 
     private func makeDoubleValFromSlider(sender: NSSlider, divider: Int = 100, format: String = "%.2f") -> (string: String, cgFloat: CGFloat, double: Double) {
@@ -105,8 +105,14 @@ class DemoControlsView: NSView {
         return (str, CGFloat(val), val)
     }
 
-    private func updateColors() {
-        NSNotificationCenter.defaultCenter().postNotificationName("updateColorCandidatesOK", object: nil)
+    private func updateColors(sender: AnyObject? = nil) {
+        var dict = ["mouseUp":false]
+        if let sdr = sender as? NSSlider ?? sender as? NSButton {
+            if let event = sdr.window?.currentEvent where event.type == NSEventType.LeftMouseUp {
+                dict = ["mouseUp":true]
+            }
+        }
+        NSNotificationCenter.defaultCenter().postNotificationName("updateColorCandidatesOK", object: nil, userInfo: dict)
     }
 
 }

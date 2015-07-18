@@ -23,11 +23,11 @@ class Downloader: NSObject {
                         NSLog("%@", rp)
                     }
                 } else {
-                    NSLog("%@", "NSURLSession completed")
+                    //NSLog("%@", "NSURLSession completed")
                     completion(data: data!)
                 }
             }
-            NSLog("%@", "NSURLSession started")
+            //NSLog("%@", "NSURLSession started")
             task!.resume()
         } else {
             NSLog("%@", "Invalid URL")
@@ -47,11 +47,13 @@ class Downloader: NSObject {
     }
 
     func getColorNameFromAPI(color: NSColor, completionHandler: (name: String) -> Void) {
-        let url = colorsAPIHexURL + color.componentsCSS()!.clean
+        let compos = color.componentsCSS()!.clean
+        let url = colorsAPIHexURL + compos
         download(url, completion: { (data) -> Void in
             if let json = self.JSONDataToDictionary(data) {
                 if let dic = json["name"] as? [String:AnyObject] {
                     if let name = dic["value"] as? String {
+                        NSLog("%@", "Downloaded API response")
                         completionHandler(name: name)
                     }
                 }

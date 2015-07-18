@@ -15,6 +15,9 @@ class AppController: NSObject {
             refreshWindowElements()
         }
     }
+    var shouldUpdateColorNames = false
+    
+    var cache = [String:Int]()
 
     private func updateColorCandidates() {
         spinner.startAnimation(nil)
@@ -24,6 +27,11 @@ class AppController: NSObject {
     }
 
     func updateColorCandidates(notification: NSNotification) {
+        if let info = notification.userInfo as? [String:Bool], boo = info["mouseUp"] where boo {
+            shouldUpdateColorNames = true
+        } else {
+            shouldUpdateColorNames = false
+        }
         updateColorCandidates()
     }
 
@@ -70,6 +78,7 @@ class AppController: NSObject {
     }
 
     private func analyseImageAndSetImageView(image: NSImage) {
+        shouldUpdateColorNames = true
         imageView.image = image
         colorCandidates = colorsFromImage.getColorsFromImage(image)
     }
@@ -111,37 +120,74 @@ class AppController: NSObject {
             if let match = namedColors[bgCSS] {
                 updateBGColorLabels(bgCSS + " " + match)
             } else {
-                downloader.getColorNameFromAPI(cols.background!, completionHandler: { (name) -> Void in
-                    self.updateBGColorLabels(bgCSS + " " + name)
-                    self.namedColors[bgCSS] = name
-                })
+                if shouldUpdateColorNames {
+                    // Basic request cache to avoid launching the same request several times before the first one finishes
+                    if cache[bgCSS] == nil {
+                        //print("fetching \(bgCSS)")
+                        cache[bgCSS] = 1
+                        downloader.getColorNameFromAPI(cols.background!, completionHandler: { (name) -> Void in
+                            self.updateBGColorLabels(bgCSS + " " + name)
+                            self.namedColors[bgCSS] = name
+                        })
+                    } else {
+                        //print("waiting for \(bgCSS)")
+                        cache[bgCSS]!++
+                    }
+                }
             }
             
             if let match = namedColors[primCSS] {
                 primaryColorNameLabel.stringValue = match
             } else {
-                downloader.getColorNameFromAPI(cols.primary!, completionHandler: { (name) -> Void in
-                    self.primaryColorNameLabel.stringValue = name
-                    self.namedColors[primCSS] = name
-                })
+                if shouldUpdateColorNames {
+                    if cache[primCSS] == nil {
+                        //print("fetching \(primCSS)")
+                        cache[primCSS] = 1
+                        downloader.getColorNameFromAPI(cols.primary!, completionHandler: { (name) -> Void in
+                            self.primaryColorNameLabel.stringValue = name
+                            self.namedColors[primCSS] = name
+                        })
+                    } else {
+                        //print("waiting for \(primCSS)")
+                        cache[primCSS]!++
+                    }
+                }
             }
             
             if let match = namedColors[secCSS] {
                 secondaryColorNameLabel.stringValue = match
             } else {
-                downloader.getColorNameFromAPI(cols.secondary!, completionHandler: { (name) -> Void in
-                    self.secondaryColorNameLabel.stringValue = name
-                    self.namedColors[secCSS] = name
-                })
+                if shouldUpdateColorNames {
+                    if cache[secCSS] == nil {
+                        //print("fetching \(secCSS)")
+                        cache[secCSS] = 1
+                        downloader.getColorNameFromAPI(cols.secondary!, completionHandler: { (name) -> Void in
+                            self.secondaryColorNameLabel.stringValue = name
+                            self.namedColors[secCSS] = name
+                        })
+                    } else {
+                        //print("waiting for \(secCSS)")
+                        cache[secCSS]!++
+                    }
+                }
             }
             
             if let match = namedColors[detCSS] {
                 detailColorNameLabel.stringValue = match
             } else {
-                downloader.getColorNameFromAPI(cols.detail!, completionHandler: { (name) -> Void in
-                    self.detailColorNameLabel.stringValue = name
-                    self.namedColors[detCSS] = name
-                })
+                if shouldUpdateColorNames {
+                    if cache[detCSS] == nil {
+                        //print("fetching \(detCSS)")
+                        cache[detCSS] = 1
+                        downloader.getColorNameFromAPI(cols.detail!, completionHandler: { (name) -> Void in
+                            self.detailColorNameLabel.stringValue = name
+                            self.namedColors[detCSS] = name
+                        })
+                    } else {
+                        //print("waiting for \(detCSS)")
+                        cache[detCSS]!++
+                    }
+                }
             }
             
             spinner.stopAnimation(nil)
