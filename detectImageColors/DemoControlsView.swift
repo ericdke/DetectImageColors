@@ -56,13 +56,13 @@ class DemoControlsView: NSView {
             CDSettings.ContrastRatio = defaults["ContrastRatio"] as! CGFloat
             CDSettings.EnsureContrastedColorCandidates = true
             setSlidersDefaults()
-            updateColors()
+            updateColors(sender)
         }
     }
 
     @IBAction func ensureContrastedColorCandidates(sender: NSButton) {
         CDSettings.EnsureContrastedColorCandidates = Bool(sender.state)
-        updateColors()
+        updateColors(sender)
     }
 
     @IBAction func noiseToleranceSlider(sender: NSSlider) {
