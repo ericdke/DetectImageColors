@@ -36,12 +36,12 @@ class AppController: NSObject {
     }
 
     override func awakeFromNib() {
-        if let path = getJSONFilePath() {
-            if NSFileManager().fileExistsAtPath(path) {
-                getNamedColorsFromFile(path)
+        if let jpath = getJSONFilePath() {
+            if NSFileManager().fileExistsAtPath(jpath) {
+                getNamedColorsFromFile(jpath)
             } else {
-                if let path = NSBundle.mainBundle().pathForResource("colors_dic", ofType: "json") {
-                    getNamedColorsFromFile(path)
+                if let bpath = NSBundle.mainBundle().pathForResource("colors_dic", ofType: "json") {
+                    getNamedColorsFromFile(bpath)
                 }
             }
         }
@@ -234,13 +234,12 @@ class AppController: NSObject {
 //                ExportColors.savePNGFile(png)
 //            }
 //        }
-        if let _ = colorCandidates {
-            showOverlayButton.hidden = true
-            if let png = ExportColors.makePNGFromView(backgroundView) {
-                ExportColors.savePNGFile(png)
-            }
-            showOverlayButton.hidden = false
+        guard let _ = colorCandidates else { return }  // shouldn't be nil, but let's be sure
+        showOverlayButton.hidden = true
+        if let png = ExportColors.makePNGFromView(backgroundView) {
+            ExportColors.savePNGFile(png)
         }
+        showOverlayButton.hidden = false
     }
 
     @IBAction func openImageFile(sender: NSMenuItem) {
@@ -267,10 +266,8 @@ class AppController: NSObject {
     }
 
     func getJSONFilePath() -> String? {
-        if let dirs:[String] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true)  {
-            return dirs[0].stringByAppendingPathComponent("colors_dic.json")
-        }
-        return nil
+        guard let dirs:[String] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true) else  { return nil }
+        return dirs[0].stringByAppendingPathComponent("colors_dic.json")
     }
 
     @IBOutlet weak var window: NSWindow!

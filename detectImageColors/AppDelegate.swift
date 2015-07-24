@@ -25,11 +25,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     private func saveNamedColors() {
         if let path = appController.getJSONFilePath() {
             do {
-                let enc = try NSJSONSerialization.dataWithJSONObject(appController.namedColors, options: NSJSONWritingOptions.PrettyPrinted)
-                if enc.writeToFile(path, atomically: false) == false {
-                    NSLog("%@", "Error while writing JSON file")
-                }
-            } catch let error as NSError {
+                let enc = try NSJSONSerialization.dataWithJSONObject(appController.namedColors, options: .PrettyPrinted)
+                let written = enc.writeToFile(path, atomically: false)
+                if !written { NSLog("%@", "Error while writing JSON file") }
+            } catch {
                 print(error)
             }
         }

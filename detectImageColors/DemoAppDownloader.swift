@@ -35,13 +35,11 @@ class Downloader: NSObject {
     }
 
     func JSONDataToDictionary(data: NSData?) -> [String: AnyObject]? {
-        if let data = data {
-            do {
-                let dict = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String: AnyObject]
-                return dict
-            } catch let error {
-                print(error)
-            }
+        guard let dat = data else { return nil }
+        do {
+            return try NSJSONSerialization.JSONObjectWithData(dat, options: []) as? [String: AnyObject]
+        } catch {
+            print(error)
         }
         return nil
     }

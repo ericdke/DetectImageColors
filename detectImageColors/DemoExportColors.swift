@@ -42,10 +42,8 @@ class ExportColors {
     class func makePNGFromView(view: NSView) -> NSData? {
         let rep = view.bitmapImageRepForCachingDisplayInRect(view.bounds)!
         view.cacheDisplayInRect(view.bounds, toBitmapImageRep: rep)
-        if let data = rep.representationUsingType(NSBitmapImageFileType.NSPNGFileType, properties: [:]) {
-            return data
-        }
-        return nil
+        guard let data = rep.representationUsingType(NSBitmapImageFileType.NSPNGFileType, properties: [:]) else { return nil }
+        return data
     }
 
     class func makeColorView(colorCandidates: ColorCandidates, image: NSImage) -> NSView {
@@ -104,29 +102,19 @@ class ExportColors {
     }
 
     private class func toDictionary(colorCandidates: ColorCandidates) -> [String:[String:AnyObject]]? {
+        guard let primary = getRGBSpaceName(colorCandidates.primary), let alternative = getRGBSpaceName(colorCandidates.secondary), let detail = getRGBSpaceName(colorCandidates.detail), let background = getRGBSpaceName(colorCandidates.background) else { return nil }
         var dic = [String:[String:AnyObject]]()
-        if let primary = getRGBSpaceName(colorCandidates.primary) {
-            dic["main"] = getDictionaryColorComponents(primary)
-            if let alternative = getRGBSpaceName(colorCandidates.secondary) {
-                dic["alternative"] = getDictionaryColorComponents(alternative)
-                if let detail = getRGBSpaceName(colorCandidates.detail) {
-                    dic["detail"] = getDictionaryColorComponents(detail)
-                    if let background = getRGBSpaceName(colorCandidates.background) {
-                        dic["background"] = getDictionaryColorComponents(background)
-                        dic["settings"] = getDictionarySettings()
-                        return dic
-                    }
-                }
-            }
-        }
-        return nil
+        dic["main"] = getDictionaryColorComponents(primary)
+        dic["alternative"] = getDictionaryColorComponents(alternative)
+        dic["detail"] = getDictionaryColorComponents(detail)
+        dic["background"] = getDictionaryColorComponents(background)
+        dic["settings"] = getDictionarySettings()
+        return dic
     }
 
     private class func getRGBSpaceName(color: NSColor?) -> NSColor? {
-        if let thisColor = color, let rgbColor = thisColor.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
-            return rgbColor
-        }
-        return nil
+        guard let thisColor = color, let rgbColor = thisColor.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
+        return rgbColor
     }
 
     private class func getDictionaryColorComponents(color: NSColor) -> [String:AnyObject] {
@@ -138,17 +126,15 @@ class ExportColors {
     }
 
     private class func toJSON(colorCandidates: ColorCandidates) -> NSData? {
-        if let dic = toDictionary(colorCandidates) {
-            return toJSON(dic)
-        }
-        return nil
+        guard let dic = toDictionary(colorCandidates) else { return nil }
+        return toJSON(dic)
     }
 
     private class func toJSON(dictionary: [String:[String:AnyObject]]) -> NSData? {
         do {
             let json = try NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted)
             return json
-        } catch let error as NSError {
+        } catch {
             print(error)
             return nil
         }
@@ -170,7 +156,7 @@ class ExportColors {
     private class func trashFile(path: String) {
         do {
             try NSFileManager.defaultManager().removeItemAtPath(path)
-        } catch let error as NSError {
+        } catch {
             print(error)
         }
     }
