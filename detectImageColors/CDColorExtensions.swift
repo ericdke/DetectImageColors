@@ -21,25 +21,17 @@ public extension NSColor {
     }
     
     public func lighterColor(threshold: CGFloat = CDSettings.ThresholdFloorBrightness, ratio: CGFloat = CDSettings.LighterRatio) -> NSColor {
-        if let chue = self.componentsHUE() {
-            var b = chue.brightness
-            if b < threshold {
-                b = threshold
-            }
-            return NSColor(calibratedHue: chue.hue, saturation: chue.saturation, brightness: min(b * ratio, 1.0), alpha: chue.alpha)
-        }
-        return self
+        guard let compsHUE = self.componentsHUE() else { return self }
+        var b = compsHUE.brightness
+        if b < threshold { b = threshold }
+        return NSColor(calibratedHue: compsHUE.hue, saturation: compsHUE.saturation, brightness: min(b * ratio, 1.0), alpha: compsHUE.alpha)
     }
     
     public func darkerColor(threshold: CGFloat = CDSettings.ThresholdCeilingBrightness, ratio: CGFloat = CDSettings.DarkerRatio) -> NSColor {
-        if let chue = self.componentsHUE() {
-            var b = chue.brightness
-            if b > threshold {
-                b = threshold
-            }
-            return NSColor(calibratedHue: chue.hue, saturation: chue.saturation, brightness: b * ratio, alpha: chue.alpha)
-        }
-        return self
+        guard let compsHUE = self.componentsHUE() else { return self }
+        var b = compsHUE.brightness
+        if b > threshold { b = threshold }
+        return NSColor(calibratedHue: compsHUE.hue, saturation: compsHUE.saturation, brightness: b * ratio, alpha: compsHUE.alpha)
     }
     
     public func isMostlyDarkColor() -> Bool {
@@ -74,10 +66,7 @@ public extension NSColor {
     
     public func isMostlyBlackOrWhite() -> Bool {
         if let (_, r, g, b) = self.componentsNSC() {
-            if r > CDSettings.MinThresholdWhite && g > CDSettings.MinThresholdWhite && b > CDSettings.MinThresholdWhite {
-                return true // white
-            }
-            if r < CDSettings.MaxThresholdBlack && g < CDSettings.MaxThresholdBlack && b < CDSettings.MaxThresholdBlack {
+            if r > CDSettings.MinThresholdWhite && g > CDSettings.MinThresholdWhite && b > CDSettings.MinThresholdWhite || r < CDSettings.MaxThresholdBlack && g < CDSettings.MaxThresholdBlack && b < CDSettings.MaxThresholdBlack {
                 return true // black
             }
         }
@@ -89,34 +78,30 @@ public extension NSColor {
     }
     
     public func doesNotContrastWith(color: NSColor) -> Bool {
-        if let (_, br, bg, bb) = self.componentsNSC(), (_, fr, fg, fb) = color.componentsNSC() {
-            let bLum: CGFloat = CDSettings.YUVRedRatio * br + CDSettings.YUVGreenRatio * bg + CDSettings.YUVBlueRatio * bb
-            let fLum: CGFloat = CDSettings.YUVRedRatio * fr + CDSettings.YUVGreenRatio * fg + CDSettings.YUVBlueRatio * fb
-            let contrast: CGFloat
-            if bLum > fLum {
-                contrast = (bLum + CDSettings.LuminanceAddedWeight) / (fLum + CDSettings.LuminanceAddedWeight)
-            } else {
-                contrast = (fLum + CDSettings.LuminanceAddedWeight) / (bLum + CDSettings.LuminanceAddedWeight)
-            }
-            return contrast < CDSettings.ContrastRatio
+        guard let (_, br, bg, bb) = self.componentsNSC(), (_, fr, fg, fb) = color.componentsNSC() else { return false }
+        let bLum: CGFloat = CDSettings.YUVRedRatio * br + CDSettings.YUVGreenRatio * bg + CDSettings.YUVBlueRatio * bb
+        let fLum: CGFloat = CDSettings.YUVRedRatio * fr + CDSettings.YUVGreenRatio * fg + CDSettings.YUVBlueRatio * fb
+        let contrast: CGFloat
+        if bLum > fLum {
+            contrast = (bLum + CDSettings.LuminanceAddedWeight) / (fLum + CDSettings.LuminanceAddedWeight)
+        } else {
+            contrast = (fLum + CDSettings.LuminanceAddedWeight) / (bLum + CDSettings.LuminanceAddedWeight)
         }
-        return false
+        return contrast < CDSettings.ContrastRatio
     }
     
     public func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String, clean: String)? {
-        if let (alpha, red, green, blue) = self.componentsRGB() {
-            let xalpha = String(alpha, radix: 16, uppercase: true)
-            var xred = String(red, radix: 16, uppercase: true)
-            var xgreen = String(green, radix: 16, uppercase: true)
-            var xblue = String(blue, radix: 16, uppercase: true)
-            if xred.length < 2 { xred = "0\(xred)" }
-            if xgreen.length < 2 { xgreen = "0\(xgreen)" }
-            if xblue.length < 2 { xblue = "0\(xblue)" }
-            let clean = "\(xred)\(xgreen)\(xblue)"
-            let css = "#\(clean)"
-            return (alpha: xalpha, red: xred, green: xgreen, blue: xblue, css: css, clean: clean)
-        }
-        return nil
+        guard let (alpha, red, green, blue) = self.componentsRGB() else { return nil }
+        let xalpha = String(alpha, radix: 16, uppercase: true)
+        var xred = String(red, radix: 16, uppercase: true)
+        var xgreen = String(green, radix: 16, uppercase: true)
+        var xblue = String(blue, radix: 16, uppercase: true)
+        if xred.length < 2 { xred = "0\(xred)" }
+        if xgreen.length < 2 { xgreen = "0\(xgreen)" }
+        if xblue.length < 2 { xblue = "0\(xblue)" }
+        let clean = "\(xred)\(xgreen)\(xblue)"
+        let css = "#\(clean)"
+        return (alpha: xalpha, red: xred, green: xgreen, blue: xblue, css: css, clean: clean)
     }
     
     public func componentsNSC() -> (alpha: CGFloat, red: CGFloat, green: CGFloat, blue: CGFloat)? {
@@ -124,30 +109,24 @@ public extension NSColor {
         var green: CGFloat = 0
         var blue: CGFloat = 0
         var alpha: CGFloat = 0
-        if let color = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
-            color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-            return (alpha: alpha, red: red, green: green, blue: blue)
-        }
-        return nil
+        guard let color = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
+        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return (alpha: alpha, red: red, green: green, blue: blue)
     }
     
     public func componentsRGB() -> (alpha: Int, red: Int, green: Int, blue: Int)? {
-        if let (alpha, red, green, blue) = self.componentsNSC() {
-            return (alpha: Int(round(alpha * 255.0)), red: Int(round(red * 255.0)), green: Int(round(green * 255.0)), blue: Int(round(blue * 255.0)))
-        }
-        return nil
+        guard let (alpha, red, green, blue) = self.componentsNSC() else { return nil }
+        return (alpha: Int(round(alpha * 255.0)), red: Int(round(red * 255.0)), green: Int(round(green * 255.0)), blue: Int(round(blue * 255.0)))
     }
     
     public func componentsHUE() -> (alpha: CGFloat, hue: CGFloat, saturation: CGFloat, brightness: CGFloat)? {
-        if let convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
-            var h: CGFloat = 0.0
-            var s: CGFloat = 0.0
-            var b: CGFloat = 0.0
-            var a: CGFloat = 0.0
-            convertedColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-            return (alpha: a, hue: h, saturation: s, brightness: b)
-        }
-        return nil
+        guard let convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
+        var h: CGFloat = 0.0
+        var s: CGFloat = 0.0
+        var b: CGFloat = 0.0
+        var a: CGFloat = 0.0
+        convertedColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+        return (alpha: a, hue: h, saturation: s, brightness: b)
     }
     
 }
