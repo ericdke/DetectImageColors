@@ -27,7 +27,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             do {
                 let enc = try NSJSONSerialization.dataWithJSONObject(appController.namedColors, options: .PrettyPrinted)
                 let written = enc.writeToFile(path, atomically: false)
-                if !written { NSLog("%@", "Error while writing JSON file") }
+                if !written { throw DemoAppError.CouldNotSaveColorNamesFile }
+            } catch let demoAppError as DemoAppError {
+                print(demoAppError.rawValue)
             } catch {
                 print(error)
             }

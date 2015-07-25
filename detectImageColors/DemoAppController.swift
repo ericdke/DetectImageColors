@@ -4,6 +4,11 @@
 
 import Cocoa
 
+enum DemoAppError: String, ErrorType {
+    case CouldNotLoadColorNamesFile = "ERROR: Could not load color names file"
+    case CouldNotSaveColorNamesFile = "ERROR: Could not save color names file"
+}
+
 class AppController: NSObject {
 
     var colorsFromImage = ColorsFromImage()

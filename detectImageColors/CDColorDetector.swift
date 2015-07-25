@@ -20,7 +20,10 @@ final public class ColorDetector: NSObject {
     // Main method
     public func getColorCandidatesFromImage(anImage: NSImage) -> ColorCandidates? {
         let edge = findEdgeColor(anImage)
-        guard let edgeColor = edge.color, let colorsFirstPass = findColors(edge.set, backgroundColor: edgeColor), let firstBackgroundColorCandidate = colorsFirstPass.background else { return nil }
+        guard let edgeColor = edge.color,
+            let colorsFirstPass = findColors(edge.set, backgroundColor: edgeColor),
+            let firstBackgroundColorCandidate = colorsFirstPass.background
+            else { return nil }
         let backgroundIsDark: Bool = firstBackgroundColorCandidate.isMostlyDarkColor()
         let colorsSecondPass = createColors(colorsFirstPass, hasDarkBackground: backgroundIsDark)
         if CDSettings.EnsureContrastedColorCandidates {
@@ -31,7 +34,6 @@ final public class ColorDetector: NSObject {
 
     // Image has to fill a square completely
     public func resize(image: NSImage, max: CGFloat = CGFloat(600)) -> NSImage? {
-        // TODO: very slow, have to refactor
         let (myWidth, myHeight): (CGFloat, CGFloat)
         if image.size.width < max {
             (myWidth, myHeight) = (image.size.width, image.size.width)
@@ -41,7 +43,9 @@ final public class ColorDetector: NSObject {
         let destSize = NSMakeSize(myWidth, myHeight)
         let newImage = NSImage(size: destSize)
         newImage.lockFocus()
-        image.drawInRect(NSMakeRect(0, 0, destSize.width, destSize.height), fromRect: NSMakeRect(0, 0, image.size.width, image.size.height), operation: NSCompositingOperation.CompositeSourceOver, fraction: CGFloat(1))
+        image.drawInRect(NSMakeRect(0, 0, destSize.width, destSize.height),
+            fromRect: NSMakeRect(0, 0, image.size.width, image.size.height),
+            operation: NSCompositingOperation.CompositeSourceOver, fraction: CGFloat(1))
         newImage.unlockFocus()
         newImage.size = destSize
         guard let tiff = newImage.TIFFRepresentation, let resized = NSImage(data: tiff) else { return nil }
