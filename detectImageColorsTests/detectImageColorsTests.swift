@@ -119,24 +119,4 @@ class detectImageColorsTests: XCTestCase {
         XCTAssert(candidates!.backgroundIsDark != nil, "Candidates backgroundIsDark color not nil")
     }
 
-    func testPerformanceCountedSet() {
-        let resized = detector.resize(elton)!
-        let imageRep = resized.representations.last as! NSBitmapImageRep
-        let pixelsWide = imageRep.pixelsWide
-        CDSettings.DetectorResolution = 1
-        self.measureBlock() {
-            let _ = self.detector.sampleImage(width: pixelsWide, height: pixelsWide, imageRep: imageRep)
-        }
-    }
-
-    func testPerformanceBytes() {
-        let resized = detector.resize(elton)!
-        let imageRep = resized.representations.last as! NSBitmapImageRep
-        let pixelsWide = imageRep.pixelsWide
-        self.measureBlock() {
-            let _ = self.detector.sampleImageWithBytes(width: pixelsWide, height: pixelsWide, imageRep: imageRep)
-        }
-    }
-
-
 }
