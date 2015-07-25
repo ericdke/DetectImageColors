@@ -48,15 +48,27 @@ class DemoControlsView: NSView {
     }
 
     @IBAction func resetToDefaults(sender: NSButton) {
-        if let defaults =  NSUserDefaults.standardUserDefaults().objectForKey("defaultSettings") as? NSDictionary {
-            CDSettings.ThresholdDistinctColor = defaults["ThresholdDistinctColor"] as! CGFloat
-            CDSettings.ThresholdNoiseTolerance = defaults["ThresholdNoiseTolerance"] as! Int
-            CDSettings.ThresholdMinimumSaturation = defaults["ThresholdMinimumSaturation"] as! CGFloat
-            CDSettings.ThresholdFloorBrightness = defaults["ThresholdFloorBrightness"] as! CGFloat
-            CDSettings.ContrastRatio = defaults["ContrastRatio"] as! CGFloat
+        do {
+            guard let defaults =  NSUserDefaults.standardUserDefaults().objectForKey("defaultSettings") as? NSDictionary,
+                distinct = defaults["ThresholdDistinctColor"] as? CGFloat,
+                noise = defaults["ThresholdNoiseTolerance"] as? Int,
+                saturation = defaults["ThresholdMinimumSaturation"] as? CGFloat,
+                brightness = defaults["ThresholdFloorBrightness"] as? CGFloat,
+                contrast = defaults["ContrastRatio"] as? CGFloat
+                else { throw DemoAppError.CouldNotfindDefaultConfiguration
+            }
+            CDSettings.ThresholdDistinctColor = distinct
+            CDSettings.ThresholdNoiseTolerance = noise
+            CDSettings.ThresholdMinimumSaturation = saturation
+            CDSettings.ThresholdFloorBrightness = brightness
+            CDSettings.ContrastRatio = contrast
             CDSettings.EnsureContrastedColorCandidates = true
             setSlidersDefaults()
             updateColors(sender)
+        } catch let demoAppError as DemoAppError {
+            print(demoAppError.rawValue)
+        } catch let error as NSError {
+            print(error)
         }
     }
 
@@ -107,10 +119,9 @@ class DemoControlsView: NSView {
 
     private func updateColors(sender: AnyObject? = nil) {
         var dict = ["mouseUp":false]
-        if let sdr = sender as? NSSlider ?? sender as? NSButton {
-            if let event = sdr.window?.currentEvent where event.type == NSEventType.LeftMouseUp {
-                dict = ["mouseUp":true]
-            }
+        if let sdr = sender as? NSSlider ?? sender as? NSButton,
+            event = sdr.window?.currentEvent where event.type == NSEventType.LeftMouseUp {
+            dict = ["mouseUp":true]
         }
         NSNotificationCenter.defaultCenter().postNotificationName("updateColorCandidatesOK", object: nil, userInfo: dict)
     }

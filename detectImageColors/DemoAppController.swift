@@ -10,6 +10,8 @@ enum DemoAppError: String, ErrorType {
     case InvalidFilePath = "ERROR: invalid file path"
     case CouldNotLoadDemoImage = "ERROR: Could not load demo image"
     case ColorDetectorFailed = "ERROR: the color detector failed for this request"
+    case CouldNotProcessDownloadedData = "ERROR: could not process downloaded data"
+    case CouldNotfindDefaultConfiguration = "ERROR: could not find default configuration"
 }
 
 class AppController: NSObject {
