@@ -20,19 +20,13 @@ final public class ColorDetector: NSObject {
     // Main method
     public func getColorCandidatesFromImage(anImage: NSImage) -> ColorCandidates? {
         let edge = findEdgeColor(anImage)
-        if let edgeColor = edge.color {
-            if let colorsFirstPass = findColors(edge.set, backgroundColor: edgeColor) {
-                if let firstBackgroundColorCandidate = colorsFirstPass.background {
-                    let backgroundIsDark = firstBackgroundColorCandidate.isMostlyDarkColor() // Bool
-                    let colorsSecondPass = createColors(colorsFirstPass, hasDarkBackground: backgroundIsDark)
-                    if CDSettings.EnsureContrastedColorCandidates {
-                        return createFadedColors(colorsSecondPass, hasDarkBackground: backgroundIsDark)
-                    }
-                    return colorsSecondPass
-                }
-            }
+        guard let edgeColor = edge.color, let colorsFirstPass = findColors(edge.set, backgroundColor: edgeColor), let firstBackgroundColorCandidate = colorsFirstPass.background else { return nil }
+        let backgroundIsDark: Bool = firstBackgroundColorCandidate.isMostlyDarkColor()
+        let colorsSecondPass = createColors(colorsFirstPass, hasDarkBackground: backgroundIsDark)
+        if CDSettings.EnsureContrastedColorCandidates {
+            return createFadedColors(colorsSecondPass, hasDarkBackground: backgroundIsDark)
         }
-        return nil
+        return colorsSecondPass
     }
 
     // Image has to fill a square completely
