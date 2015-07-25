@@ -13,8 +13,8 @@ public struct ColorCandidates {
 
 struct CDCountedColor {
     var color: NSColor
-    var count: NSInteger
-    init(color: NSColor, count: NSInteger) {
+    var count: Int
+    init(color: NSColor, count: Int) {
         self.color = color
         self.count = count
     }

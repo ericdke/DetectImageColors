@@ -40,7 +40,7 @@ class ExportColors {
     }
 
     class func makePNGFromView(view: NSView) -> NSData? {
-        let rep = view.bitmapImageRepForCachingDisplayInRect(view.bounds)!
+        guard let rep = view.bitmapImageRepForCachingDisplayInRect(view.bounds) else { return nil }
         view.cacheDisplayInRect(view.bounds, toBitmapImageRep: rep)
         guard let data = rep.representationUsingType(NSBitmapImageFileType.NSPNGFileType, properties: [:]) else { return nil }
         return data

@@ -171,25 +171,7 @@ final public class ColorDetector: NSObject {
     // --- END TESTS ---
 
 
-    // let's try to sort the credible candidates from the noise
-    private func separateColors(edgeColors: NSCountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
-        let enumerator = edgeColors.objectEnumerator()
-        var curColor = enumerator.nextObject() as? NSColor
-        var rootColors = [CDCountedColor]()
-        var lonelyColors = [CDCountedColor]()
-        while curColor != nil {
-            let colorCount = edgeColors.countForObject(curColor!)
-            let randomColorsThreshold = Int(Double(height) * CDSettings.ThresholdMinimumPercentage)
-            if colorCount <= randomColorsThreshold {
-                lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
-                curColor = enumerator.nextObject() as? NSColor
-                continue
-            }
-            rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
-            curColor = enumerator.nextObject() as? NSColor
-        }
-        return (rootColors, lonelyColors)
-    }
+
 
     private func getMarginalColorsIfNecessary(rootColors: [CDCountedColor], lonelyColors: [CDCountedColor]) -> [CDCountedColor] {
         if rootColors.count > 0 {
@@ -224,32 +206,42 @@ final public class ColorDetector: NSObject {
         }
         return proposedEdgeColor
     }
+    
+    // sort the credible candidates from the noise
+    private func separateColors(edgeColors: NSCountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
+        var rootColors = [CDCountedColor]()
+        var lonelyColors = [CDCountedColor]()
+        for case let current as NSColor in edgeColors {
+            let colorCount = edgeColors.countForObject(current)
+            let randomColorsThreshold = Int(Double(height) * CDSettings.ThresholdMinimumPercentage)
+            if colorCount <= randomColorsThreshold {
+                lonelyColors.append(CDCountedColor(color: current, count: colorCount))
+                continue
+            }
+            rootColors.append(CDCountedColor(color: current, count: colorCount))
+        }
+        return (rootColors, lonelyColors)
+    }
 
     // ------------------------------------
 
     private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates? {
         guard let sourceColors = colors else { return nil }
-        let enumerator = sourceColors.objectEnumerator()
         var rootContainer = ColorCandidates()
-        rootContainer.background = backgroundColor
         var rootColors = [CDCountedColor]()
-        let isColorDark = backgroundColor.isMostlyDarkColor()
         var lonelyColors = [CDCountedColor]()
-        var curColor = enumerator.nextObject() as? NSColor
-        while curColor != nil {
-            curColor = curColor!.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
-            // We don't want to be too close to the bg color
-            if curColor!.isMostlyDarkColor() && isColorDark {
-                let colorCount = sourceColors.countForObject(curColor!)
-                // We set apart the rarest colors
+        let isColorDark = backgroundColor.isMostlyDarkColor()
+        rootContainer.background = backgroundColor
+        for case let current as NSColor in sourceColors {
+            let currentColor = current.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
+            if currentColor.isMostlyDarkColor() && isColorDark {
+                let colorCount = sourceColors.countForObject(currentColor)
                 if colorCount <= CDSettings.ThresholdNoiseTolerance {
-                    lonelyColors.append(CDCountedColor(color: curColor!, count: colorCount))
-                    curColor = enumerator.nextObject() as? NSColor
+                    lonelyColors.append(CDCountedColor(color: currentColor, count: colorCount))
                     continue
                 }
-                rootColors.append(CDCountedColor(color: curColor!, count: colorCount))
+                rootColors.append(CDCountedColor(color: currentColor, count: colorCount))
             }
-            curColor = enumerator.nextObject() as? NSColor
         }
         
         let sortedColors = getMarginalColorsIfNecessary(rootColors, lonelyColors: lonelyColors)
