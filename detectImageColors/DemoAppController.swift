@@ -8,6 +8,7 @@ enum DemoAppError: String, ErrorType {
     case CouldNotLoadColorNamesFile = "ERROR: Could not load color names file"
     case CouldNotSaveColorNamesFile = "ERROR: Could not save color names file"
     case InvalidFilePath = "ERROR: invalid file path"
+    case CouldNotLoadDemoImage = "ERROR: Could not load demo image"
 }
 
 class AppController: NSObject {
@@ -44,13 +45,14 @@ class AppController: NSObject {
     override func awakeFromNib() {
         do {
             try initColorNamesFile()
+            guard let elton = NSImage(named: "elton") else { throw DemoAppError.CouldNotLoadDemoImage }
+            analyseImageAndSetImageView(elton)
         } catch let demoAppError as DemoAppError {
             print(demoAppError.rawValue)
         } catch {
             print(error)
         }
         
-        analyseImageAndSetImageView(NSImage(named: "elton")!)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateImage:", name: "updateImageByDropOK", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateColorCandidates:", name: "updateColorCandidatesOK", object: nil)
 
