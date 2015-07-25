@@ -7,6 +7,7 @@ import Cocoa
 enum DemoAppError: String, ErrorType {
     case CouldNotLoadColorNamesFile = "ERROR: Could not load color names file"
     case CouldNotSaveColorNamesFile = "ERROR: Could not save color names file"
+    case InvalidFilePath = "ERROR: invalid file path"
 }
 
 class AppController: NSObject {
@@ -41,15 +42,14 @@ class AppController: NSObject {
     }
 
     override func awakeFromNib() {
-        if let jpath = getJSONFilePath() {
-            if NSFileManager().fileExistsAtPath(jpath) {
-                getNamedColorsFromFile(jpath)
-            } else {
-                if let bpath = NSBundle.mainBundle().pathForResource("colors_dic", ofType: "json") {
-                    getNamedColorsFromFile(bpath)
-                }
-            }
+        do {
+            try initColorNamesFile()
+        } catch let demoAppError as DemoAppError {
+            print(demoAppError.rawValue)
+        } catch {
+            print(error)
         }
+        
         analyseImageAndSetImageView(NSImage(named: "elton")!)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateImage:", name: "updateImageByDropOK", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateColorCandidates:", name: "updateColorCandidatesOK", object: nil)
@@ -74,6 +74,18 @@ class AppController: NSObject {
 //
 //        println(testColors)
         // ---
+    }
+    
+    private func initColorNamesFile() throws {
+        guard let jpath = getJSONFilePath() else { throw DemoAppError.InvalidFilePath }
+        if NSFileManager().fileExistsAtPath(jpath) {
+            try getNamedColorsFromFile(jpath)
+        } else {
+            guard let bpath = NSBundle.mainBundle().pathForResource("colors_dic", ofType: "json") else {
+                throw DemoAppError.InvalidFilePath
+            }
+            try getNamedColorsFromFile(bpath)
+        }
     }
 
     func updateImage(notification: NSNotification) {
@@ -259,19 +271,15 @@ class AppController: NSObject {
         }
     }
 
-    private func getNamedColorsFromFile(path: String) {
-        do {
-            let data = NSData(contentsOfFile: path)
-            let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String:String]
-            namedColors = json
-        } catch let error {
-            print(error)
-        }
-        
+    private func getNamedColorsFromFile(path: String) throws {
+        guard let data = NSData(contentsOfFile: path),
+            let json = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? [String:String]
+            else { throw DemoAppError.CouldNotLoadColorNamesFile }
+        namedColors = json
     }
 
     func getJSONFilePath() -> String? {
-        guard let dirs:[String] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true) else  { return nil }
+        guard let dirs:[String] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true) else { return nil }
         return dirs[0].stringByAppendingPathComponent("colors_dic.json")
     }
 
