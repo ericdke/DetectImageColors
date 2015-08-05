@@ -11,7 +11,6 @@ import XCTest
 
 class detectImageColorsTests: XCTestCase {
 
-    let detector = ColorDetector()
     let reed = NSImage(named: "reed")!
     let elton = NSImage(named: "elton")!
 
@@ -109,7 +108,7 @@ class detectImageColorsTests: XCTestCase {
 
     func testCreateColorCandidates() {
         let resized = reed.resizeToSquare()
-        let candidates = detector.getColorCandidatesFromImage(resized!)
+        let candidates = resized!.getColorCandidates()
         XCTAssert(candidates != nil, "Candidates not nil")
         XCTAssert(candidates!.primary != nil, "Candidates primary color not nil")
         XCTAssert(candidates!.secondary != nil, "Candidates secondary color not nil")

@@ -14,13 +14,12 @@ Extracts 4 main colors from an image: primary, secondary, detail and background.
 
 ```   
 let resized = image.resizeToSquare()
-let colorDetector = ColorDetector()
-let colorCandidates = colorDetector.getColorCandidatesFromImage(resized)
+let colorCandidates = resized.getColorCandidates()
 ```  
 
 ## Demo Application
 
-*Compile with Xcode 7 beta 3 +*
+*Compile with Xcode 7 beta 4 +*
 
 ![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/7f539a6e-05d9-4d86-8c0e-14a6eeff11e8/04c165ed2039a358/res/eef73a0d-0a10-4de5-a79d-e00344842b34/skitch.png)
 

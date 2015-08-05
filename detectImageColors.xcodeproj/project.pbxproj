@@ -11,7 +11,6 @@
 		C71FDDE81ACF7642004BD9BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C71FDDE71ACF7642004BD9BA /* Images.xcassets */; };
 		C71FDDEB1ACF7642004BD9BA /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71FDDE91ACF7642004BD9BA /* MainMenu.xib */; };
 		C71FDDF71ACF7643004BD9BA /* detectImageColorsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDDF61ACF7643004BD9BA /* detectImageColorsTests.swift */; };
-		C71FDE011ACF7676004BD9BA /* CDColorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */; };
 		C71FDE031ACF76A0004BD9BA /* CDColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */; };
 		C71FDE051ACF76C3004BD9BA /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* CDModels.swift */; };
 		C721BC111B35C82E001C3896 /* DemoColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C721BC101B35C82E001C3896 /* DemoColorView.swift */; };
@@ -28,7 +27,6 @@
 		C7B005791B7283D000EFF58A /* CDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B005781B7283D000EFF58A /* CDExtensions.swift */; };
 		C7B0057A1B72872900EFF58A /* CDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B005781B7283D000EFF58A /* CDExtensions.swift */; };
 		C7B573EE1AD0909500C44CDF /* DemoAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B573ED1AD0909500C44CDF /* DemoAppController.swift */; };
-		C7D49DD61AFEAD8D00CD8901 /* CDColorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */; };
 		C7D49DD71AFEAD9000CD8901 /* CDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */; };
 		C7D49DD81AFEAD9200CD8901 /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* CDModels.swift */; };
 		C7D49DD91AFEAD9500CD8901 /* CDColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */; };
@@ -54,7 +52,6 @@
 		C71FDDF01ACF7642004BD9BA /* detectImageColorsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = detectImageColorsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C71FDDF51ACF7643004BD9BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C71FDDF61ACF7643004BD9BA /* detectImageColorsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = detectImageColorsTests.swift; sourceTree = "<group>"; };
-		C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CDColorDetector.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CDColorExtensions.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDE041ACF76C3004BD9BA /* CDModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDModels.swift; sourceTree = "<group>"; };
 		C721BC101B35C82E001C3896 /* DemoColorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoColorView.swift; sourceTree = "<group>"; };
@@ -168,7 +165,6 @@
 		C74B586B1AD2E8B400C6EE4F /* DetectColors */ = {
 			isa = PBXGroup;
 			children = (
-				C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */,
 				C7B005781B7283D000EFF58A /* CDExtensions.swift */,
 				C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */,
 				C71FDE041ACF76C3004BD9BA /* CDModels.swift */,
@@ -302,7 +298,6 @@
 				C7B573EE1AD0909500C44CDF /* DemoAppController.swift in Sources */,
 				C72CCCF81B2486FF007FAE74 /* DemoColorsFromImage.swift in Sources */,
 				C72CCCFA1B249193007FAE74 /* DemoControlsView.swift in Sources */,
-				C71FDE011ACF7676004BD9BA /* CDColorDetector.swift in Sources */,
 				C74AC4411B1A1C2F00B505BC /* DemoBackgroundView.swift in Sources */,
 				C71FDE031ACF76A0004BD9BA /* CDColorExtensions.swift in Sources */,
 				C77FBFEE1B38156C00CDF44A /* DemoAppDownloader.swift in Sources */,
@@ -324,7 +319,6 @@
 				C71FDDF71ACF7643004BD9BA /* detectImageColorsTests.swift in Sources */,
 				C7D49DD91AFEAD9500CD8901 /* CDColorExtensions.swift in Sources */,
 				C7D49DD71AFEAD9000CD8901 /* CDSettings.swift in Sources */,
-				C7D49DD61AFEAD8D00CD8901 /* CDColorDetector.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -6,27 +6,26 @@ import Cocoa
 
 class ColorsFromImage {
 
-    let colorDetector = ColorDetector()
     var resizedImage: NSImage?
     var colorCandidates: ColorCandidates?
 
     init() {}
 
     init(image: NSImage) {
-        colorCandidates = colorDetector.getColorCandidatesFromImage(image)
+        colorCandidates = image.getColorCandidates()
     }
 
     func getColorsFromImage(image: NSImage) -> ColorCandidates? {
         if let resized = image.resizeToSquare() {
             resizedImage = resized
-            colorCandidates = colorDetector.getColorCandidatesFromImage(resized)
+            colorCandidates = resized.getColorCandidates()
         }
         return colorCandidates
     }
 
     func getColors() -> ColorCandidates? {
         if let img = resizedImage {
-            colorCandidates = colorDetector.getColorCandidatesFromImage(img)
+            colorCandidates = img.getColorCandidates()
         }
         return colorCandidates
     }
