@@ -14,6 +14,8 @@ class DemoImageView: NSImageView {
     let secondaryDemoColorView = DemoColorView()
     let detailDemoColorView = DemoColorView()
     let backgroundDemoColorView = DemoColorView()
+    
+    let downloader = Downloader()
 
     override func drawRect(dirtyRect: NSRect) {
         addColorView()
@@ -79,18 +81,13 @@ class DemoImageView: NSImageView {
     }
 
     private func downloadImage(url: NSURL) {
-        NSURLConnection.sendAsynchronousRequest(NSURLRequest(URL: url), queue: NSOperationQueue.mainQueue(),
-            completionHandler: {(response: NSURLResponse?, data: NSData?, error: NSError?) -> Void in
-                if error == nil {
-                    if let dat = data, let img = NSImage(data: dat) {
-                        dispatch_async(dispatch_get_main_queue()) {
-                            self.updateImage(img)
-                        }
-                    }
-                } else {
-                    NSLog("%@", error!.localizedDescription)
+        downloader.download(url.absoluteString) { (data) -> Void in
+            if let img = NSImage(data: data) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.updateImage(img)
                 }
-        })
+            }
+        }
     }
 
     private func updateImage(image: NSImage) {

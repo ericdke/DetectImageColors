@@ -33,11 +33,7 @@ class Downloader: NSObject {
             }
             completion(data: dat)
         }
-        guard let connect = task else {
-            NSLog("%@", "Unknown network error")
-            return
-        }
-        connect.resume()
+        task.resume()
     }
 
     func JSONDataToDictionary(data: NSData?) -> [String: AnyObject]? {
