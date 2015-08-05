@@ -1,3 +1,5 @@
+//  SWIFT 2
+
 import Cocoa
 
 public struct ColorCandidates {
@@ -11,17 +13,10 @@ public struct ColorCandidates {
 
 struct CDCountedColor {
     var color: NSColor
-    var count: NSInteger
-    init(color: NSColor, count: NSInteger) {
+    var count: Int
+    init(color: NSColor, count: Int) {
         self.color = color
         self.count = count
     }
 }
 
-extension String {
-    var length: Int {
-        get {
-            return self.characters.count
-        }
-    }
-}

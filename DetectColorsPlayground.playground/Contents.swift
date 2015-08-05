@@ -39,16 +39,13 @@ func makeTextField(frame: NSRect, color: NSColor, background: NSColor) -> NSText
 }
 
 // ---
-CDSettings.DetectorResolutionX = 5
-CDSettings.DetectorResolutionY = 1
-CDSettings.ProcessedImageSize = 200
-CDSettings.ThresholdDistinctColor = 0.25
-CDSettings.ContrastRatio = 1.6
+CDSettings.DetectorResolution = 10
+CDSettings.ThresholdDistinctColor = 0.43
+CDSettings.ContrastRatio = 2.1
 
 let image = NSImage(named: "elton")!
-let colorDetector = ColorDetector()
-let resized = colorDetector.resize(image)!
-let colorCandidates = colorDetector.getColorCandidatesFromImage(resized)!
+let resized = image.resizeToSquare()
+let colorCandidates = resized!.getColorCandidates()!
 
 let primaryColor = colorCandidates.primary!
 let secondaryColor = colorCandidates.secondary!
