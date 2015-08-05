@@ -20,10 +20,3 @@ struct CDCountedColor {
     }
 }
 
-extension String {
-    var length: Int {
-        get {
-            return self.characters.count
-        }
-    }
-}

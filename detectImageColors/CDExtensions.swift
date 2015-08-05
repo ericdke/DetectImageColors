@@ -8,7 +8,11 @@
 
 import Cocoa
 
-extension NSImage {
+public extension String {
+    var length: Int { get { return self.characters.count } }
+}
+
+public extension NSImage {
     // Image has to fill a square completely
     public func resizeToSquare(max: CGFloat = CGFloat(600)) -> NSImage? {
         let (myWidth, myHeight): (CGFloat, CGFloat)
