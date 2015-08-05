@@ -12,10 +12,9 @@ Extracts 4 main colors from an image: primary, secondary, detail and background.
 
 3. Create color candidates from image:
 
-```  
-let image = NSImage(named: "elton")  
+```   
+let resized = image.resizeToSquare()
 let colorDetector = ColorDetector()
-let resized = colorDetector.resize(image)
 let colorCandidates = colorDetector.getColorCandidatesFromImage(resized)
 ```  
 
