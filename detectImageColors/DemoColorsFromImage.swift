@@ -17,7 +17,7 @@ class ColorsFromImage {
     }
 
     func getColorsFromImage(image: NSImage) -> ColorCandidates? {
-        if let resized = colorDetector.resize(image) {
+        if let resized = image.resizeToSquare() {
             resizedImage = resized
             colorCandidates = colorDetector.getColorCandidatesFromImage(resized)
         }

@@ -25,6 +25,7 @@
 		C77FBFEA1B3811C900CDF44A /* colors_dic.json in Resources */ = {isa = PBXBuildFile; fileRef = C77FBFE91B3811C900CDF44A /* colors_dic.json */; };
 		C77FBFEE1B38156C00CDF44A /* DemoAppDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77FBFED1B38156C00CDF44A /* DemoAppDownloader.swift */; };
 		C7AFACCB1AE2BC0F00B73499 /* elton.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7AFACCA1AE2BC0F00B73499 /* elton.jpg */; };
+		C7B005791B7283D000EFF58A /* CDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B005781B7283D000EFF58A /* CDExtensions.swift */; };
 		C7B573EE1AD0909500C44CDF /* DemoAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B573ED1AD0909500C44CDF /* DemoAppController.swift */; };
 		C7D49DD61AFEAD8D00CD8901 /* CDColorDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */; };
 		C7D49DD71AFEAD9000CD8901 /* CDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */; };
@@ -66,6 +67,7 @@
 		C77FBFE91B3811C900CDF44A /* colors_dic.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = colors_dic.json; sourceTree = "<group>"; };
 		C77FBFED1B38156C00CDF44A /* DemoAppDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppDownloader.swift; sourceTree = "<group>"; };
 		C7AFACCA1AE2BC0F00B73499 /* elton.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = elton.jpg; sourceTree = "<group>"; };
+		C7B005781B7283D000EFF58A /* CDExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDExtensions.swift; sourceTree = "<group>"; };
 		C7B573ED1AD0909500C44CDF /* DemoAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -168,6 +170,7 @@
 				C71FDE001ACF7676004BD9BA /* CDColorDetector.swift */,
 				C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */,
 				C71FDE041ACF76C3004BD9BA /* CDModels.swift */,
+				C7B005781B7283D000EFF58A /* CDExtensions.swift */,
 				C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */,
 			);
 			name = DetectColors;
@@ -304,6 +307,7 @@
 				C77FBFEE1B38156C00CDF44A /* DemoAppDownloader.swift in Sources */,
 				C71FDE051ACF76C3004BD9BA /* CDModels.swift in Sources */,
 				C72CCD021B24C247007FAE74 /* DemoExportColors.swift in Sources */,
+				C7B005791B7283D000EFF58A /* CDExtensions.swift in Sources */,
 				C721BC111B35C82E001C3896 /* DemoColorView.swift in Sources */,
 				C74B586D1AD2F87F00C6EE4F /* CDSettings.swift in Sources */,
 				C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */,

@@ -32,26 +32,6 @@ final public class ColorDetector: NSObject {
         return colorsSecondPass
     }
 
-    // Image has to fill a square completely
-    public func resize(image: NSImage, max: CGFloat = CGFloat(600)) -> NSImage? {
-        let (myWidth, myHeight): (CGFloat, CGFloat)
-        if image.size.width < max {
-            (myWidth, myHeight) = (image.size.width, image.size.width)
-        } else {
-            (myWidth, myHeight) = (max, max)
-        }
-        let destSize = NSMakeSize(myWidth, myHeight)
-        let newImage = NSImage(size: destSize)
-        newImage.lockFocus()
-        image.drawInRect(NSMakeRect(0, 0, destSize.width, destSize.height),
-            fromRect: NSMakeRect(0, 0, image.size.width, image.size.height),
-            operation: NSCompositingOperation.CompositeSourceOver, fraction: CGFloat(1))
-        newImage.unlockFocus()
-        newImage.size = destSize
-        guard let tiff = newImage.TIFFRepresentation, let resized = NSImage(data: tiff) else { return nil }
-        return resized
-    }
-
     // ------------------------------------
 
     // find what we think is the main color + other candidates
