@@ -26,6 +26,7 @@
 		C7AFACCB1AE2BC0F00B73499 /* elton.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C7AFACCA1AE2BC0F00B73499 /* elton.jpg */; };
 		C7B005791B7283D000EFF58A /* CDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B005781B7283D000EFF58A /* CDExtensions.swift */; };
 		C7B0057A1B72872900EFF58A /* CDExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B005781B7283D000EFF58A /* CDExtensions.swift */; };
+		C7B0057C1B728D8600EFF58A /* DemoExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B0057B1B728D8600EFF58A /* DemoExtensions.swift */; };
 		C7B573EE1AD0909500C44CDF /* DemoAppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B573ED1AD0909500C44CDF /* DemoAppController.swift */; };
 		C7D49DD71AFEAD9000CD8901 /* CDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */; };
 		C7D49DD81AFEAD9200CD8901 /* CDModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* CDModels.swift */; };
@@ -66,6 +67,7 @@
 		C77FBFED1B38156C00CDF44A /* DemoAppDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppDownloader.swift; sourceTree = "<group>"; };
 		C7AFACCA1AE2BC0F00B73499 /* elton.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = elton.jpg; sourceTree = "<group>"; };
 		C7B005781B7283D000EFF58A /* CDExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDExtensions.swift; sourceTree = "<group>"; };
+		C7B0057B1B728D8600EFF58A /* DemoExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoExtensions.swift; sourceTree = "<group>"; };
 		C7B573ED1AD0909500C44CDF /* DemoAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -157,6 +159,7 @@
 				C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */,
 				C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */,
 				C72CCD011B24C247007FAE74 /* DemoExportColors.swift */,
+				C7B0057B1B728D8600EFF58A /* DemoExtensions.swift */,
 				C71FDDE51ACF7642004BD9BA /* AppDelegate.swift */,
 			);
 			name = "Demo App";
@@ -298,6 +301,7 @@
 				C7B573EE1AD0909500C44CDF /* DemoAppController.swift in Sources */,
 				C72CCCF81B2486FF007FAE74 /* DemoColorsFromImage.swift in Sources */,
 				C72CCCFA1B249193007FAE74 /* DemoControlsView.swift in Sources */,
+				C7B0057C1B728D8600EFF58A /* DemoExtensions.swift in Sources */,
 				C74AC4411B1A1C2F00B505BC /* DemoBackgroundView.swift in Sources */,
 				C71FDE031ACF76A0004BD9BA /* CDColorExtensions.swift in Sources */,
 				C77FBFEE1B38156C00CDF44A /* DemoAppDownloader.swift in Sources */,

@@ -264,7 +264,7 @@ class AppController: NSObject {
 //        }
         guard let _ = colorCandidates else { return }  // shouldn't be nil, but let's be sure
         showOverlayButton.hidden = true
-        if let png = ExportColors.makePNGFromView(backgroundView) {
+        if let png = backgroundView.makePNGFromView() {
             ExportColors.savePNGFile(png)
         }
         showOverlayButton.hidden = false
@@ -290,7 +290,7 @@ class AppController: NSObject {
     }
 
     func getJSONFilePath() -> String? {
-        guard let dirs:[String] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true) else { return nil }
+        guard let dirs:[NSString] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true) else { return nil }
         return dirs[0].stringByAppendingPathComponent("colors_dic.json")
     }
 
