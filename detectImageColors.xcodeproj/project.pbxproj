@@ -18,6 +18,7 @@
 		C72CCCFA1B249193007FAE74 /* DemoControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CCCF91B249193007FAE74 /* DemoControlsView.swift */; };
 		C72CCD021B24C247007FAE74 /* DemoExportColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CCD011B24C247007FAE74 /* DemoExportColors.swift */; };
 		C72CCD0D1B24DDA9007FAE74 /* reed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C72CCD0C1B24DDA9007FAE74 /* reed.jpg */; };
+		C73D12E51B85408B006A47E8 /* DemoPresetsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D12E41B85408B006A47E8 /* DemoPresetsPanel.swift */; };
 		C74AC4411B1A1C2F00B505BC /* DemoBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */; };
 		C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */; };
 		C74B586D1AD2F87F00C6EE4F /* CDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */; };
@@ -60,6 +61,7 @@
 		C72CCCF91B249193007FAE74 /* DemoControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoControlsView.swift; sourceTree = "<group>"; };
 		C72CCD011B24C247007FAE74 /* DemoExportColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoExportColors.swift; sourceTree = "<group>"; };
 		C72CCD0C1B24DDA9007FAE74 /* reed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = reed.jpg; sourceTree = "<group>"; };
+		C73D12E41B85408B006A47E8 /* DemoPresetsPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPresetsPanel.swift; sourceTree = "<group>"; };
 		C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoBackgroundView.swift; sourceTree = "<group>"; };
 		C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoImageView.swift; sourceTree = "<group>"; };
 		C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDSettings.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 			children = (
 				C71FDDE71ACF7642004BD9BA /* Images.xcassets */,
 				C71FDDE91ACF7642004BD9BA /* MainMenu.xib */,
+				C73D12E41B85408B006A47E8 /* DemoPresetsPanel.swift */,
 				C7B573ED1AD0909500C44CDF /* DemoAppController.swift */,
 				C77FBFED1B38156C00CDF44A /* DemoAppDownloader.swift */,
 				C72CCCF71B2486FF007FAE74 /* DemoColorsFromImage.swift */,
@@ -310,6 +313,7 @@
 				C7B005791B7283D000EFF58A /* CDExtensions.swift in Sources */,
 				C721BC111B35C82E001C3896 /* DemoColorView.swift in Sources */,
 				C74B586D1AD2F87F00C6EE4F /* CDSettings.swift in Sources */,
+				C73D12E51B85408B006A47E8 /* DemoPresetsPanel.swift in Sources */,
 				C74B58691AD2C0C300C6EE4F /* DemoImageView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

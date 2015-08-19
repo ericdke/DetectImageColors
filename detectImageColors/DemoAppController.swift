@@ -248,6 +248,9 @@ class AppController: NSObject {
         }
     }
 
+    @IBAction func managePresets(sender: NSButton) {
+        window.beginSheet(presetsPanel, completionHandler: nil)
+    }
 
     @IBAction func exportColorsToJSON(sender: NSMenuItem) {
         if let cols = colorCandidates {
@@ -308,6 +311,7 @@ class AppController: NSObject {
     @IBOutlet weak var primaryColorNameLabel: NSTextField!
     @IBOutlet weak var secondaryColorNameLabel: NSTextField!
     @IBOutlet weak var detailColorNameLabel: NSTextField!
+    @IBOutlet weak var presetsPanel: NSPanel!
 
 }
 

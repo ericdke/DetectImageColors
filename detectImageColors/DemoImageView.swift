@@ -74,7 +74,8 @@ class DemoImageView: NSImageView {
                 updateImage(img)
             }
         } else {
-            if let escapedPath = paste.value.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding), let url = NSURL(string: escapedPath) {
+            let rules = NSCharacterSet.URLQueryAllowedCharacterSet()
+            if let escapedPath = paste.value.stringByAddingPercentEncodingWithAllowedCharacters(rules), let url = NSURL(string: escapedPath) {
                 downloadImage(url)
             }
         }

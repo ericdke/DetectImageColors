@@ -66,9 +66,9 @@ class DemoControlsView: NSView {
             setSlidersDefaults()
             updateColors(sender)
         } catch let demoAppError as DemoAppError {
-            print(demoAppError.rawValue)
-        } catch let error as NSError {
-            print(error)
+            Swift.print(demoAppError.rawValue)
+        } catch let error {
+            Swift.print(error)
         }
     }
 
