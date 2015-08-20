@@ -4,12 +4,6 @@
 
 import Cocoa
 
-extension CGFloat {
-    func formatSliderDouble(multiplier: Double = 100.0) -> Double {
-        return Double(self) * multiplier
-    }
-}
-
 class DemoControlsView: NSView {
 
     @IBOutlet weak var distinctColors: NSSlider!

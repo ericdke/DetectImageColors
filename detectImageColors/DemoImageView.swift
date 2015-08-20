@@ -4,10 +4,6 @@
 
 import Cocoa
 
-enum DragType {
-    case Path, URL
-}
-
 class DemoImageView: NSImageView {
 
     let primaryDemoColorView = DemoColorView()

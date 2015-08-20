@@ -10,6 +10,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var appController: AppController!
     
+    let defaultPresets = [Preset(name: "Photo contrasted", brightness: 0.1, distinct: 0.5, saturation: 0.2, contrast: 1.2, noise: 1, contrasted: false), Preset(name: "Photo monochrome", brightness: 0.04, distinct: 0.06, saturation: 0.2, contrast: 2.7, noise: 1, contrasted: false), Preset(name: "Photo warm colors", brightness: 0.12, distinct: 0.22, saturation: 0.07, contrast: 1.8, noise: 1, contrasted: false), Preset(name: "Photo blurry", brightness: 0.3, distinct: 0.79, saturation: 0.09, contrast: 2.5, noise: 1, contrasted: true), Preset(name: "Illustration shades hard", brightness: 0.26, distinct: 0.13, saturation: 0.38, contrast: 1.4, noise: 1, contrasted: true), Preset(name: "Illustration shades soft", brightness: 0.1, distinct: 0.32, saturation: 0.1, contrast: 2, noise: 1, contrasted: false), Preset(name: "Illustration detailed soft", brightness: 0.26, distinct: 0.27, saturation: 0.19, contrast: 2.5, noise: 1, contrasted: false), Preset(name: "Illustration detailed hard", brightness: 0.25, distinct: 0.43, saturation: 0.15, contrast: 2.1, noise: 1, contrasted: true)]
     var presets = [Preset]()
 
     func applicationWillFinishLaunching(notification: NSNotification) {
@@ -21,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let presets = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? [Preset] {
             self.presets = presets
         } else {
-            self.presets = [Preset(name: "Photo contrasted", brightness: 0.1, distinct: 0.5, saturation: 0.2, contrast: 1.2, noise: 1, contrasted: false), Preset(name: "Photo monochrome", brightness: 0.04, distinct: 0.06, saturation: 0.2, contrast: 2.7, noise: 1, contrasted: false), Preset(name: "Photo warm colors", brightness: 0.12, distinct: 0.22, saturation: 0.07, contrast: 1.8, noise: 1, contrasted: false), Preset(name: "Photo blurry", brightness: 0.3, distinct: 0.79, saturation: 0.09, contrast: 2.5, noise: 1, contrasted: true), Preset(name: "Illustration shades hard", brightness: 0.26, distinct: 0.13, saturation: 0.38, contrast: 1.4, noise: 1, contrasted: true), Preset(name: "Illustration shades soft", brightness: 0.1, distinct: 0.32, saturation: 0.1, contrast: 2, noise: 1, contrasted: false), Preset(name: "Illustration detailed soft", brightness: 0.26, distinct: 0.27, saturation: 0.19, contrast: 2.5, noise: 1, contrasted: false), Preset(name: "Illustration detailed hard", brightness: 0.25, distinct: 0.43, saturation: 0.15, contrast: 2.1, noise: 1, contrasted: true)]
+            self.presets = defaultPresets
         }
         NSNotificationCenter.defaultCenter().postNotificationName("populatePresetsOK", object: nil, userInfo: nil)
     }

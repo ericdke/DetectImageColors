@@ -4,17 +4,6 @@
 
 import Cocoa
 
-enum DemoAppError: String, ErrorType {
-    case CouldNotLoadColorNamesFile = "ERROR: Could not load color names file"
-    case CouldNotSaveColorNamesFile = "ERROR: Could not save color names file"
-    case InvalidFilePath = "ERROR: invalid file path"
-    case CouldNotLoadDemoImage = "ERROR: Could not load demo image"
-    case ColorDetectorFailed = "ERROR: the color detector failed for this request"
-    case CouldNotProcessDownloadedData = "ERROR: could not process downloaded data"
-    case CouldNotfindDefaultConfiguration = "ERROR: could not find default configuration"
-    case CouldNotSetSlidersFromPreset = "ERROR: could not load or use preset"
-}
-
 class AppController: NSObject {
 
     var colorsFromImage = ColorsFromImage()

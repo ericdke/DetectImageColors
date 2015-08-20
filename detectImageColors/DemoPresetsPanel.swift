@@ -8,53 +8,12 @@
 
 import Cocoa
 
-final class Preset: NSObject, NSCoding {
-    
-    let name: String
-    let thresholdFloorBrightness: CGFloat
-    let thresholdDistinctColor: CGFloat
-    let thresholdMinimumSaturation: CGFloat
-    let contrastRatio: CGFloat
-    let contrastedCandidates: Bool
-    let thresholdNoiseTolerance: Int
-    
-    init(name: String, brightness: CGFloat, distinct: CGFloat, saturation: CGFloat, contrast: CGFloat, noise: Int, contrasted: Bool) {
-        self.name = name
-        self.thresholdFloorBrightness = brightness
-        self.thresholdDistinctColor = distinct
-        self.thresholdMinimumSaturation = saturation
-        self.contrastRatio = contrast
-        self.thresholdNoiseTolerance = noise
-        self.contrastedCandidates = contrasted
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        self.name = aDecoder.decodeObjectForKey("name") as! String
-        self.thresholdFloorBrightness = aDecoder.decodeObjectForKey("thresholdFloorBrightness") as! CGFloat
-        self.thresholdDistinctColor = aDecoder.decodeObjectForKey("thresholdDistinctColor") as! CGFloat
-        self.thresholdMinimumSaturation = aDecoder.decodeObjectForKey("thresholdMinimumSaturation") as! CGFloat
-        self.contrastRatio = aDecoder.decodeObjectForKey("contrastRatio") as! CGFloat
-        self.thresholdNoiseTolerance = aDecoder.decodeIntegerForKey("thresholdNoiseTolerance")
-        self.contrastedCandidates = aDecoder.decodeBoolForKey("contrastedCandidates")
-    }
-    
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(name, forKey: "name")
-        aCoder.encodeObject(thresholdFloorBrightness, forKey: "thresholdFloorBrightness")
-        aCoder.encodeObject(thresholdDistinctColor, forKey: "thresholdDistinctColor")
-        aCoder.encodeObject(thresholdMinimumSaturation, forKey: "thresholdMinimumSaturation")
-        aCoder.encodeObject(contrastRatio, forKey: "contrastRatio")
-        aCoder.encodeInteger(thresholdNoiseTolerance, forKey: "thresholdNoiseTolerance")
-        aCoder.encodeBool(contrastedCandidates, forKey: "contrastedCandidates")
-    }
-    
-}
-
 class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     @IBOutlet weak var tableView: NSTableView!
     
     var currentPreset: Preset?
+    var defaultPresetsCount = 0
 
     @IBOutlet weak var demoControlsView: DemoControlsView!
     
@@ -64,6 +23,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     func populatePresets(notification: NSNotification) {
         if let del = NSApplication.sharedApplication().delegate as? AppDelegate {
+            defaultPresetsCount = del.defaultPresets.count
             allPresets = del.presets
         }
     }
@@ -116,37 +76,36 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        if let id = tableColumn?.identifier {
-            guard let cell = tableView.makeViewWithIdentifier(id, owner: self) as? NSTableCellView else { return nil }
-            let preset = allPresets[row]
-            if id == "mainColumn" {
-                cell.textField?.stringValue = preset.name.capitalizedString
-            } else {
-                let br = String(format: "%.2f", arguments: [preset.thresholdFloorBrightness])
-                let dis = String(format: "%.2f", arguments: [preset.thresholdDistinctColor])
-                let sat = String(format: "%.2f", arguments: [preset.thresholdMinimumSaturation])
-                let rat = String(format: "%.2f", arguments: [preset.contrastRatio])
-                let noise = preset.thresholdNoiseTolerance
-                let con = preset.contrastedCandidates ?  "Yes" : "No"
-                cell.textField?.stringValue = "TDC:\(dis) CR:\(rat) NT:\(noise) TFB:\(br) TMS:\(sat) ECCC:\(con)"
-            }
-            return cell
+        guard let id = tableColumn?.identifier, let cell = tableView.makeViewWithIdentifier(id, owner: self) as? NSTableCellView else { return nil }
+        let preset = allPresets[row]
+        if id == "mainColumn" {
+            cell.textField?.stringValue = preset.name.capitalizedString
+        } else {
+            let br = String(format: "%.2f", arguments: [preset.thresholdFloorBrightness])
+            let dis = String(format: "%.2f", arguments: [preset.thresholdDistinctColor])
+            let sat = String(format: "%.2f", arguments: [preset.thresholdMinimumSaturation])
+            let rat = String(format: "%.2f", arguments: [preset.contrastRatio])
+            let noise = preset.thresholdNoiseTolerance
+            let con = preset.contrastedCandidates ?  "Yes" : "No"
+            cell.textField?.stringValue = "TDC:\(dis) CR:\(rat) NT:\(noise) TFB:\(br) TMS:\(sat) ECCC:\(con)"
         }
-        return nil
+        return cell
     }
     
     override func keyDown(theEvent: NSEvent) {
         if theEvent.keyCode == 51 || theEvent.keyCode == 117 {
             if let cp = currentPreset {
-                let al: NSAlert = NSAlert()
-                al.messageText = "Delete this preset?"
-                al.informativeText = "Delete preset '\(cp.name)'?"
-                al.alertStyle = NSAlertStyle.WarningAlertStyle
-                al.addButtonWithTitle("Delete")
-                al.addButtonWithTitle("Cancel")
-                let button = al.runModal()
-                if button == NSAlertFirstButtonReturn {
-                    if tableView.selectedRow != -1 {
+                if tableView.selectedRow < defaultPresetsCount {
+                    Swift.print("ERROR: can't delete default preset")
+                } else {
+                    let al: NSAlert = NSAlert()
+                    al.messageText = "Delete this preset?"
+                    al.informativeText = "Delete preset '\(cp.name)'?"
+                    al.alertStyle = NSAlertStyle.WarningAlertStyle
+                    al.addButtonWithTitle("Delete")
+                    al.addButtonWithTitle("Cancel")
+                    let button = al.runModal()
+                    if button == NSAlertFirstButtonReturn {
                         allPresets.removeAtIndex(tableView.selectedRow)
                         tableView.reloadData()
                         savePresets()
