@@ -19,6 +19,13 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     override func awakeFromNib() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "populatePresets:", name: "populatePresetsOK", object: nil)
+        tableView.doubleAction = Selector("tableDoubleClicked:")
+        tableView.target = self
+    }
+    
+    func tableDoubleClicked(sender: NSTableView) {
+        currentPreset = allPresets[sender.selectedRow]
+        loadPreset(nil)
     }
     
     func populatePresets(notification: NSNotification) {
@@ -32,7 +39,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
         self.orderOut(nil)
     }
     
-    @IBAction func loadPreset(sender: NSButton) {
+    @IBAction func loadPreset(sender: NSButton?) {
         demoControlsView.setSliders(currentPreset)
         self.orderOut(nil)
     }
@@ -114,5 +121,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
             }
         }
     }
+    
+    
     
 }
