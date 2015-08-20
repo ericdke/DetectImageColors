@@ -21,7 +21,7 @@ let colorCandidates = resized.getColorCandidates()
 
 *Compile with Xcode 7 beta 4 +*
 
-![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/7f539a6e-05d9-4d86-8c0e-14a6eeff11e8/04c165ed2039a358/res/eef73a0d-0a10-4de5-a79d-e00344842b34/skitch.png)
+![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/691456c3-1d2b-4b3c-8faf-2105af6bb380/e43f803817a7a7a2/res/2d53de18-7bc0-444a-adea-40bc2213e48d/skitch.png)
 
 Download or clone the project, open in Xcode, build.
 
