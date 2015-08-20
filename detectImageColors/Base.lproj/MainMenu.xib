@@ -435,8 +435,30 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" id="Enm-fD-v1t">
+                                <rect key="frame" x="130" y="117" width="77" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Load preset" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m5D-4E-g4N">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="managePresets:" target="UW4-RA-zN2" id="l4D-i2-ncH"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" id="UfM-Kv-Sd5">
+                                <rect key="frame" x="42" y="117" width="77" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Save preset" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d3M-u1-3JO">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="savePreset:" target="oCz-wE-OTN" id="LN5-vf-eL4"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" id="lZ5-Qe-Cyb">
-                                <rect key="frame" x="197" y="118" width="100" height="16"/>
+                                <rect key="frame" x="217" y="117" width="100" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Reset to defaults" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="JMP-9d-S8C">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -444,17 +466,6 @@
                                 </buttonCell>
                                 <connections>
                                     <action selector="resetToDefaults:" target="aqM-ky-6xa" id="0GE-mt-eDC"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" id="Enm-fD-v1t">
-                                <rect key="frame" x="67" y="118" width="95" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Manage presets" bezelStyle="rounded" alignment="center" controlSize="mini" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="m5D-4E-g4N">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="miniSystem"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="managePresets:" target="UW4-RA-zN2" id="l4D-i2-ncH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -623,6 +634,7 @@ Gw
             </view>
             <connections>
                 <outlet property="demoControlsView" destination="aqM-ky-6xa" id="mDD-Td-GcD"/>
+                <outlet property="tableView" destination="QmD-ct-Shk" id="8v2-bJ-dKv"/>
             </connections>
             <point key="canvasLocation" x="-120.5" y="881.5"/>
         </window>

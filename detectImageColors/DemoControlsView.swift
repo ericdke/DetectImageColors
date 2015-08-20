@@ -43,6 +43,7 @@ class DemoControlsView: NSView {
         ensureContrastedColorCandidates.state = NSOnState
     }
     
+    
     func setSliders(preset: Preset?) {
         do {
             guard let pres = preset else { throw DemoAppError.CouldNotSetSlidersFromPreset }
@@ -61,6 +62,7 @@ class DemoControlsView: NSView {
             CDSettings.ContrastRatio = pres.contrastRatio
             contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(10.0)
             contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
+            CDSettings.EnsureContrastedColorCandidates = pres.contrastedCandidates
             ensureContrastedColorCandidates.state = Int(pres.contrastedCandidates)
             NSNotificationCenter.defaultCenter().postNotificationName("updateColorCandidatesOK", object: nil, userInfo: ["mouseUp":true])
         } catch let demoAppError as DemoAppError {
