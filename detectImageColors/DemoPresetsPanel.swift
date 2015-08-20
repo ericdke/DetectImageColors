@@ -87,14 +87,18 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
         let preset = allPresets[row]
         if id == "mainColumn" {
             cell.textField?.stringValue = preset.name.capitalizedString
-        } else {
-            let br = String(format: "%.2f", arguments: [preset.thresholdFloorBrightness])
-            let dis = String(format: "%.2f", arguments: [preset.thresholdDistinctColor])
-            let sat = String(format: "%.2f", arguments: [preset.thresholdMinimumSaturation])
-            let rat = String(format: "%.2f", arguments: [preset.contrastRatio])
-            let noise = preset.thresholdNoiseTolerance
-            let con = preset.contrastedCandidates ?  "Yes" : "No"
-            cell.textField?.stringValue = "TDC:\(dis) CR:\(rat) NT:\(noise) TFB:\(br) TMS:\(sat) ECCC:\(con)"
+        } else if id == "TDCColumn" {
+            cell.textField?.stringValue = String(format: "%.2f", arguments: [preset.thresholdDistinctColor])
+        } else if id == "CRColumn" {
+            cell.textField?.stringValue = String(format: "%.2f", arguments: [preset.contrastRatio])
+        } else if id == "NTColumn" {
+            cell.textField?.integerValue = preset.thresholdNoiseTolerance
+        } else if id == "TFBColumn" {
+            cell.textField?.stringValue = String(format: "%.2f", arguments: [preset.thresholdFloorBrightness])
+        } else if id == "TMSColumn" {
+            cell.textField?.stringValue = String(format: "%.2f", arguments: [preset.thresholdFloorBrightness])
+        } else if id == "ECCCColumn" {
+            cell.textField?.stringValue = preset.contrastedCandidates ?  "Yes" : "No"
         }
         return cell
     }
