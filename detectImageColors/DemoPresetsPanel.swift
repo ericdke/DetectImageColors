@@ -8,7 +8,8 @@
 
 import Cocoa
 
-struct Preset {
+final class Preset: NSObject, NSCoding {
+    
     let name: String
     let thresholdFloorBrightness: CGFloat
     let thresholdDistinctColor: CGFloat
@@ -16,6 +17,7 @@ struct Preset {
     let contrastRatio: CGFloat
     let contrastedCandidates: Bool
     let thresholdNoiseTolerance: Int
+    
     init(name: String, brightness: CGFloat, distinct: CGFloat, saturation: CGFloat, contrast: CGFloat, noise: Int, contrasted: Bool) {
         self.name = name
         self.thresholdFloorBrightness = brightness
@@ -25,6 +27,27 @@ struct Preset {
         self.thresholdNoiseTolerance = noise
         self.contrastedCandidates = contrasted
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.name = aDecoder.decodeObjectForKey("name") as! String
+        self.thresholdFloorBrightness = aDecoder.decodeObjectForKey("thresholdFloorBrightness") as! CGFloat
+        self.thresholdDistinctColor = aDecoder.decodeObjectForKey("thresholdDistinctColor") as! CGFloat
+        self.thresholdMinimumSaturation = aDecoder.decodeObjectForKey("thresholdMinimumSaturation") as! CGFloat
+        self.contrastRatio = aDecoder.decodeObjectForKey("contrastRatio") as! CGFloat
+        self.thresholdNoiseTolerance = aDecoder.decodeIntegerForKey("thresholdNoiseTolerance")
+        self.contrastedCandidates = aDecoder.decodeBoolForKey("contrastedCandidates")
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encodeObject(name, forKey: "name")
+        aCoder.encodeObject(thresholdFloorBrightness, forKey: "thresholdFloorBrightness")
+        aCoder.encodeObject(thresholdDistinctColor, forKey: "thresholdDistinctColor")
+        aCoder.encodeObject(thresholdMinimumSaturation, forKey: "thresholdMinimumSaturation")
+        aCoder.encodeObject(contrastRatio, forKey: "contrastRatio")
+        aCoder.encodeInteger(thresholdNoiseTolerance, forKey: "thresholdNoiseTolerance")
+        aCoder.encodeBool(contrastedCandidates, forKey: "contrastedCandidates")
+    }
+    
 }
 
 class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
@@ -34,6 +57,16 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     var currentPreset: Preset?
 
     @IBOutlet weak var demoControlsView: DemoControlsView!
+    
+    override func awakeFromNib() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "populatePresets:", name: "populatePresetsOK", object: nil)
+    }
+    
+    func populatePresets(notification: NSNotification) {
+        if let del = NSApplication.sharedApplication().delegate as? AppDelegate {
+            allPresets = del.presets
+        }
+    }
     
     @IBAction func cancelPanel(sender: NSButton) {
         self.orderOut(nil)
@@ -58,22 +91,14 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
             tf.validateEditing()
             if !tf.stringValue.isEmpty {
                 let pres = Preset(name: tf.stringValue, brightness: CDSettings.ThresholdFloorBrightness, distinct: CDSettings.ThresholdDistinctColor, saturation: CDSettings.ThresholdMinimumSaturation, contrast: CDSettings.ContrastRatio, noise: CDSettings.ThresholdNoiseTolerance, contrasted: CDSettings.EnsureContrastedColorCandidates)
-                customPresets.append(pres)
+                allPresets.append(pres)
                 tableView.reloadData()
+                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(allPresets), forKey: "allPresets")
             }
         }
     }
     
-    
-    let defaults: [Preset] = [Preset(name: "Photo contrasted", brightness: 0.1, distinct: 0.5, saturation: 0.2, contrast: 1.2, noise: 1, contrasted: false), Preset(name: "Photo monochrome", brightness: 0.04, distinct: 0.06, saturation: 0.2, contrast: 2.7, noise: 1, contrasted: false), Preset(name: "Photo warm colors", brightness: 0.12, distinct: 0.22, saturation: 0.07, contrast: 1.8, noise: 1, contrasted: false), Preset(name: "Photo blurry", brightness: 0.3, distinct: 0.79, saturation: 0.09, contrast: 2.5, noise: 1, contrasted: true), Preset(name: "Illustration shades hard", brightness: 0.26, distinct: 0.13, saturation: 0.38, contrast: 1.4, noise: 1, contrasted: true), Preset(name: "Illustration shades soft", brightness: 0.1, distinct: 0.32, saturation: 0.1, contrast: 2, noise: 1, contrasted: false), Preset(name: "Illustration detailed soft", brightness: 0.26, distinct: 0.27, saturation: 0.19, contrast: 2.5, noise: 1, contrasted: false), Preset(name: "Illustration detailed hard", brightness: 0.25, distinct: 0.43, saturation: 0.15, contrast: 2.1, noise: 1, contrasted: true)]
-    
-    var customPresets = [Preset]()
-    
-    var allPresets: [Preset] {
-        get {
-            return defaults + customPresets
-        }
-    }
+    var allPresets = [Preset]()
     
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         return allPresets.count
