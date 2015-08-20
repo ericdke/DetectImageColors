@@ -71,6 +71,60 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     var allPresets = [Preset]()
     
+    func tableView(tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
+        if let descriptor = tableView.sortDescriptors.first {
+            if let key = descriptor.key {
+                switch key {
+                    case "Name":
+                        if descriptor.ascending {
+                            allPresets.sortInPlace({ $0.name < $1.name })
+                        } else {
+                            allPresets.sortInPlace({ $0.name > $1.name })
+                    }
+                    case "TDC":
+                        if descriptor.ascending {
+                            allPresets.sortInPlace({ $0.thresholdDistinctColor < $1.thresholdDistinctColor })
+                        } else {
+                           allPresets.sortInPlace({ $0.thresholdDistinctColor > $1.thresholdDistinctColor })
+                    }
+                    case "CR":
+                        if descriptor.ascending {
+                            allPresets.sortInPlace({ $0.contrastRatio < $1.contrastRatio })
+                        } else {
+                            allPresets.sortInPlace({ $0.contrastRatio > $1.contrastRatio })
+                    }
+                    case "NT":
+                        if descriptor.ascending {
+                            allPresets.sortInPlace({ $0.thresholdNoiseTolerance < $1.thresholdNoiseTolerance })
+                        } else {
+                            allPresets.sortInPlace({ $0.thresholdNoiseTolerance > $1.thresholdNoiseTolerance })
+                    }
+                    case "TFB":
+                        if descriptor.ascending {
+                            allPresets.sortInPlace({ $0.thresholdFloorBrightness < $1.thresholdFloorBrightness })
+                        } else {
+                            allPresets.sortInPlace({ $0.thresholdFloorBrightness > $1.thresholdFloorBrightness })
+                    }
+                    case "TMS":
+                        if descriptor.ascending {
+                            allPresets.sortInPlace({ $0.thresholdMinimumSaturation < $1.thresholdMinimumSaturation })
+                        } else {
+                            allPresets.sortInPlace({ $0.thresholdMinimumSaturation > $1.thresholdMinimumSaturation })
+                    }
+                    case "ECCC":
+                        if descriptor.ascending {
+                            allPresets.sortInPlace({ Int($0.contrastedCandidates) < Int($1.contrastedCandidates) })
+                        } else {
+                            allPresets.sortInPlace({ Int($0.contrastedCandidates) > Int($1.contrastedCandidates) })
+                    }
+                default:
+                    Swift.print("Error with tableview header")
+                }
+                tableView.reloadData()
+            }
+        }
+    }
+    
     func numberOfRowsInTableView(tableView: NSTableView) -> Int {
         return allPresets.count
     }

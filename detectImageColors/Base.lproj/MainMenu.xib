@@ -536,15 +536,15 @@ Gw
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="ukD-C9-V2B" viewBased="YES" id="QmD-ct-Shk">
-                                    <rect key="frame" x="0.0" y="0.0" width="483" height="316"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="483" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn identifier="mainColumn" width="193" minWidth="40" maxWidth="1000" id="bPb-8e-zOC">
+                                        <tableColumn identifier="mainColumn" editable="NO" width="193" minWidth="40" maxWidth="1000" id="bPb-8e-zOC">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Name">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" size="11" name=".HelveticaNeueDeskInterface-Regular"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -553,7 +553,7 @@ Gw
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="Name"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="EAm-hU-7Rh">
                                                     <rect key="frame" x="1" y="1" width="193" height="24"/>
@@ -575,9 +575,9 @@ Gw
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="TDCColumn" width="45" minWidth="10" maxWidth="3.4028234663852886e+38" id="pp9-Oh-mOq">
+                                        <tableColumn identifier="TDCColumn" editable="NO" width="45" minWidth="10" maxWidth="3.4028234663852886e+38" id="pp9-Oh-mOq">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="TDC">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -586,7 +586,7 @@ Gw
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="TDC"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="zbf-DW-6QP">
                                                     <rect key="frame" x="197" y="1" width="45" height="17"/>
@@ -608,9 +608,9 @@ Gw
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="CRColumn" width="46" minWidth="10" maxWidth="3.4028234663852886e+38" id="6sN-jU-p2u">
+                                        <tableColumn identifier="CRColumn" editable="NO" width="46" minWidth="10" maxWidth="3.4028234663852886e+38" id="6sN-jU-p2u">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="CR">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -619,7 +619,7 @@ Gw
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="CR"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="LvV-QJ-pIo">
                                                     <rect key="frame" x="245" y="1" width="46" height="17"/>
@@ -641,9 +641,9 @@ Gw
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="NTColumn" width="35" minWidth="10" maxWidth="3.4028234663852886e+38" id="Fj5-kT-xeY">
+                                        <tableColumn identifier="NTColumn" editable="NO" width="35" minWidth="10" maxWidth="3.4028234663852886e+38" id="Fj5-kT-xeY">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="NT">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -652,7 +652,7 @@ Gw
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="NT"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="Xqc-kE-d20">
                                                     <rect key="frame" x="294" y="1" width="35" height="17"/>
@@ -674,9 +674,9 @@ Gw
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="TFBColumn" width="47" minWidth="10" maxWidth="3.4028234663852886e+38" id="ANv-YX-PC0">
+                                        <tableColumn identifier="TFBColumn" editable="NO" width="47" minWidth="10" maxWidth="3.4028234663852886e+38" id="ANv-YX-PC0">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="TFB">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -685,7 +685,7 @@ Gw
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="TFB"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="djD-Gu-1rl">
                                                     <rect key="frame" x="332" y="1" width="47" height="17"/>
@@ -707,9 +707,9 @@ Gw
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="TMSColumn" width="49" minWidth="10" maxWidth="3.4028234663852886e+38" id="9xD-o7-psN">
+                                        <tableColumn identifier="TMSColumn" editable="NO" width="49" minWidth="10" maxWidth="3.4028234663852886e+38" id="9xD-o7-psN">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="TMS">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -718,7 +718,7 @@ Gw
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="TMS"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="dfj-6F-9Ix">
                                                     <rect key="frame" x="382" y="1" width="49" height="17"/>
@@ -740,9 +740,9 @@ Gw
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn identifier="ECCCColumn" width="47" minWidth="10" maxWidth="3.4028234663852886e+38" id="Jxo-74-TZp">
+                                        <tableColumn identifier="ECCCColumn" editable="NO" width="47" minWidth="10" maxWidth="3.4028234663852886e+38" id="Jxo-74-TZp">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="ECCC">
-                                                <font key="font" metaFont="smallSystem"/>
+                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -751,7 +751,7 @@ Gw
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
-                                            <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                            <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="ECCC"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="I6W-u7-X8F">
                                                     <rect key="frame" x="434" y="1" width="47" height="17"/>
