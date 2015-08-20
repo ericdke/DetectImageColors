@@ -93,9 +93,13 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
                 let pres = Preset(name: tf.stringValue, brightness: CDSettings.ThresholdFloorBrightness, distinct: CDSettings.ThresholdDistinctColor, saturation: CDSettings.ThresholdMinimumSaturation, contrast: CDSettings.ContrastRatio, noise: CDSettings.ThresholdNoiseTolerance, contrasted: CDSettings.EnsureContrastedColorCandidates)
                 allPresets.append(pres)
                 tableView.reloadData()
-                NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(allPresets), forKey: "allPresets")
+                savePresets()
             }
         }
+    }
+    
+    func savePresets() {
+        NSUserDefaults.standardUserDefaults().setObject(NSKeyedArchiver.archivedDataWithRootObject(allPresets), forKey: "allPresets")
     }
     
     var allPresets = [Preset]()
@@ -129,6 +133,27 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
             return cell
         }
         return nil
+    }
+    
+    override func keyDown(theEvent: NSEvent) {
+        if theEvent.keyCode == 51 || theEvent.keyCode == 117 {
+            if let cp = currentPreset {
+                let al: NSAlert = NSAlert()
+                al.messageText = "Delete this preset?"
+                al.informativeText = "Delete preset '\(cp.name)'?"
+                al.alertStyle = NSAlertStyle.WarningAlertStyle
+                al.addButtonWithTitle("Delete")
+                al.addButtonWithTitle("Cancel")
+                let button = al.runModal()
+                if button == NSAlertFirstButtonReturn {
+                    if tableView.selectedRow != -1 {
+                        allPresets.removeAtIndex(tableView.selectedRow)
+                        tableView.reloadData()
+                        savePresets()
+                    }
+                }
+            }
+        }
     }
     
 }
