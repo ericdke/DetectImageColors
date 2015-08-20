@@ -160,7 +160,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     override func keyDown(theEvent: NSEvent) {
         if theEvent.keyCode == 51 || theEvent.keyCode == 117 {
             if let cp = currentPreset {
-                if tableView.selectedRow < defaultPresetsCount {
+                if allPresets[tableView.selectedRow].defaultPreset {
                     Swift.print("ERROR: can't delete default preset")
                 } else {
                     let al: NSAlert = NSAlert()

@@ -17,8 +17,9 @@ final class Preset: NSObject, NSCoding {
     let contrastRatio: CGFloat
     let contrastedCandidates: Bool
     let thresholdNoiseTolerance: Int
+    let defaultPreset: Bool
     
-    init(name: String, brightness: CGFloat, distinct: CGFloat, saturation: CGFloat, contrast: CGFloat, noise: Int, contrasted: Bool) {
+    init(name: String, brightness: CGFloat, distinct: CGFloat, saturation: CGFloat, contrast: CGFloat, noise: Int, contrasted: Bool, defaultPreset: Bool = false) {
         self.name = name
         self.thresholdFloorBrightness = brightness
         self.thresholdDistinctColor = distinct
@@ -26,6 +27,7 @@ final class Preset: NSObject, NSCoding {
         self.contrastRatio = contrast
         self.thresholdNoiseTolerance = noise
         self.contrastedCandidates = contrasted
+        self.defaultPreset = defaultPreset
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,6 +38,7 @@ final class Preset: NSObject, NSCoding {
         self.contrastRatio = aDecoder.decodeObjectForKey("contrastRatio") as! CGFloat
         self.thresholdNoiseTolerance = aDecoder.decodeIntegerForKey("thresholdNoiseTolerance")
         self.contrastedCandidates = aDecoder.decodeBoolForKey("contrastedCandidates")
+        self.defaultPreset = aDecoder.decodeBoolForKey("defaultPreset")
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
@@ -46,6 +49,7 @@ final class Preset: NSObject, NSCoding {
         aCoder.encodeObject(contrastRatio, forKey: "contrastRatio")
         aCoder.encodeInteger(thresholdNoiseTolerance, forKey: "thresholdNoiseTolerance")
         aCoder.encodeBool(contrastedCandidates, forKey: "contrastedCandidates")
+        aCoder.encodeBool(defaultPreset, forKey: "defaultPreset")
     }
     
 }
