@@ -12,6 +12,7 @@ enum DemoAppError: String, ErrorType {
     case ColorDetectorFailed = "ERROR: the color detector failed for this request"
     case CouldNotProcessDownloadedData = "ERROR: could not process downloaded data"
     case CouldNotfindDefaultConfiguration = "ERROR: could not find default configuration"
+    case CouldNotSetSlidersFromPreset = "ERROR: could not load or use preset"
 }
 
 class AppController: NSObject {
@@ -37,10 +38,8 @@ class AppController: NSObject {
     }
 
     func updateColorCandidates(notification: NSNotification) {
-        if let info = notification.userInfo as? [String:Bool], boo = info["mouseUp"] where boo {
-            shouldUpdateColorNames = true
-        } else {
-            shouldUpdateColorNames = false
+        if let info = notification.userInfo as? [String:Bool], let boo = info["mouseUp"] {
+            shouldUpdateColorNames = boo
         }
         updateColorCandidates()
     }

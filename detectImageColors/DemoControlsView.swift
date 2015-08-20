@@ -29,10 +29,6 @@ class DemoControlsView: NSView {
     @IBOutlet weak var contrastRatioTitle: NSTextField!
     @IBOutlet weak var ensureContrastedColorCandidates: NSButton!
 
-    override func awakeFromNib() {
-        setSlidersDefaults()
-    }
-
     func setSlidersDefaults() {
         distinctColors.doubleValue = CDSettings.ThresholdDistinctColor.formatSliderDouble()
         distinctColorsValue.stringValue = String(format: "%.2f", CDSettings.ThresholdDistinctColor)
@@ -45,6 +41,33 @@ class DemoControlsView: NSView {
         contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(10.0)
         contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
         ensureContrastedColorCandidates.state = NSOnState
+    }
+    
+    func setSliders(preset: Preset?) {
+        do {
+            guard let pres = preset else { throw DemoAppError.CouldNotSetSlidersFromPreset }
+            CDSettings.ThresholdDistinctColor = pres.thresholdDistinctColor
+            distinctColors.doubleValue = CDSettings.ThresholdDistinctColor.formatSliderDouble()
+            distinctColorsValue.stringValue = String(format: "%.2f", CDSettings.ThresholdDistinctColor)
+            CDSettings.ThresholdNoiseTolerance = pres.thresholdNoiseTolerance
+            noiseTolerance.integerValue = CDSettings.ThresholdNoiseTolerance
+            noiseToleranceValue.integerValue = CDSettings.ThresholdNoiseTolerance
+            CDSettings.ThresholdMinimumSaturation = pres.thresholdMinimumSaturation
+            thresholdMinimumSaturation.doubleValue = CDSettings.ThresholdMinimumSaturation.formatSliderDouble()
+            thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", CDSettings.ThresholdMinimumSaturation)
+            CDSettings.ThresholdFloorBrightness = pres.thresholdFloorBrightness
+            thresholdFloorBrightness.doubleValue = CDSettings.ThresholdFloorBrightness.formatSliderDouble()
+            thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", CDSettings.ThresholdFloorBrightness)
+            CDSettings.ContrastRatio = pres.contrastRatio
+            contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(10.0)
+            contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
+            ensureContrastedColorCandidates.state = Int(pres.contrastedCandidates)
+            NSNotificationCenter.defaultCenter().postNotificationName("updateColorCandidatesOK", object: nil, userInfo: ["mouseUp":true])
+        } catch let demoAppError as DemoAppError {
+            Swift.print(demoAppError.rawValue)
+        } catch {
+            Swift.print(error)
+        }
     }
 
     @IBAction func resetToDefaults(sender: NSButton) {
