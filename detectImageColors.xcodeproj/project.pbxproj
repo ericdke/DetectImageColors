@@ -19,6 +19,7 @@
 		C72CCD021B24C247007FAE74 /* DemoExportColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C72CCD011B24C247007FAE74 /* DemoExportColors.swift */; };
 		C72CCD0D1B24DDA9007FAE74 /* reed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C72CCD0C1B24DDA9007FAE74 /* reed.jpg */; };
 		C73D12E51B85408B006A47E8 /* DemoPresetsPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73D12E41B85408B006A47E8 /* DemoPresetsPanel.swift */; };
+		C743E4CA1B877BA700B98C12 /* defaultPresets.json in Resources */ = {isa = PBXBuildFile; fileRef = C743E4C91B877BA700B98C12 /* defaultPresets.json */; };
 		C74A5BD31B8621970098FFFF /* DemoPresetModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A5BD21B8621970098FFFF /* DemoPresetModel.swift */; };
 		C74A5BD51B8621C60098FFFF /* DemoErrorTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74A5BD41B8621C60098FFFF /* DemoErrorTypes.swift */; };
 		C74AC4411B1A1C2F00B505BC /* DemoBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */; };
@@ -64,6 +65,7 @@
 		C72CCD011B24C247007FAE74 /* DemoExportColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoExportColors.swift; sourceTree = "<group>"; };
 		C72CCD0C1B24DDA9007FAE74 /* reed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = reed.jpg; sourceTree = "<group>"; };
 		C73D12E41B85408B006A47E8 /* DemoPresetsPanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPresetsPanel.swift; sourceTree = "<group>"; };
+		C743E4C91B877BA700B98C12 /* defaultPresets.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = defaultPresets.json; sourceTree = "<group>"; };
 		C74A5BD21B8621970098FFFF /* DemoPresetModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoPresetModel.swift; sourceTree = "<group>"; };
 		C74A5BD41B8621C60098FFFF /* DemoErrorTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoErrorTypes.swift; sourceTree = "<group>"; };
 		C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoBackgroundView.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 		C71FDDE31ACF7642004BD9BA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C743E4C91B877BA700B98C12 /* defaultPresets.json */,
 				C77FBFE91B3811C900CDF44A /* colors_dic.json */,
 				C7AFACCA1AE2BC0F00B73499 /* elton.jpg */,
 				C72CCD0C1B24DDA9007FAE74 /* reed.jpg */,
@@ -270,6 +273,7 @@
 			files = (
 				C77FBFEA1B3811C900CDF44A /* colors_dic.json in Resources */,
 				C71FDDE81ACF7642004BD9BA /* Images.xcassets in Resources */,
+				C743E4CA1B877BA700B98C12 /* defaultPresets.json in Resources */,
 				C71FDDEB1ACF7642004BD9BA /* MainMenu.xib in Resources */,
 				C7AFACCB1AE2BC0F00B73499 /* elton.jpg in Resources */,
 				C72CCD0D1B24DDA9007FAE74 /* reed.jpg in Resources */,

@@ -65,8 +65,8 @@ class DemoControlsView: NSView {
             Swift.print(error)
         }
     }
-
-    @IBAction func resetToDefaults(sender: NSButton) {
+    
+    func reset(sender: AnyObject?) {
         do {
             guard let defaults =  NSUserDefaults.standardUserDefaults().objectForKey("defaultSettings") as? NSDictionary,
                 distinct = defaults["ThresholdDistinctColor"] as? CGFloat,
@@ -83,12 +83,18 @@ class DemoControlsView: NSView {
             CDSettings.ContrastRatio = contrast
             CDSettings.EnsureContrastedColorCandidates = true
             setSlidersDefaults()
-            updateColors(sender)
+            if let sender = sender as? NSButton {
+                updateColors(sender)
+            }
         } catch let demoAppError as DemoAppError {
             Swift.print(demoAppError.rawValue)
         } catch let error {
             Swift.print(error)
         }
+    }
+
+    @IBAction func resetToDefaults(sender: NSButton) {
+        reset(sender)
     }
 
     @IBAction func ensureContrastedColorCandidates(sender: NSButton) {
