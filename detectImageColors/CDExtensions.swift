@@ -145,11 +145,11 @@ public extension NSImage {
     
     private func findColors(colors: NSCountedSet?, backgroundColor: NSColor) -> ColorCandidates? {
         guard let sourceColors = colors else { return nil }
-        var rootContainer = ColorCandidates()
+        var candidates = ColorCandidates()
         var rootColors = [CDCountedColor]()
         var lonelyColors = [CDCountedColor]()
         let isColorDark = backgroundColor.isMostlyDarkColor()
-        rootContainer.background = backgroundColor
+        candidates.background = backgroundColor
         for case let current as NSColor in sourceColors {
             let currentColor = current.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
             if currentColor.isMostlyDarkColor() && isColorDark {
@@ -164,29 +164,28 @@ public extension NSImage {
         
         let sortedColors = getMarginalColorsIfNecessary(rootColors, lonelyColors: lonelyColors)
         
-        // Better have less relevant colors than no colors
-        // TODO: this part needs to be broken down and refactored
         for cc in sortedColors {
-            if rootContainer.primary == nil {
+            if candidates.primary == nil {
                 if cc.color.contrastsWith(backgroundColor) {
-                    rootContainer.primary = cc.color
+                    candidates.primary = cc.color
                 }
-            } else if rootContainer.secondary == nil {
-                if let prim = rootContainer.primary where prim.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
-                    rootContainer.secondary = cc.color
+            } else if candidates.secondary == nil {
+                if let prim = candidates.primary where prim.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                    candidates.secondary = cc.color
                 }
-            } else if rootContainer.detail == nil {
-                if let sec = rootContainer.secondary where sec.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+            } else if candidates.detail == nil {
+                if let sec = candidates.secondary where sec.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
                     continue
                 }
-                if let prim = rootContainer.primary where prim.isNearOf(cc.color) {
+                if let prim = candidates.primary where prim.isNearOf(cc.color) {
                     continue
                 }
-                rootContainer.detail = cc.color
+                candidates.detail = cc.color
                 break
             }
         }
-        return rootContainer
+        
+        return candidates
     }
     
     
