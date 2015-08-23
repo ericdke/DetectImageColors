@@ -122,10 +122,10 @@ class AppController: NSObject {
                         // Basic request cache to avoid launching the same request several times before the first one finishes
                         if cache[bgCSS] == nil {
                             cache[bgCSS] = 1
-                            downloader.getColorNameFromAPI(bg, completionHandler: { (name) -> Void in
+                            downloader.getColorNameFromAPI(bg) { name in
                                 self.updateBGColorLabels(bgCSS + " " + name)
                                 self.namedColors[bgCSS] = name
-                            })
+                            }
                         } else {
                             cache[bgCSS]!++
                         }
@@ -138,10 +138,10 @@ class AppController: NSObject {
                     if shouldUpdateColorNames {
                         if cache[primCSS] == nil {
                             cache[primCSS] = 1
-                            downloader.getColorNameFromAPI(prim, completionHandler: { (name) -> Void in
+                            downloader.getColorNameFromAPI(prim) { name in
                                 self.primaryColorNameLabel.stringValue = name
                                 self.namedColors[primCSS] = name
-                            })
+                            }
                         } else {
                             cache[primCSS]!++
                         }
@@ -154,10 +154,10 @@ class AppController: NSObject {
                     if shouldUpdateColorNames {
                         if cache[secCSS] == nil {
                             cache[secCSS] = 1
-                            downloader.getColorNameFromAPI(sec, completionHandler: { (name) -> Void in
+                            downloader.getColorNameFromAPI(sec) { name in
                                 self.secondaryColorNameLabel.stringValue = name
                                 self.namedColors[secCSS] = name
-                            })
+                            }
                         } else {
                             cache[secCSS]!++
                         }
@@ -170,10 +170,10 @@ class AppController: NSObject {
                     if shouldUpdateColorNames {
                         if cache[detCSS] == nil {
                             cache[detCSS] = 1
-                            downloader.getColorNameFromAPI(det, completionHandler: { (name) -> Void in
+                            downloader.getColorNameFromAPI(det) { name in
                                 self.detailColorNameLabel.stringValue = name
                                 self.namedColors[detCSS] = name
-                            })
+                            }
                         } else {
                             cache[detCSS]!++
                         }
@@ -260,7 +260,7 @@ class AppController: NSObject {
     }
 
     func getJSONFilePath() -> String? {
-        guard let dirs:[NSString] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true) else { return nil }
+        guard let dirs:[NSString] = NSSearchPathForDirectoriesInDomains(NSSearchPathDirectory.DocumentDirectory, NSSearchPathDomainMask.AllDomainsMask, true) where !dirs.isEmpty else { return nil }
         return dirs[0].stringByAppendingPathComponent("colors_dic.json")
     }
 
