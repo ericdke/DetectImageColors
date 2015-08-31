@@ -44,8 +44,7 @@ CDSettings.ThresholdDistinctColor = 0.43
 CDSettings.ContrastRatio = 2.1
 
 let image = NSImage(named: "elton")!
-let resized = image.resizeToSquare()
-let colorCandidates = resized!.getColorCandidates()!
+let colorCandidates = image.getColorCandidates()!
 
 let primaryColor = colorCandidates.primary!
 let secondaryColor = colorCandidates.secondary!
