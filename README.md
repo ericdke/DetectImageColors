@@ -13,8 +13,7 @@ Extracts 4 main colors from an image: primary, secondary, detail and background.
 3. Create color candidates from image:
 
 ```   
-let resized = image.resizeToSquare()
-let colorCandidates = resized.getColorCandidates()
+let colorCandidates = image.getColorCandidates()
 ```  
 
 ## Demo Application

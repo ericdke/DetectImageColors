@@ -14,7 +14,7 @@ public extension String {
 
 public extension NSImage {
     // Image has to fill a square completely
-    public func resizeToSquare(max: CGFloat = CGFloat(600)) -> NSImage? {
+    private func resizeToSquare(max: CGFloat = CGFloat(600)) -> NSImage? {
         let (myWidth, myHeight): (CGFloat, CGFloat)
         if self.size.width < max {
             (myWidth, myHeight) = (self.size.width, self.size.width)
@@ -36,7 +36,11 @@ public extension NSImage {
     
     // Main method
     public func getColorCandidates() -> ColorCandidates? {
-        let edge = self.findEdgeColor()
+        var img = self
+        if !self.isImageSquared() {
+            img = img.resizeToSquare()!
+        }
+        let edge = img.findEdgeColor()
         guard let edgeColor = edge.color,
             let colorsFirstPass = findColors(edge.set, backgroundColor: edgeColor),
             let firstBackgroundColorCandidate = colorsFirstPass.background
@@ -50,6 +54,13 @@ public extension NSImage {
     }
     
     // ------------------------------------
+    
+    private func isImageSquared() -> Bool {
+        if self.size.height == self.size.width {
+            return true
+        }
+        return false
+    }
     
     // find what we think is the main color + other candidates
     private func findEdgeColor() -> (color: NSColor?, set: NSCountedSet?) {

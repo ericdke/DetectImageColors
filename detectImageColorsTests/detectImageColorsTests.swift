@@ -24,11 +24,6 @@ class detectImageColorsTests: XCTestCase {
         super.tearDown()
     }
 
-    func testShouldNotResizeImage() {
-        let resized = elton.resizeToSquare()
-        XCTAssert(resized!.size.width == elton.size.width, "Did not resize if < 600")
-    }
-
     func testWithMinimumSaturationMore() {
         let original = NSColor(red: 1, green: 0.9, blue: 0.9, alpha: 1)
         let originalSaturation = original.saturationComponent
@@ -107,8 +102,7 @@ class detectImageColorsTests: XCTestCase {
     }
 
     func testCreateColorCandidates() {
-        let resized = reed.resizeToSquare()
-        let candidates = resized!.getColorCandidates()
+        let candidates = reed.getColorCandidates()
         XCTAssert(candidates != nil, "Candidates not nil")
         XCTAssert(candidates!.primary != nil, "Candidates primary color not nil")
         XCTAssert(candidates!.secondary != nil, "Candidates secondary color not nil")
