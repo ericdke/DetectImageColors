@@ -18,7 +18,7 @@ let colorCandidates = image.getColorCandidates()
 
 ## Demo Application
 
-*Compile with Xcode 7 beta 4 +*
+*Compile with Xcode 7.0.1+*
 
 ![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/691456c3-1d2b-4b3c-8faf-2105af6bb380/e43f803817a7a7a2/res/2d53de18-7bc0-444a-adea-40bc2213e48d/skitch.png)
 

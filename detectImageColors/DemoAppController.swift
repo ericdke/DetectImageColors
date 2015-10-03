@@ -67,6 +67,7 @@ class AppController: NSObject {
     }
 
     private func analyseImageAndSetImageView(image: NSImage) {
+        colorsFromImage.image = image
         shouldUpdateColorNames = true
         imageView.image = image
         colorCandidates = colorsFromImage.getColorsFromImage(image)
