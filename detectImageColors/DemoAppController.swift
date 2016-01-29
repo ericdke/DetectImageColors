@@ -128,7 +128,7 @@ class AppController: NSObject {
                                 self.namedColors[bgCSS] = name
                             }
                         } else {
-                            cache[bgCSS]!++
+                            cache[bgCSS]! += 1
                         }
                     }
                 }
@@ -144,7 +144,7 @@ class AppController: NSObject {
                                 self.namedColors[primCSS] = name
                             }
                         } else {
-                            cache[primCSS]!++
+                            cache[primCSS]! += 1
                         }
                     }
                 }
@@ -160,7 +160,7 @@ class AppController: NSObject {
                                 self.namedColors[secCSS] = name
                             }
                         } else {
-                            cache[secCSS]!++
+                            cache[secCSS]! += 1
                         }
                     }
                 }
@@ -176,7 +176,7 @@ class AppController: NSObject {
                                 self.namedColors[detCSS] = name
                             }
                         } else {
-                            cache[detCSS]!++
+                            cache[detCSS]! += 1
                         }
                     }
                 }

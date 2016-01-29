@@ -54,12 +54,14 @@ class DemoImageView: NSImageView {
 
     override func performDragOperation(sender: NSDraggingInfo) -> Bool {
         if let p1 = sender.draggingPasteboard().propertyListForType("NSFilenamesPboardType") as? [AnyObject],
-            let pathStr = p1[0] as? String where checkExtension(pathStr) {
+            pathStr = p1[0] as? String where checkExtension(pathStr) {
                 imageDropped((.Path, pathStr))
                 return true
-        } else if let p2 = sender.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? [AnyObject], let pathStr = p2[0][0] as? String {
-            imageDropped((.URL, pathStr))
-            return true
+        } else if let p2 = sender.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? [AnyObject],
+            temp = p2.first as? [AnyObject],
+            pathStr = temp.first as? String {
+                imageDropped((.URL, pathStr))
+                return true
         }
         return false
     }

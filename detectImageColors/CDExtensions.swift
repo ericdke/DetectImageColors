@@ -91,7 +91,7 @@ public extension NSImage {
                     }
                     colors.addObject(color)
                 }
-                y++
+                y += 1
             }
             // Reset y every x loop
             y = 0
@@ -130,7 +130,7 @@ public extension NSImage {
                     // reached color threshold less than 40% of the original proposed edge color
                     break
                 }
-                i++
+                i += 1
             }
         }
         return proposedEdgeColor
