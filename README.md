@@ -54,7 +54,9 @@ I've also made a simple demo app to test the color detection.
 
 ## Disclaimer
 
-This is a programming exercise. I'm not trying to replace Color Art or to mimic Apple's iTunes, but to build upon the idea and progressively create something different.
+This is only a programming exercise, to explore possibilities.
+
+If you're looking for performance in color detection, see my Swift 2 fork of Indragie Karunaratne's [DominantColor](https://github.com/ericdke/DominantColor) instead.
 
 ## Licence
 
