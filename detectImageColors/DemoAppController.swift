@@ -44,8 +44,8 @@ class AppController: NSObject {
             print(error)
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateImage:", name: "updateImageByDropOK", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateColorCandidates:", name: "updateColorCandidatesOK", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppController.updateImage(_:)), name: "updateImageByDropOK", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(AppController.updateColorCandidates(_:)), name: "updateColorCandidatesOK", object: nil)
     }
     
     private func initColorNamesFile() throws {

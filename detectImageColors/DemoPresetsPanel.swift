@@ -18,8 +18,8 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     @IBOutlet weak var demoControlsView: DemoControlsView!
     
     override func awakeFromNib() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "populatePresets:", name: "populatePresetsOK", object: nil)
-        tableView.doubleAction = Selector("tableDoubleClicked:")
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DemoPresetsPanel.populatePresets(_:)), name: "populatePresetsOK", object: nil)
+        tableView.doubleAction = #selector(DemoPresetsPanel.tableDoubleClicked(_:))
         tableView.target = self
     }
     
