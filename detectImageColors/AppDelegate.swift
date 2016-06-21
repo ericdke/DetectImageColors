@@ -59,7 +59,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func getDefaultSettings() -> NSDictionary {
-        return ["ThresholdDistinctColor": CDSettings.ThresholdDistinctColor, "ThresholdNoiseTolerance": CDSettings.ThresholdNoiseTolerance, "ThresholdMinimumSaturation": CDSettings.ThresholdMinimumSaturation, "ThresholdFloorBrightness": CDSettings.ThresholdFloorBrightness, "ContrastRatio": CDSettings.ContrastRatio]
+        return ["ThresholdDistinctColor": CDSettings.thresholdDistinctColor, "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance, "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation, "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness, "ContrastRatio": CDSettings.contrastRatio]
     }
 
 }

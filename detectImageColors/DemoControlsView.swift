@@ -24,16 +24,16 @@ class DemoControlsView: NSView {
     @IBOutlet weak var ensureContrastedColorCandidates: NSButton!
 
     func setSlidersDefaults() {
-        distinctColors.doubleValue = CDSettings.ThresholdDistinctColor.formatSliderDouble()
-        distinctColorsValue.stringValue = String(format: "%.2f", CDSettings.ThresholdDistinctColor)
-        noiseTolerance.integerValue = CDSettings.ThresholdNoiseTolerance
-        noiseToleranceValue.integerValue = CDSettings.ThresholdNoiseTolerance
-        thresholdMinimumSaturation.doubleValue = CDSettings.ThresholdMinimumSaturation.formatSliderDouble()
-        thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", CDSettings.ThresholdMinimumSaturation)
-        thresholdFloorBrightness.doubleValue = CDSettings.ThresholdFloorBrightness.formatSliderDouble()
-        thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", CDSettings.ThresholdFloorBrightness)
-        contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(multiplier: 10.0)
-        contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
+        distinctColors.doubleValue = CDSettings.thresholdDistinctColor.formatSliderDouble()
+        distinctColorsValue.stringValue = String(format: "%.2f", CDSettings.thresholdDistinctColor)
+        noiseTolerance.integerValue = CDSettings.thresholdNoiseTolerance
+        noiseToleranceValue.integerValue = CDSettings.thresholdNoiseTolerance
+        thresholdMinimumSaturation.doubleValue = CDSettings.thresholdMinimumSaturation.formatSliderDouble()
+        thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", CDSettings.thresholdMinimumSaturation)
+        thresholdFloorBrightness.doubleValue = CDSettings.thresholdFloorBrightness.formatSliderDouble()
+        thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", CDSettings.thresholdFloorBrightness)
+        contrastRatio.doubleValue = CDSettings.contrastRatio.formatSliderDouble(multiplier: 10.0)
+        contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.contrastRatio)
         ensureContrastedColorCandidates.state = NSOnState
     }
     
@@ -41,22 +41,22 @@ class DemoControlsView: NSView {
     func setSliders(preset: Preset?) {
         do {
             guard let pres = preset else { throw DemoAppError.CouldNotSetSlidersFromPreset }
-            CDSettings.ThresholdDistinctColor = pres.thresholdDistinctColor
-            distinctColors.doubleValue = CDSettings.ThresholdDistinctColor.formatSliderDouble()
-            distinctColorsValue.stringValue = String(format: "%.2f", CDSettings.ThresholdDistinctColor)
-            CDSettings.ThresholdNoiseTolerance = pres.thresholdNoiseTolerance
-            noiseTolerance.integerValue = CDSettings.ThresholdNoiseTolerance
-            noiseToleranceValue.integerValue = CDSettings.ThresholdNoiseTolerance
-            CDSettings.ThresholdMinimumSaturation = pres.thresholdMinimumSaturation
-            thresholdMinimumSaturation.doubleValue = CDSettings.ThresholdMinimumSaturation.formatSliderDouble()
-            thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", CDSettings.ThresholdMinimumSaturation)
-            CDSettings.ThresholdFloorBrightness = pres.thresholdFloorBrightness
-            thresholdFloorBrightness.doubleValue = CDSettings.ThresholdFloorBrightness.formatSliderDouble()
-            thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", CDSettings.ThresholdFloorBrightness)
-            CDSettings.ContrastRatio = pres.contrastRatio
-            contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(multiplier: 10.0)
-            contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
-            CDSettings.EnsureContrastedColorCandidates = pres.contrastedCandidates
+            CDSettings.thresholdDistinctColor = pres.thresholdDistinctColor
+            distinctColors.doubleValue = CDSettings.thresholdDistinctColor.formatSliderDouble()
+            distinctColorsValue.stringValue = String(format: "%.2f", CDSettings.thresholdDistinctColor)
+            CDSettings.thresholdNoiseTolerance = pres.thresholdNoiseTolerance
+            noiseTolerance.integerValue = CDSettings.thresholdNoiseTolerance
+            noiseToleranceValue.integerValue = CDSettings.thresholdNoiseTolerance
+            CDSettings.thresholdMinimumSaturation = pres.thresholdMinimumSaturation
+            thresholdMinimumSaturation.doubleValue = CDSettings.thresholdMinimumSaturation.formatSliderDouble()
+            thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", CDSettings.thresholdMinimumSaturation)
+            CDSettings.thresholdFloorBrightness = pres.thresholdFloorBrightness
+            thresholdFloorBrightness.doubleValue = CDSettings.thresholdFloorBrightness.formatSliderDouble()
+            thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", CDSettings.thresholdFloorBrightness)
+            CDSettings.contrastRatio = pres.contrastRatio
+            contrastRatio.doubleValue = CDSettings.contrastRatio.formatSliderDouble(multiplier: 10.0)
+            contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.contrastRatio)
+            CDSettings.ensureContrastedColorCandidates = pres.contrastedCandidates
             ensureContrastedColorCandidates.state = Int(pres.contrastedCandidates)
             NotificationCenter.default().post(name: Notification.Name(rawValue: "updateColorCandidatesOK"), object: nil, userInfo: ["mouseUp":true])
         } catch let demoAppError as DemoAppError {
@@ -76,12 +76,12 @@ class DemoControlsView: NSView {
                 contrast = defaults["ContrastRatio"] as? CGFloat
                 else { throw DemoAppError.CouldNotfindDefaultConfiguration
             }
-            CDSettings.ThresholdDistinctColor = distinct
-            CDSettings.ThresholdNoiseTolerance = noise
-            CDSettings.ThresholdMinimumSaturation = saturation
-            CDSettings.ThresholdFloorBrightness = brightness
-            CDSettings.ContrastRatio = contrast
-            CDSettings.EnsureContrastedColorCandidates = true
+            CDSettings.thresholdDistinctColor = distinct
+            CDSettings.thresholdNoiseTolerance = noise
+            CDSettings.thresholdMinimumSaturation = saturation
+            CDSettings.thresholdFloorBrightness = brightness
+            CDSettings.contrastRatio = contrast
+            CDSettings.ensureContrastedColorCandidates = true
             setSlidersDefaults()
             if let sender = sender as? NSButton {
                 updateColors(sender)
@@ -98,41 +98,41 @@ class DemoControlsView: NSView {
     }
 
     @IBAction func ensureContrastedColorCandidates(_ sender: NSButton) {
-        CDSettings.EnsureContrastedColorCandidates = Bool(sender.state)
+        CDSettings.ensureContrastedColorCandidates = Bool(sender.state)
         updateColors(sender)
     }
 
     @IBAction func noiseToleranceSlider(_ sender: NSSlider) {
         noiseToleranceValue.integerValue = sender.integerValue
-        CDSettings.ThresholdNoiseTolerance = sender.integerValue
+        CDSettings.thresholdNoiseTolerance = sender.integerValue
         updateColors(sender)
     }
 
     @IBAction func thresholdMinimumSaturationSlider(_ sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
         thresholdMinimumSaturationValue.stringValue = val.string
-        CDSettings.ThresholdMinimumSaturation = val.cgFloat
+        CDSettings.thresholdMinimumSaturation = val.cgFloat
         updateColors(sender)
     }
 
     @IBAction func distinctColorsSlider(_ sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
         distinctColorsValue.stringValue = val.string
-        CDSettings.ThresholdDistinctColor = val.cgFloat
+        CDSettings.thresholdDistinctColor = val.cgFloat
         updateColors(sender)
     }
 
     @IBAction func thresholdFloorBrightnessSlider(_ sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
         thresholdFloorBrightnessValue.stringValue = val.string
-        CDSettings.ThresholdFloorBrightness = val.cgFloat
+        CDSettings.thresholdFloorBrightness = val.cgFloat
         updateColors(sender)
     }
 
     @IBAction func contrastRatioSlider(_ sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender, divider: 10, format: "%.1f")
         contrastRatioValue.stringValue = val.string
-        CDSettings.ContrastRatio = val.cgFloat
+        CDSettings.contrastRatio = val.cgFloat
         updateColors(sender)
     }
 

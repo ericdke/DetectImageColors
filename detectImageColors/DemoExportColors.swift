@@ -115,7 +115,7 @@ class ExportColors {
     }
 
     private class func getDictionarySettings() -> [String:AnyObject] {
-        return ["EnsureContrastedColorCandidates": CDSettings.EnsureContrastedColorCandidates, "ThresholdDistinctColor": CDSettings.ThresholdDistinctColor, "ContrastRatio": CDSettings.ContrastRatio, "ThresholdNoiseTolerance": CDSettings.ThresholdNoiseTolerance, "ThresholdFloorBrightness": CDSettings.ThresholdFloorBrightness, "ThresholdMinimumSaturation": CDSettings.ThresholdMinimumSaturation]
+        return ["EnsureContrastedColorCandidates": CDSettings.ensureContrastedColorCandidates, "ThresholdDistinctColor": CDSettings.thresholdDistinctColor, "ContrastRatio": CDSettings.contrastRatio, "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance, "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness, "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation]
     }
 
     private class func toJSON(colorCandidates: ColorCandidates) -> Data? {

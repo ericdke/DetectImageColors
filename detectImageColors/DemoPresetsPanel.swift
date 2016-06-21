@@ -57,7 +57,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
         if button == NSAlertFirstButtonReturn {
             tf.validateEditing()
             if !tf.stringValue.isEmpty {
-                let pres = Preset(name: tf.stringValue, brightness: CDSettings.ThresholdFloorBrightness, distinct: CDSettings.ThresholdDistinctColor, saturation: CDSettings.ThresholdMinimumSaturation, contrast: CDSettings.ContrastRatio, noise: CDSettings.ThresholdNoiseTolerance, contrasted: CDSettings.EnsureContrastedColorCandidates)
+                let pres = Preset(name: tf.stringValue, brightness: CDSettings.thresholdFloorBrightness, distinct: CDSettings.thresholdDistinctColor, saturation: CDSettings.thresholdMinimumSaturation, contrast: CDSettings.contrastRatio, noise: CDSettings.thresholdNoiseTolerance, contrasted: CDSettings.ensureContrastedColorCandidates)
                 allPresets.append(pres)
                 tableView.reloadData()
                 savePresets()

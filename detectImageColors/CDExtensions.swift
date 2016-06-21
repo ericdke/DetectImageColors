@@ -47,7 +47,7 @@ public extension NSImage {
             else { return nil }
         let backgroundIsDark = firstBackgroundColorCandidate.isMostlyDarkColor
         let colorsSecondPass = createColors(from: colorsFirstPass, withDarkBackground: backgroundIsDark)
-        if CDSettings.EnsureContrastedColorCandidates {
+        if CDSettings.ensureContrastedColorCandidates {
             return createFadedColors(from: colorsSecondPass, withDarkBackground: backgroundIsDark)
         }
         return colorsSecondPass
@@ -79,12 +79,12 @@ public extension NSImage {
         let leftEdgeColors = CountedSet(capacity: height)
         // Use x = 0 to start scanning from the actual left edge
         // Default .DetectorDistanceFromLeftEdge is non-zero to deal with badly cropped images (only relevant for high-res scanning, without side effect otherwise)
-        var x = CDSettings.DetectorDistanceFromLeftEdge
+        var x = CDSettings.detectorDistanceFromLeftEdge
         var y = 0
         while x < width {
             while y < height {
                 if let color = imageRep.colorAt(x: x, y: y) {
-                    if x == CDSettings.DetectorDistanceFromLeftEdge {
+                    if x == CDSettings.detectorDistanceFromLeftEdge {
                         leftEdgeColors.add(color)
                     }
                     colors.add(color)
@@ -95,7 +95,7 @@ public extension NSImage {
             y = 0
             // We sample a vertical line every x pixels
             // Set DetectorResolution to 1 for high-res scanning
-            x += CDSettings.DetectorResolution
+            x += CDSettings.detectorResolution
         }
         return (colors, leftEdgeColors)
     }
@@ -140,7 +140,7 @@ public extension NSImage {
         var lonelyColors = [CDCountedColor]()
         for case let current as NSColor in edge {
             let colorCount = edge.count(for: current)
-            let randomColorsThreshold = Int(Double(height) * CDSettings.ThresholdMinimumPercentage)
+            let randomColorsThreshold = Int(Double(height) * CDSettings.thresholdMinimumPercentage)
             if colorCount <= randomColorsThreshold {
                 lonelyColors.append(CDCountedColor(color: current, count: colorCount))
                 continue
@@ -160,10 +160,10 @@ public extension NSImage {
         let isColorDark = backgroundColor.isMostlyDarkColor
         candidates.background = backgroundColor
         for case let current as NSColor in sourceColors {
-            let currentColor = current.applyingSaturation(minimum: CDSettings.ThresholdMinimumSaturation)
+            let currentColor = current.applyingSaturation(minimum: CDSettings.thresholdMinimumSaturation)
             if currentColor.isMostlyDarkColor && isColorDark {
                 let colorCount = sourceColors.count(for: currentColor)
-                if colorCount <= CDSettings.ThresholdNoiseTolerance {
+                if colorCount <= CDSettings.thresholdNoiseTolerance {
                     lonelyColors.append(CDCountedColor(color: currentColor, count: colorCount))
                     continue
                 }

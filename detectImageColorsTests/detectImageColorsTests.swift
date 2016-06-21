@@ -27,7 +27,7 @@ class detectImageColorsTests: XCTestCase {
     func testWithMinimumSaturationMore() {
         let original = NSColor(red: 1, green: 0.9, blue: 0.9, alpha: 1)
         let originalSaturation = original.saturationComponent
-        let wms = original.applyingSaturation(minimum: CDSettings.ThresholdMinimumSaturation)
+        let wms = original.applyingSaturation(minimum: CDSettings.thresholdMinimumSaturation)
         let resultSaturation = wms.saturationComponent
         XCTAssert(resultSaturation > originalSaturation, "Color is more saturated")
     }
@@ -35,7 +35,7 @@ class detectImageColorsTests: XCTestCase {
     func testWithMinimumSaturationSame() {
         let original = NSColor.green()
         let originalSaturation = original.saturationComponent
-        let wms = original.applyingSaturation(minimum: CDSettings.ThresholdMinimumSaturation)
+        let wms = original.applyingSaturation(minimum: CDSettings.thresholdMinimumSaturation)
         let resultSaturation = wms.saturationComponent
         XCTAssert(resultSaturation == originalSaturation, "Color is saturated enough")
     }
@@ -95,10 +95,10 @@ class detectImageColorsTests: XCTestCase {
     }
 
     func testChangeSomeSetting() {
-        let minP = CDSettings.ThresholdMinimumPercentage
-        CDSettings.ThresholdMinimumPercentage = 0.75
-        XCTAssert(minP != CDSettings.ThresholdMinimumPercentage, "Setting changed")
-        XCTAssert(CDSettings.ThresholdMinimumPercentage == 0.75, "Setting changed")
+        let minP = CDSettings.thresholdMinimumPercentage
+        CDSettings.thresholdMinimumPercentage = 0.75
+        XCTAssert(minP != CDSettings.thresholdMinimumPercentage, "Setting changed")
+        XCTAssert(CDSettings.thresholdMinimumPercentage == 0.75, "Setting changed")
     }
 
     func testCreateColorCandidates() {

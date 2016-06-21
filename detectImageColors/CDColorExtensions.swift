@@ -6,11 +6,11 @@ public extension NSColor {
     
     public func isNear(of color: NSColor) -> Bool {
         if let (a, r, g, b) = self.componentsNSC(), (a1, r1, g1, b1) = color.componentsNSC() {
-            let threshold: CGFloat = CDSettings.ThresholdDistinctColor
+            let threshold: CGFloat = CDSettings.thresholdDistinctColor
             if fabs(r - r1) > threshold || fabs(g - g1) > threshold || fabs(b - b1) > threshold || fabs(a - a1) > threshold {
                 // check for grays, prevent multiple gray colors
-                if fabs(r - g) < CDSettings.ThresholdGrey && fabs(r - b) < CDSettings.ThresholdGrey {
-                    if fabs(r1 - g1) < CDSettings.ThresholdGrey && fabs(r1 - b1) < CDSettings.ThresholdGrey {
+                if fabs(r - g) < CDSettings.thresholdGrey && fabs(r - b) < CDSettings.thresholdGrey {
+                    if fabs(r1 - g1) < CDSettings.thresholdGrey && fabs(r1 - b1) < CDSettings.thresholdGrey {
                         return true
                     }
                 }
@@ -20,14 +20,14 @@ public extension NSColor {
         return true
     }
     
-    public func lighter(threshold: CGFloat = CDSettings.ThresholdFloorBrightness, ratio: CGFloat = CDSettings.LighterRatio) -> NSColor {
+    public func lighter(threshold: CGFloat = CDSettings.thresholdFloorBrightness, ratio: CGFloat = CDSettings.lighterRatio) -> NSColor {
         guard let compsHUE = self.componentsHUE() else { return self }
         var b = compsHUE.brightness
         if b < threshold { b = threshold }
         return NSColor(calibratedHue: compsHUE.hue, saturation: compsHUE.saturation, brightness: min(b * ratio, 1.0), alpha: compsHUE.alpha)
     }
     
-    public func darker(threshold: CGFloat = CDSettings.ThresholdCeilingBrightness, ratio: CGFloat = CDSettings.DarkerRatio) -> NSColor {
+    public func darker(threshold: CGFloat = CDSettings.thresholdCeilingBrightness, ratio: CGFloat = CDSettings.darkerRatio) -> NSColor {
         guard let compsHUE = self.componentsHUE() else { return self }
         var b = compsHUE.brightness
         if b > threshold { b = threshold }
@@ -66,7 +66,7 @@ public extension NSColor {
     
     public var isMostlyBlackOrWhite: Bool {
         if let (_, r, g, b) = self.componentsNSC() {
-            if r > CDSettings.MinThresholdWhite && g > CDSettings.MinThresholdWhite && b > CDSettings.MinThresholdWhite || r < CDSettings.MaxThresholdBlack && g < CDSettings.MaxThresholdBlack && b < CDSettings.MaxThresholdBlack {
+            if r > CDSettings.minThresholdWhite && g > CDSettings.minThresholdWhite && b > CDSettings.minThresholdWhite || r < CDSettings.maxThresholdBlack && g < CDSettings.maxThresholdBlack && b < CDSettings.maxThresholdBlack {
                 return true // black
             }
         }
@@ -83,11 +83,11 @@ public extension NSColor {
         let fLum: CGFloat = CDSettings.YUVRedRatio * fr + CDSettings.YUVGreenRatio * fg + CDSettings.YUVBlueRatio * fb
         let contrast: CGFloat
         if bLum > fLum {
-            contrast = (bLum + CDSettings.LuminanceAddedWeight) / (fLum + CDSettings.LuminanceAddedWeight)
+            contrast = (bLum + CDSettings.luminanceAddedWeight) / (fLum + CDSettings.luminanceAddedWeight)
         } else {
-            contrast = (fLum + CDSettings.LuminanceAddedWeight) / (bLum + CDSettings.LuminanceAddedWeight)
+            contrast = (fLum + CDSettings.luminanceAddedWeight) / (bLum + CDSettings.luminanceAddedWeight)
         }
-        return contrast < CDSettings.ContrastRatio
+        return contrast < CDSettings.contrastRatio
     }
     
     public func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String, clean: String)? {
