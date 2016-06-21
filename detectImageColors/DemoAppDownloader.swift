@@ -52,7 +52,7 @@ class Downloader: NSObject {
         }
     }
 
-    func getColorNameFromAPI(_ color: NSColor, completionHandler: (name: String) -> Void) {
+    func getName(for color: NSColor, completionHandler: (name: String) -> Void) {
         guard let compos = color.componentsCSS()?.clean else { return }
         let url = colorsAPIHexURL + compos
         download(url: url, completion: { (data) -> Void in

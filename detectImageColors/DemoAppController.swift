@@ -27,7 +27,9 @@ class AppController: NSObject {
     }
 
     func updateColorCandidates(notification: Notification) {
-        if let info = (notification as NSNotification).userInfo as? [String:Bool], let boo = info["mouseUp"] {
+        // FIXME: crap system, should be refactored
+        if let info = (notification as NSNotification).userInfo as? [String:Bool],
+            boo = info["mouseUp"] {
             shouldUpdateColorNames = boo
         }
         updateColorCandidates()
@@ -36,8 +38,10 @@ class AppController: NSObject {
     override func awakeFromNib() {
         do {
             try initColorNamesFile()
-            guard let elton = NSImage(named: "elton") else { throw DemoAppError.CouldNotLoadDemoImage }
-            analyseImageAndSetImageView(image: elton)
+            guard let elton = NSImage(named: "elton") else {
+                throw DemoAppError.CouldNotLoadDemoImage
+            }
+            analyseImageAndSetImageView(with: elton)
         } catch let demoAppError as DemoAppError {
             print(demoAppError.rawValue)
         } catch {
@@ -49,7 +53,9 @@ class AppController: NSObject {
     }
     
     private func initColorNamesFile() throws {
-        guard let jpath = getJSONFilePath() else { throw DemoAppError.InvalidFilePath }
+        guard let jpath = getJSONFilePath() else {
+            throw DemoAppError.InvalidFilePath
+        }
         if FileManager().fileExists(atPath: jpath) {
             try getNamedColorsFromFile(path: jpath)
         } else {
@@ -61,16 +67,17 @@ class AppController: NSObject {
     }
 
     func updateImage(_ notification: Notification) {
-        if let dic = (notification as NSNotification).userInfo as? [String: NSImage], let img = dic["image"] {
-            analyseImageAndSetImageView(image: img)
+        if let dic = (notification as NSNotification).userInfo as? [String: NSImage],
+            img = dic["image"] {
+            analyseImageAndSetImageView(with: img)
         }
     }
 
-    private func analyseImageAndSetImageView(image: NSImage) {
+    private func analyseImageAndSetImageView(with image: NSImage) {
         colorsFromImage.image = image
         shouldUpdateColorNames = true
         imageView.image = image
-        colorCandidates = colorsFromImage.getColorsFromImage(image: image)
+        colorCandidates = colorsFromImage.getColors(from: image)
     }
 
     private func refreshWindowElements() {
@@ -117,14 +124,14 @@ class AppController: NSObject {
                 showOverlay()
                 
                 if let match = namedColors[bgCSS] {
-                    updateBGColorLabels(str: bgCSS + " " + match)
+                    updateBGColorLabels(string: bgCSS + " " + match)
                 } else {
                     if shouldUpdateColorNames {
                         // Basic request cache to avoid launching the same request several times before the first one finishes
                         if cache[bgCSS] == nil {
                             cache[bgCSS] = 1
-                            downloader.getColorNameFromAPI(bg) { name in
-                                self.updateBGColorLabels(str: bgCSS + " " + name)
+                            downloader.getName(for: bg) { name in
+                                self.updateBGColorLabels(string: bgCSS + " " + name)
                                 self.namedColors[bgCSS] = name
                             }
                         } else {
@@ -139,7 +146,7 @@ class AppController: NSObject {
                     if shouldUpdateColorNames {
                         if cache[primCSS] == nil {
                             cache[primCSS] = 1
-                            downloader.getColorNameFromAPI(prim) { name in
+                            downloader.getName(for: prim) { name in
                                 self.primaryColorNameLabel.stringValue = name
                                 self.namedColors[primCSS] = name
                             }
@@ -155,7 +162,7 @@ class AppController: NSObject {
                     if shouldUpdateColorNames {
                         if cache[secCSS] == nil {
                             cache[secCSS] = 1
-                            downloader.getColorNameFromAPI(sec) { name in
+                            downloader.getName(for: sec) { name in
                                 self.secondaryColorNameLabel.stringValue = name
                                 self.namedColors[secCSS] = name
                             }
@@ -171,7 +178,7 @@ class AppController: NSObject {
                     if shouldUpdateColorNames {
                         if cache[detCSS] == nil {
                             cache[detCSS] = 1
-                            downloader.getColorNameFromAPI(det) { name in
+                            downloader.getName(for: det) { name in
                                 self.detailColorNameLabel.stringValue = name
                                 self.namedColors[detCSS] = name
                             }
@@ -192,10 +199,10 @@ class AppController: NSObject {
         }
     }
 
-    private func updateBGColorLabels(str: String) {
-        primaryColorView.backgroundColorLabel.stringValue = str
-        secondaryColorView.backgroundColorLabel.stringValue = str
-        detailColorView.backgroundColorLabel.stringValue = str
+    private func updateBGColorLabels(string: String) {
+        primaryColorView.backgroundColorLabel.stringValue = string
+        secondaryColorView.backgroundColorLabel.stringValue = string
+        detailColorView.backgroundColorLabel.stringValue = string
     }
 
     @IBAction func showOverlayClicked(_ sender: NSButton) {
@@ -222,7 +229,7 @@ class AppController: NSObject {
 
     @IBAction func exportColorsToJSON(_ sender: NSMenuItem) {
         if let cols = colorCandidates {
-            ExportColors.saveJSONFile(colorCandidates: cols)
+            ExportColors.saveJSONFile(colors: cols)
         }
     }
 
@@ -236,7 +243,7 @@ class AppController: NSObject {
         guard let _ = colorCandidates else { return }  // shouldn't be nil, but let's be sure
         showOverlayButton.isHidden = true
         if let png = backgroundView.makePNGFromView() {
-            ExportColors.savePNGFile(png: png)
+            ExportColors.savePNGFile(data: png)
         }
         showOverlayButton.isHidden = false
     }
@@ -249,7 +256,7 @@ class AppController: NSObject {
         dialog.title = "Choose an image"
         dialog.runModal()
         if let chosenfile = dialog.url, path = chosenfile.path, img = NSImage(contentsOfFile: path) {
-            analyseImageAndSetImageView(image: img)
+            analyseImageAndSetImageView(with: img)
         }
     }
 

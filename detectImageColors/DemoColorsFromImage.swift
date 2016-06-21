@@ -15,7 +15,7 @@ class ColorsFromImage {
         colorCandidates = image.getColorCandidates()
     }
 
-    func getColorsFromImage(image: NSImage) -> ColorCandidates? {
+    func getColors(from image: NSImage) -> ColorCandidates? {
         return image.getColorCandidates()
     }
 
