@@ -37,42 +37,40 @@ public extension NSImage {
     // Main method
     public func getColorCandidates() -> ColorCandidates? {
         var img = self
-        if !self.isImageSquared() {
+        if !self.isImageSquared {
             img = img.resizeToSquare()!
         }
         let edge = img.findEdgeColor()
         guard let edgeColor = edge.color,
-            let colorsFirstPass = findColors(colors: edge.set, backgroundColor: edgeColor),
+            let colorsFirstPass = findColors(in: edge.set, withBackgroundColor: edgeColor),
             let firstBackgroundColorCandidate = colorsFirstPass.background
             else { return nil }
-        let backgroundIsDark: Bool = firstBackgroundColorCandidate.isMostlyDarkColor
-        let colorsSecondPass = createColors(textColors: colorsFirstPass, hasDarkBackground: backgroundIsDark)
+        let backgroundIsDark = firstBackgroundColorCandidate.isMostlyDarkColor
+        let colorsSecondPass = createColors(from: colorsFirstPass, withDarkBackground: backgroundIsDark)
         if CDSettings.EnsureContrastedColorCandidates {
-            return createFadedColors(textColors: colorsSecondPass, hasDarkBackground: backgroundIsDark)
+            return createFadedColors(from: colorsSecondPass, withDarkBackground: backgroundIsDark)
         }
         return colorsSecondPass
     }
     
-    // ------------------------------------
-    
-    private func isImageSquared() -> Bool {
+    public var isImageSquared: Bool {
         if self.size.height == self.size.width {
             return true
         }
         return false
     }
     
+    // ------------------------------------
+
     // find what we think is the main color + other candidates
     private func findEdgeColor() -> (color: NSColor?, set: CountedSet?) {
         guard let imageRep = self.representations.last as? NSBitmapImageRep else { return (nil, nil) }
-        let pixelsWide = imageRep.pixelsWide
-        let pixelsHigh = imageRep.pixelsHigh
         // sample the image, beginning with the left edge
-        let (colors, leftEdgeColors) = sampleImage(width: pixelsWide, height: pixelsHigh, imageRep: imageRep)
-        let (rootColors, lonelyColors) = separateColors(edgeColors: leftEdgeColors, height: pixelsHigh)
-        let sortedColors = getMarginalColorsIfNecessary(rootColors: rootColors, lonelyColors: lonelyColors)
+        let (colors, leftEdgeColors) = sampleImage(width: imageRep.pixelsWide, height: imageRep.pixelsHigh, imageRep: imageRep)
+        let (rootColors, lonelyColors) = separateColors(edge: leftEdgeColors, height: imageRep.pixelsHigh)
+        let sortedColors = findMarginalColorsIn(rootColors: rootColors, lonelyColors: lonelyColors)
         if sortedColors.isEmpty { return (nil, nil) }
-        let proposedEdgeColor = tryAvoidBlackOrWhite(sortedColors: sortedColors)
+        let proposedEdgeColor = tryAvoidBlackOrWhite(colors: sortedColors)
         return (proposedEdgeColor.color, colors)
     }
     
@@ -102,7 +100,7 @@ public extension NSImage {
         return (colors, leftEdgeColors)
     }
     
-    private func getMarginalColorsIfNecessary(rootColors: [CDCountedColor], lonelyColors: [CDCountedColor]) -> [CDCountedColor] {
+    private func findMarginalColorsIn(rootColors: [CDCountedColor], lonelyColors: [CDCountedColor]) -> [CDCountedColor] {
         if rootColors.count > 0 {
             // if we have at least one credible candidate
             return rootColors.sorted { $0.count > $1.count }
@@ -112,14 +110,14 @@ public extension NSImage {
         }
     }
     
-    private func tryAvoidBlackOrWhite(sortedColors: [CDCountedColor]) -> CDCountedColor {
+    private func tryAvoidBlackOrWhite(colors: [CDCountedColor]) -> CDCountedColor {
         // want to choose color over black/white so we keep looking
-        var proposedEdgeColor = sortedColors[0]
+        var proposedEdgeColor = colors[0]
         let activeColor = proposedEdgeColor.color
         if activeColor.isMostlyBlackOrWhite {
             var i = 0
-            while i < sortedColors.count {
-                let nextProposedColor = sortedColors[i]
+            while i < colors.count {
+                let nextProposedColor = colors[i]
                 // make sure the second choice color is 30% as common as the first choice
                 if (Double(nextProposedColor.count) / Double(proposedEdgeColor.count)) > 0.3 {
                     if nextProposedColor.color.isMostlyBlackOrWhite == false {
@@ -137,11 +135,11 @@ public extension NSImage {
     }
     
     // sort the credible candidates from the noise
-    private func separateColors(edgeColors: CountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
+    private func separateColors(edge: CountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
         var rootColors = [CDCountedColor]()
         var lonelyColors = [CDCountedColor]()
-        for case let current as NSColor in edgeColors {
-            let colorCount = edgeColors.count(for: current)
+        for case let current as NSColor in edge {
+            let colorCount = edge.count(for: current)
             let randomColorsThreshold = Int(Double(height) * CDSettings.ThresholdMinimumPercentage)
             if colorCount <= randomColorsThreshold {
                 lonelyColors.append(CDCountedColor(color: current, count: colorCount))
@@ -154,7 +152,7 @@ public extension NSImage {
     
     // ------------------------------------
     
-    private func findColors(colors: CountedSet?, backgroundColor: NSColor) -> ColorCandidates? {
+    private func findColors(in colors: CountedSet?, withBackgroundColor backgroundColor: NSColor) -> ColorCandidates? {
         guard let sourceColors = colors else { return nil }
         var candidates = ColorCandidates()
         var rootColors = [CDCountedColor]()
@@ -173,7 +171,7 @@ public extension NSImage {
             }
         }
         
-        let sortedColors = getMarginalColorsIfNecessary(rootColors: rootColors, lonelyColors: lonelyColors)
+        let sortedColors = findMarginalColorsIn(rootColors: rootColors, lonelyColors: lonelyColors)
         
         for cc in sortedColors {
             if candidates.primary == nil {
@@ -200,25 +198,24 @@ public extension NSImage {
     }
     
     
-    private func createColors(textColors: ColorCandidates, hasDarkBackground darkBackground: Bool) -> ColorCandidates {
+    private func createColors(from textColors: ColorCandidates, withDarkBackground darkBackground: Bool) -> ColorCandidates {
         var colors = textColors
         
         // Finally, if we still have nil values for the text colors, let's try having at least black or white instead
         
         if textColors.primary == nil {
-            colors.primary = rescueNilColor(colorName: "primary", hasDarkBackground: darkBackground)
+            colors.primary = rescueNilColor(hasDarkBackground: darkBackground)
         }
         if textColors.secondary == nil {
-            colors.secondary = rescueNilColor(colorName: "secondary", hasDarkBackground: darkBackground)
+            colors.secondary = rescueNilColor(hasDarkBackground: darkBackground)
         }
         if textColors.detail == nil {
-            colors.detail = rescueNilColor(colorName: "detail", hasDarkBackground: darkBackground)
+            colors.detail = rescueNilColor(hasDarkBackground: darkBackground)
         }
         return colors
     }
     
-    private func rescueNilColor(colorName: String, hasDarkBackground: Bool) -> NSColor {
-        // NSLog("%@", "Missed \(colorName) detection")
+    private func rescueNilColor(hasDarkBackground: Bool) -> NSColor {
         if hasDarkBackground {
             return NSColor.white()
         } else {
@@ -226,8 +223,8 @@ public extension NSImage {
         }
     }
     
-    private func createFadedColors(textColors: ColorCandidates, hasDarkBackground: Bool) -> ColorCandidates {
-        var colors = textColors
+    private func createFadedColors(from colors: ColorCandidates, withDarkBackground hasDarkBackground: Bool) -> ColorCandidates {
+        var colors = colors
         
         // We try to avoid results that could be mathematically correct but not visually interesting
         
@@ -242,7 +239,7 @@ public extension NSImage {
                 }
             }
             if prim.isNear(of: back) {
-                colors.primary = rescueNilColor(colorName: "primary, 2nd pass", hasDarkBackground: hasDarkBackground)
+                colors.primary = rescueNilColor(hasDarkBackground: hasDarkBackground)
             }
             if sec.isNear(of: back) {
                 if hasDarkBackground {
