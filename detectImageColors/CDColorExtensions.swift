@@ -20,14 +20,14 @@ public extension NSColor {
         return true
     }
     
-    public func lighterColor(threshold: CGFloat = CDSettings.ThresholdFloorBrightness, ratio: CGFloat = CDSettings.LighterRatio) -> NSColor {
+    public func lighter(threshold: CGFloat = CDSettings.ThresholdFloorBrightness, ratio: CGFloat = CDSettings.LighterRatio) -> NSColor {
         guard let compsHUE = self.componentsHUE() else { return self }
         var b = compsHUE.brightness
         if b < threshold { b = threshold }
         return NSColor(calibratedHue: compsHUE.hue, saturation: compsHUE.saturation, brightness: min(b * ratio, 1.0), alpha: compsHUE.alpha)
     }
     
-    public func darkerColor(threshold: CGFloat = CDSettings.ThresholdCeilingBrightness, ratio: CGFloat = CDSettings.DarkerRatio) -> NSColor {
+    public func darker(threshold: CGFloat = CDSettings.ThresholdCeilingBrightness, ratio: CGFloat = CDSettings.DarkerRatio) -> NSColor {
         guard let compsHUE = self.componentsHUE() else { return self }
         var b = compsHUE.brightness
         if b > threshold { b = threshold }
@@ -44,7 +44,7 @@ public extension NSColor {
         return false
     }
     
-    public func applying(minimumSaturation: CGFloat) -> NSColor {
+    public func applyingSaturation(minimum: CGFloat) -> NSColor {
         // color could be hue/rgb/other so we convert to rgb
         if let tempColor = self.usingColorSpaceName(NSCalibratedRGBColorSpace) {
             // prepare the values
@@ -55,9 +55,9 @@ public extension NSColor {
             // populate the values
             tempColor.getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha)
             // if color is not enough saturated
-            if saturation < minimumSaturation {
+            if saturation < minimum {
                 // return same color with more saturation
-                return NSColor(calibratedHue: hue, saturation: minimumSaturation, brightness: brightness, alpha: alpha)
+                return NSColor(calibratedHue: hue, saturation: minimum, brightness: brightness, alpha: alpha)
             }
         }
         // if detection fails, return same color

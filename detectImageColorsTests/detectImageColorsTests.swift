@@ -27,7 +27,7 @@ class detectImageColorsTests: XCTestCase {
     func testWithMinimumSaturationMore() {
         let original = NSColor(red: 1, green: 0.9, blue: 0.9, alpha: 1)
         let originalSaturation = original.saturationComponent
-        let wms = original.applying(minimumSaturation: CDSettings.ThresholdMinimumSaturation)
+        let wms = original.applyingSaturation(minimum: CDSettings.ThresholdMinimumSaturation)
         let resultSaturation = wms.saturationComponent
         XCTAssert(resultSaturation > originalSaturation, "Color is more saturated")
     }
@@ -35,7 +35,7 @@ class detectImageColorsTests: XCTestCase {
     func testWithMinimumSaturationSame() {
         let original = NSColor.green()
         let originalSaturation = original.saturationComponent
-        let wms = original.applying(minimumSaturation: CDSettings.ThresholdMinimumSaturation)
+        let wms = original.applyingSaturation(minimum: CDSettings.ThresholdMinimumSaturation)
         let resultSaturation = wms.saturationComponent
         XCTAssert(resultSaturation == originalSaturation, "Color is saturated enough")
     }
@@ -44,7 +44,7 @@ class detectImageColorsTests: XCTestCase {
         let original = NSColor.black()
         let calibratedOriginal = original.usingColorSpaceName(NSCalibratedRGBColorSpace)!
         let originalRed = calibratedOriginal.redComponent
-        let lighter = calibratedOriginal.lighterColor()
+        let lighter = calibratedOriginal.lighter()
         let lighterRed = lighter.redComponent
         XCTAssert(lighterRed > originalRed, "Color is lightened")
     }
@@ -53,7 +53,7 @@ class detectImageColorsTests: XCTestCase {
         let original = NSColor.white()
         let calibratedOriginal = original.usingColorSpaceName(NSCalibratedRGBColorSpace)!
         let originalRed = calibratedOriginal.redComponent
-        let darker = calibratedOriginal.darkerColor()
+        let darker = calibratedOriginal.darker()
         let darkerRed = darker.redComponent
         XCTAssert(originalRed > darkerRed, "Color is darkened")
     }

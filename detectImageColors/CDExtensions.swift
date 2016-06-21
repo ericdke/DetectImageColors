@@ -162,7 +162,7 @@ public extension NSImage {
         let isColorDark = backgroundColor.isMostlyDarkColor()
         candidates.background = backgroundColor
         for case let current as NSColor in sourceColors {
-            let currentColor = current.applying(minimumSaturation: CDSettings.ThresholdMinimumSaturation)
+            let currentColor = current.applyingSaturation(minimum: CDSettings.ThresholdMinimumSaturation)
             if currentColor.isMostlyDarkColor() && isColorDark {
                 let colorCount = sourceColors.count(for: currentColor)
                 if colorCount <= CDSettings.ThresholdNoiseTolerance {
@@ -234,11 +234,11 @@ public extension NSImage {
         if let prim = colors.primary, let sec = colors.secondary, let det = colors.detail, let back = colors.background {
             if prim.isNear(of: sec) || prim.isNear(of: det) || sec.isNear(of: det) {
                 if hasDarkBackground && !prim.isMostlyDarkColor() {
-                    colors.secondary = prim.darkerColor()
-                    colors.detail = sec.darkerColor()
+                    colors.secondary = prim.darker()
+                    colors.detail = sec.darker()
                 } else {
-                    colors.secondary = prim.lighterColor()
-                    colors.detail = sec.lighterColor()
+                    colors.secondary = prim.lighter()
+                    colors.detail = sec.lighter()
                 }
             }
             if prim.isNear(of: back) {
@@ -246,16 +246,16 @@ public extension NSImage {
             }
             if sec.isNear(of: back) {
                 if hasDarkBackground {
-                    colors.secondary = prim.darkerColor()
+                    colors.secondary = prim.darker()
                 } else {
-                    colors.secondary = prim.lighterColor()
+                    colors.secondary = prim.lighter()
                 }
             }
             if det.isNear(of: back) {
                 if hasDarkBackground {
-                    colors.detail = back.lighterColor()
+                    colors.detail = back.lighter()
                 } else {
-                    colors.detail = back.darkerColor()
+                    colors.detail = back.darker()
                 }
             }
         }
