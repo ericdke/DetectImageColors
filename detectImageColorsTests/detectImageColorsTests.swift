@@ -60,10 +60,10 @@ class detectImageColorsTests: XCTestCase {
 
     func testIsMostlyDarkColor() {
         let original = NSColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
-        var isMostlyDarkColor = original.isMostlyDarkColor()
+        var isMostlyDarkColor = original.isMostlyDarkColor
         XCTAssert(isMostlyDarkColor, "Dark color is dark")
         let light = NSColor(red: 0.6, green: 0.6, blue: 0.6, alpha: 1)
-        isMostlyDarkColor = light.isMostlyDarkColor()
+        isMostlyDarkColor = light.isMostlyDarkColor
         XCTAssert(!isMostlyDarkColor, "Light color is not dark")
     }
 
@@ -77,10 +77,10 @@ class detectImageColorsTests: XCTestCase {
 
     func testIsMostlyBlackOrWhite() {
         let middle = NSColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
-        var isMostlyBlackOrWhite = middle.isMostlyBlackOrWhite()
+        var isMostlyBlackOrWhite = middle.isMostlyBlackOrWhite
         XCTAssert(!isMostlyBlackOrWhite, "Middle color is not mostly black or white")
         let white = NSColor.white()
-        isMostlyBlackOrWhite = white.isMostlyBlackOrWhite()
+        isMostlyBlackOrWhite = white.isMostlyBlackOrWhite
         XCTAssert(isMostlyBlackOrWhite, "White color is mostly black or white")
     }
 

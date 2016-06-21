@@ -34,7 +34,7 @@ public extension NSColor {
         return NSColor(calibratedHue: compsHUE.hue, saturation: compsHUE.saturation, brightness: b * ratio, alpha: compsHUE.alpha)
     }
     
-    public func isMostlyDarkColor() -> Bool {
+    public var isMostlyDarkColor: Bool {
         if let (_, r, g, b) = self.componentsNSC() {
             let lum: CGFloat = CDSettings.YUVRedRatio * r + CDSettings.YUVGreenRatio * g + CDSettings.YUVBlueRatio * b
             if lum < 0.5 {
@@ -64,7 +64,7 @@ public extension NSColor {
         return self
     }
     
-    public func isMostlyBlackOrWhite() -> Bool {
+    public var isMostlyBlackOrWhite: Bool {
         if let (_, r, g, b) = self.componentsNSC() {
             if r > CDSettings.MinThresholdWhite && g > CDSettings.MinThresholdWhite && b > CDSettings.MinThresholdWhite || r < CDSettings.MaxThresholdBlack && g < CDSettings.MaxThresholdBlack && b < CDSettings.MaxThresholdBlack {
                 return true // black

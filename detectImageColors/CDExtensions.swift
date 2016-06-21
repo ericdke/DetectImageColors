@@ -15,17 +15,17 @@ public extension String {
 public extension NSImage {
     // Image has to fill a square completely
     private func resizeToSquare(max: CGFloat = CGFloat(600)) -> NSImage? {
-        let (myWidth, myHeight): (CGFloat, CGFloat)
+        let imgSize: NSSize
         if self.size.width < max {
-            (myWidth, myHeight) = (self.size.width, self.size.width)
+            imgSize = NSSize(width: self.size.width, height: self.size.width)
         } else {
-            (myWidth, myHeight) = (max, max)
+            imgSize = NSSize(width: max, height: max)
         }
-        let destSize = NSMakeSize(myWidth, myHeight)
+        let destSize = NSSize(width: imgSize.width, height: imgSize.height)
         let newImage = NSImage(size: destSize)
         newImage.lockFocus()
-        self.draw(in: NSMakeRect(0, 0, destSize.width, destSize.height),
-            from: NSMakeRect(0, 0, self.size.width, self.size.height),
+        self.draw(in: NSRect(x: 0, y: 0, width: destSize.width, height: destSize.height),
+            from: NSRect(x: 0, y: 0, width: self.size.width, height: self.size.height),
             operation: NSCompositingOperation.sourceOver, fraction: CGFloat(1))
         newImage.unlockFocus()
         newImage.size = destSize
@@ -45,7 +45,7 @@ public extension NSImage {
             let colorsFirstPass = findColors(colors: edge.set, backgroundColor: edgeColor),
             let firstBackgroundColorCandidate = colorsFirstPass.background
             else { return nil }
-        let backgroundIsDark: Bool = firstBackgroundColorCandidate.isMostlyDarkColor()
+        let backgroundIsDark: Bool = firstBackgroundColorCandidate.isMostlyDarkColor
         let colorsSecondPass = createColors(textColors: colorsFirstPass, hasDarkBackground: backgroundIsDark)
         if CDSettings.EnsureContrastedColorCandidates {
             return createFadedColors(textColors: colorsSecondPass, hasDarkBackground: backgroundIsDark)
@@ -116,13 +116,13 @@ public extension NSImage {
         // want to choose color over black/white so we keep looking
         var proposedEdgeColor = sortedColors[0]
         let activeColor = proposedEdgeColor.color
-        if activeColor.isMostlyBlackOrWhite() {
+        if activeColor.isMostlyBlackOrWhite {
             var i = 0
             while i < sortedColors.count {
                 let nextProposedColor = sortedColors[i]
                 // make sure the second choice color is 30% as common as the first choice
                 if (Double(nextProposedColor.count) / Double(proposedEdgeColor.count)) > 0.3 {
-                    if nextProposedColor.color.isMostlyBlackOrWhite() == false {
+                    if nextProposedColor.color.isMostlyBlackOrWhite == false {
                         proposedEdgeColor = nextProposedColor
                         break
                     }
@@ -159,11 +159,11 @@ public extension NSImage {
         var candidates = ColorCandidates()
         var rootColors = [CDCountedColor]()
         var lonelyColors = [CDCountedColor]()
-        let isColorDark = backgroundColor.isMostlyDarkColor()
+        let isColorDark = backgroundColor.isMostlyDarkColor
         candidates.background = backgroundColor
         for case let current as NSColor in sourceColors {
             let currentColor = current.applyingSaturation(minimum: CDSettings.ThresholdMinimumSaturation)
-            if currentColor.isMostlyDarkColor() && isColorDark {
+            if currentColor.isMostlyDarkColor && isColorDark {
                 let colorCount = sourceColors.count(for: currentColor)
                 if colorCount <= CDSettings.ThresholdNoiseTolerance {
                     lonelyColors.append(CDCountedColor(color: currentColor, count: colorCount))
@@ -233,7 +233,7 @@ public extension NSImage {
         
         if let prim = colors.primary, let sec = colors.secondary, let det = colors.detail, let back = colors.background {
             if prim.isNear(of: sec) || prim.isNear(of: det) || sec.isNear(of: det) {
-                if hasDarkBackground && !prim.isMostlyDarkColor() {
+                if hasDarkBackground && !prim.isMostlyDarkColor {
                     colors.secondary = prim.darker()
                     colors.detail = sec.darker()
                 } else {
@@ -262,7 +262,7 @@ public extension NSImage {
         
         // Final phase
         
-        if let bw = colors.background?.isMostlyBlackOrWhite() {
+        if let bw = colors.background?.isMostlyBlackOrWhite {
             if bw {
                 colors.backgroundIsBlackOrWhite = true
             } else {
