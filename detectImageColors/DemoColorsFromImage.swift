@@ -26,10 +26,10 @@ class ColorsFromImage {
         return nil
     }
 
-    func getColors(completion: (candidates: ColorCandidates?) -> Void) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+    func getColors(_ completion: (candidates: ColorCandidates?) -> Void) {
+        DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosDefault).async {
             let colors = self.getColors()
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 completion(candidates: colors)
             }
         }

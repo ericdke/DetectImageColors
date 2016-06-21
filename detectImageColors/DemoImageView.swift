@@ -13,9 +13,9 @@ class DemoImageView: NSImageView {
     
     let downloader = Downloader()
 
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         addColorView()
-        super.drawRect(dirtyRect)
+        super.draw(dirtyRect)
     }
 
     func addColorView() {
@@ -37,67 +37,67 @@ class DemoImageView: NSImageView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        registerForDraggedTypes([NSFilenamesPboardType,NSURLPboardType,NSPasteboardTypeTIFF])
+        register(forDraggedTypes: [NSFilenamesPboardType,NSURLPboardType,NSPasteboardTypeTIFF])
     }
 
     override func viewDidMoveToWindow() {
         toolTip = "Drop an image here."
     }
 
-    override func draggingEntered(sender: NSDraggingInfo) -> NSDragOperation {
-        return .Copy
+    override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        return .copy
     }
 
-    override func draggingUpdated(sender: NSDraggingInfo) -> NSDragOperation {
-        return .Copy
+    override func draggingUpdated(_ sender: NSDraggingInfo) -> NSDragOperation {
+        return .copy
     }
 
-    override func performDragOperation(sender: NSDraggingInfo) -> Bool {
-        if let p1 = sender.draggingPasteboard().propertyListForType("NSFilenamesPboardType") as? [AnyObject],
-            pathStr = p1[0] as? String where checkExtension(pathStr) {
-                imageDropped((.Path, pathStr))
+    override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        if let p1 = sender.draggingPasteboard().propertyList(forType: "NSFilenamesPboardType") as? [AnyObject],
+            pathStr = p1[0] as? String where checkExtension(pathStr: pathStr) {
+                imageDropped(paste: (.path, pathStr))
                 return true
-        } else if let p2 = sender.draggingPasteboard().propertyListForType("WebURLsWithTitlesPboardType") as? [AnyObject],
+        } else if let p2 = sender.draggingPasteboard().propertyList(forType: "WebURLsWithTitlesPboardType") as? [AnyObject],
             temp = p2.first as? [AnyObject],
             pathStr = temp.first as? String {
-                imageDropped((.URL, pathStr))
+                imageDropped(paste: (.url, pathStr))
                 return true
         }
         return false
     }
 
     private func imageDropped(paste: (type: DragType, value: String)) {
-        if paste.type == .Path {
+        if paste.type == .path {
             if let img = NSImage(contentsOfFile: paste.value) {
-                updateImage(img)
+                updateImage(image: img)
             }
         } else {
-            let rules = NSCharacterSet.URLQueryAllowedCharacterSet()
-            if let escapedPath = paste.value.stringByAddingPercentEncodingWithAllowedCharacters(rules), let url = NSURL(string: escapedPath) {
-                downloadImage(url)
+            let rules = CharacterSet.urlQueryAllowed
+            if let escapedPath = paste.value.addingPercentEncoding(withAllowedCharacters: rules), let url = URL(string: escapedPath) {
+                downloadImage(url: url)
             }
         }
     }
 
-    private func downloadImage(url: NSURL) {
-        downloader.download(url.absoluteString) { (data) -> Void in
+    private func downloadImage(url: URL) {
+        downloader.download(url: url.absoluteString!) { (data) -> Void in
             if let img = NSImage(data: data) {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.updateImage(img)
+                DispatchQueue.main.async {
+                    self.updateImage(image: img)
                 }
             }
         }
     }
 
     private func updateImage(image: NSImage) {
-        NSNotificationCenter.defaultCenter().postNotificationName("updateImageByDropOK", object: nil, userInfo: ["image": image])
+        NotificationCenter.default().post(name: Notification.Name(rawValue: "updateImageByDropOK"), object: nil, userInfo: ["image": image])
     }
 
     private func checkExtension(pathStr: String) -> Bool {
-        let url = NSURL(fileURLWithPath: pathStr)
+        let url = URL(fileURLWithPath: pathStr)
         if let suffix = url.pathExtension {
             for ext in fileTypes {
-                if ext == suffix.lowercaseString {
+                if ext == suffix.lowercased() {
                     return true
                 }
             }

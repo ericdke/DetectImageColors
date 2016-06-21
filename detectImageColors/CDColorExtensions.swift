@@ -4,7 +4,7 @@ import Cocoa
 
 public extension NSColor {
     
-    public func isNearOf(color: NSColor) -> Bool {
+    public func isNearOf(_ color: NSColor) -> Bool {
         if let (a, r, g, b) = self.componentsNSC(), (a1, r1, g1, b1) = color.componentsNSC() {
             let threshold: CGFloat = CDSettings.ThresholdDistinctColor
             if fabs(r - r1) > threshold || fabs(g - g1) > threshold || fabs(b - b1) > threshold || fabs(a - a1) > threshold {
@@ -44,9 +44,9 @@ public extension NSColor {
         return false
     }
     
-    public func withMinimumSaturation(minimumSaturation: CGFloat) -> NSColor {
+    public func applying(minimumSaturation: CGFloat) -> NSColor {
         // color could be hue/rgb/other so we convert to rgb
-        if let tempColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) {
+        if let tempColor = self.usingColorSpaceName(NSCalibratedRGBColorSpace) {
             // prepare the values
             var hue: CGFloat = 0.0
             var saturation: CGFloat = 0.0
@@ -73,11 +73,11 @@ public extension NSColor {
         return false
     }
     
-    public func contrastsWith(color: NSColor) -> Bool {
+    public func contrastsWith(_ color: NSColor) -> Bool {
         return !doesNotContrastWith(color)
     }
     
-    public func doesNotContrastWith(color: NSColor) -> Bool {
+    public func doesNotContrastWith(_ color: NSColor) -> Bool {
         guard let (_, br, bg, bb) = self.componentsNSC(), (_, fr, fg, fb) = color.componentsNSC() else { return false }
         let bLum: CGFloat = CDSettings.YUVRedRatio * br + CDSettings.YUVGreenRatio * bg + CDSettings.YUVBlueRatio * bb
         let fLum: CGFloat = CDSettings.YUVRedRatio * fr + CDSettings.YUVGreenRatio * fg + CDSettings.YUVBlueRatio * fb
@@ -109,7 +109,7 @@ public extension NSColor {
         var green: CGFloat = 0
         var blue: CGFloat = 0
         var alpha: CGFloat = 0
-        guard let color = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
+        guard let color = self.usingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
         color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         return (alpha: alpha, red: red, green: green, blue: blue)
     }
@@ -120,7 +120,7 @@ public extension NSColor {
     }
     
     public func componentsHUE() -> (alpha: CGFloat, hue: CGFloat, saturation: CGFloat, brightness: CGFloat)? {
-        guard let convertedColor = self.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
+        guard let convertedColor = self.usingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
         var h: CGFloat = 0.0
         var s: CGFloat = 0.0
         var b: CGFloat = 0.0

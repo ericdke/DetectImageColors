@@ -8,12 +8,12 @@ class ExportColors {
 
     class DemoView: NSView {
         var color: NSColor?
-        override func drawRect(dirtyRect: NSRect) {
+        override func draw(_ dirtyRect: NSRect) {
             if let color = self.color {
                 color.setFill()
                 NSRectFill(dirtyRect)
             }
-            super.drawRect(dirtyRect)
+            super.draw(dirtyRect)
         }
     }
 
@@ -22,19 +22,19 @@ class ExportColors {
     // ---
 
     class func saveJSONFile(colorCandidates: ColorCandidates) {
-        if let dic = toDictionary(colorCandidates), json = toJSON(dic) {
-            saveJSONFile(json)
+        if let dic = toDictionary(colorCandidates: colorCandidates), json = toJSON(dictionary: dic) {
+            saveJSONFile(json: json)
         }
     }
 
-    class func savePNGFile(png: NSData) {
+    class func savePNGFile(png: Data) {
         let myFiledialog: NSSavePanel = NSSavePanel()
         myFiledialog.title = "Select the destination for the PNG file"
         myFiledialog.canCreateDirectories = true
-        myFiledialog.nameFieldStringValue = "colors-\(Int(NSDate.timeIntervalSinceReferenceDate())).png"
+        myFiledialog.nameFieldStringValue = "colors-\(Int(Date.timeIntervalSinceReferenceDate)).png"
         if myFiledialog.runModal() == NSOnState {
-            if let chosenfile = myFiledialog.URL, path = chosenfile.path {
-                png.writeToFile(path, atomically: false)
+            if let chosenfile = myFiledialog.url, path = chosenfile.path {
+                _ = try? png.write(to: URL(fileURLWithPath: path), options: [])
             }
         }
     }
@@ -43,7 +43,7 @@ class ExportColors {
         let mainView = NSView(frame: NSMakeRect(0, 0, 600, 600))
         let imageView = NSImageView(frame: NSMakeRect(150, 250, 300, 300))
         imageView.image = image
-        let (background, primary, secondary, detail) = makeDemoViews(true)
+        let (background, primary, secondary, detail) = makeDemoViews(willIncludeImage: true)
         let finalView = makeFinalView(colors: colorCandidates, withViews: (background, primary, secondary, detail), toView: mainView)
         finalView.addSubview(imageView)
         return finalView
@@ -74,7 +74,7 @@ class ExportColors {
     }
 
     private class func makeFinalView(colors colorCandidates: ColorCandidates, withViews sourceViews: ExportViews, toView view: NSView) -> NSView {
-        let coloredViews = assignColorsToViews(colorCandidates, views: sourceViews)
+        let coloredViews = assignColorsToViews(colorCandidates: colorCandidates, views: sourceViews)
         return addColoredViewsToView(views: coloredViews, view: view)
     }
 
@@ -86,7 +86,7 @@ class ExportColors {
         return views
     }
 
-    private class func addColoredViewsToView(views views: ExportViews, view: NSView) -> NSView {
+    private class func addColoredViewsToView(views: ExportViews, view: NSView) -> NSView {
         view.addSubview(views.background)
         view.addSubview(views.primary)
         view.addSubview(views.secondary)
@@ -95,18 +95,18 @@ class ExportColors {
     }
 
     private class func toDictionary(colorCandidates: ColorCandidates) -> [String:[String:AnyObject]]? {
-        guard let primary = getRGBSpaceName(colorCandidates.primary), let alternative = getRGBSpaceName(colorCandidates.secondary), let detail = getRGBSpaceName(colorCandidates.detail), let background = getRGBSpaceName(colorCandidates.background) else { return nil }
+        guard let primary = getRGBSpaceName(color: colorCandidates.primary), let alternative = getRGBSpaceName(color: colorCandidates.secondary), let detail = getRGBSpaceName(color: colorCandidates.detail), let background = getRGBSpaceName(color: colorCandidates.background) else { return nil }
         var dic = [String:[String:AnyObject]]()
-        dic["main"] = getDictionaryColorComponents(primary)
-        dic["alternative"] = getDictionaryColorComponents(alternative)
-        dic["detail"] = getDictionaryColorComponents(detail)
-        dic["background"] = getDictionaryColorComponents(background)
+        dic["main"] = getDictionaryColorComponents(color: primary)
+        dic["alternative"] = getDictionaryColorComponents(color: alternative)
+        dic["detail"] = getDictionaryColorComponents(color: detail)
+        dic["background"] = getDictionaryColorComponents(color: background)
         dic["settings"] = getDictionarySettings()
         return dic
     }
 
     private class func getRGBSpaceName(color: NSColor?) -> NSColor? {
-        guard let thisColor = color, let rgbColor = thisColor.colorUsingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
+        guard let thisColor = color, let rgbColor = thisColor.usingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
         return rgbColor
     }
 
@@ -118,14 +118,14 @@ class ExportColors {
         return ["EnsureContrastedColorCandidates": CDSettings.EnsureContrastedColorCandidates, "ThresholdDistinctColor": CDSettings.ThresholdDistinctColor, "ContrastRatio": CDSettings.ContrastRatio, "ThresholdNoiseTolerance": CDSettings.ThresholdNoiseTolerance, "ThresholdFloorBrightness": CDSettings.ThresholdFloorBrightness, "ThresholdMinimumSaturation": CDSettings.ThresholdMinimumSaturation]
     }
 
-    private class func toJSON(colorCandidates: ColorCandidates) -> NSData? {
-        guard let dic = toDictionary(colorCandidates) else { return nil }
-        return toJSON(dic)
+    private class func toJSON(colorCandidates: ColorCandidates) -> Data? {
+        guard let dic = toDictionary(colorCandidates: colorCandidates) else { return nil }
+        return toJSON(dictionary: dic)
     }
 
-    private class func toJSON(dictionary: [String:[String:AnyObject]]) -> NSData? {
+    private class func toJSON(dictionary: [String:[String:AnyObject]]) -> Data? {
         do {
-            let json = try NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted)
+            let json = try JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
             return json
         } catch {
             print(error)
@@ -133,22 +133,22 @@ class ExportColors {
         }
     }
 
-    private class func saveJSONFile(json: NSData) {
+    private class func saveJSONFile(json: Data) {
         let myFiledialog: NSSavePanel = NSSavePanel()
         myFiledialog.title = "Select the destination for the JSON file"
         myFiledialog.canCreateDirectories = true
-        let epoch = Int(NSDate.timeIntervalSinceReferenceDate())
+        let epoch = Int(Date.timeIntervalSinceReferenceDate)
         myFiledialog.nameFieldStringValue = "colors-\(epoch).json"
         if myFiledialog.runModal() == NSOnState {
-            if let chosenfile = myFiledialog.URL, path = chosenfile.path {
-                json.writeToFile(path, atomically: false)
+            if let chosenfile = myFiledialog.url, path = chosenfile.path {
+                _ = try? json.write(to: URL(fileURLWithPath: path), options: [])
             }
         }
     }
 
     private class func trashFile(path: String) {
         do {
-            try NSFileManager.defaultManager().removeItemAtPath(path)
+            try FileManager.default().removeItem(atPath: path)
         } catch {
             print(error)
         }

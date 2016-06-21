@@ -32,7 +32,7 @@ class DemoControlsView: NSView {
         thresholdMinimumSaturationValue.stringValue = String(format: "%.2f", CDSettings.ThresholdMinimumSaturation)
         thresholdFloorBrightness.doubleValue = CDSettings.ThresholdFloorBrightness.formatSliderDouble()
         thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", CDSettings.ThresholdFloorBrightness)
-        contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(10.0)
+        contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(multiplier: 10.0)
         contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
         ensureContrastedColorCandidates.state = NSOnState
     }
@@ -54,11 +54,11 @@ class DemoControlsView: NSView {
             thresholdFloorBrightness.doubleValue = CDSettings.ThresholdFloorBrightness.formatSliderDouble()
             thresholdFloorBrightnessValue.stringValue = String(format: "%.2f", CDSettings.ThresholdFloorBrightness)
             CDSettings.ContrastRatio = pres.contrastRatio
-            contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(10.0)
+            contrastRatio.doubleValue = CDSettings.ContrastRatio.formatSliderDouble(multiplier: 10.0)
             contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.ContrastRatio)
             CDSettings.EnsureContrastedColorCandidates = pres.contrastedCandidates
             ensureContrastedColorCandidates.state = Int(pres.contrastedCandidates)
-            NSNotificationCenter.defaultCenter().postNotificationName("updateColorCandidatesOK", object: nil, userInfo: ["mouseUp":true])
+            NotificationCenter.default().post(name: Notification.Name(rawValue: "updateColorCandidatesOK"), object: nil, userInfo: ["mouseUp":true])
         } catch let demoAppError as DemoAppError {
             Swift.print(demoAppError.rawValue)
         } catch {
@@ -66,9 +66,9 @@ class DemoControlsView: NSView {
         }
     }
     
-    func reset(sender: AnyObject?) {
+    func reset(_ sender: AnyObject?) {
         do {
-            guard let defaults =  NSUserDefaults.standardUserDefaults().objectForKey("defaultSettings") as? NSDictionary,
+            guard let defaults =  UserDefaults.standard().object(forKey: "defaultSettings") as? NSDictionary,
                 distinct = defaults["ThresholdDistinctColor"] as? CGFloat,
                 noise = defaults["ThresholdNoiseTolerance"] as? Int,
                 saturation = defaults["ThresholdMinimumSaturation"] as? CGFloat,
@@ -93,62 +93,62 @@ class DemoControlsView: NSView {
         }
     }
 
-    @IBAction func resetToDefaults(sender: NSButton) {
+    @IBAction func resetToDefaults(_ sender: NSButton) {
         reset(sender)
     }
 
-    @IBAction func ensureContrastedColorCandidates(sender: NSButton) {
+    @IBAction func ensureContrastedColorCandidates(_ sender: NSButton) {
         CDSettings.EnsureContrastedColorCandidates = Bool(sender.state)
         updateColors(sender)
     }
 
-    @IBAction func noiseToleranceSlider(sender: NSSlider) {
+    @IBAction func noiseToleranceSlider(_ sender: NSSlider) {
         noiseToleranceValue.integerValue = sender.integerValue
         CDSettings.ThresholdNoiseTolerance = sender.integerValue
         updateColors(sender)
     }
 
-    @IBAction func thresholdMinimumSaturationSlider(sender: NSSlider) {
+    @IBAction func thresholdMinimumSaturationSlider(_ sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
         thresholdMinimumSaturationValue.stringValue = val.string
         CDSettings.ThresholdMinimumSaturation = val.cgFloat
         updateColors(sender)
     }
 
-    @IBAction func distinctColorsSlider(sender: NSSlider) {
+    @IBAction func distinctColorsSlider(_ sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
         distinctColorsValue.stringValue = val.string
         CDSettings.ThresholdDistinctColor = val.cgFloat
         updateColors(sender)
     }
 
-    @IBAction func thresholdFloorBrightnessSlider(sender: NSSlider) {
+    @IBAction func thresholdFloorBrightnessSlider(_ sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender)
         thresholdFloorBrightnessValue.stringValue = val.string
         CDSettings.ThresholdFloorBrightness = val.cgFloat
         updateColors(sender)
     }
 
-    @IBAction func contrastRatioSlider(sender: NSSlider) {
+    @IBAction func contrastRatioSlider(_ sender: NSSlider) {
         let val = makeDoubleValFromSlider(sender, divider: 10, format: "%.1f")
         contrastRatioValue.stringValue = val.string
         CDSettings.ContrastRatio = val.cgFloat
         updateColors(sender)
     }
 
-    private func makeDoubleValFromSlider(sender: NSSlider, divider: Int = 100, format: String = "%.2f") -> (string: String, cgFloat: CGFloat, double: Double) {
+    private func makeDoubleValFromSlider(_ sender: NSSlider, divider: Int = 100, format: String = "%.2f") -> (string: String, cgFloat: CGFloat, double: Double) {
         let val = Double(sender.integerValue) / Double(divider)
         let str = String(format: format, val)
         return (str, CGFloat(val), val)
     }
 
-    private func updateColors(sender: AnyObject? = nil) {
+    private func updateColors(_ sender: AnyObject? = nil) {
         var dict = ["mouseUp":false]
         if let sdr = sender as? NSSlider ?? sender as? NSButton,
-            event = sdr.window?.currentEvent where event.type == NSEventType.LeftMouseUp {
+            event = sdr.window?.currentEvent where event.type == NSEventType.leftMouseUp {
             dict = ["mouseUp":true]
         }
-        NSNotificationCenter.defaultCenter().postNotificationName("updateColorCandidatesOK", object: nil, userInfo: dict)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: "updateColorCandidatesOK"), object: nil, userInfo: dict)
     }
 
 }

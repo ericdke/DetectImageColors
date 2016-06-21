@@ -12,14 +12,14 @@ class DemoColorView: NSView {
             self.display()
         }
     }
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         if let color = self.color {
             color.setFill()
             NSRectFill(dirtyRect)
         }
-        super.drawRect(dirtyRect)
+        super.draw(dirtyRect)
     }
-    override func mouseDragged(theEvent: NSEvent) {
+    override func mouseDragged(_ theEvent: NSEvent) {
         if isMovable {
             let deltax = theEvent.deltaX
             let deltay = theEvent.deltaY

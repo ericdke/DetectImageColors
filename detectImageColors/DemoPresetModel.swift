@@ -31,25 +31,25 @@ final class Preset: NSObject, NSCoding {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.name = aDecoder.decodeObjectForKey("name") as! String
-        self.thresholdFloorBrightness = aDecoder.decodeObjectForKey("thresholdFloorBrightness") as! CGFloat
-        self.thresholdDistinctColor = aDecoder.decodeObjectForKey("thresholdDistinctColor") as! CGFloat
-        self.thresholdMinimumSaturation = aDecoder.decodeObjectForKey("thresholdMinimumSaturation") as! CGFloat
-        self.contrastRatio = aDecoder.decodeObjectForKey("contrastRatio") as! CGFloat
-        self.thresholdNoiseTolerance = aDecoder.decodeIntegerForKey("thresholdNoiseTolerance")
-        self.contrastedCandidates = aDecoder.decodeBoolForKey("contrastedCandidates")
-        self.defaultPreset = aDecoder.decodeBoolForKey("defaultPreset")
+        self.name = aDecoder.decodeObject(forKey: "name") as! String
+        self.thresholdFloorBrightness = aDecoder.decodeObject(forKey: "thresholdFloorBrightness") as! CGFloat
+        self.thresholdDistinctColor = aDecoder.decodeObject(forKey: "thresholdDistinctColor") as! CGFloat
+        self.thresholdMinimumSaturation = aDecoder.decodeObject(forKey: "thresholdMinimumSaturation") as! CGFloat
+        self.contrastRatio = aDecoder.decodeObject(forKey: "contrastRatio") as! CGFloat
+        self.thresholdNoiseTolerance = aDecoder.decodeInteger(forKey: "thresholdNoiseTolerance")
+        self.contrastedCandidates = aDecoder.decodeBool(forKey: "contrastedCandidates")
+        self.defaultPreset = aDecoder.decodeBool(forKey: "defaultPreset")
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(name, forKey: "name")
-        aCoder.encodeObject(thresholdFloorBrightness, forKey: "thresholdFloorBrightness")
-        aCoder.encodeObject(thresholdDistinctColor, forKey: "thresholdDistinctColor")
-        aCoder.encodeObject(thresholdMinimumSaturation, forKey: "thresholdMinimumSaturation")
-        aCoder.encodeObject(contrastRatio, forKey: "contrastRatio")
-        aCoder.encodeInteger(thresholdNoiseTolerance, forKey: "thresholdNoiseTolerance")
-        aCoder.encodeBool(contrastedCandidates, forKey: "contrastedCandidates")
-        aCoder.encodeBool(defaultPreset, forKey: "defaultPreset")
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "name")
+        aCoder.encode(thresholdFloorBrightness, forKey: "thresholdFloorBrightness")
+        aCoder.encode(thresholdDistinctColor, forKey: "thresholdDistinctColor")
+        aCoder.encode(thresholdMinimumSaturation, forKey: "thresholdMinimumSaturation")
+        aCoder.encode(contrastRatio, forKey: "contrastRatio")
+        aCoder.encode(thresholdNoiseTolerance, forKey: "thresholdNoiseTolerance")
+        aCoder.encode(contrastedCandidates, forKey: "contrastedCandidates")
+        aCoder.encode(defaultPreset, forKey: "defaultPreset")
     }
     
 }

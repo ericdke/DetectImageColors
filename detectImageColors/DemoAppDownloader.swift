@@ -12,14 +12,14 @@ class Downloader: NSObject {
         return "http://www.thecolorapi.com/scheme?hex=\(hex)&mode=triad&count=3"
     }
 
-    func download(url: String, completion: (data: NSData) -> Void) {
-        let session = NSURLSession.sharedSession()
-        guard let validURL = NSURL(string: url) else {
+    func download(url: String, completion: (data: Data) -> Void) {
+        let session = URLSession.shared()
+        guard let validURL = URL(string: url) else {
             NSLog("%@", "Invalid URL")
             return
         }
-        let request = NSURLRequest(URL: validURL)
-        let task = session.dataTaskWithRequest(request) { (data, response, downloadError) -> Void in
+        let request = URLRequest(url: validURL)
+        let task = session.dataTask(with: request) { (data, response, downloadError) -> Void in
             guard let dat = data where downloadError == nil else {
                 if let rp = response {
                     NSLog("%@", rp)
@@ -36,10 +36,10 @@ class Downloader: NSObject {
         task.resume()
     }
 
-    func JSONDataToDictionary(data: NSData?) -> [String: AnyObject]? {
+    func JSONDataToDictionary(data: Data?) -> [String: AnyObject]? {
         do {
             guard let dat = data,
-                json = try NSJSONSerialization.JSONObjectWithData(dat, options: []) as? [String: AnyObject]
+                json = try JSONSerialization.jsonObject(with: dat, options: []) as? [String: AnyObject]
                 else { throw DemoAppError.CouldNotProcessDownloadedData
             }
             return json
@@ -52,11 +52,11 @@ class Downloader: NSObject {
         }
     }
 
-    func getColorNameFromAPI(color: NSColor, completionHandler: (name: String) -> Void) {
+    func getColorNameFromAPI(_ color: NSColor, completionHandler: (name: String) -> Void) {
         guard let compos = color.componentsCSS()?.clean else { return }
         let url = colorsAPIHexURL + compos
-        download(url, completion: { (data) -> Void in
-            guard let json = self.JSONDataToDictionary(data),
+        download(url: url, completion: { (data) -> Void in
+            guard let json = self.JSONDataToDictionary(data: data),
                 dic = json["name"] as? [String:AnyObject],
                 name = dic["value"] as? String
                 else { return

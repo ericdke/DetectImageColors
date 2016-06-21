@@ -9,14 +9,14 @@
 import Cocoa
 
 enum DragType {
-    case Path, URL
+    case path, url
 }
 
 extension NSView {
-    func makePNGFromView() -> NSData? {
-        guard let rep = self.bitmapImageRepForCachingDisplayInRect(self.bounds) else { return nil }
-        self.cacheDisplayInRect(self.bounds, toBitmapImageRep: rep)
-        guard let data = rep.representationUsingType(NSBitmapImageFileType.NSPNGFileType, properties: [:]) else { return nil }
+    func makePNGFromView() -> Data? {
+        guard let rep = self.bitmapImageRepForCachingDisplay(in: self.bounds) else { return nil }
+        self.cacheDisplay(in: self.bounds, to: rep)
+        guard let data = rep.representation(using: NSBitmapImageFileType.PNG, properties: [:]) else { return nil }
         return data
     }
 }

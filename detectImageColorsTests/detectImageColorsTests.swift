@@ -27,22 +27,22 @@ class detectImageColorsTests: XCTestCase {
     func testWithMinimumSaturationMore() {
         let original = NSColor(red: 1, green: 0.9, blue: 0.9, alpha: 1)
         let originalSaturation = original.saturationComponent
-        let withMinimumSaturation = original.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
-        let resultSaturation = withMinimumSaturation.saturationComponent
+        let wms = original.applying(minimumSaturation: CDSettings.ThresholdMinimumSaturation)
+        let resultSaturation = wms.saturationComponent
         XCTAssert(resultSaturation > originalSaturation, "Color is more saturated")
     }
 
     func testWithMinimumSaturationSame() {
-        let original = NSColor.greenColor()
+        let original = NSColor.green()
         let originalSaturation = original.saturationComponent
-        let withMinimumSaturation = original.withMinimumSaturation(CDSettings.ThresholdMinimumSaturation)
-        let resultSaturation = withMinimumSaturation.saturationComponent
+        let wms = original.applying(minimumSaturation: CDSettings.ThresholdMinimumSaturation)
+        let resultSaturation = wms.saturationComponent
         XCTAssert(resultSaturation == originalSaturation, "Color is saturated enough")
     }
 
     func testLighterColor() {
-        let original = NSColor.blackColor()
-        let calibratedOriginal = original.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)!
+        let original = NSColor.black()
+        let calibratedOriginal = original.usingColorSpaceName(NSCalibratedRGBColorSpace)!
         let originalRed = calibratedOriginal.redComponent
         let lighter = calibratedOriginal.lighterColor()
         let lighterRed = lighter.redComponent
@@ -50,8 +50,8 @@ class detectImageColorsTests: XCTestCase {
     }
 
     func testDarkerColor() {
-        let original = NSColor.whiteColor()
-        let calibratedOriginal = original.colorUsingColorSpaceName(NSCalibratedRGBColorSpace)!
+        let original = NSColor.white()
+        let calibratedOriginal = original.usingColorSpaceName(NSCalibratedRGBColorSpace)!
         let originalRed = calibratedOriginal.redComponent
         let darker = calibratedOriginal.darkerColor()
         let darkerRed = darker.redComponent
@@ -79,7 +79,7 @@ class detectImageColorsTests: XCTestCase {
         let middle = NSColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
         var isMostlyBlackOrWhite = middle.isMostlyBlackOrWhite()
         XCTAssert(!isMostlyBlackOrWhite, "Middle color is not mostly black or white")
-        let white = NSColor.whiteColor()
+        let white = NSColor.white()
         isMostlyBlackOrWhite = white.isMostlyBlackOrWhite()
         XCTAssert(isMostlyBlackOrWhite, "White color is mostly black or white")
     }
