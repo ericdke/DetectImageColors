@@ -4,7 +4,7 @@ import Cocoa
 
 public extension NSColor {
     
-    public func isNearOf(_ color: NSColor) -> Bool {
+    public func isNear(of color: NSColor) -> Bool {
         if let (a, r, g, b) = self.componentsNSC(), (a1, r1, g1, b1) = color.componentsNSC() {
             let threshold: CGFloat = CDSettings.ThresholdDistinctColor
             if fabs(r - r1) > threshold || fabs(g - g1) > threshold || fabs(b - b1) > threshold || fabs(a - a1) > threshold {

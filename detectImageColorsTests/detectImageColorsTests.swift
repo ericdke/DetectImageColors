@@ -70,7 +70,7 @@ class detectImageColorsTests: XCTestCase {
     func testIsNearOf() {
         let colA = NSColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
         let colB = NSColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
-        let isNearOf = colA.isNearOf(colB)
+        let isNearOf = colA.isNear(of: colB)
         XCTAssert(isNearOf, "Dark color is near another dark color")
         // TODO: problems with some colors
     }

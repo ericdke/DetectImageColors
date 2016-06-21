@@ -181,14 +181,14 @@ public extension NSImage {
                     candidates.primary = cc.color
                 }
             } else if candidates.secondary == nil {
-                if let prim = candidates.primary where prim.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                if let prim = candidates.primary where prim.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
                     candidates.secondary = cc.color
                 }
             } else if candidates.detail == nil {
-                if let sec = candidates.secondary where sec.isNearOf(cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                if let sec = candidates.secondary where sec.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
                     continue
                 }
-                if let prim = candidates.primary where prim.isNearOf(cc.color) {
+                if let prim = candidates.primary where prim.isNear(of: cc.color) {
                     continue
                 }
                 candidates.detail = cc.color
@@ -232,7 +232,7 @@ public extension NSImage {
         // We try to avoid results that could be mathematically correct but not visually interesting
         
         if let prim = colors.primary, let sec = colors.secondary, let det = colors.detail, let back = colors.background {
-            if prim.isNearOf(sec) || prim.isNearOf(det) || sec.isNearOf(det) {
+            if prim.isNear(of: sec) || prim.isNear(of: det) || sec.isNear(of: det) {
                 if hasDarkBackground && !prim.isMostlyDarkColor() {
                     colors.secondary = prim.darkerColor()
                     colors.detail = sec.darkerColor()
@@ -241,17 +241,17 @@ public extension NSImage {
                     colors.detail = sec.lighterColor()
                 }
             }
-            if prim.isNearOf(back) {
+            if prim.isNear(of: back) {
                 colors.primary = rescueNilColor(colorName: "primary, 2nd pass", hasDarkBackground: hasDarkBackground)
             }
-            if sec.isNearOf(back) {
+            if sec.isNear(of: back) {
                 if hasDarkBackground {
                     colors.secondary = prim.darkerColor()
                 } else {
                     colors.secondary = prim.lighterColor()
                 }
             }
-            if det.isNearOf(back) {
+            if det.isNear(of: back) {
                 if hasDarkBackground {
                     colors.detail = back.lighterColor()
                 } else {
