@@ -19,7 +19,14 @@ final class Preset: NSObject, NSCoding {
     let thresholdNoiseTolerance: Int
     let defaultPreset: Bool
     
-    init(name: String, brightness: CGFloat, distinct: CGFloat, saturation: CGFloat, contrast: CGFloat, noise: Int, contrasted: Bool, defaultPreset: Bool = false) {
+    init(name: String,
+         brightness: CGFloat,
+         distinct: CGFloat,
+         saturation: CGFloat,
+         contrast: CGFloat, 
+         noise: Int, 
+         contrasted: Bool,
+         defaultPreset: Bool = false) {
         self.name = name
         self.thresholdFloorBrightness = brightness
         self.thresholdDistinctColor = distinct

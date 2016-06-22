@@ -13,13 +13,13 @@ class Downloader: NSObject {
     }
 
     func download(url: String, completion: (data: Data) -> Void) {
-        let session = URLSession.shared()
         guard let validURL = URL(string: url) else {
             NSLog("%@", "Invalid URL")
             return
         }
+        let session = URLSession.shared()
         let request = URLRequest(url: validURL)
-        let task = session.dataTask(with: request) { (data, response, downloadError) -> Void in
+        session.dataTask(with: request) { (data, response, downloadError) -> Void in
             guard let dat = data where downloadError == nil else {
                 if let rp = response {
                     NSLog("%@", rp)
@@ -32,36 +32,38 @@ class Downloader: NSObject {
                 return
             }
             completion(data: dat)
-        }
-        task.resume()
+        }.resume()
     }
 
     func JSONDataToDictionary(data: Data?) -> [String: AnyObject]? {
         do {
             guard let dat = data,
                 json = try JSONSerialization.jsonObject(with: dat, options: []) as? [String: AnyObject]
-                else { throw DemoAppError.CouldNotProcessDownloadedData
+                else {
+                    throw DemoAppError.couldNotProcessDownloadedData
             }
             return json
         } catch let demoAppError as DemoAppError {
-            print(demoAppError.rawValue)
+            print(demoAppError)
             return nil
-        } catch {
-            print(error)
+        } catch let error as NSError {
+            print(error.debugDescription)
             return nil
         }
     }
 
     func getName(for color: NSColor, completionHandler: (name: String) -> Void) {
-        guard let compos = color.componentsCSS()?.clean else { return }
+        guard let compos = color.componentsCSS()?.clean else {
+            return
+        }
         let url = colorsAPIHexURL + compos
         download(url: url, completion: { (data) -> Void in
             guard let json = self.JSONDataToDictionary(data: data),
                 dic = json["name"] as? [String:AnyObject],
                 name = dic["value"] as? String
-                else { return
+                else {
+                    return
             }
-            //NSLog("%@", "Downloaded API response")
             completionHandler(name: name)
         })
     }

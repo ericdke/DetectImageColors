@@ -40,7 +40,7 @@ class DemoControlsView: NSView {
     
     func setSliders(preset: Preset?) {
         do {
-            guard let pres = preset else { throw DemoAppError.CouldNotSetSlidersFromPreset }
+            guard let pres = preset else { throw DemoAppError.couldNotSetSlidersFromPreset }
             CDSettings.thresholdDistinctColor = pres.thresholdDistinctColor
             distinctColors.doubleValue = CDSettings.thresholdDistinctColor.formatSliderDouble()
             distinctColorsValue.stringValue = String(format: "%.2f", CDSettings.thresholdDistinctColor)
@@ -74,7 +74,8 @@ class DemoControlsView: NSView {
                 saturation = defaults["ThresholdMinimumSaturation"] as? CGFloat,
                 brightness = defaults["ThresholdFloorBrightness"] as? CGFloat,
                 contrast = defaults["ContrastRatio"] as? CGFloat
-                else { throw DemoAppError.CouldNotfindDefaultConfiguration
+                else {
+                    throw DemoAppError.couldNotfindDefaultConfiguration
             }
             CDSettings.thresholdDistinctColor = distinct
             CDSettings.thresholdNoiseTolerance = noise

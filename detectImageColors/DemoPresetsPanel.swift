@@ -18,7 +18,10 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     @IBOutlet weak var demoControlsView: DemoControlsView!
     
     override func awakeFromNib() {
-        NotificationCenter.default().addObserver(self, selector: #selector(DemoPresetsPanel.populatePresets(_:)), name: "populatePresetsOK", object: nil)
+        NotificationCenter.default().addObserver(self,
+                                                 selector: #selector(DemoPresetsPanel.populatePresets(_:)),
+                                                 name: "populatePresetsOK",
+                                                 object: nil)
         tableView.doubleAction = #selector(DemoPresetsPanel.tableDoubleClicked(_:))
         tableView.target = self
     }
@@ -57,7 +60,13 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
         if button == NSAlertFirstButtonReturn {
             tf.validateEditing()
             if !tf.stringValue.isEmpty {
-                let pres = Preset(name: tf.stringValue, brightness: CDSettings.thresholdFloorBrightness, distinct: CDSettings.thresholdDistinctColor, saturation: CDSettings.thresholdMinimumSaturation, contrast: CDSettings.contrastRatio, noise: CDSettings.thresholdNoiseTolerance, contrasted: CDSettings.ensureContrastedColorCandidates)
+                let pres = Preset(name: tf.stringValue,
+                                  brightness: CDSettings.thresholdFloorBrightness,
+                                  distinct: CDSettings.thresholdDistinctColor,
+                                  saturation: CDSettings.thresholdMinimumSaturation,
+                                  contrast: CDSettings.contrastRatio,
+                                  noise: CDSettings.thresholdNoiseTolerance,
+                                  contrasted: CDSettings.ensureContrastedColorCandidates)
                 allPresets.append(pres)
                 tableView.reloadData()
                 savePresets()
@@ -66,13 +75,15 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func savePresets() {
-        UserDefaults.standard().set(NSKeyedArchiver.archivedData(withRootObject: allPresets), forKey: "allPresets")
+        UserDefaults.standard().set(NSKeyedArchiver.archivedData(withRootObject: allPresets),
+                                    forKey: "allPresets")
     }
     
     var allPresets = [Preset]()
     
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [SortDescriptor]) {
-        if let descriptor = tableView.sortDescriptors.first, let key = descriptor.key {
+        if let descriptor = tableView.sortDescriptors.first,
+            key = descriptor.key {
             switch key {
             case "Name":
                 if descriptor.ascending {
@@ -135,7 +146,10 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        guard let id = tableColumn?.identifier, let cell = tableView.make(withIdentifier: id, owner: self) as? NSTableCellView else { return nil }
+        guard let id = tableColumn?.identifier,
+            cell = tableView.make(withIdentifier: id, owner: self) as? NSTableCellView else {
+                return nil
+        }
         let preset = allPresets[row]
         if id == "mainColumn" {
             cell.textField?.stringValue = preset.name.capitalized

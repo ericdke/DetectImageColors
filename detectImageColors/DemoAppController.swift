@@ -39,7 +39,7 @@ class AppController: NSObject {
         do {
             try initColorNamesFile()
             guard let elton = NSImage(named: "elton") else {
-                throw DemoAppError.CouldNotLoadDemoImage
+                throw DemoAppError.couldNotLoadDemoImage
             }
             analyseImageAndSetImageView(with: elton)
         } catch let demoAppError as DemoAppError {
@@ -54,13 +54,13 @@ class AppController: NSObject {
     
     private func initColorNamesFile() throws {
         guard let jpath = getJSONFilePath() else {
-            throw DemoAppError.InvalidFilePath
+            throw DemoAppError.invalidFilePath
         }
         if FileManager().fileExists(atPath: jpath) {
             try getNamedColorsFromFile(path: jpath)
         } else {
             guard let bpath = Bundle.main().pathForResource("colors_dic", ofType: "json") else {
-                throw DemoAppError.InvalidFilePath
+                throw DemoAppError.invalidFilePath
             }
             try getNamedColorsFromFile(path: bpath)
         }
@@ -87,14 +87,16 @@ class AppController: NSObject {
                     prim = cols.primary,
                     sec = cols.secondary,
                     det = cols.detail
-                    else { throw DemoAppError.ColorDetectorFailed
+                    else {
+                        throw DemoAppError.colorDetectorFailed
                 }
                 
                 guard let bgCSS = bg.componentsCSS()?.css,
                     primCSS = prim.componentsCSS()?.css,
                     secCSS = sec.componentsCSS()?.css,
                     detCSS = det.componentsCSS()?.css
-                    else { throw DemoAppError.ColorDetectorFailed
+                    else {
+                        throw DemoAppError.colorDetectorFailed
                 }
 
                 spinner.startAnimation(nil)
@@ -234,12 +236,6 @@ class AppController: NSObject {
     }
 
     @IBAction func exportColorsToPNG(_ sender: NSMenuItem) {
-//        if let cols = colorCandidates, img = imageView.image {
-//            let v = ExportColors.makeColorView(cols, image: img)
-//            if let png = ExportColors.makePNGFromView(v) {
-//                ExportColors.savePNGFile(png)
-//            }
-//        }
         guard let _ = colorCandidates else { return }  // shouldn't be nil, but let's be sure
         showOverlayButton.isHidden = true
         if let png = backgroundView.makePNGFromView() {
@@ -255,20 +251,26 @@ class AppController: NSObject {
         dialog.allowedFileTypes = ["jpg", "jpeg", "bmp", "png", "gif", "JPG", "JPEG", "BMP", "PNG", "GIF"]
         dialog.title = "Choose an image"
         dialog.runModal()
-        if let chosenfile = dialog.url, path = chosenfile.path, img = NSImage(contentsOfFile: path) {
+        if let chosenfile = dialog.url, img = NSImage(contentsOf: chosenfile) {
             analyseImageAndSetImageView(with: img)
         }
     }
 
     private func getNamedColorsFromFile(path: String) throws {
         guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:String]
-            else { throw DemoAppError.CouldNotLoadColorNamesFile }
+            json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:String]
+            else {
+                throw DemoAppError.couldNotLoadColorNamesFile
+        }
         namedColors = json
     }
 
     func getJSONFilePath() -> String? {
-        guard let dirs:[NSString] = NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, FileManager.SearchPathDomainMask.allDomainsMask, true) where !dirs.isEmpty else { return nil }
+        let d = FileManager.SearchPathDirectory.documentDirectory
+        let m = FileManager.SearchPathDomainMask.allDomainsMask
+        guard let dirs:[NSString] = NSSearchPathForDirectoriesInDomains(d, m, true) where !dirs.isEmpty else {
+            return nil
+        }
         return dirs[0].appendingPathComponent("colors_dic.json")
     }
 

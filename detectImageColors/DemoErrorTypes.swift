@@ -7,12 +7,12 @@
 //
 
 enum DemoAppError: String, ErrorProtocol {
-    case CouldNotLoadColorNamesFile = "ERROR: could not load color names file"
-    case CouldNotSaveColorNamesFile = "ERROR: could not save color names file"
-    case InvalidFilePath = "ERROR: invalid file path"
-    case CouldNotLoadDemoImage = "ERROR: could not load demo image"
-    case ColorDetectorFailed = "ERROR: the color detector failed for this request"
-    case CouldNotProcessDownloadedData = "ERROR: could not process downloaded data"
-    case CouldNotfindDefaultConfiguration = "ERROR: could not find default configuration"
-    case CouldNotSetSlidersFromPreset = "ERROR: could not load or use preset"
+    case couldNotLoadColorNamesFile = "ERROR: could not load color names file"
+    case couldNotSaveColorNamesFile = "ERROR: could not save color names file"
+    case invalidFilePath = "ERROR: invalid file path"
+    case couldNotLoadDemoImage = "ERROR: could not load demo image"
+    case colorDetectorFailed = "ERROR: the color detector failed for this request"
+    case couldNotProcessDownloadedData = "ERROR: could not process downloaded data"
+    case couldNotfindDefaultConfiguration = "ERROR: could not find default configuration"
+    case couldNotSetSlidersFromPreset = "ERROR: could not load or use preset"
 }

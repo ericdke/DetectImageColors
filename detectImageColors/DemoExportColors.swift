@@ -32,7 +32,7 @@ class ExportColors {
         myFiledialog.nameFieldStringValue = "colors-\(Int(Date.timeIntervalSinceReferenceDate)).png"
         if myFiledialog.runModal() == NSOnState {
             if let chosenfile = myFiledialog.url, path = chosenfile.path {
-                _ = try? data.write(to: URL(fileURLWithPath: path), options: [])
+                try! data.write(to: URL(fileURLWithPath: path), options: [])
             }
         }
     }
@@ -100,7 +100,7 @@ class ExportColors {
         myFiledialog.nameFieldStringValue = "colors-\(epoch).json"
         if myFiledialog.runModal() == NSOnState {
             if let chosenfile = myFiledialog.url, path = chosenfile.path {
-                _ = try? json.write(to: URL(fileURLWithPath: path), options: [])
+                try! json.write(to: URL(fileURLWithPath: path), options: [])
             }
         }
     }

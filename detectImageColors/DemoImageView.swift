@@ -73,7 +73,8 @@ class DemoImageView: NSImageView {
             }
         } else {
             let rules = CharacterSet.urlQueryAllowed
-            if let escapedPath = paste.value.addingPercentEncoding(withAllowedCharacters: rules), let url = URL(string: escapedPath) {
+            if let escapedPath = paste.value.addingPercentEncoding(withAllowedCharacters: rules),
+                url = URL(string: escapedPath) {
                 downloadImage(url: url)
             }
         }

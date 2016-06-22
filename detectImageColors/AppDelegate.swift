@@ -17,9 +17,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.setFrameUsingName("DetectImageColorsDemo")
         window.title = "DetectImageColors"
         window.backgroundColor = NSColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
-        let bundle = Bundle.main()
         do {
-            if let apPath = bundle.pathForResource("defaultPresets", ofType: "json"),
+            if let apPath = Bundle.main().pathForResource("defaultPresets", ofType: "json"),
                 apData = try? Data(contentsOf: URL(fileURLWithPath: apPath)),
                 apJSON = try JSONSerialization.jsonObject(with: apData, options: []) as? [[String:AnyObject]] {
                 for pres in apJSON {
@@ -38,7 +37,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print(error)
             fatalError()
         }
-        UserDefaults.standard().set(getDefaultSettings(), forKey: "defaultSettings")
+        UserDefaults.standard().set(defaultSettings, forKey: "defaultSettings")
         if let data = UserDefaults.standard().object(forKey: "allPresets") as? Data,
             presets = NSKeyedUnarchiver.unarchiveObject(with: data) as? [Preset] {
             self.presets = presets
@@ -58,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             do {
                 let enc = try JSONSerialization.data(withJSONObject: appController.namedColors, options: .prettyPrinted)
                 let written = (try? enc.write(to: URL(fileURLWithPath: path), options: [])) != nil
-                if !written { throw DemoAppError.CouldNotSaveColorNamesFile }
+                if !written { throw DemoAppError.couldNotSaveColorNamesFile }
             } catch let demoAppError as DemoAppError {
                 print(demoAppError.rawValue)
             } catch {
@@ -67,8 +66,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    private func getDefaultSettings() -> NSDictionary {
-        return ["ThresholdDistinctColor": CDSettings.thresholdDistinctColor, "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance, "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation, "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness, "ContrastRatio": CDSettings.contrastRatio]
+    private var defaultSettings: NSDictionary {
+        return ["ThresholdDistinctColor": CDSettings.thresholdDistinctColor,
+                "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance,
+                "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation,
+                "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness,
+                "ContrastRatio": CDSettings.contrastRatio]
     }
 
 }
