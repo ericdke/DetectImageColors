@@ -12,13 +12,9 @@ class Downloader: NSObject {
         return "http://www.thecolorapi.com/scheme?hex=\(hex)&mode=triad&count=3"
     }
 
-    func download(url: String, completion: (data: Data) -> Void) {
-        guard let validURL = URL(string: url) else {
-            NSLog("%@", "Invalid URL")
-            return
-        }
+    func download(url: URL, completion: (data: Data) -> Void) {
         let session = URLSession.shared()
-        let request = URLRequest(url: validURL)
+        let request = URLRequest(url: url)
         session.dataTask(with: request) { (data, response, downloadError) -> Void in
             guard let dat = data where downloadError == nil else {
                 if let rp = response {
@@ -57,7 +53,11 @@ class Downloader: NSObject {
             return
         }
         let url = colorsAPIHexURL + compos
-        download(url: url, completion: { (data) -> Void in
+        guard let validURL = URL(string: url) else {
+            NSLog("%@", "Invalid URL")
+            return
+        }
+        download(url: validURL, completion: { (data) -> Void in
             guard let json = self.JSONDataToDictionary(data: data),
                 dic = json["name"] as? [String:AnyObject],
                 name = dic["value"] as? String

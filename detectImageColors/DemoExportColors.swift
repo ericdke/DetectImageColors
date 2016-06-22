@@ -42,7 +42,9 @@ class ExportColors {
         let imageView = NSImageView(frame: NSMakeRect(150, 250, 300, 300))
         imageView.image = image
         let (background, primary, secondary, detail) = makeDemoViews(willIncludeImage: true)
-        let finalView = makeFinalView(colors: colorCandidates, withViews: (background, primary, secondary, detail), toView: mainView)
+        let finalView = makeFinalView(colors: colorCandidates,
+                                      withViews: (background, primary, secondary, detail),
+                                      toView: mainView)
         finalView.addSubview(imageView)
         return finalView
     }
@@ -50,7 +52,9 @@ class ExportColors {
     class func makeColorView(colorCandidates: ColorCandidates) -> NSView {
         let mainView = NSView(frame: NSMakeRect(0, 0, 800, 200))
         let (background, primary, secondary, detail) = makeDemoViews()
-        return makeFinalView(colors: colorCandidates, withViews: (background, primary, secondary, detail), toView: mainView)
+        return makeFinalView(colors: colorCandidates,
+                             withViews: (background, primary, secondary, detail),
+                             toView: mainView)
     }
 
     // ---
@@ -71,12 +75,15 @@ class ExportColors {
         }
     }
 
-    private class func makeFinalView(colors colorCandidates: ColorCandidates, withViews sourceViews: ExportViews, toView view: NSView) -> NSView {
+    private class func makeFinalView(colors colorCandidates: ColorCandidates,
+                                     withViews sourceViews: ExportViews,
+                                     toView view: NSView) -> NSView {
         let coloredViews = assignColorsToViews(colorCandidates: colorCandidates, views: sourceViews)
         return addColoredViewsToView(views: coloredViews, view: view)
     }
 
-    private class func assignColorsToViews(colorCandidates: ColorCandidates, views: ExportViews) -> ExportViews {
+    private class func assignColorsToViews(colorCandidates: ColorCandidates,
+                                           views: ExportViews) -> ExportViews {
         views.primary.color = colorCandidates.primary
         views.secondary.color = colorCandidates.secondary
         views.detail.color = colorCandidates.detail

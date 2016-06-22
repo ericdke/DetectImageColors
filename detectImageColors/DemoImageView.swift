@@ -53,11 +53,12 @@ class DemoImageView: NSImageView {
     }
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-        if let p1 = sender.draggingPasteboard().propertyList(forType: "NSFilenamesPboardType") as? [AnyObject],
+        let p = sender.draggingPasteboard()
+        if let p1 = p.propertyList(forType: "NSFilenamesPboardType") as? [AnyObject],
             pathStr = p1[0] as? String where checkExtension(pathStr: pathStr) {
                 imageDropped(paste: (.path, pathStr))
                 return true
-        } else if let p2 = sender.draggingPasteboard().propertyList(forType: "WebURLsWithTitlesPboardType") as? [AnyObject],
+        } else if let p2 = p.propertyList(forType: "WebURLsWithTitlesPboardType") as? [AnyObject],
             temp = p2.first as? [AnyObject],
             pathStr = temp.first as? String {
                 imageDropped(paste: (.url, pathStr))
@@ -81,7 +82,7 @@ class DemoImageView: NSImageView {
     }
 
     private func downloadImage(url: URL) {
-        downloader.download(url: url.absoluteString!) { (data) -> Void in
+        downloader.download(url: url) { (data) -> Void in
             if let img = NSImage(data: data) {
                 DispatchQueue.main.async {
                     self.updateImage(image: img)
@@ -91,7 +92,9 @@ class DemoImageView: NSImageView {
     }
 
     private func updateImage(image: NSImage) {
-        NotificationCenter.default().post(name: Notification.Name(rawValue: "updateImageByDropOK"), object: nil, userInfo: ["image": image])
+        NotificationCenter.default().post(name: Notification.Name(rawValue: "updateImageByDropOK"),
+                                          object: nil,
+                                          userInfo: ["image": image])
     }
 
     private func checkExtension(pathStr: String) -> Bool {

@@ -58,11 +58,13 @@ class DemoControlsView: NSView {
             contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.contrastRatio)
             CDSettings.ensureContrastedColorCandidates = pres.contrastedCandidates
             ensureContrastedColorCandidates.state = Int(pres.contrastedCandidates)
-            NotificationCenter.default().post(name: Notification.Name(rawValue: "updateColorCandidatesOK"), object: nil, userInfo: ["mouseUp":true])
+            NotificationCenter.default().post(name: Notification.Name(rawValue: "updateColorCandidatesOK"),
+                                              object: nil,
+                                              userInfo: ["mouseUp":true])
         } catch let demoAppError as DemoAppError {
-            Swift.print(demoAppError.rawValue)
-        } catch {
-            Swift.print(error)
+            Swift.print(demoAppError)
+        } catch let error as NSError {
+            Swift.print(error.debugDescription)
         }
     }
     
@@ -88,9 +90,9 @@ class DemoControlsView: NSView {
                 updateColors(sender)
             }
         } catch let demoAppError as DemoAppError {
-            Swift.print(demoAppError.rawValue)
-        } catch let error {
-            Swift.print(error)
+            Swift.print(demoAppError)
+        } catch let error as NSError {
+            Swift.print(error.debugDescription)
         }
     }
 
@@ -137,7 +139,11 @@ class DemoControlsView: NSView {
         updateColors(sender)
     }
 
-    private func makeDoubleValFromSlider(_ sender: NSSlider, divider: Int = 100, format: String = "%.2f") -> (string: String, cgFloat: CGFloat, double: Double) {
+    private func makeDoubleValFromSlider(_ sender: NSSlider,
+                                         divider: Int = 100,
+                                         format: String = "%.2f")
+                                            -> (string: String, cgFloat: CGFloat, double: Double)
+    {
         let val = Double(sender.integerValue) / Double(divider)
         let str = String(format: format, val)
         return (str, CGFloat(val), val)
@@ -149,7 +155,9 @@ class DemoControlsView: NSView {
             event = sdr.window?.currentEvent where event.type == NSEventType.leftMouseUp {
             dict = ["mouseUp":true]
         }
-        NotificationCenter.default().post(name: Notification.Name(rawValue: "updateColorCandidatesOK"), object: nil, userInfo: dict)
+        NotificationCenter.default().post(name: Notification.Name(rawValue: "updateColorCandidatesOK"),
+                                          object: nil,
+                                          userInfo: dict)
     }
 
 }

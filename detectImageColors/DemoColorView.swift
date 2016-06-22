@@ -5,8 +5,11 @@
 import Cocoa
 
 class DemoColorView: NSView {
+    
     @IBOutlet weak var backgroundColorLabel: NSTextField!
+    
     var isMovable = false
+    
     var color: NSColor? {
         didSet {
             self.display()
