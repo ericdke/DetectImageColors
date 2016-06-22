@@ -29,7 +29,10 @@ public extension NSImage {
             operation: NSCompositingOperation.sourceOver, fraction: CGFloat(1))
         newImage.unlockFocus()
         newImage.size = destSize
-        guard let tiff = newImage.tiffRepresentation, let resized = NSImage(data: tiff) else { return nil }
+        guard let tiff = newImage.tiffRepresentation,
+            resized = NSImage(data: tiff) else {
+                return nil
+        }
         return resized
     }
     
