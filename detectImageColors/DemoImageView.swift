@@ -55,12 +55,12 @@ class DemoImageView: NSImageView {
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let p = sender.draggingPasteboard()
         if let p1 = p.propertyList(forType: "NSFilenamesPboardType") as? [AnyObject],
-            pathStr = p1[0] as? String where checkExtension(pathStr: pathStr) {
+            let pathStr = p1[0] as? String, checkExtension(pathStr: pathStr) {
                 imageDropped(paste: (.path, pathStr))
                 return true
         } else if let p2 = p.propertyList(forType: "WebURLsWithTitlesPboardType") as? [AnyObject],
-            temp = p2.first as? [AnyObject],
-            pathStr = temp.first as? String {
+            let temp = p2.first as? [AnyObject],
+            let pathStr = temp.first as? String {
                 imageDropped(paste: (.url, pathStr))
                 return true
         }
@@ -75,7 +75,7 @@ class DemoImageView: NSImageView {
         } else {
             let rules = CharacterSet.urlQueryAllowed
             if let escapedPath = paste.value.addingPercentEncoding(withAllowedCharacters: rules),
-                url = URL(string: escapedPath) {
+                let url = URL(string: escapedPath) {
                 downloadImage(url: url)
             }
         }
@@ -92,7 +92,7 @@ class DemoImageView: NSImageView {
     }
 
     private func updateImage(image: NSImage) {
-        NotificationCenter.default().post(name: Notification.Name(rawValue: "updateImageByDropOK"),
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "updateImageByDropOK"),
                                           object: nil,
                                           userInfo: ["image": image])
     }

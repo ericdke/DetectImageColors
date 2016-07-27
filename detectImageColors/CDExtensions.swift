@@ -30,7 +30,7 @@ public extension NSImage {
         newImage.unlockFocus()
         newImage.size = destSize
         guard let tiff = newImage.tiffRepresentation,
-            resized = NSImage(data: tiff) else {
+            let resized = NSImage(data: tiff) else {
                 return nil
         }
         return resized
@@ -182,21 +182,20 @@ public extension NSImage {
                     candidates.primary = cc.color
                 }
             } else if candidates.secondary == nil {
-                if let prim = candidates.primary where prim.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                if let prim = candidates.primary, prim.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
                     candidates.secondary = cc.color
                 }
             } else if candidates.detail == nil {
-                if let sec = candidates.secondary where sec.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                if let sec = candidates.secondary, sec.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
                     continue
                 }
-                if let prim = candidates.primary where prim.isNear(of: cc.color) {
+                if let prim = candidates.primary, prim.isNear(of: cc.color) {
                     continue
                 }
                 candidates.detail = cc.color
                 break
             }
         }
-        
         return candidates
     }
     

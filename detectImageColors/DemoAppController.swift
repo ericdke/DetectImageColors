@@ -29,7 +29,7 @@ class AppController: NSObject {
     func updateColorCandidates(notification: Notification) {
         // FIXME: crap system, should be refactored
         if let info = (notification as NSNotification).userInfo as? [String:Bool],
-            boo = info["mouseUp"] {
+            let boo = info["mouseUp"] {
             shouldUpdateColorNames = boo
         }
         updateColorCandidates()
@@ -48,8 +48,8 @@ class AppController: NSObject {
             print(error)
         }
         
-        NotificationCenter.default().addObserver(self, selector: #selector(AppController.updateImage(_:)), name: "updateImageByDropOK", object: nil)
-        NotificationCenter.default().addObserver(self, selector: #selector(AppController.updateColorCandidates(notification:)), name: "updateColorCandidatesOK", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AppController.updateImage(_:)), name: Notification.Name(rawValue: "updateImageByDropOK"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(AppController.updateColorCandidates(notification:)), name: Notification.Name(rawValue: "updateColorCandidatesOK"), object: nil)
     }
     
     private func initColorNamesFile() throws {
@@ -59,7 +59,7 @@ class AppController: NSObject {
         if FileManager().fileExists(atPath: jpath) {
             try getNamedColorsFromFile(path: jpath)
         } else {
-            guard let bpath = Bundle.main().pathForResource("colors_dic", ofType: "json") else {
+            guard let bpath = Bundle.main.pathForResource("colors_dic", ofType: "json") else {
                 throw DemoAppError.invalidFilePath
             }
             try getNamedColorsFromFile(path: bpath)
@@ -68,7 +68,7 @@ class AppController: NSObject {
 
     func updateImage(_ notification: Notification) {
         if let dic = (notification as NSNotification).userInfo as? [String: NSImage],
-            img = dic["image"] {
+            let img = dic["image"] {
             analyseImageAndSetImageView(with: img)
         }
     }
@@ -84,17 +84,17 @@ class AppController: NSObject {
         if let cols = colorCandidates {
             do {
                 guard let bg = cols.background,
-                    prim = cols.primary,
-                    sec = cols.secondary,
-                    det = cols.detail
+                    let prim = cols.primary,
+                    let sec = cols.secondary,
+                    let det = cols.detail
                     else {
                         throw DemoAppError.colorDetectorFailed
                 }
                 
                 guard let bgCSS = bg.componentsCSS()?.css,
-                    primCSS = prim.componentsCSS()?.css,
-                    secCSS = sec.componentsCSS()?.css,
-                    detCSS = det.componentsCSS()?.css
+                    let primCSS = prim.componentsCSS()?.css,
+                    let secCSS = sec.componentsCSS()?.css,
+                    let detCSS = det.componentsCSS()?.css
                     else {
                         throw DemoAppError.colorDetectorFailed
                 }
@@ -251,14 +251,15 @@ class AppController: NSObject {
         dialog.allowedFileTypes = ["jpg", "jpeg", "bmp", "png", "gif", "JPG", "JPEG", "BMP", "PNG", "GIF"]
         dialog.title = "Choose an image"
         dialog.runModal()
-        if let chosenfile = dialog.url, img = NSImage(contentsOf: chosenfile) {
+        if let chosenfile = dialog.url,
+            let img = NSImage(contentsOf: chosenfile) {
             analyseImageAndSetImageView(with: img)
         }
     }
 
     private func getNamedColorsFromFile(path: String) throws {
         guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-            json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:String]
+            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:String]
             else {
                 throw DemoAppError.couldNotLoadColorNamesFile
         }
@@ -268,7 +269,7 @@ class AppController: NSObject {
     func getJSONFilePath() -> String? {
         let d = FileManager.SearchPathDirectory.documentDirectory
         let m = FileManager.SearchPathDomainMask.allDomainsMask
-        guard let dirs:[NSString] = NSSearchPathForDirectoriesInDomains(d, m, true) where !dirs.isEmpty else {
+        guard let dirs:[NSString] = NSSearchPathForDirectoriesInDomains(d, m, true), !dirs.isEmpty else {
             return nil
         }
         return dirs[0].appendingPathComponent("colors_dic.json")

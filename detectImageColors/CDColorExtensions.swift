@@ -5,7 +5,8 @@ import Cocoa
 public extension NSColor {
     
     public func isNear(of color: NSColor) -> Bool {
-        if let (a, r, g, b) = self.componentsNSC(), (a1, r1, g1, b1) = color.componentsNSC() {
+        if let (a, r, g, b) = self.componentsNSC(),
+            let (a1, r1, g1, b1) = color.componentsNSC() {
             let threshold: CGFloat = CDSettings.thresholdDistinctColor
             if fabs(r - r1) > threshold || fabs(g - g1) > threshold || fabs(b - b1) > threshold || fabs(a - a1) > threshold {
                 // check for grays, prevent multiple gray colors
@@ -78,7 +79,8 @@ public extension NSColor {
     }
     
     public func doesNotContrastWith(_ color: NSColor) -> Bool {
-        guard let (_, br, bg, bb) = self.componentsNSC(), (_, fr, fg, fb) = color.componentsNSC() else { return false }
+        guard let (_, br, bg, bb) = self.componentsNSC(),
+            let (_, fr, fg, fb) = color.componentsNSC() else { return false }
         let bLum: CGFloat = CDSettings.YUVRedRatio * br + CDSettings.YUVGreenRatio * bg + CDSettings.YUVBlueRatio * bb
         let fLum: CGFloat = CDSettings.YUVRedRatio * fr + CDSettings.YUVGreenRatio * fg + CDSettings.YUVBlueRatio * fb
         let contrast: CGFloat

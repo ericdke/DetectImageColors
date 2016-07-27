@@ -18,9 +18,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.title = "DetectImageColors"
         window.backgroundColor = NSColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         do {
-            if let apPath = Bundle.main().pathForResource("defaultPresets", ofType: "json"),
-                apData = try? Data(contentsOf: URL(fileURLWithPath: apPath)),
-                apJSON = try JSONSerialization.jsonObject(with: apData, options: []) as? [[String:AnyObject]] {
+            if let apPath = Bundle.main.pathForResource("defaultPresets", ofType: "json"),
+                let apData = try? Data(contentsOf: URL(fileURLWithPath: apPath)),
+                let apJSON = try JSONSerialization.jsonObject(with: apData, options: []) as? [[String:AnyObject]] {
                 for pres in apJSON {
                     let p = Preset(name: pres["name"] as! String,
                                    brightness: pres["brightness"] as! CGFloat,
@@ -37,14 +37,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print(error)
             fatalError()
         }
-        UserDefaults.standard().set(defaultSettings, forKey: "defaultSettings")
-        if let data = UserDefaults.standard().object(forKey: "allPresets") as? Data,
-            presets = NSKeyedUnarchiver.unarchiveObject(with: data) as? [Preset] {
+        UserDefaults.standard.set(defaultSettings, forKey: "defaultSettings")
+        if let data = UserDefaults.standard.object(forKey: "allPresets") as? Data,
+            let presets = NSKeyedUnarchiver.unarchiveObject(with: data) as? [Preset] {
             self.presets = presets
         } else {
             self.presets = defaultPresets.sorted { $0.name < $1.name }
         }
-        NotificationCenter.default().post(name: Notification.Name(rawValue: "populatePresetsOK"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "populatePresetsOK"), object: nil, userInfo: nil)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

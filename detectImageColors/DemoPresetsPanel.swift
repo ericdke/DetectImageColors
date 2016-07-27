@@ -18,9 +18,9 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     @IBOutlet weak var demoControlsView: DemoControlsView!
     
     override func awakeFromNib() {
-        NotificationCenter.default().addObserver(self,
+        NotificationCenter.default.addObserver(self,
                                                  selector: #selector(DemoPresetsPanel.populatePresets(_:)),
-                                                 name: "populatePresetsOK",
+                                                 name: Notification.Name(rawValue: "populatePresetsOK"),
                                                  object: nil)
         tableView.doubleAction = #selector(DemoPresetsPanel.tableDoubleClicked(_:))
         tableView.target = self
@@ -75,7 +75,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func savePresets() {
-        UserDefaults.standard().set(NSKeyedArchiver.archivedData(withRootObject: allPresets),
+        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: allPresets),
                                     forKey: "allPresets")
     }
     
@@ -83,7 +83,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [SortDescriptor]) {
         if let descriptor = tableView.sortDescriptors.first,
-            key = descriptor.key {
+            let key = descriptor.key {
             switch key {
             case "Name":
                 if descriptor.ascending {
@@ -140,14 +140,14 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     func tableViewSelectionDidChange(_ notification: Notification) {
         currentPreset = nil
-        if let table = notification.object as? NSTableView where table.selectedRow != -1 {
+        if let table = notification.object as? NSTableView, table.selectedRow != -1 {
             currentPreset = allPresets[table.selectedRow]
         }
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let id = tableColumn?.identifier,
-            cell = tableView.make(withIdentifier: id, owner: self) as? NSTableCellView else {
+            let cell = tableView.make(withIdentifier: id, owner: self) as? NSTableCellView else {
                 return nil
         }
         let preset = allPresets[row]

@@ -31,7 +31,8 @@ class ExportColors {
         myFiledialog.canCreateDirectories = true
         myFiledialog.nameFieldStringValue = "colors-\(Int(Date.timeIntervalSinceReferenceDate)).png"
         if myFiledialog.runModal() == NSOnState {
-            if let chosenfile = myFiledialog.url, path = chosenfile.path {
+            if let chosenfile = myFiledialog.url,
+                let path = chosenfile.path {
                 try! data.write(to: URL(fileURLWithPath: path), options: [])
             }
         }
@@ -106,7 +107,8 @@ class ExportColors {
         let epoch = Int(Date.timeIntervalSinceReferenceDate)
         myFiledialog.nameFieldStringValue = "colors-\(epoch).json"
         if myFiledialog.runModal() == NSOnState {
-            if let chosenfile = myFiledialog.url, path = chosenfile.path {
+            if let chosenfile = myFiledialog.url,
+                let path = chosenfile.path {
                 try! json.write(to: URL(fileURLWithPath: path), options: [])
             }
         }
@@ -114,7 +116,7 @@ class ExportColors {
 
     private class func trashFile(path: String) {
         do {
-            try FileManager.default().removeItem(atPath: path)
+            try FileManager.default.removeItem(atPath: path)
         } catch {
             print(error)
         }

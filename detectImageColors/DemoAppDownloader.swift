@@ -13,10 +13,10 @@ class Downloader: NSObject {
     }
 
     func download(url: URL, completion: (data: Data) -> Void) {
-        let session = URLSession.shared()
+        let session = URLSession.shared
         let request = URLRequest(url: url)
         session.dataTask(with: request) { (data, response, downloadError) -> Void in
-            guard let dat = data where downloadError == nil else {
+            guard let dat = data, downloadError == nil else {
                 if let rp = response {
                     NSLog("%@", rp)
                 }
@@ -34,7 +34,7 @@ class Downloader: NSObject {
     func JSONDataToDictionary(data: Data?) -> [String: AnyObject]? {
         do {
             guard let dat = data,
-                json = try JSONSerialization.jsonObject(with: dat, options: []) as? [String: AnyObject]
+                let json = try JSONSerialization.jsonObject(with: dat, options: []) as? [String: AnyObject]
                 else {
                     throw DemoAppError.couldNotProcessDownloadedData
             }
@@ -59,8 +59,8 @@ class Downloader: NSObject {
         }
         download(url: validURL, completion: { (data) -> Void in
             guard let json = self.JSONDataToDictionary(data: data),
-                dic = json["name"] as? [String:AnyObject],
-                name = dic["value"] as? String
+                let dic = json["name"] as? [String:AnyObject],
+                let name = dic["value"] as? String
                 else {
                     return
             }

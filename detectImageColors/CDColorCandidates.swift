@@ -12,9 +12,9 @@ public struct ColorCandidates {
     
     public var dictionary: [String : [String : AnyObject]] {
         guard let primary = getRGBSpaceName(color: self.primary),
-            alternative = getRGBSpaceName(color: self.secondary),
-            detail = getRGBSpaceName(color: self.detail),
-            background = getRGBSpaceName(color: self.background) else {
+            let alternative = getRGBSpaceName(color: self.secondary),
+            let detail = getRGBSpaceName(color: self.detail),
+            let background = getRGBSpaceName(color: self.background) else {
                 return [:]
         }
         var dic = [String:[String:AnyObject]]()
