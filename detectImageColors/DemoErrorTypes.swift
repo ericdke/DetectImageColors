@@ -6,7 +6,7 @@
 //  Copyright © 2015 Eric Dejonckheere. All rights reserved.
 //
 
-enum DemoAppError: String, ErrorProtocol {
+enum DemoAppError: String, Error {
     case couldNotLoadColorNamesFile = "ERROR: could not load color names file"
     case couldNotSaveColorNamesFile = "ERROR: could not save color names file"
     case invalidFilePath = "ERROR: invalid file path"

@@ -59,7 +59,7 @@ class AppController: NSObject {
         if FileManager().fileExists(atPath: jpath) {
             try getNamedColorsFromFile(path: jpath)
         } else {
-            guard let bpath = Bundle.main.pathForResource("colors_dic", ofType: "json") else {
+            guard let bpath = Bundle.main.path(forResource: "colors_dic", ofType: "json") else {
                 throw DemoAppError.invalidFilePath
             }
             try getNamedColorsFromFile(path: bpath)

@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.title = "DetectImageColors"
         window.backgroundColor = NSColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         do {
-            if let apPath = Bundle.main.pathForResource("defaultPresets", ofType: "json"),
+            if let apPath = Bundle.main.path(forResource: "defaultPresets", ofType: "json"),
                 let apData = try? Data(contentsOf: URL(fileURLWithPath: apPath)),
                 let apJSON = try JSONSerialization.jsonObject(with: apData, options: []) as? [[String:AnyObject]] {
                 for pres in apJSON {

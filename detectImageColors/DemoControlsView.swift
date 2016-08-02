@@ -151,8 +151,9 @@ class DemoControlsView: NSView {
 
     private func updateColors(_ sender: AnyObject? = nil) {
         var dict = ["mouseUp":false]
-        if let sdr = sender as? NSSlider ?? sender as? NSButton,
-            let event = sdr.window?.currentEvent, event.type == NSEventType.leftMouseUp {
+        if let sdr = sender as? NSSlider,
+            let event = sdr.window?.currentEvent,
+            event.type == NSEventType.leftMouseUp {
             dict = ["mouseUp":true]
         }
         NotificationCenter.default.post(name: Notification.Name(rawValue: "updateColorCandidatesOK"),

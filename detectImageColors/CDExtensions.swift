@@ -66,7 +66,7 @@ public extension NSImage {
     // ------------------------------------
 
     // find what we think is the main color + other candidates
-    private func findEdgeColor() -> (color: NSColor?, set: CountedSet?) {
+    private func findEdgeColor() -> (color: NSColor?, set: NSCountedSet?) {
         guard let imageRep = self.representations.last as? NSBitmapImageRep else { return (nil, nil) }
         // sample the image, beginning with the left edge
         let (colors, leftEdgeColors) = sampleImage(width: imageRep.pixelsWide, height: imageRep.pixelsHigh, imageRep: imageRep)
@@ -77,9 +77,9 @@ public extension NSImage {
         return (proposedEdgeColor.color, colors)
     }
     
-    private func sampleImage(width: Int, height: Int, imageRep: NSBitmapImageRep) -> (CountedSet, CountedSet) {
-        let colors = CountedSet(capacity: width * height)
-        let leftEdgeColors = CountedSet(capacity: height)
+    private func sampleImage(width: Int, height: Int, imageRep: NSBitmapImageRep) -> (NSCountedSet, NSCountedSet) {
+        let colors = NSCountedSet(capacity: width * height)
+        let leftEdgeColors = NSCountedSet(capacity: height)
         // Use x = 0 to start scanning from the actual left edge
         // Default .DetectorDistanceFromLeftEdge is non-zero to deal with badly cropped images (only relevant for high-res scanning, without side effect otherwise)
         var x = CDSettings.detectorDistanceFromLeftEdge
@@ -138,7 +138,7 @@ public extension NSImage {
     }
     
     // sort the credible candidates from the noise
-    private func separateColors(edge: CountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
+    private func separateColors(edge: NSCountedSet, height: Int) -> ([CDCountedColor], [CDCountedColor]) {
         var rootColors = [CDCountedColor]()
         var lonelyColors = [CDCountedColor]()
         for case let current as NSColor in edge {
@@ -155,7 +155,7 @@ public extension NSImage {
     
     // ------------------------------------
     
-    private func findColors(in colors: CountedSet?, withBackgroundColor backgroundColor: NSColor) -> ColorCandidates? {
+    private func findColors(in colors: NSCountedSet?, withBackgroundColor backgroundColor: NSColor) -> ColorCandidates? {
         guard let sourceColors = colors else { return nil }
         var candidates = ColorCandidates()
         var rootColors = [CDCountedColor]()
@@ -219,9 +219,9 @@ public extension NSImage {
     
     private func rescueNilColor(hasDarkBackground: Bool) -> NSColor {
         if hasDarkBackground {
-            return NSColor.white()
+            return NSColor.white
         } else {
-            return NSColor.black()
+            return NSColor.black
         }
     }
     

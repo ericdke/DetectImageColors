@@ -81,7 +81,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     var allPresets = [Preset]()
     
-    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [SortDescriptor]) {
+    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
         if let descriptor = tableView.sortDescriptors.first,
             let key = descriptor.key {
             switch key {
@@ -169,7 +169,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
         return cell
     }
     
-    override func keyDown(_ theEvent: NSEvent) {
+    override func keyDown(with theEvent: NSEvent) {
         if theEvent.keyCode == 51 || theEvent.keyCode == 117 {
             if let cp = currentPreset {
                 if allPresets[tableView.selectedRow].defaultPreset {

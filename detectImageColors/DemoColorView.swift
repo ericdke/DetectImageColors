@@ -22,7 +22,7 @@ class DemoColorView: NSView {
         }
         super.draw(dirtyRect)
     }
-    override func mouseDragged(_ theEvent: NSEvent) {
+    override func mouseDragged(with theEvent: NSEvent) {
         if isMovable {
             let deltax = theEvent.deltaX
             let deltay = theEvent.deltaY

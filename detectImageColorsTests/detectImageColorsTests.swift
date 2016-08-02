@@ -33,7 +33,7 @@ class detectImageColorsTests: XCTestCase {
     }
 
     func testWithMinimumSaturationSame() {
-        let original = NSColor.green()
+        let original = NSColor.green
         let originalSaturation = original.saturationComponent
         let wms = original.applyingSaturation(minimum: CDSettings.thresholdMinimumSaturation)
         let resultSaturation = wms.saturationComponent
@@ -41,7 +41,7 @@ class detectImageColorsTests: XCTestCase {
     }
 
     func testLighterColor() {
-        let original = NSColor.black()
+        let original = NSColor.black
         let calibratedOriginal = original.usingColorSpaceName(NSCalibratedRGBColorSpace)!
         let originalRed = calibratedOriginal.redComponent
         let lighter = calibratedOriginal.lighter()
@@ -50,7 +50,7 @@ class detectImageColorsTests: XCTestCase {
     }
 
     func testDarkerColor() {
-        let original = NSColor.white()
+        let original = NSColor.white
         let calibratedOriginal = original.usingColorSpaceName(NSCalibratedRGBColorSpace)!
         let originalRed = calibratedOriginal.redComponent
         let darker = calibratedOriginal.darker()
@@ -79,7 +79,7 @@ class detectImageColorsTests: XCTestCase {
         let middle = NSColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
         var isMostlyBlackOrWhite = middle.isMostlyBlackOrWhite
         XCTAssert(!isMostlyBlackOrWhite, "Middle color is not mostly black or white")
-        let white = NSColor.white()
+        let white = NSColor.white
         isMostlyBlackOrWhite = white.isMostlyBlackOrWhite
         XCTAssert(isMostlyBlackOrWhite, "White color is mostly black or white")
     }

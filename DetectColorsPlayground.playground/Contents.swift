@@ -3,7 +3,7 @@
 // Open the "Assistant Editor" to view results
 
 import Cocoa
-import XCPlayground
+import PlaygroundSupport
 
 class DemoView: NSView {
     var color: NSColor? {
@@ -39,9 +39,9 @@ func makeTextField(frame: NSRect, color: NSColor, background: NSColor) -> NSText
 }
 
 // ---
-CDSettings.DetectorResolution = 10
-CDSettings.ThresholdDistinctColor = 0.43
-CDSettings.ContrastRatio = 2.1
+CDSettings.detectorResolution = 10
+CDSettings.thresholdDistinctColor = 0.43
+CDSettings.contrastRatio = 2.1
 
 let image = NSImage(named: "elton")!
 let colorCandidates = image.getColorCandidates()!
@@ -67,4 +67,5 @@ mainView.addSubview(DemoView(frame: NSMakeRect(400, 50, 100, 150), color: detail
 mainView.addSubview(makeTextField(frame: NSMakeRect(400, 20, 100, 20), color: detailColor, background: backgroundColor))
 mainView.addSubview(makeTextField(frame: NSMakeRect(400, 60, 100, 20), color: backgroundColor, background: detailColor))
 
-XCPShowView(identifier: "Colors", view: mainView)
+PlaygroundPage.current.liveView = mainView
+

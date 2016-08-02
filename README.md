@@ -20,7 +20,7 @@ let colorCandidates = image.getColorCandidates()
 
 ![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/691456c3-1d2b-4b3c-8faf-2105af6bb380/e43f803817a7a7a2/res/2d53de18-7bc0-444a-adea-40bc2213e48d/skitch.png)
 
-Download or clone the project, open in Xcode, build (Swift 3 only: Xcode 8+).
+Download or clone the project, open in Xcode, build (Swift 3 only: Xcode 8 beta 4+).
 
 You can drop a new image on the image view and tweak the sliders to find values you like for the thresholds and ratios.
 

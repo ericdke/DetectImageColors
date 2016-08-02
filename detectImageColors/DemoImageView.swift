@@ -99,11 +99,10 @@ class DemoImageView: NSImageView {
 
     private func checkExtension(pathStr: String) -> Bool {
         let url = URL(fileURLWithPath: pathStr)
-        if let suffix = url.pathExtension {
-            for ext in fileTypes {
-                if ext == suffix.lowercased() {
-                    return true
-                }
+        let suffix = url.pathExtension
+        for ext in fileTypes {
+            if ext == suffix.lowercased() {
+                return true
             }
         }
         return false
