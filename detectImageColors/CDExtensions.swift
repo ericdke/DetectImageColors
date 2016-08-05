@@ -218,9 +218,6 @@ public extension NSImage {
                     colors.detail = sec.lighter()
                 }
             }
-            if prim.isNear(of: back) {
-                colors.primary = hasDarkBackground ? NSColor.white : NSColor.black
-            }
             if sec.isNear(of: back) {
                 if hasDarkBackground {
                     colors.secondary = prim.darker()
