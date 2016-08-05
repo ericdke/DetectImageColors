@@ -189,27 +189,18 @@ public extension NSImage {
     
     private func createColors(from textColors: ColorCandidates, withDarkBackground darkBackground: Bool) -> ColorCandidates {
         var colors = textColors
-        
+        let rescueColor = darkBackground ? NSColor.white : NSColor.black
         // Finally, if we still have nil values for the text colors, let's try having at least black or white instead
-        
         if textColors.primary == nil {
-            colors.primary = rescueNilColor(hasDarkBackground: darkBackground)
+            colors.primary = rescueColor
         }
         if textColors.secondary == nil {
-            colors.secondary = rescueNilColor(hasDarkBackground: darkBackground)
+            colors.secondary = rescueColor
         }
         if textColors.detail == nil {
-            colors.detail = rescueNilColor(hasDarkBackground: darkBackground)
+            colors.detail = rescueColor
         }
         return colors
-    }
-    
-    private func rescueNilColor(hasDarkBackground: Bool) -> NSColor {
-        if hasDarkBackground {
-            return NSColor.white
-        } else {
-            return NSColor.black
-        }
     }
     
     private func createFadedColors(from colors: ColorCandidates, withDarkBackground hasDarkBackground: Bool) -> ColorCandidates {
@@ -228,7 +219,7 @@ public extension NSImage {
                 }
             }
             if prim.isNear(of: back) {
-                colors.primary = rescueNilColor(hasDarkBackground: hasDarkBackground)
+                colors.primary = hasDarkBackground ? NSColor.white : NSColor.black
             }
             if sec.isNear(of: back) {
                 if hasDarkBackground {
