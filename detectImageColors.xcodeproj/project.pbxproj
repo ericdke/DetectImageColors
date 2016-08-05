@@ -37,6 +37,7 @@
 		C7D49DD71AFEAD9000CD8901 /* CDSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74B586C1AD2F87F00C6EE4F /* CDSettings.swift */; };
 		C7D49DD81AFEAD9200CD8901 /* CDColorCandidates.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE041ACF76C3004BD9BA /* CDColorCandidates.swift */; };
 		C7D49DD91AFEAD9500CD8901 /* CDColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */; };
+		C7E52C631D54F8FA002AB693 /* DemoProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E52C621D54F8FA002AB693 /* DemoProtocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		C7B005781B7283D000EFF58A /* CDExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDExtensions.swift; sourceTree = "<group>"; };
 		C7B0057B1B728D8600EFF58A /* DemoExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoExtensions.swift; sourceTree = "<group>"; };
 		C7B573ED1AD0909500C44CDF /* DemoAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppController.swift; sourceTree = "<group>"; };
+		C7E52C621D54F8FA002AB693 /* DemoProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoProtocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,8 @@
 				C71FDDE71ACF7642004BD9BA /* Images.xcassets */,
 				C71FDDE91ACF7642004BD9BA /* MainMenu.xib */,
 				C71FDDE51ACF7642004BD9BA /* AppDelegate.swift */,
+				C7E52C621D54F8FA002AB693 /* DemoProtocols.swift */,
+				C7B0057B1B728D8600EFF58A /* DemoExtensions.swift */,
 				C7B573ED1AD0909500C44CDF /* DemoAppController.swift */,
 				C73D12E41B85408B006A47E8 /* DemoPresetsPanel.swift */,
 				C74A5BD21B8621970098FFFF /* DemoPresetModel.swift */,
@@ -171,11 +175,10 @@
 				C72CCCF71B2486FF007FAE74 /* DemoColorsFromImage.swift */,
 				C721BC101B35C82E001C3896 /* DemoColorView.swift */,
 				C72CCCF91B249193007FAE74 /* DemoControlsView.swift */,
-				C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */,
 				C74B58681AD2C0C300C6EE4F /* DemoImageView.swift */,
 				C72CCD011B24C247007FAE74 /* DemoExportColors.swift */,
-				C7B0057B1B728D8600EFF58A /* DemoExtensions.swift */,
 				C74A5BD41B8621C60098FFFF /* DemoErrorTypes.swift */,
+				C74AC4401B1A1C2F00B505BC /* DemoBackgroundView.swift */,
 			);
 			name = "Demo App";
 			sourceTree = "<group>";
@@ -323,6 +326,7 @@
 				C72CCCFA1B249193007FAE74 /* DemoControlsView.swift in Sources */,
 				C7B0057C1B728D8600EFF58A /* DemoExtensions.swift in Sources */,
 				C74AC4411B1A1C2F00B505BC /* DemoBackgroundView.swift in Sources */,
+				C7E52C631D54F8FA002AB693 /* DemoProtocols.swift in Sources */,
 				C74A5BD51B8621C60098FFFF /* DemoErrorTypes.swift in Sources */,
 				C71FDE031ACF76A0004BD9BA /* CDColorExtensions.swift in Sources */,
 				C77FBFEE1B38156C00CDF44A /* DemoAppDownloader.swift in Sources */,

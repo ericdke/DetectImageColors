@@ -1,5 +1,3 @@
-//  SWIFT 2
-
 import Cocoa
 
 public extension NSColor {

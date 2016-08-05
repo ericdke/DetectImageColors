@@ -1,6 +1,4 @@
-//  DEMO APP
-
-//  SWIFT 2
+// DEMO APP
 
 import Cocoa
 
@@ -22,6 +20,8 @@ class DemoControlsView: NSView {
     @IBOutlet weak var contrastRatioValue: NSTextField!
     @IBOutlet weak var contrastRatioTitle: NSTextField!
     @IBOutlet weak var ensureContrastedColorCandidates: NSButton!
+    
+    var controlsDelegate: ControlsDelegate?
 
     func setSlidersDefaults() {
         distinctColors.doubleValue = CDSettings.thresholdDistinctColor.formatSliderDouble()
@@ -58,9 +58,7 @@ class DemoControlsView: NSView {
             contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.contrastRatio)
             CDSettings.ensureContrastedColorCandidates = pres.contrastedCandidates
             ensureContrastedColorCandidates.state = Int(pres.contrastedCandidates)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "updateColorCandidatesOK"),
-                                              object: nil,
-                                              userInfo: ["mouseUp":true])
+            controlsDelegate?.updateColorCandidates(mouseUp: true)
         } catch let demoAppError as DemoAppError {
             Swift.print(demoAppError)
         } catch let error as NSError {
@@ -150,15 +148,13 @@ class DemoControlsView: NSView {
     }
 
     private func updateColors(_ sender: AnyObject? = nil) {
-        var dict = ["mouseUp":false]
         if let sdr = sender as? NSSlider,
             let event = sdr.window?.currentEvent,
-            event.type == NSEventType.leftMouseUp {
-            dict = ["mouseUp":true]
+            event.type == .leftMouseUp {
+            controlsDelegate?.updateColorCandidates(mouseUp: true)
+        } else {
+            controlsDelegate?.updateColorCandidates(mouseUp: false)
         }
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "updateColorCandidatesOK"),
-                                          object: nil,
-                                          userInfo: dict)
     }
 
 }

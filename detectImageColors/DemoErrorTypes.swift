@@ -1,10 +1,4 @@
-//
-//  DemoErrorTypes.swift
-//  detectImageColors
-//
-//  Created by ERIC DEJONCKHEERE on 20/08/2015.
-//  Copyright © 2015 Eric Dejonckheere. All rights reserved.
-//
+// DEMO APP
 
 enum DemoAppError: String, Error {
     case couldNotLoadColorNamesFile = "ERROR: could not load color names file"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11185.3" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8173.3"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11185.3"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -21,6 +21,7 @@
         <customObject id="UW4-RA-zN2" customClass="AppController" customModule="detectImageColors" customModuleProvider="target">
             <connections>
                 <outlet property="backgroundView" destination="b9r-ac-ZnS" id="dHX-Qe-tf9"/>
+                <outlet property="controlsView" destination="aqM-ky-6xa" id="Sn1-OL-7Ui"/>
                 <outlet property="detailColorLabel" destination="dnt-tG-dcO" id="J4X-mv-00K"/>
                 <outlet property="detailColorNameLabel" destination="R36-NJ-i14" id="Jsc-eu-jpA"/>
                 <outlet property="detailColorView" destination="0Rc-PF-Ju6" id="Bdx-jX-dxz"/>
@@ -168,8 +169,8 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="dnt-tG-dcO">
                                 <rect key="frame" x="93" y="50" width="109" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="akc-Zp-m9l">
-                                    <font key="font" size="24" name="HelveticaNeue"/>
+                                <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="akc-Zp-m9l">
+                                    <font key="font" size="16" name="HelveticaNeue"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -177,8 +178,8 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="jf1-O4-IQQ">
                                 <rect key="frame" x="93" y="195" width="109" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="bwN-L2-QP1">
-                                    <font key="font" size="24" name="HelveticaNeue"/>
+                                <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="bwN-L2-QP1">
+                                    <font key="font" size="16" name="HelveticaNeue"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -222,8 +223,8 @@
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="l8q-DF-FV0">
                                 <rect key="frame" x="93" y="341" width="109" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="fNQ-cq-Hlm">
-                                    <font key="font" size="24" name="HelveticaNeue"/>
+                                <textFieldCell key="cell" selectable="YES" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="fNQ-cq-Hlm">
+                                    <font key="font" size="16" name="HelveticaNeue"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -532,11 +533,11 @@ Gw
                         <rect key="frame" x="20" y="61" width="485" height="334"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="puu-zP-jny">
-                            <rect key="frame" x="1" y="17" width="483" height="316"/>
+                            <rect key="frame" x="1" y="0.0" width="483" height="333"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="ukD-C9-V2B" viewBased="YES" id="QmD-ct-Shk">
-                                    <rect key="frame" x="0.0" y="0.0" width="483" height="0.0"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="483" height="316"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -780,7 +781,6 @@ Gw
                                     </connections>
                                 </tableView>
                             </subviews>
-                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </clipView>
                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="cp8-ax-nNx">
                             <rect key="frame" x="1" y="318" width="483" height="15"/>

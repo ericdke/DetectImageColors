@@ -1,6 +1,4 @@
-//  DEMO APP
-
-//  SWIFT 2
+// DEMO APP
 
 import Cocoa
 
@@ -12,6 +10,8 @@ class DemoImageView: NSImageView {
     let backgroundDemoColorView = DemoColorView()
     
     let downloader = Downloader()
+    
+    var dropDelegate: ImageDropDelegate?
 
     override func draw(_ dirtyRect: NSRect) {
         addColorView()
@@ -70,7 +70,7 @@ class DemoImageView: NSImageView {
     private func imageDropped(paste: (type: DragType, value: String)) {
         if paste.type == .path {
             if let img = NSImage(contentsOfFile: paste.value) {
-                updateImage(image: img)
+                dropDelegate?.updateImage(image: img)
             }
         } else {
             let rules = CharacterSet.urlQueryAllowed
@@ -85,16 +85,10 @@ class DemoImageView: NSImageView {
         downloader.download(url: url) { (data) -> Void in
             if let img = NSImage(data: data) {
                 DispatchQueue.main.async {
-                    self.updateImage(image: img)
+                    self.dropDelegate?.updateImage(image: img)
                 }
             }
         }
-    }
-
-    private func updateImage(image: NSImage) {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "updateImageByDropOK"),
-                                          object: nil,
-                                          userInfo: ["image": image])
     }
 
     private func checkExtension(pathStr: String) -> Bool {
@@ -109,3 +103,5 @@ class DemoImageView: NSImageView {
     }
 
 }
+
+

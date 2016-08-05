@@ -1,10 +1,8 @@
 //  DEMO APP
 
-//  SWIFT 2
-
 import Cocoa
 
-class AppController: NSObject {
+class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
 
     var colorsFromImage = ColorsFromImage()
     var namedColors = [String:String]()
@@ -25,17 +23,15 @@ class AppController: NSObject {
             self.colorCandidates = candidates
         }
     }
-
-    func updateColorCandidates(notification: Notification) {
-        // FIXME: crap system, should be refactored
-        if let info = (notification as NSNotification).userInfo as? [String:Bool],
-            let boo = info["mouseUp"] {
-            shouldUpdateColorNames = boo
-        }
+    
+    func updateColorCandidates(mouseUp: Bool) {
+        shouldUpdateColorNames = mouseUp
         updateColorCandidates()
     }
 
     override func awakeFromNib() {
+        imageView.dropDelegate = self
+        controlsView.controlsDelegate = self
         do {
             try initColorNamesFile()
             guard let elton = NSImage(named: "elton") else {
@@ -47,9 +43,6 @@ class AppController: NSObject {
         } catch {
             print(error)
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(AppController.updateImage(_:)), name: Notification.Name(rawValue: "updateImageByDropOK"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(AppController.updateColorCandidates(notification:)), name: Notification.Name(rawValue: "updateColorCandidatesOK"), object: nil)
     }
     
     private func initColorNamesFile() throws {
@@ -65,12 +58,10 @@ class AppController: NSObject {
             try getNamedColorsFromFile(path: bpath)
         }
     }
-
-    func updateImage(_ notification: Notification) {
-        if let dic = (notification as NSNotification).userInfo as? [String: NSImage],
-            let img = dic["image"] {
-            analyseImageAndSetImageView(with: img)
-        }
+    
+    // delegate
+    func updateImage(image: NSImage) {
+        analyseImageAndSetImageView(with: image)
     }
 
     private func analyseImageAndSetImageView(with image: NSImage) {
@@ -79,7 +70,7 @@ class AppController: NSObject {
         imageView.image = image
         colorCandidates = colorsFromImage.getColors(from: image)
     }
-
+    
     private func refreshWindowElements() {
         if let cols = colorCandidates {
             do {
@@ -101,21 +92,7 @@ class AppController: NSObject {
 
                 spinner.startAnimation(nil)
                 
-                primaryColorView.backgroundColorLabel.textColor = bg
-                secondaryColorView.backgroundColorLabel.textColor = bg
-                detailColorView.backgroundColorLabel.textColor = bg
-                
-                primaryColorView.color = prim
-                secondaryColorView.color = sec
-                detailColorView.color = det
-                
-                primaryColorLabel.textColor = prim
-                secondaryColorLabel.textColor = sec
-                detailColorLabel.textColor = det
-                
-                primaryColorNameLabel.textColor = prim
-                secondaryColorNameLabel.textColor = sec
-                detailColorNameLabel.textColor = det
+                refreshLabels(prim, sec, det, bg)
                 
                 primaryColorLabel.stringValue = primCSS
                 secondaryColorLabel.stringValue = secCSS
@@ -125,70 +102,10 @@ class AppController: NSObject {
                 
                 showOverlay()
                 
-                if let match = namedColors[bgCSS] {
-                    updateBGColorLabels(string: bgCSS + " " + match)
-                } else {
-                    if shouldUpdateColorNames {
-                        // Basic request cache to avoid launching the same request several times before the first one finishes
-                        if cache[bgCSS] == nil {
-                            cache[bgCSS] = 1
-                            downloader.getName(for: bg) { name in
-                                self.updateBGColorLabels(string: bgCSS + " " + name)
-                                self.namedColors[bgCSS] = name
-                            }
-                        } else {
-                            cache[bgCSS]! += 1
-                        }
-                    }
-                }
-                
-                if let match = namedColors[primCSS] {
-                    primaryColorNameLabel.stringValue = match
-                } else {
-                    if shouldUpdateColorNames {
-                        if cache[primCSS] == nil {
-                            cache[primCSS] = 1
-                            downloader.getName(for: prim) { name in
-                                self.primaryColorNameLabel.stringValue = name
-                                self.namedColors[primCSS] = name
-                            }
-                        } else {
-                            cache[primCSS]! += 1
-                        }
-                    }
-                }
-                
-                if let match = namedColors[secCSS] {
-                    secondaryColorNameLabel.stringValue = match
-                } else {
-                    if shouldUpdateColorNames {
-                        if cache[secCSS] == nil {
-                            cache[secCSS] = 1
-                            downloader.getName(for: sec) { name in
-                                self.secondaryColorNameLabel.stringValue = name
-                                self.namedColors[secCSS] = name
-                            }
-                        } else {
-                            cache[secCSS]! += 1
-                        }
-                    }
-                }
-                
-                if let match = namedColors[detCSS] {
-                    detailColorNameLabel.stringValue = match
-                } else {
-                    if shouldUpdateColorNames {
-                        if cache[detCSS] == nil {
-                            cache[detCSS] = 1
-                            downloader.getName(for: det) { name in
-                                self.detailColorNameLabel.stringValue = name
-                                self.namedColors[detCSS] = name
-                            }
-                        } else {
-                            cache[detCSS]! += 1
-                        }
-                    }
-                }
+                colorNameForLabelBG(css: bgCSS, bg: bg)
+                colorName(for: primaryColorLabel, css: primCSS, col: prim)
+                colorName(for: secondaryColorLabel, css: secCSS, col: sec)
+                colorName(for: detailColorLabel, css: detCSS, col: det)
                 
                 spinner.stopAnimation(nil)
                 window.display()
@@ -197,6 +114,57 @@ class AppController: NSObject {
                 print(demoAppError.rawValue)
             } catch {
                 print(error)
+            }
+        }
+    }
+    
+    private func refreshLabels(_ prim: NSColor, _ sec: NSColor, _ det: NSColor, _ bg: NSColor) {
+        primaryColorView.color = prim
+        primaryColorLabel.textColor = prim
+        primaryColorNameLabel.textColor = prim
+        secondaryColorView.color = sec
+        secondaryColorLabel.textColor = sec
+        secondaryColorNameLabel.textColor = sec
+        detailColorView.color = det
+        detailColorLabel.textColor = det
+        detailColorNameLabel.textColor = det
+        primaryColorView.backgroundColorLabel.textColor = bg
+        secondaryColorView.backgroundColorLabel.textColor = bg
+        detailColorView.backgroundColorLabel.textColor = bg
+    }
+    
+    private func colorNameForLabelBG(css: String, bg: NSColor) {
+        if let match = namedColors[css] {
+            updateBGColorLabels(string: css + " " + match)
+        } else {
+            if shouldUpdateColorNames {
+                if cache[css] == nil {
+                    cache[css] = 1
+                    downloader.getName(for: bg) { name in
+                        self.namedColors[css] = name
+                        self.updateBGColorLabels(string: css + " " + name)
+                    }
+                } else {
+                    cache[css]! += 1
+                }
+            }
+        }
+    }
+    
+    private func colorName(for label: NSTextField, css: String, col: NSColor) {
+        if let match = namedColors[css] {
+            label.stringValue = match
+        } else {
+            if shouldUpdateColorNames {
+                if cache[css] == nil {
+                    cache[css] = 1
+                    downloader.getName(for: col) { name in
+                        self.namedColors[css] = name
+                        label.stringValue = name
+                    }
+                } else {
+                    cache[css]! += 1
+                }
             }
         }
     }
@@ -291,6 +259,7 @@ class AppController: NSObject {
     @IBOutlet weak var detailColorNameLabel: NSTextField!
     @IBOutlet weak var presetsPanel: NSPanel!
 
+    @IBOutlet weak var controlsView: DemoControlsView!
 }
 
 

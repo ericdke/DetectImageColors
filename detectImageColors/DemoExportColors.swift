@@ -1,6 +1,4 @@
-//  DEMO APP
-
-//  SWIFT 2
+// DEMO APP
 
 import Cocoa
 
