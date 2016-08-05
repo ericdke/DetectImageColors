@@ -19,22 +19,6 @@ class ExportColors {
 
     // ---
 
-    class func saveJSONFile(colors: ColorCandidates) {
-        saveJSONFile(json: colors.toJSONData())
-    }
-
-    class func savePNGFile(data: Data) {
-        let myFiledialog: NSSavePanel = NSSavePanel()
-        myFiledialog.title = "Select the destination for the PNG file"
-        myFiledialog.canCreateDirectories = true
-        myFiledialog.nameFieldStringValue = "colors-\(Int(Date.timeIntervalSinceReferenceDate)).png"
-        if myFiledialog.runModal() == NSOnState {
-            if let chosenfile = myFiledialog.url {
-                try! data.write(to: URL(fileURLWithPath: chosenfile.path), options: [])
-            }
-        }
-    }
-
     class func makeColorView(colorCandidates: ColorCandidates, image: NSImage) -> NSView {
         let mainView = NSView(frame: NSMakeRect(0, 0, 600, 600))
         let imageView = NSImageView(frame: NSMakeRect(150, 250, 300, 300))
@@ -95,27 +79,6 @@ class ExportColors {
         view.addSubview(views.secondary)
         view.addSubview(views.detail)
         return view
-    }
-
-    private class func saveJSONFile(json: Data) {
-        let myFiledialog: NSSavePanel = NSSavePanel()
-        myFiledialog.title = "Select the destination for the JSON file"
-        myFiledialog.canCreateDirectories = true
-        let epoch = Int(Date.timeIntervalSinceReferenceDate)
-        myFiledialog.nameFieldStringValue = "colors-\(epoch).json"
-        if myFiledialog.runModal() == NSOnState {
-            if let chosenfile = myFiledialog.url {
-                try! json.write(to: URL(fileURLWithPath: chosenfile.path), options: [])
-            }
-        }
-    }
-
-    private class func trashFile(path: String) {
-        do {
-            try FileManager.default.removeItem(atPath: path)
-        } catch {
-            print(error)
-        }
     }
 
 }

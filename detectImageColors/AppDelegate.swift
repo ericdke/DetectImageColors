@@ -8,6 +8,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var window: NSWindow!
     @IBOutlet weak var appController: AppController!
     
+    let filesManager = FilesManager()
     var presets = [Preset]()
     var defaultPresets = [Preset]()
 
@@ -16,8 +17,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.title = "DetectImageColors"
         window.backgroundColor = NSColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         do {
-            if let apPath = Bundle.main.path(forResource: "defaultPresets", ofType: "json"),
-                let apData = try? Data(contentsOf: URL(fileURLWithPath: apPath)),
+            if let apData = filesManager.defaultPresetsData,
                 let apJSON = try JSONSerialization.jsonObject(with: apData, options: []) as? [[String:AnyObject]] {
                 for pres in apJSON {
                     let p = Preset(name: pres["name"] as! String,
@@ -35,14 +35,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             print(error)
             fatalError()
         }
-        UserDefaults.standard.set(defaultSettings, forKey: "defaultSettings")
-        if let data = UserDefaults.standard.object(forKey: "allPresets") as? Data,
-            let presets = NSKeyedUnarchiver.unarchiveObject(with: data) as? [Preset] {
-            self.presets = presets
+        filesManager.save(defaultSettings: defaultSettings)
+        let allPresets = filesManager.allPresets
+        if !allPresets.isEmpty {
+            self.presets = allPresets
         } else {
             self.presets = defaultPresets.sorted { $0.name < $1.name }
         }
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "populatePresetsOK"), object: nil, userInfo: nil)
+        appController.presetsPanel.populatePresets(def: defaultPresets, all: presets)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -51,11 +51,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     private func saveNamedColors() {
-        if let path = appController.getJSONFilePath() {
+        if let path = filesManager.getJSONFilePath() {
             do {
                 let enc = try JSONSerialization.data(withJSONObject: appController.namedColors, options: .prettyPrinted)
-                let written = (try? enc.write(to: URL(fileURLWithPath: path), options: [])) != nil
-                if !written { throw DemoAppError.couldNotSaveColorNamesFile }
+                try filesManager.saveColorNamesFile(data: enc, path: path)
             } catch let demoAppError as DemoAppError {
                 print(demoAppError.rawValue)
             } catch {

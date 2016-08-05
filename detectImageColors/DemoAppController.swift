@@ -3,10 +3,28 @@
 import Cocoa
 
 class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
+    
+    @IBOutlet weak var window: NSWindow!
+    @IBOutlet weak var imageView: DemoImageView!
+    @IBOutlet weak var backgroundView: DemoBackgroundView!
+    @IBOutlet weak var spinner: NSProgressIndicator!
+    @IBOutlet weak var primaryColorView: DemoColorView!
+    @IBOutlet weak var secondaryColorView: DemoColorView!
+    @IBOutlet weak var detailColorView: DemoColorView!
+    @IBOutlet weak var primaryColorLabel: NSTextField!
+    @IBOutlet weak var secondaryColorLabel: NSTextField!
+    @IBOutlet weak var detailColorLabel: NSTextField!
+    @IBOutlet weak var showOverlayButton: NSButton!
+    @IBOutlet weak var primaryColorNameLabel: NSTextField!
+    @IBOutlet weak var secondaryColorNameLabel: NSTextField!
+    @IBOutlet weak var detailColorNameLabel: NSTextField!
+    @IBOutlet weak var presetsPanel: DemoPresetsPanel!
+    @IBOutlet weak var controlsView: DemoControlsView!
 
     var colorsFromImage = ColorsFromImage()
     var namedColors = [String:String]()
     let downloader = Downloader()
+    let filesManager = FilesManager()
     var colorCandidates: ColorCandidates? {
         didSet {
             spinner.stopAnimation(nil)
@@ -46,16 +64,17 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
     }
     
     private func initColorNamesFile() throws {
-        guard let jpath = getJSONFilePath() else {
+        // custom file vs default file
+        guard let jpath = filesManager.getJSONFilePath() else {
             throw DemoAppError.invalidFilePath
         }
-        if FileManager().fileExists(atPath: jpath) {
-            try getNamedColorsFromFile(path: jpath)
+        if filesManager.fileExists(at: jpath) {
+            namedColors = try filesManager.namedColorsFromFile(path: jpath)
         } else {
-            guard let bpath = Bundle.main.path(forResource: "colors_dic", ofType: "json") else {
+            guard let bpath = filesManager.colorsPath else {
                 throw DemoAppError.invalidFilePath
             }
-            try getNamedColorsFromFile(path: bpath)
+            namedColors = try filesManager.namedColorsFromFile(path: bpath)
         }
     }
     
@@ -151,6 +170,12 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
         }
     }
     
+    private func updateBGColorLabels(string: String) {
+        primaryColorView.backgroundColorLabel.stringValue = string
+        secondaryColorView.backgroundColorLabel.stringValue = string
+        detailColorView.backgroundColorLabel.stringValue = string
+    }
+    
     private func colorName(for label: NSTextField, css: String, col: NSColor) {
         if let match = namedColors[css] {
             label.stringValue = match
@@ -169,27 +194,15 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
         }
     }
 
-    private func updateBGColorLabels(string: String) {
-        primaryColorView.backgroundColorLabel.stringValue = string
-        secondaryColorView.backgroundColorLabel.stringValue = string
-        detailColorView.backgroundColorLabel.stringValue = string
-    }
-
     @IBAction func showOverlayClicked(_ sender: NSButton) {
         showOverlay()
     }
-
+    
     private func showOverlay() {
         if showOverlayButton.state == NSOnState {
-            imageView.primaryDemoColorView.color = colorCandidates!.primary!.withAlphaComponent(0.9)
-            imageView.secondaryDemoColorView.color = colorCandidates!.secondary!.withAlphaComponent(0.9)
-            imageView.detailDemoColorView.color = colorCandidates!.detail!.withAlphaComponent(0.9)
-            imageView.backgroundDemoColorView.color = colorCandidates!.background!.withAlphaComponent(0.9)
+            imageView.showOverlay(candidates: colorCandidates)
         } else {
-            imageView.primaryDemoColorView.color = nil
-            imageView.secondaryDemoColorView.color = nil
-            imageView.detailDemoColorView.color = nil
-            imageView.backgroundDemoColorView.color = nil
+            imageView.showOverlay(candidates: nil)
         }
     }
 
@@ -199,7 +212,7 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
 
     @IBAction func exportColorsToJSON(_ sender: NSMenuItem) {
         if let cols = colorCandidates {
-            ExportColors.saveJSONFile(colors: cols)
+            filesManager.save(json: cols.toJSONData())
         }
     }
 
@@ -207,59 +220,21 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
         guard let _ = colorCandidates else { return }  // shouldn't be nil, but let's be sure
         showOverlayButton.isHidden = true
         if let png = backgroundView.makePNGFromView() {
-            ExportColors.savePNGFile(data: png)
+            filesManager.save(png: png)
         }
         showOverlayButton.isHidden = false
     }
 
     @IBAction func openImageFile(_ sender: NSMenuItem) {
-        let dialog = NSOpenPanel()
-        dialog.allowsMultipleSelection = false
-        dialog.canChooseDirectories = false
-        dialog.allowedFileTypes = ["jpg", "jpeg", "bmp", "png", "gif", "JPG", "JPEG", "BMP", "PNG", "GIF"]
-        dialog.title = "Choose an image"
-        dialog.runModal()
-        if let chosenfile = dialog.url,
-            let img = NSImage(contentsOf: chosenfile) {
+        if let url = filesManager.selectImageURL(),
+            let img = NSImage(contentsOf: url) {
             analyseImageAndSetImageView(with: img)
         }
     }
 
-    private func getNamedColorsFromFile(path: String) throws {
-        guard let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-            let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String:String]
-            else {
-                throw DemoAppError.couldNotLoadColorNamesFile
-        }
-        namedColors = json
-    }
+    
 
-    func getJSONFilePath() -> String? {
-        let d = FileManager.SearchPathDirectory.documentDirectory
-        let m = FileManager.SearchPathDomainMask.allDomainsMask
-        guard let dirs:[NSString] = NSSearchPathForDirectoriesInDomains(d, m, true), !dirs.isEmpty else {
-            return nil
-        }
-        return dirs[0].appendingPathComponent("colors_dic.json")
-    }
 
-    @IBOutlet weak var window: NSWindow!
-    @IBOutlet weak var imageView: DemoImageView!
-    @IBOutlet weak var backgroundView: DemoBackgroundView!
-    @IBOutlet weak var spinner: NSProgressIndicator!
-    @IBOutlet weak var primaryColorView: DemoColorView!
-    @IBOutlet weak var secondaryColorView: DemoColorView!
-    @IBOutlet weak var detailColorView: DemoColorView!
-    @IBOutlet weak var primaryColorLabel: NSTextField!
-    @IBOutlet weak var secondaryColorLabel: NSTextField!
-    @IBOutlet weak var detailColorLabel: NSTextField!
-    @IBOutlet weak var showOverlayButton: NSButton!
-    @IBOutlet weak var primaryColorNameLabel: NSTextField!
-    @IBOutlet weak var secondaryColorNameLabel: NSTextField!
-    @IBOutlet weak var detailColorNameLabel: NSTextField!
-    @IBOutlet weak var presetsPanel: NSPanel!
-
-    @IBOutlet weak var controlsView: DemoControlsView!
 }
 
 

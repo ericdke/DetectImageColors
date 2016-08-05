@@ -578,7 +578,7 @@ Gw
                                         </tableColumn>
                                         <tableColumn identifier="TDCColumn" editable="NO" width="45" minWidth="10" maxWidth="3.4028234663852886e+38" id="pp9-Oh-mOq">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="TDC">
-                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -611,7 +611,7 @@ Gw
                                         </tableColumn>
                                         <tableColumn identifier="CRColumn" editable="NO" width="46" minWidth="10" maxWidth="3.4028234663852886e+38" id="6sN-jU-p2u">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="CR">
-                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -644,7 +644,7 @@ Gw
                                         </tableColumn>
                                         <tableColumn identifier="NTColumn" editable="NO" width="35" minWidth="10" maxWidth="3.4028234663852886e+38" id="Fj5-kT-xeY">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="NT">
-                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -677,7 +677,7 @@ Gw
                                         </tableColumn>
                                         <tableColumn identifier="TFBColumn" editable="NO" width="47" minWidth="10" maxWidth="3.4028234663852886e+38" id="ANv-YX-PC0">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="TFB">
-                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -710,7 +710,7 @@ Gw
                                         </tableColumn>
                                         <tableColumn identifier="TMSColumn" editable="NO" width="49" minWidth="10" maxWidth="3.4028234663852886e+38" id="9xD-o7-psN">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="TMS">
-                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>
@@ -743,7 +743,7 @@ Gw
                                         </tableColumn>
                                         <tableColumn identifier="ECCCColumn" editable="NO" width="47" minWidth="10" maxWidth="3.4028234663852886e+38" id="Jxo-74-TZp">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="ECCC">
-                                                <font key="font" size="9" name=".HelveticaNeueDeskInterface-Regular"/>
+                                                <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                             </tableHeaderCell>

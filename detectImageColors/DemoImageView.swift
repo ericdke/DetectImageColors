@@ -17,6 +17,13 @@ class DemoImageView: NSImageView {
         addColorView()
         super.draw(dirtyRect)
     }
+    
+    func showOverlay(candidates: ColorCandidates?) {
+        primaryDemoColorView.color = candidates?.primary?.withAlphaComponent(0.9)
+        secondaryDemoColorView.color = candidates?.secondary?.withAlphaComponent(0.9)
+        detailDemoColorView.color = candidates?.detail?.withAlphaComponent(0.9)
+        backgroundDemoColorView.color = candidates?.background?.withAlphaComponent(0.9)
+    }
 
     func addColorView() {
         primaryDemoColorView.frame = NSMakeRect(50, (self.bounds.height / 2) - 25, 50, 50)

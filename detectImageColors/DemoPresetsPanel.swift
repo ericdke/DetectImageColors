@@ -8,15 +8,12 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     var currentPreset: Preset?
     var defaultPresetsCount = 0
+    let filesManager = FilesManager()
 
     @IBOutlet weak var demoControlsView: DemoControlsView!
     
     override func awakeFromNib() {
-        NotificationCenter.default.addObserver(self,
-                                                 selector: #selector(DemoPresetsPanel.populatePresets(_:)),
-                                                 name: Notification.Name(rawValue: "populatePresetsOK"),
-                                                 object: nil)
-        tableView.doubleAction = #selector(DemoPresetsPanel.tableDoubleClicked(_:))
+        tableView.doubleAction = #selector(tableDoubleClicked(_:))
         tableView.target = self
     }
     
@@ -25,11 +22,9 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
         loadPreset(nil)
     }
     
-    func populatePresets(_ notification: Notification) {
-        if let del = NSApplication.shared().delegate as? AppDelegate {
-            defaultPresetsCount = del.defaultPresets.count
-            allPresets = del.presets
-        }
+    func populatePresets(def: [Preset], all: [Preset]) {
+        defaultPresetsCount = def.count
+        allPresets = all
     }
     
     @IBAction func cancelPanel(_ sender: NSButton) {
@@ -42,19 +37,11 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     @IBAction func savePreset(_ sender: NSButton) {
-        let al: NSAlert = NSAlert()
-        al.messageText = "Choose a preset name"
-        al.alertStyle = NSAlertStyle.warning
-        al.addButton(withTitle: "Save")
-        al.addButton(withTitle: "Cancel")
-        let tf = NSTextField(frame: NSMakeRect(0, 0, 300, 24))
-        tf.placeholderString = "Description..."
-        al.accessoryView = tf
-        let button = al.runModal()
-        if button == NSAlertFirstButtonReturn {
-            tf.validateEditing()
-            if !tf.stringValue.isEmpty {
-                let pres = Preset(name: tf.stringValue,
+        let mod = filesManager.presetModal()
+        if mod.response == NSAlertFirstButtonReturn {
+            mod.textField.validateEditing()
+            if !mod.textField.stringValue.isEmpty {
+                let pres = Preset(name: mod.textField.stringValue,
                                   brightness: CDSettings.thresholdFloorBrightness,
                                   distinct: CDSettings.thresholdDistinctColor,
                                   saturation: CDSettings.thresholdMinimumSaturation,
@@ -63,14 +50,9 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
                                   contrasted: CDSettings.ensureContrastedColorCandidates)
                 allPresets.append(pres)
                 tableView.reloadData()
-                savePresets()
+                filesManager.save(presets: allPresets)
             }
         }
-    }
-    
-    func savePresets() {
-        UserDefaults.standard.set(NSKeyedArchiver.archivedData(withRootObject: allPresets),
-                                    forKey: "allPresets")
     }
     
     var allPresets = [Preset]()
@@ -169,17 +151,10 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
                 if allPresets[tableView.selectedRow].defaultPreset {
                     Swift.print("ERROR: can't delete default preset")
                 } else {
-                    let al: NSAlert = NSAlert()
-                    al.messageText = "Delete this preset?"
-                    al.informativeText = "Delete preset '\(cp.name)'?"
-                    al.alertStyle = NSAlertStyle.warning
-                    al.addButton(withTitle: "Delete")
-                    al.addButton(withTitle: "Cancel")
-                    let button = al.runModal()
-                    if button == NSAlertFirstButtonReturn {
+                    if filesManager.deleteModal(preset: cp) == NSAlertFirstButtonReturn {
                         allPresets.remove(at: tableView.selectedRow)
                         tableView.reloadData()
-                        savePresets()
+                        filesManager.save(presets: allPresets)
                     }
                 }
             }
