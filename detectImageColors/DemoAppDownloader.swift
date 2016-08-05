@@ -2,7 +2,7 @@
 
 import Cocoa
 
-class Downloader: NSObject {
+class Downloader {
     
     let colorsAPIHexURL = "http://www.thecolorapi.com/id?hex="
 
@@ -40,8 +40,8 @@ class Downloader: NSObject {
         } catch let demoAppError as DemoAppError {
             print(demoAppError)
             return nil
-        } catch let error as NSError {
-            print(error.debugDescription)
+        } catch {
+            print(error.localizedDescription)
             return nil
         }
     }

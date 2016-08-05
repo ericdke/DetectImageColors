@@ -61,8 +61,8 @@ class DemoControlsView: NSView {
             controlsDelegate?.updateColorCandidates(mouseUp: true)
         } catch let demoAppError as DemoAppError {
             Swift.print(demoAppError)
-        } catch let error as NSError {
-            Swift.print(error.debugDescription)
+        } catch {
+            Swift.print(error.localizedDescription)
         }
     }
     
@@ -89,8 +89,8 @@ class DemoControlsView: NSView {
             }
         } catch let demoAppError as DemoAppError {
             Swift.print(demoAppError)
-        } catch let error as NSError {
-            Swift.print(error.debugDescription)
+        } catch {
+            Swift.print(error.localizedDescription)
         }
     }
 
