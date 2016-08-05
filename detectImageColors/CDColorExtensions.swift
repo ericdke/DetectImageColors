@@ -73,10 +73,6 @@ public extension NSColor {
     }
     
     public func contrastsWith(_ color: NSColor) -> Bool {
-        return !doesNotContrastWith(color)
-    }
-    
-    public func doesNotContrastWith(_ color: NSColor) -> Bool {
         guard let (_, br, bg, bb) = self.componentsNSC(),
             let (_, fr, fg, fb) = color.componentsNSC() else { return false }
         let bLum: CGFloat = CDSettings.YUVRedRatio * br + CDSettings.YUVGreenRatio * bg + CDSettings.YUVBlueRatio * bb
@@ -87,7 +83,7 @@ public extension NSColor {
         } else {
             contrast = (fLum + CDSettings.luminanceAddedWeight) / (bLum + CDSettings.luminanceAddedWeight)
         }
-        return contrast < CDSettings.contrastRatio
+        return !(contrast < CDSettings.contrastRatio)
     }
     
     public func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String, clean: String)? {

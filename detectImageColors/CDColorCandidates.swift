@@ -8,7 +8,11 @@ public struct ColorCandidates {
     public var backgroundIsDark: Bool?
     public var backgroundIsBlackOrWhite: Bool?
     
-    public var dictionary: [String : [String : AnyObject]] {
+    public func toJSONData() -> Data {
+        return try! JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
+    }
+    
+    private var dictionary: [String : [String : AnyObject]] {
         guard let primary = getRGBSpaceName(color: self.primary),
             let alternative = getRGBSpaceName(color: self.secondary),
             let detail = getRGBSpaceName(color: self.detail),
@@ -22,10 +26,6 @@ public struct ColorCandidates {
         dic["background"] = getDictionaryColorComponents(color: background)
         dic["settings"] = getDictionarySettings()
         return dic
-    }
-    
-    public func toJSONData() -> Data {
-        return try! JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
     }
     
     private func getRGBSpaceName(color: NSColor?) -> NSColor? {

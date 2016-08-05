@@ -1,42 +1,6 @@
-//
-//  CDExtensions.swift
-//  detectImageColors
-//
-//  Created by ERIC DEJONCKHEERE on 05/08/2015.
-//  Copyright © 2015 Eric Dejonckheere. All rights reserved.
-//
-
 import Cocoa
 
-public extension String {
-    var length: Int { get { return self.characters.count } }
-}
-
 public extension NSImage {
-    // Image has to fill a square completely
-    private func resizeToSquare(max: CGFloat = CGFloat(600)) -> NSImage? {
-        let imgSize: NSSize
-        if self.size.width < max {
-            imgSize = NSSize(width: self.size.width, height: self.size.width)
-        } else {
-            imgSize = NSSize(width: max, height: max)
-        }
-        let destSize = NSSize(width: imgSize.width, height: imgSize.height)
-        let newImage = NSImage(size: destSize)
-        newImage.lockFocus()
-        self.draw(in: NSRect(x: 0, y: 0, width: destSize.width, height: destSize.height),
-                  from: NSRect(x: 0, y: 0, width: self.size.width, height: self.size.height),
-                  operation: NSCompositingOperation.sourceOver, fraction: CGFloat(1))
-        newImage.unlockFocus()
-        newImage.size = destSize
-        guard let tiff = newImage.tiffRepresentation,
-            let resized = NSImage(data: tiff) else {
-                return nil
-        }
-        return resized
-    }
-    
-    
     // Main method
     public func getColorCandidates() -> ColorCandidates? {
         var img = self
@@ -65,6 +29,29 @@ public extension NSImage {
     
     // ------------------------------------
     
+    // Image has to fill a square completely
+    private func resizeToSquare(max: CGFloat = CGFloat(600)) -> NSImage? {
+        let imgSize: NSSize
+        if self.size.width < max {
+            imgSize = NSSize(width: self.size.width, height: self.size.width)
+        } else {
+            imgSize = NSSize(width: max, height: max)
+        }
+        let destSize = NSSize(width: imgSize.width, height: imgSize.height)
+        let newImage = NSImage(size: destSize)
+        newImage.lockFocus()
+        self.draw(in: NSRect(x: 0, y: 0, width: destSize.width, height: destSize.height),
+                  from: NSRect(x: 0, y: 0, width: self.size.width, height: self.size.height),
+                  operation: NSCompositingOperation.sourceOver, fraction: CGFloat(1))
+        newImage.unlockFocus()
+        newImage.size = destSize
+        guard let tiff = newImage.tiffRepresentation,
+            let resized = NSImage(data: tiff) else {
+                return nil
+        }
+        return resized
+    }
+
     // find what we think is the main color + other candidates
     private func findEdgeColor() -> (color: NSColor?, set: NSCountedSet?) {
         guard let imageRep = self.representations.last as? NSBitmapImageRep else { return (nil, nil) }
@@ -182,11 +169,11 @@ public extension NSImage {
                     candidates.primary = cc.color
                 }
             } else if candidates.secondary == nil {
-                if let prim = candidates.primary, prim.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                if let prim = candidates.primary, prim.isNear(of: cc.color) || !cc.color.contrastsWith(backgroundColor) {
                     candidates.secondary = cc.color
                 }
             } else if candidates.detail == nil {
-                if let sec = candidates.secondary, sec.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                if let sec = candidates.secondary, sec.isNear(of: cc.color) || !cc.color.contrastsWith(backgroundColor) {
                     continue
                 }
                 if let prim = candidates.primary, prim.isNear(of: cc.color) {

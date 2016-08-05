@@ -87,10 +87,10 @@ class detectImageColorsTests: XCTestCase {
     func testDoesNotContrastWith() {
         let colA = NSColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1)
         let colB = NSColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
-        var doesNotContrastWith = colA.doesNotContrastWith(colB)
+        var doesNotContrastWith = !colA.contrastsWith(colB)
         XCTAssert(doesNotContrastWith, "Dark color does not contrast with another dark color")
         let colC = NSColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
-        doesNotContrastWith = colA.doesNotContrastWith(colC)
+        doesNotContrastWith = !colA.contrastsWith(colC)
         XCTAssert(!doesNotContrastWith, "Middle color does contrast with a dark color")
     }
 

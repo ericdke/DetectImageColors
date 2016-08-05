@@ -30,21 +30,72 @@ A Playground is also included for demo purposes.
 
 ![Playground](https://www.evernote.com/shard/s89/sh/f223b9ae-e80e-42e1-a5ea-84440b04d3d1/9c0807d8f4b67d31/res/c0740876-dc0d-4000-b10f-b277e71f4d40/skitch.png)
 
+## Public methods and properties
+
+`NSImage` extension:
+
+    func getColorCandidates() -> ColorCandidates?
+    var isImageSquared: Bool
+
+`NSColor` extension:
+
+    func isNear(of: NSColor) -> Bool
+    func lighter(threshold: CGFloat = default, ratio: CGFloat = default) -> NSColor
+    func darker(threshold: CGFloat = default, ratio: CGFloat = default) -> NSColor
+    func applyingSaturation(minimum: CGFloat) -> NSColor
+    func contrastsWith(_: NSColor) -> Bool
+    var isMostlyBlackOrWhite: Bool
+    var isMostlyDarkColor: Bool
+    func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String, clean: String)?
+    func componentsNSC() -> (alpha: CGFloat, red: CGFloat, green: CGFloat, blue: CGFloat)?
+    func componentsRGB() -> (alpha: Int, red: Int, green: Int, blue: Int)?
+    func componentsHUE() -> (alpha: CGFloat, hue: CGFloat, saturation: CGFloat, brightness: CGFloat)?
+
+`ColorCandidates` struct:
+
+    var primary: NSColor?
+    var secondary: NSColor?
+    var detail: NSColor?
+    var background: NSColor?
+    var backgroundIsDark: Bool?
+    var backgroundIsBlackOrWhite: Bool?
+    func toJSONData() -> Data
+
+`CDSettings` class:
+
+    var thresholdMinimumPercentage: Double
+    var thresholdMinimumSaturation: CGFloat
+    var thresholdNoiseTolerance: Int
+    var thresholdFloorBrightness: CGFloat
+    var thresholdCeilingBrightness: CGFloat
+    var thresholdDistinctColor: CGFloat
+    var thresholdGrey: CGFloat
+    var minThresholdWhite: CGFloat
+    var maxThresholdBlack: CGFloat
+    var lighterRatio: CGFloat
+    var darkerRatio: CGFloat
+    var contrastRatio: CGFloat
+    var luminanceAddedWeight: CGFloat
+    var YUVRedRatio: CGFloat
+    var YUVGreenRatio: CGFloat
+    var YUVBlueRatio: CGFloat
+    var detectorDistanceFromLeftEdge: Int
+    var detectorResolution: Int
+    var ensureContrastedColorCandidates: Bool
+
 ## Todo
 
 Suggestions and contributions are welcomed! 
 
-- Improve detector accuracy (see comments in `CDColorDetector.swift`)
+- Improve detector accuracy
 
 - Improve detector speed
 
 - Improve resize image method
 
-- Make a better demo app
-
-- Make a framework
-
 - Make it iOS compatible
+
+- Make a better demo app
 
 ## History
 

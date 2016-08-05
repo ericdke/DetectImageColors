@@ -169,11 +169,11 @@ public extension NSImage {
                     candidates.primary = cc.color
                 }
             } else if candidates.secondary == nil {
-                if let prim = candidates.primary, prim.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                if let prim = candidates.primary, prim.isNear(of: cc.color) || !cc.color.contrastsWith(backgroundColor) {
                     candidates.secondary = cc.color
                 }
             } else if candidates.detail == nil {
-                if let sec = candidates.secondary, sec.isNear(of: cc.color) || cc.color.doesNotContrastWith(backgroundColor) {
+                if let sec = candidates.secondary, sec.isNear(of: cc.color) || !cc.color.contrastsWith(backgroundColor) {
                     continue
                 }
                 if let prim = candidates.primary, prim.isNear(of: cc.color) {

@@ -1,5 +1,3 @@
-//  SWIFT 2
-
 import Cocoa
 
 public extension NSColor {
@@ -75,10 +73,6 @@ public extension NSColor {
     }
     
     public func contrastsWith(_ color: NSColor) -> Bool {
-        return !doesNotContrastWith(color)
-    }
-    
-    public func doesNotContrastWith(_ color: NSColor) -> Bool {
         guard let (_, br, bg, bb) = self.componentsNSC(),
             let (_, fr, fg, fb) = color.componentsNSC() else { return false }
         let bLum: CGFloat = CDSettings.YUVRedRatio * br + CDSettings.YUVGreenRatio * bg + CDSettings.YUVBlueRatio * bb
@@ -89,7 +83,7 @@ public extension NSColor {
         } else {
             contrast = (fLum + CDSettings.luminanceAddedWeight) / (bLum + CDSettings.luminanceAddedWeight)
         }
-        return contrast < CDSettings.contrastRatio
+        return !(contrast < CDSettings.contrastRatio)
     }
     
     public func componentsCSS() -> (alpha: String, red: String, green: String, blue: String, css: String, clean: String)? {
@@ -98,9 +92,9 @@ public extension NSColor {
         var xred = String(red, radix: 16, uppercase: true)
         var xgreen = String(green, radix: 16, uppercase: true)
         var xblue = String(blue, radix: 16, uppercase: true)
-        if xred.length < 2 { xred = "0\(xred)" }
-        if xgreen.length < 2 { xgreen = "0\(xgreen)" }
-        if xblue.length < 2 { xblue = "0\(xblue)" }
+        if xred.characters.count < 2 { xred = "0\(xred)" }
+        if xgreen.characters.count < 2 { xgreen = "0\(xgreen)" }
+        if xblue.characters.count < 2 { xblue = "0\(xblue)" }
         let clean = "\(xred)\(xgreen)\(xblue)"
         let css = "#\(clean)"
         return (alpha: xalpha, red: xred, green: xgreen, blue: xblue, css: css, clean: clean)
