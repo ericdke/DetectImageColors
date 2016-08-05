@@ -8,36 +8,43 @@ public struct ColorCandidates {
     public var backgroundIsDark: Bool?
     public var backgroundIsBlackOrWhite: Bool?
     
-    public func toJSONData() -> Data {
-        return try! JSONSerialization.data(withJSONObject: dictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
+    public var JSONData: Data {
+        return try! JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
     }
     
     private var dictionary: [String : [String : AnyObject]] {
-        guard let primary = getRGBSpaceName(color: self.primary),
-            let alternative = getRGBSpaceName(color: self.secondary),
-            let detail = getRGBSpaceName(color: self.detail),
-            let background = getRGBSpaceName(color: self.background) else {
+        guard let primary = getRGBColor(from: self.primary),
+            let alternative = getRGBColor(from: self.secondary),
+            let detail = getRGBColor(from: self.detail),
+            let background = getRGBColor(from: self.background) else {
                 return [:]
         }
         var dic = [String:[String:AnyObject]]()
-        dic["main"] = getDictionaryColorComponents(color: primary)
-        dic["alternative"] = getDictionaryColorComponents(color: alternative)
-        dic["detail"] = getDictionaryColorComponents(color: detail)
-        dic["background"] = getDictionaryColorComponents(color: background)
+        dic["main"] = getDictionaryComponents(for: primary)
+        dic["alternative"] = getDictionaryComponents(for: alternative)
+        dic["detail"] = getDictionaryComponents(for: detail)
+        dic["background"] = getDictionaryComponents(for: background)
         dic["settings"] = getDictionarySettings()
         return dic
     }
     
-    private func getRGBSpaceName(color: NSColor?) -> NSColor? {
-        guard let thisColor = color, let rgbColor = thisColor.usingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
-        return rgbColor
+    private func getRGBColor(from color: NSColor?) -> NSColor? {
+        return color?.usingColorSpaceName(NSCalibratedRGBColorSpace)
     }
     
-    private func getDictionaryColorComponents(color: NSColor) -> [String:AnyObject] {
-        return ["red": color.redComponent, "green": color.greenComponent, "blue": color.blueComponent, "css": color.componentsCSS()!.css]
+    private func getDictionaryComponents(for color: NSColor) -> [String:AnyObject] {
+        return ["red": color.redComponent,
+                "green": color.greenComponent,
+                "blue": color.blueComponent,
+                "css": color.componentsCSS()!.css]
     }
     
     private func getDictionarySettings() -> [String:AnyObject] {
-        return ["EnsureContrastedColorCandidates": CDSettings.ensureContrastedColorCandidates, "ThresholdDistinctColor": CDSettings.thresholdDistinctColor, "ContrastRatio": CDSettings.contrastRatio, "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance, "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness, "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation]
+        return ["EnsureContrastedColorCandidates": CDSettings.ensureContrastedColorCandidates,
+                "ThresholdDistinctColor": CDSettings.thresholdDistinctColor,
+                "ContrastRatio": CDSettings.contrastRatio,
+                "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance,
+                "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness,
+                "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation]
     }
 }

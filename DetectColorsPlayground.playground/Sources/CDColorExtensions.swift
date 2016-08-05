@@ -36,9 +36,7 @@ public extension NSColor {
     public var isMostlyDarkColor: Bool {
         if let (_, r, g, b) = self.componentsNSC() {
             let lum: CGFloat = CDSettings.YUVRedRatio * r + CDSettings.YUVGreenRatio * g + CDSettings.YUVBlueRatio * b
-            if lum < 0.5 {
-                return true
-            }
+            return lum < 0.5
         }
         return false
     }
