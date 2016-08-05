@@ -8,7 +8,7 @@ public struct ColorCandidates {
     public var backgroundIsDark: Bool?
     public var backgroundIsBlackOrWhite: Bool?
     
-    public func toJSONData() -> Data {
+    public var JSONData: Data {
         return try! JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
     }
     

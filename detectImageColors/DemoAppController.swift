@@ -212,7 +212,7 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
 
     @IBAction func exportColorsToJSON(_ sender: NSMenuItem) {
         if let cols = colorCandidates {
-            filesManager.save(json: cols.toJSONData())
+            filesManager.save(json: cols.JSONData)
         }
     }
 

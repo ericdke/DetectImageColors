@@ -59,7 +59,7 @@ A Playground is also included for demo purposes.
     var background: NSColor?
     var backgroundIsDark: Bool?
     var backgroundIsBlackOrWhite: Bool?
-    func toJSONData() -> Data
+    var JSONData: Data
 
 `CDSettings` class:
 
