@@ -99,9 +99,17 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
                 }
             case "ECCC":
                 if descriptor.ascending {
-                    allPresets.sort  { Int($0.contrastedCandidates) < Int($1.contrastedCandidates) }
+                    allPresets.sort  { (a, b) in
+                        let boolIntA = a.contrastedCandidates ? 1 : 0
+                        let boolIntB = b.contrastedCandidates ? 1 : 0
+                        return boolIntA < boolIntB
+                    }
                 } else {
-                    allPresets.sort  { Int($0.contrastedCandidates) > Int($1.contrastedCandidates) }
+                    allPresets.sort  { (a, b) in
+                        let boolIntA = a.contrastedCandidates ? 1 : 0
+                        let boolIntB = b.contrastedCandidates ? 1 : 0
+                        return boolIntA < boolIntB
+                    }
                 }
             default:
                 Swift.print("Error with tableview header")

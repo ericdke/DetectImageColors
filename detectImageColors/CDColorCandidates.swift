@@ -33,18 +33,18 @@ public struct ColorCandidates {
     }
     
     private func getDictionaryComponents(for color: NSColor) -> [String:AnyObject] {
-        return ["red": color.redComponent,
-                "green": color.greenComponent,
-                "blue": color.blueComponent,
-                "css": color.componentsCSS()!.css]
+        return ["red": color.redComponent as AnyObject,
+                "green": color.greenComponent as AnyObject,
+                "blue": color.blueComponent as AnyObject,
+                "css": color.componentsCSS()!.css as AnyObject]
     }
     
     private func getDictionarySettings() -> [String:AnyObject] {
-        return ["EnsureContrastedColorCandidates": CDSettings.ensureContrastedColorCandidates,
-                "ThresholdDistinctColor": CDSettings.thresholdDistinctColor,
-                "ContrastRatio": CDSettings.contrastRatio,
-                "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance,
-                "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness,
-                "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation]
+        return ["EnsureContrastedColorCandidates": CDSettings.ensureContrastedColorCandidates as AnyObject,
+                "ThresholdDistinctColor": CDSettings.thresholdDistinctColor as AnyObject,
+                "ContrastRatio": CDSettings.contrastRatio as AnyObject,
+                "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance as AnyObject,
+                "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness as AnyObject,
+                "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation as AnyObject]
     }
 }

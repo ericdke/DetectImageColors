@@ -24,11 +24,11 @@ class ColorsFromImage {
         return nil
     }
 
-    func getColors(_ completion: (candidates: ColorCandidates?) -> Void) {
+    func getColors(_ completion: @escaping (_ candidates: ColorCandidates?) -> Void) {
         DispatchQueue.global(qos: .background).async {
             let colors = self.getColors()
             DispatchQueue.main.async {
-                completion(candidates: colors)
+                completion(colors)
             }
         }
     }

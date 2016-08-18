@@ -10,7 +10,7 @@ class Downloader {
         return "http://www.thecolorapi.com/scheme?hex=\(hex)&mode=triad&count=3"
     }
 
-    func download(url: URL, completion: (data: Data) -> Void) {
+    func download(url: URL, completion: @escaping (_ data: Data) -> Void) {
         let session = URLSession.shared
         let request = URLRequest(url: url)
         session.dataTask(with: request) { (data, response, downloadError) -> Void in
@@ -25,7 +25,7 @@ class Downloader {
                 }
                 return
             }
-            completion(data: dat)
+            completion(dat)
         }.resume()
     }
 
@@ -46,7 +46,7 @@ class Downloader {
         }
     }
 
-    func getName(for color: NSColor, completionHandler: (name: String) -> Void) {
+    func getName(for color: NSColor, completionHandler: @escaping (_ name: String) -> Void) {
         guard let compos = color.componentsCSS()?.clean else {
             return
         }
@@ -62,7 +62,7 @@ class Downloader {
                 else {
                     return
             }
-            completionHandler(name: name)
+            completionHandler(name)
         })
     }
 

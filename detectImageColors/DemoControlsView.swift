@@ -57,7 +57,7 @@ class DemoControlsView: NSView {
             contrastRatio.doubleValue = CDSettings.contrastRatio.formatSliderDouble(multiplier: 10.0)
             contrastRatioValue.stringValue = String(format: "%.1f", CDSettings.contrastRatio)
             CDSettings.ensureContrastedColorCandidates = pres.contrastedCandidates
-            ensureContrastedColorCandidates.state = Int(pres.contrastedCandidates)
+            ensureContrastedColorCandidates.state = pres.contrastedCandidates ? 1 : 0
             controlsDelegate?.updateColorCandidates(mouseUp: true)
         } catch let demoAppError as DemoAppError {
             Swift.print(demoAppError)
@@ -99,7 +99,7 @@ class DemoControlsView: NSView {
     }
 
     @IBAction func ensureContrastedColorCandidates(_ sender: NSButton) {
-        CDSettings.ensureContrastedColorCandidates = Bool(sender.state)
+        CDSettings.ensureContrastedColorCandidates = sender.state == 0 ? false : true
         updateColors(sender)
     }
 

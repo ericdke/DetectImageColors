@@ -26,7 +26,8 @@ class FilesManager {
     func getJSONFilePath() -> String? {
         let d = FileManager.SearchPathDirectory.documentDirectory
         let m = FileManager.SearchPathDomainMask.allDomainsMask
-        guard let dirs:[NSString] = NSSearchPathForDirectoriesInDomains(d, m, true), !dirs.isEmpty else {
+        let dirs = NSSearchPathForDirectoriesInDomains(d, m, true).flatMap { $0 as NSString }
+        guard !dirs.isEmpty else {
             return nil
         }
         return dirs[0].appendingPathComponent("colors_dic.json")
