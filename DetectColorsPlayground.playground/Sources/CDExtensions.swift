@@ -4,14 +4,16 @@ public extension NSImage {
     // Main method
     public func getColorCandidates() -> ColorCandidates? {
         var img = self
-        if !self.isImageSquared {
-            img = img.resizeToSquare()!
+        if let sq = img.resizeToSquare(), !self.isImageSquared {
+            img = sq
         }
         let edge = img.findEdgeColor()
         guard let edgeColor = edge.color,
             let colorsFirstPass = findColors(in: edge.set, withBackgroundColor: edgeColor),
             let firstBackgroundColorCandidate = colorsFirstPass.background
-            else { return nil }
+            else {
+                return nil
+        }
         let backgroundIsDark = firstBackgroundColorCandidate.isMostlyDarkColor
         let colorsSecondPass = createColors(from: colorsFirstPass, withDarkBackground: backgroundIsDark)
         if CDSettings.ensureContrastedColorCandidates {
@@ -21,10 +23,7 @@ public extension NSImage {
     }
     
     public var isImageSquared: Bool {
-        if self.size.height == self.size.width {
-            return true
-        }
-        return false
+        return self.size.height == self.size.width
     }
     
     // ------------------------------------

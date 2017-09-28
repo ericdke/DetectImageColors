@@ -53,7 +53,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C71369001B1A394200C6FE1B /* DetectColorsPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = DetectColorsPlayground.playground; sourceTree = "<group>"; };
+		C71369001B1A394200C6FE1B /* DetectColorsPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = DetectColorsPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		C71FDDE01ACF7642004BD9BA /* detectImageColors.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = detectImageColors.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C71FDDE41ACF7642004BD9BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C71FDDE51ACF7642004BD9BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };

@@ -21,7 +21,7 @@ class DemoView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         if let color = self.color {
             color.setFill()
-            NSRectFill(dirtyRect)
+            dirtyRect.fill()
         }
         super.draw(dirtyRect)
     }
@@ -43,7 +43,7 @@ CDSettings.detectorResolution = 10
 CDSettings.thresholdDistinctColor = 0.43
 CDSettings.contrastRatio = 2.1
 
-let image = NSImage(named: "elton")!
+let image = NSImage(named: NSImage.Name("elton"))!
 let colorCandidates = image.getColorCandidates()!
 
 let primaryColor = colorCandidates.primary!
