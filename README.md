@@ -1,4 +1,4 @@
-![](https://img.shields.io/badge/Swift-3-orange.svg?style=flat)
+![](https://img.shields.io/badge/Swift-4-green.svg?style=flat) ![](https://img.shields.io/badge/Xcode-9-green.svg?style=flat)
 
 # Detect Image Colors
 
@@ -20,7 +20,7 @@ let colorCandidates = image.getColorCandidates()
 
 ![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/691456c3-1d2b-4b3c-8faf-2105af6bb380/e43f803817a7a7a2/res/2d53de18-7bc0-444a-adea-40bc2213e48d/skitch.png)
 
-Download or clone the project, open in Xcode, build (Swift 3 only: Xcode 8 beta 4+).
+Download or clone the project, open in Xcode, build (Swift 4, Xcode 9).
 
 You can drop a new image on the image view and tweak the sliders to find values you like for the thresholds and ratios.
 
@@ -107,10 +107,10 @@ I've also made a simple demo app to test the color detection.
 
 ## Disclaimer
 
-This is only a programming exercise, to explore possibilities - this is not for production.
+This is only a programming exercise, to explore possibilities - this is **not for production**.
 
 If you're looking for performance in color detection, see my Swift 2 fork of Indragie Karunaratne's [DominantColor](https://github.com/ericdke/DominantColor) instead.
 
 ## Licence
 
-MIT but you have to refer to Panic's repository somewhere visible.
+MIT but you have to refer to this page and to Panic's repository somewhere visible.
