@@ -2,6 +2,10 @@
 
 import Cocoa
 
+extension NSWindow {
+    static let DetectImageColorsDemo = NSWindow.FrameAutosaveName(rawValue: "DetectImageColorsDemo")
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
@@ -13,27 +17,40 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var defaultPresets = [Preset]()
 
     func applicationWillFinishLaunching(_ notification: Notification) {
-        window.setFrameUsingName(NSWindow.FrameAutosaveName(rawValue: "DetectImageColorsDemo"))
+        window.setFrameUsingName(NSWindow.DetectImageColorsDemo)
         window.title = "DetectImageColors"
         window.backgroundColor = NSColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         do {
             if let apData = filesManager.defaultPresetsData,
                 let apJSON = try JSONSerialization.jsonObject(with: apData, options: []) as? [[String:AnyObject]] {
                 for pres in apJSON {
-                    let p = Preset(name: pres["name"] as! String,
-                                   brightness: pres["brightness"] as! CGFloat,
-                                   distinct: pres["distinct"] as! CGFloat,
-                                   saturation: pres["saturation"] as! CGFloat,
-                                   contrast: pres["contrast"] as! CGFloat,
-                                   noise: pres["noise"] as! Int,
-                                   contrasted: pres["contrasted"] as! Bool,
-                                   defaultPreset: pres["defaultPreset"] as! Bool)
+                    guard let name = pres["name"] as? String,
+                        let brightness = pres["brightness"] as? CGFloat,
+                        let distinct = pres["distinct"] as? CGFloat,
+                        let saturation = pres["saturation"] as? CGFloat,
+                        let contrast = pres["contrast"] as? CGFloat,
+                        let noise = pres["noise"] as? Int,
+                        let contrasted = pres["contrasted"] as? Bool,
+                        let defaultPreset = pres["defaultPreset"] as? Bool else
+                    {
+                        throw DemoAppError.couldNotLoadPresets
+                    }
+                    let p = Preset(name: name,
+                                   brightness: brightness,
+                                   distinct: distinct,
+                                   saturation: saturation,
+                                   contrast: contrast,
+                                   noise: noise,
+                                   contrasted: contrasted,
+                                   defaultPreset: defaultPreset)
                     defaultPresets.append(p)
                 }
             }
         } catch {
-            print(error)
-            fatalError()
+            DispatchQueue.main.async {
+                Modals.alert(title: "Fatal error", info: error.localizedDescription, style: .critical)
+                NSApp.terminate(nil)
+            }
         }
         filesManager.save(defaultSettings: defaultSettings)
         let allPresets = filesManager.allPresets
@@ -46,7 +63,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        window.saveFrame(usingName: NSWindow.FrameAutosaveName(rawValue: "DetectImageColorsDemo"))
+        window.saveFrame(usingName: NSWindow.DetectImageColorsDemo)
         saveNamedColors()
     }
 
@@ -55,10 +72,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             do {
                 let enc = try JSONSerialization.data(withJSONObject: appController.namedColors, options: .prettyPrinted)
                 try filesManager.saveColorNamesFile(data: enc, path: path)
-            } catch let demoAppError as DemoAppError {
-                print(demoAppError.rawValue)
             } catch {
-                print(error)
+                DispatchQueue.main.async {
+                    Modals.alert(title: "Could not save colors", info: error.localizedDescription, style: .critical)
+                }
             }
         }
     }

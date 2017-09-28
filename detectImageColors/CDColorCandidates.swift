@@ -12,14 +12,14 @@ public struct ColorCandidates {
         return try! JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
     }
     
-    private var dictionary: [String : [String : AnyObject]] {
+    private var dictionary: [String : [String :Any]] {
         guard let primary = getRGBColor(from: self.primary),
             let alternative = getRGBColor(from: self.secondary),
             let detail = getRGBColor(from: self.detail),
             let background = getRGBColor(from: self.background) else {
                 return [:]
         }
-        var dic = [String:[String:AnyObject]]()
+        var dic = [String: [String: Any]]()
         dic["main"] = getDictionaryComponents(for: primary)
         dic["alternative"] = getDictionaryComponents(for: alternative)
         dic["detail"] = getDictionaryComponents(for: detail)
@@ -29,22 +29,22 @@ public struct ColorCandidates {
     }
     
     private func getRGBColor(from color: NSColor?) -> NSColor? {
-        return color?.usingColorSpaceName(NSColorSpaceName.calibratedRGB)
+        return color?.usingColorSpaceName(.calibratedRGB)
     }
     
-    private func getDictionaryComponents(for color: NSColor) -> [String:AnyObject] {
-        return ["red": color.redComponent as AnyObject,
-                "green": color.greenComponent as AnyObject,
-                "blue": color.blueComponent as AnyObject,
-                "css": color.componentsCSS()!.css as AnyObject]
+    private func getDictionaryComponents(for color: NSColor) -> [String: Any] {
+        return ["red": color.redComponent,
+                "green": color.greenComponent,
+                "blue": color.blueComponent,
+                "css": color.componentsCSS()!.css]
     }
     
-    private func getDictionarySettings() -> [String:AnyObject] {
-        return ["EnsureContrastedColorCandidates": CDSettings.ensureContrastedColorCandidates as AnyObject,
-                "ThresholdDistinctColor": CDSettings.thresholdDistinctColor as AnyObject,
-                "ContrastRatio": CDSettings.contrastRatio as AnyObject,
-                "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance as AnyObject,
-                "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness as AnyObject,
-                "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation as AnyObject]
+    private func getDictionarySettings() -> [String: Any] {
+        return ["EnsureContrastedColorCandidates": CDSettings.ensureContrastedColorCandidates,
+                "ThresholdDistinctColor": CDSettings.thresholdDistinctColor,
+                "ContrastRatio": CDSettings.contrastRatio,
+                "ThresholdNoiseTolerance": CDSettings.thresholdNoiseTolerance,
+                "ThresholdFloorBrightness": CDSettings.thresholdFloorBrightness,
+                "ThresholdMinimumSaturation": CDSettings.thresholdMinimumSaturation]
     }
 }

@@ -37,7 +37,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     @IBAction func savePreset(_ sender: NSButton) {
-        let mod = filesManager.presetModal()
+        let mod = Modals.presetModal()
         if mod.response == .alertFirstButtonReturn {
             mod.textField.validateEditing()
             if !mod.textField.stringValue.isEmpty {
@@ -159,7 +159,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
                 if allPresets[tableView.selectedRow].defaultPreset {
                     Swift.print("ERROR: can't delete default preset")
                 } else {
-                    if filesManager.deleteModal(preset: cp) == .alertFirstButtonReturn {
+                    if Modals.deleteModal(preset: cp) == .alertFirstButtonReturn {
                         allPresets.remove(at: tableView.selectedRow)
                         tableView.reloadData()
                         filesManager.save(presets: allPresets)

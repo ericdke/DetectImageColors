@@ -214,7 +214,7 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
 
     @IBAction func exportColorsToJSON(_ sender: NSMenuItem) {
         if let cols = colorCandidates {
-            filesManager.save(json: cols.JSONData)
+            Modals.save(json: cols.JSONData)
         }
     }
 
@@ -222,13 +222,13 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
         guard let _ = colorCandidates else { return }  // shouldn't be nil, but let's be sure
         showOverlayButton.isHidden = true
         if let png = backgroundView.makePNGFromView() {
-            filesManager.save(png: png)
+            Modals.save(png: png)
         }
         showOverlayButton.isHidden = false
     }
 
     @IBAction func openImageFile(_ sender: NSMenuItem) {
-        if let url = filesManager.selectImageURL(),
+        if let url = Modals.selectImageURL(),
             let img = NSImage(contentsOf: url) {
             analyseImageAndSetImageView(with: img)
         }

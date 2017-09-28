@@ -9,4 +9,5 @@ enum DemoAppError: String, Error {
     case couldNotProcessDownloadedData = "ERROR: could not process downloaded data"
     case couldNotfindDefaultConfiguration = "ERROR: could not find default configuration"
     case couldNotSetSlidersFromPreset = "ERROR: could not load or use preset"
+    case couldNotLoadPresets = "ERROR: could not load presets from file"
 }

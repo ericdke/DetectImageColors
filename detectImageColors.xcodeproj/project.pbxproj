@@ -39,6 +39,7 @@
 		C7D49DD91AFEAD9500CD8901 /* CDColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71FDE021ACF76A0004BD9BA /* CDColorExtensions.swift */; };
 		C7E52C631D54F8FA002AB693 /* DemoProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E52C621D54F8FA002AB693 /* DemoProtocols.swift */; };
 		C7E52C651D54FF6B002AB693 /* DemoFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E52C641D54FF6B002AB693 /* DemoFiles.swift */; };
+		C7F4BE8E1F7D66C70089730A /* DemoModals.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4BE8D1F7D66C70089730A /* DemoModals.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,7 @@
 		C7B573ED1AD0909500C44CDF /* DemoAppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoAppController.swift; sourceTree = "<group>"; };
 		C7E52C621D54F8FA002AB693 /* DemoProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoProtocols.swift; sourceTree = "<group>"; };
 		C7E52C641D54FF6B002AB693 /* DemoFiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoFiles.swift; sourceTree = "<group>"; };
+		C7F4BE8D1F7D66C70089730A /* DemoModals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoModals.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 				C71FDDE91ACF7642004BD9BA /* MainMenu.xib */,
 				C71FDDE51ACF7642004BD9BA /* AppDelegate.swift */,
 				C7E52C641D54FF6B002AB693 /* DemoFiles.swift */,
+				C7F4BE8D1F7D66C70089730A /* DemoModals.swift */,
 				C7E52C621D54F8FA002AB693 /* DemoProtocols.swift */,
 				C7B0057B1B728D8600EFF58A /* DemoExtensions.swift */,
 				C7B573ED1AD0909500C44CDF /* DemoAppController.swift */,
@@ -305,6 +308,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C7F4BE8E1F7D66C70089730A /* DemoModals.swift in Sources */,
 				C71FDDE61ACF7642004BD9BA /* AppDelegate.swift in Sources */,
 				C732C97A1D19FC8C0068754F /* CDCountedColor.swift in Sources */,
 				C7E52C651D54FF6B002AB693 /* DemoFiles.swift in Sources */,
