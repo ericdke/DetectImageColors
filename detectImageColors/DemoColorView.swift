@@ -16,7 +16,7 @@ class DemoColorView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         if let color = self.color {
             color.setFill()
-            NSRectFill(dirtyRect)
+            dirtyRect.fill()
         }
         super.draw(dirtyRect)
     }

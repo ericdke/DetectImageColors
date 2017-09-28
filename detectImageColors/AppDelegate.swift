@@ -13,7 +13,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var defaultPresets = [Preset]()
 
     func applicationWillFinishLaunching(_ notification: Notification) {
-        window.setFrameUsingName("DetectImageColorsDemo")
+        window.setFrameUsingName(NSWindow.FrameAutosaveName(rawValue: "DetectImageColorsDemo"))
         window.title = "DetectImageColors"
         window.backgroundColor = NSColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         do {
@@ -46,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        window.saveFrame(usingName: "DetectImageColorsDemo")
+        window.saveFrame(usingName: NSWindow.FrameAutosaveName(rawValue: "DetectImageColorsDemo"))
         saveNamedColors()
     }
 

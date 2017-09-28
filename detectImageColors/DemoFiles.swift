@@ -57,7 +57,7 @@ class FilesManager {
         panel.canCreateDirectories = true
         let epoch = Int(Date.timeIntervalSinceReferenceDate)
         panel.nameFieldStringValue = "colors-\(epoch).json"
-        if panel.runModal() == NSOnState {
+        if panel.runModal() == .OK {
             if let chosenfile = panel.url {
                 try! json.write(to: URL(fileURLWithPath: chosenfile.path), options: [])
             }
@@ -69,17 +69,17 @@ class FilesManager {
         panel.title = "Select the destination for the PNG file"
         panel.canCreateDirectories = true
         panel.nameFieldStringValue = "colors-\(Int(Date.timeIntervalSinceReferenceDate)).png"
-        if panel.runModal() == NSOnState {
+        if panel.runModal() == .OK {
             if let chosenfile = panel.url {
                 try! png.write(to: URL(fileURLWithPath: chosenfile.path), options: [])
             }
         }
     }
     
-    func presetModal() -> (response: NSModalResponse, textField: NSTextField) {
+    func presetModal() -> (response: NSApplication.ModalResponse, textField: NSTextField) {
         let al = NSAlert()
         al.messageText = "Choose a preset name"
-        al.alertStyle = NSAlertStyle.warning
+        al.alertStyle = NSAlert.Style.warning
         al.addButton(withTitle: "Save")
         al.addButton(withTitle: "Cancel")
         let tf = NSTextField(frame: NSMakeRect(0, 0, 300, 24))
@@ -89,11 +89,11 @@ class FilesManager {
         return (response: mod, textField: tf)
     }
     
-    func deleteModal(preset: Preset) -> NSModalResponse {
+    func deleteModal(preset: Preset) -> NSApplication.ModalResponse {
         let al: NSAlert = NSAlert()
         al.messageText = "Delete this preset?"
         al.informativeText = "Delete preset '\(preset.name)'?"
-        al.alertStyle = NSAlertStyle.warning
+        al.alertStyle = NSAlert.Style.warning
         al.addButton(withTitle: "Delete")
         al.addButton(withTitle: "Cancel")
         return al.runModal()

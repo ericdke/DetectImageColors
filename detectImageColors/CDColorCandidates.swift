@@ -29,7 +29,7 @@ public struct ColorCandidates {
     }
     
     private func getRGBColor(from color: NSColor?) -> NSColor? {
-        return color?.usingColorSpaceName(NSCalibratedRGBColorSpace)
+        return color?.usingColorSpaceName(NSColorSpaceName.calibratedRGB)
     }
     
     private func getDictionaryComponents(for color: NSColor) -> [String:AnyObject] {

@@ -13,7 +13,7 @@ class DemoBackgroundView: NSView {
     override func draw(_ dirtyRect: NSRect) {
         if let color = self.colorCandidates?.background {
             color.setFill()
-            NSRectFill(dirtyRect)
+            dirtyRect.fill()
         }
         super.draw(dirtyRect)
     }

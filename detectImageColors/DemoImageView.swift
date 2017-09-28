@@ -44,7 +44,7 @@ class DemoImageView: NSImageView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        register(forDraggedTypes: [NSFilenamesPboardType,NSURLPboardType,NSPasteboardTypeTIFF])
+        registerForDraggedTypes([NSPasteboard.PasteboardType(kUTTypeURL as String), NSPasteboard.PasteboardType("NSFilenamesPboardType"), NSPasteboard.PasteboardType.tiff])
     }
 
     override func viewDidMoveToWindow() {
@@ -61,11 +61,11 @@ class DemoImageView: NSImageView {
 
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         let p = sender.draggingPasteboard()
-        if let p1 = p.propertyList(forType: "NSFilenamesPboardType") as? [AnyObject],
+        if let p1 = p.propertyList(forType: NSPasteboard.PasteboardType(rawValue: "NSFilenamesPboardType")) as? [AnyObject],
             let pathStr = p1[0] as? String, checkExtension(pathStr: pathStr) {
                 imageDropped(paste: (.path, pathStr))
                 return true
-        } else if let p2 = p.propertyList(forType: "WebURLsWithTitlesPboardType") as? [AnyObject],
+        } else if let p2 = p.propertyList(forType: NSPasteboard.PasteboardType(rawValue: "WebURLsWithTitlesPboardType")) as? [AnyObject],
             let temp = p2.first as? [AnyObject],
             let pathStr = temp.first as? String {
                 imageDropped(paste: (.url, pathStr))

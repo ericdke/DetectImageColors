@@ -10,7 +10,7 @@ extension NSView {
     func makePNGFromView() -> Data? {
         guard let rep = self.bitmapImageRepForCachingDisplay(in: self.bounds) else { return nil }
         self.cacheDisplay(in: self.bounds, to: rep)
-        guard let data = rep.representation(using: NSBitmapImageFileType.PNG, properties: [:]) else { return nil }
+        guard let data = rep.representation(using: NSBitmapImageRep.FileType.png, properties: [:]) else { return nil }
         return data
     }
 }

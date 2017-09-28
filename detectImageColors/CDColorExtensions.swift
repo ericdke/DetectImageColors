@@ -43,7 +43,7 @@ public extension NSColor {
     
     public func applyingSaturation(minimum: CGFloat) -> NSColor {
         // color could be hue/rgb/other so we convert to rgb
-        if let tempColor = self.usingColorSpaceName(NSCalibratedRGBColorSpace) {
+        if let tempColor = self.usingColorSpaceName(NSColorSpaceName.calibratedRGB) {
             // prepare the values
             var hue: CGFloat = 0.0
             var saturation: CGFloat = 0.0
@@ -103,7 +103,7 @@ public extension NSColor {
         var green: CGFloat = 0
         var blue: CGFloat = 0
         var alpha: CGFloat = 0
-        guard let color = self.usingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
+        guard let color = self.usingColorSpaceName(NSColorSpaceName.calibratedRGB) else { return nil }
         color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         return (alpha: alpha, red: red, green: green, blue: blue)
     }
@@ -114,7 +114,7 @@ public extension NSColor {
     }
     
     public func componentsHUE() -> (alpha: CGFloat, hue: CGFloat, saturation: CGFloat, brightness: CGFloat)? {
-        guard let convertedColor = self.usingColorSpaceName(NSCalibratedRGBColorSpace) else { return nil }
+        guard let convertedColor = self.usingColorSpaceName(NSColorSpaceName.calibratedRGB) else { return nil }
         var h: CGFloat = 0.0
         var s: CGFloat = 0.0
         var b: CGFloat = 0.0

@@ -17,7 +17,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
         tableView.target = self
     }
     
-    func tableDoubleClicked(_ sender: NSTableView) {
+    @objc func tableDoubleClicked(_ sender: NSTableView) {
         currentPreset = allPresets[sender.selectedRow]
         loadPreset(nil)
     }
@@ -38,7 +38,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     @IBAction func savePreset(_ sender: NSButton) {
         let mod = filesManager.presetModal()
-        if mod.response == NSAlertFirstButtonReturn {
+        if mod.response == .alertFirstButtonReturn {
             mod.textField.validateEditing()
             if !mod.textField.stringValue.isEmpty {
                 let pres = Preset(name: mod.textField.stringValue,
@@ -131,23 +131,23 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let id = tableColumn?.identifier,
-            let cell = tableView.make(withIdentifier: id, owner: self) as? NSTableCellView else {
+            let cell = tableView.makeView(withIdentifier: id, owner: self) as? NSTableCellView else {
                 return nil
         }
         let preset = allPresets[row]
-        if id == "mainColumn" {
+        if id.rawValue == "mainColumn" {
             cell.textField?.stringValue = preset.name.capitalized
-        } else if id == "TDCColumn" {
+        } else if id.rawValue == "TDCColumn" {
             cell.textField?.stringValue = String(format: "%.2f", arguments: [preset.thresholdDistinctColor])
-        } else if id == "CRColumn" {
+        } else if id.rawValue == "CRColumn" {
             cell.textField?.stringValue = String(format: "%.2f", arguments: [preset.contrastRatio])
-        } else if id == "NTColumn" {
+        } else if id.rawValue == "NTColumn" {
             cell.textField?.integerValue = preset.thresholdNoiseTolerance
-        } else if id == "TFBColumn" {
+        } else if id.rawValue == "TFBColumn" {
             cell.textField?.stringValue = String(format: "%.2f", arguments: [preset.thresholdFloorBrightness])
-        } else if id == "TMSColumn" {
+        } else if id.rawValue == "TMSColumn" {
             cell.textField?.stringValue = String(format: "%.2f", arguments: [preset.thresholdFloorBrightness])
-        } else if id == "ECCCColumn" {
+        } else if id.rawValue == "ECCCColumn" {
             cell.textField?.stringValue = preset.contrastedCandidates ?  "Yes" : "No"
         }
         return cell
@@ -159,7 +159,7 @@ class DemoPresetsPanel: NSPanel, NSTableViewDataSource, NSTableViewDelegate {
                 if allPresets[tableView.selectedRow].defaultPreset {
                     Swift.print("ERROR: can't delete default preset")
                 } else {
-                    if filesManager.deleteModal(preset: cp) == NSAlertFirstButtonReturn {
+                    if filesManager.deleteModal(preset: cp) == .alertFirstButtonReturn {
                         allPresets.remove(at: tableView.selectedRow)
                         tableView.reloadData()
                         filesManager.save(presets: allPresets)

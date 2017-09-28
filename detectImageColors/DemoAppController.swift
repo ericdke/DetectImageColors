@@ -52,7 +52,7 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
         controlsView.controlsDelegate = self
         do {
             try initColorNamesFile()
-            guard let elton = NSImage(named: "elton") else {
+            guard let elton = NSImage(named: NSImage.Name(rawValue: "elton")) else {
                 throw DemoAppError.couldNotLoadDemoImage
             }
             analyseImageAndSetImageView(with: elton)
@@ -185,7 +185,9 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
                     cache[css] = 1
                     downloader.getName(for: col) { name in
                         self.namedColors[css] = name
-                        label.stringValue = name
+                        DispatchQueue.main.async {
+                            label.stringValue = name
+                        }
                     }
                 } else {
                     cache[css]! += 1
@@ -199,7 +201,7 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
     }
     
     private func showOverlay() {
-        if showOverlayButton.state == NSOnState {
+        if showOverlayButton.state == .on {
             imageView.showOverlay(candidates: colorCandidates)
         } else {
             imageView.showOverlay(candidates: nil)

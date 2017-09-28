@@ -11,8 +11,8 @@ import XCTest
 
 class detectImageColorsTests: XCTestCase {
 
-    let reed = NSImage(named: "reed")!
-    let elton = NSImage(named: "elton")!
+    let reed = NSImage(named: NSImage.Name(rawValue: "reed"))!
+    let elton = NSImage(named: NSImage.Name(rawValue: "elton"))!
 
     override func setUp() {
         super.setUp()
@@ -42,7 +42,7 @@ class detectImageColorsTests: XCTestCase {
 
     func testLighterColor() {
         let original = NSColor.black
-        let calibratedOriginal = original.usingColorSpaceName(NSCalibratedRGBColorSpace)!
+        let calibratedOriginal = original.usingColorSpaceName(NSColorSpaceName.calibratedRGB)!
         let originalRed = calibratedOriginal.redComponent
         let lighter = calibratedOriginal.lighter()
         let lighterRed = lighter.redComponent
@@ -51,7 +51,7 @@ class detectImageColorsTests: XCTestCase {
 
     func testDarkerColor() {
         let original = NSColor.white
-        let calibratedOriginal = original.usingColorSpaceName(NSCalibratedRGBColorSpace)!
+        let calibratedOriginal = original.usingColorSpaceName(NSColorSpaceName.calibratedRGB)!
         let originalRed = calibratedOriginal.redComponent
         let darker = calibratedOriginal.darker()
         let darkerRed = darker.redComponent
