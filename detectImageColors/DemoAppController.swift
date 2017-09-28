@@ -122,9 +122,9 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
                 showOverlay()
                 
                 colorNameForLabelBG(css: bgCSS, bg: bg)
-                colorName(for: primaryColorLabel, css: primCSS, col: prim)
-                colorName(for: secondaryColorLabel, css: secCSS, col: sec)
-                colorName(for: detailColorLabel, css: detCSS, col: det)
+                colorName(for: primaryColorNameLabel, css: primCSS, col: prim)
+                colorName(for: secondaryColorNameLabel, css: secCSS, col: sec)
+                colorName(for: detailColorNameLabel, css: detCSS, col: det)
                 
                 spinner.stopAnimation(nil)
                 window.display()
@@ -154,14 +154,16 @@ class AppController: NSObject, ImageDropDelegate, ControlsDelegate {
     
     private func colorNameForLabelBG(css: String, bg: NSColor) {
         if let match = namedColors[css] {
-            updateBGColorLabels(string: css + " " + match)
+            updateBGColorLabels(string: "BG: \(css) \(match)")
         } else {
             if shouldUpdateColorNames {
                 if cache[css] == nil {
                     cache[css] = 1
                     downloader.getName(for: bg) { name in
-                        self.namedColors[css] = name
-                        self.updateBGColorLabels(string: css + " " + name)
+                        DispatchQueue.main.async {
+                            self.namedColors[css] = name
+                            self.updateBGColorLabels(string: "BG: \(css) \(name)")
+                        }
                     }
                 } else {
                     cache[css]! += 1

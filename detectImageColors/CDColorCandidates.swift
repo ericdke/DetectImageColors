@@ -36,7 +36,7 @@ public struct ColorCandidates {
         return ["red": color.redComponent,
                 "green": color.greenComponent,
                 "blue": color.blueComponent,
-                "css": color.componentsCSS()!.css]
+                "css": color.componentsCSS()?.css as Any]
     }
     
     private func getDictionarySettings() -> [String: Any] {
