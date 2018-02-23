@@ -18,7 +18,7 @@ let colorCandidates = image.getColorCandidates()
 
 ## Demo Application
 
-![DetectImageColors demo app](https://www.evernote.com/shard/s89/sh/691456c3-1d2b-4b3c-8faf-2105af6bb380/e43f803817a7a7a2/res/2d53de18-7bc0-444a-adea-40bc2213e48d/skitch.png)
+![Demo app](https://monosnap.com/file/B9JEWrL0G6xxvmBLWAFmniGAdJG0s4.png)
 
 Download or clone the project, open in Xcode, build (Swift 4, Xcode 9).
 
@@ -28,7 +28,7 @@ You can drop a new image on the image view and tweak the sliders to find values 
 
 A Playground is also included for demo purposes.
 
-![Playground](https://www.evernote.com/shard/s89/sh/f223b9ae-e80e-42e1-a5ea-84440b04d3d1/9c0807d8f4b67d31/res/c0740876-dc0d-4000-b10f-b277e71f4d40/skitch.png)
+![Playground](https://monosnap.com/file/LU2oR9KpLQ7cUEYsdxOiw0jhDy8Qif.png)
 
 ## Public methods and properties
 
