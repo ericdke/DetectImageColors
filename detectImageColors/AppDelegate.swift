@@ -19,7 +19,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillFinishLaunching(_ notification: Notification) {
         window.setFrameUsingName(NSWindow.DetectImageColorsDemo)
         window.title = "DetectImageColors"
-        window.backgroundColor = NSColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         do {
             if let apData = filesManager.defaultPresetsData,
                 let apJSON = try JSONSerialization.jsonObject(with: apData, options: []) as? [[String:AnyObject]] {
